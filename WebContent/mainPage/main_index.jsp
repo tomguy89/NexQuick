@@ -27,6 +27,26 @@
 <script type="text/javascript">
 $(function() {
 	
+	$("#goToApply").mouseover(function() {
+		$("#list_first").slideDown(400);
+	});
+	$("#goToApply").mouseleave(function() {
+		$("#list_first").slideUp(200);
+	});
+	$("#goToList").mouseover(function() {
+		$("#list_second").slideDown(400);
+	});
+	$("#goToList").mouseleave(function() {
+		$("#list_second").slideUp(200);
+	});
+	$("#goToSetting").mouseover(function() {
+		$("#list_third").slideDown(400);
+	});
+	$("#goToSetting").mouseleave(function() {
+		$("#list_third").slideUp(200);
+	});
+	
+	
 	$("#goToApply").on("click", function() {
 		location.href="<%= request.getContextPath() %>/quickApplyPage/quickApply_first.jsp";
 	});
@@ -49,8 +69,10 @@ $(function() {
 
 
 
-
-<section>
+<div class = "centerBox mb-5">
+	<h6>이동하려면 영역의 아무 곳이나 클릭하세요.</h6>
+</div>
+<section class = "mt-5">
   <div class="container-fluid">
     <div class="container">
       <div class="row">
@@ -64,7 +86,7 @@ $(function() {
             	
             </div>
             <div class="option">
-              <ul>
+              <ul id = "list_first" style = "display : none;">
               <li> <i class="fa fa-check" aria-hidden="true"></i> 일괄배송 </li>
               <li> <i class="fa fa-check" aria-hidden="true"></i> 예약배송 </li>
               <li> <i class="fa fa-check" aria-hidden="true"></i> 긴급배송 </li>
@@ -79,12 +101,12 @@ $(function() {
           <div class="card text-center" id = "goToList">
             <div class="title">
               <i class="fa fas fa-list-ul" aria-hidden="true"></i>
-              <h2 class = "mt-5">퀵 신청 목록</h2>
+              <h2 class = "mt-5">진행중인 퀵</h2>
             </div>
             <div class = "emptyBox mt-3">
             </div>
             <div class="option">
-              <ul>
+              <ul id = "list_second" style = "display : none;">
               <li> <i class="fa fa-check" aria-hidden="true"></i> 신청내역 조회 </li>
               <li> <i class="fa fa-check" aria-hidden="true"></i> 배송기사 정보 조회 </li>
               <li> <i class="fa fa-check" aria-hidden="true"></i> 배송기사 위치 조회 </li>
@@ -104,7 +126,7 @@ $(function() {
             <div class = "emptyBox mt-3">
             </div>
             <div class="option">
-              <ul>
+              <ul id = "list_third" style = "display : none;">
               <li> <i class="fa fa-check" aria-hidden="true"></i> 계정정보 조회 및 수정 </li>
               <li> <i class="fa fa-check" aria-hidden="true"></i> 기본 배송지 설정 </li>
               <li> <i class="fa fa-check" aria-hidden="true"></i> 전체 신청내역 조회 </li>

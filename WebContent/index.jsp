@@ -195,15 +195,15 @@
 			<% if(csInfo != null) { %>
 				<% if(csInfo.getCsType() == 0) { %>	
 					/* 관리자일때 페이지를 사용자 관리 페이지로 이동할 예정. 일단은 메인 인덱스 페이지로 이동시키게 함 */
-					location.href = "<%= request.getContextPath() %>/mainPage/main_index.jsp";
+					location.replace("<%= request.getContextPath() %>/mainPage/main_index.jsp");
 					console.log("관리자로그인");
 				<% } else {%>
-					location.href = "<%= request.getContextPath() %>/mainPage/main_index.jsp";
+					location.replace("<%= request.getContextPath() %>/mainPage/main_index.jsp");
 					console.log("고객로그인");
 				<% } %>
 			<% } else {%>
 				console.log("널일때");	
-				location.href = "<%= request.getContextPath() %>/mainPage/main_index.jsp";
+				location.replace("<%= request.getContextPath() %>/mainPage/main_index.jsp");
 			<% } %>
 		} else {
 			alert("ID 또는 비밀번호가 틀렸습니다.");

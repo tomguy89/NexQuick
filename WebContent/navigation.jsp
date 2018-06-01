@@ -18,7 +18,25 @@
 				setTimeout(function(){
 			        $('.trans--grow').addClass('grow');
 		    	}, 275);
+				
+				$("#logout").on("click", function() {
+					$.ajax({
+						url : "<%= request.getContextPath() %>/account/signOut.do",
+						dataType : "json",
+						method : "POST",
+						success : logOutFunction
+					});
+				});
+				
 			});
+			
+			function logOutFunction(JSONDocument) {
+				if(JSONDocument) {
+					location.replace("<%= request.getContextPath() %>/index.jsp");
+				}
+			}
+			
+			
 		</script>
 	</head>
 	<body>
@@ -36,10 +54,10 @@
 							<li>
 								<a><i class="fas fa-user-lock menuIcons"></i>관리자 메뉴</a>
 								<ul class="gn-submenu">
-									<li><a><i class="far fa-user navIcons"></i>사용자 관리</a></li>
-									<li><a><i class="fas fa-motorcycle navIcons"></i>배송기사 관리</a></li>
+									<li><a href = "<%= request.getContextPath() %>/admin/allCs.do"><i class="far fa-user navIcons"></i>고객 관리</a></li>
+									<li><a href = "<%= request.getContextPath() %>/admin/allQp.do"><i class="fas fa-motorcycle navIcons"></i>배송기사 관리</a></li>
 									<li><a><i class="fas fa-coins navIcons"></i>매출 관리</a></li>
-									<li><a><i class="far fa-file-alt navIcons"></i>주문 관리</a></li>
+									<li><a><i class="far fa-file-alt navIcons"></i>신청 관리</a></li>
 									<li><a><i class="far fa-comments navIcons"></i>상담내역 관리</a></li>
 								</ul>
 							</li>
@@ -47,12 +65,13 @@
 							<li>
 								<a><i class="fas fa-users menuIcons"></i>사용자 메뉴</a>
 								<ul class="gn-submenu">
-									<li><a><i class="fas fa-users-cog navIcons"></i>회원정보 수정</a></li>
-									<li><a><i class="fas fa-list navIcons"></i>전체 주문내역</a></li>
+									<li><a><i class="fas fa-box navIcons"></i>퀵 신청하기</a></li>
+									<li><a><i class="fas fa-list navIcons"></i>퀵 신청 목록</a></li>
+									<li><a href = "<%= request.getContextPath() %>/"><i class="fas fa-users-cog navIcons"></i>계정 설정 및 조회</a></li>
 								</ul>
 							</li>
 							<%} %>
-							<li><a href = "<%= request.getContextPath() %>/account/signOut.do"><i class="fas fa-sign-out-alt menuIcons"></i>로그아웃</a></li>
+							<li id = "logout"><a><i class="fas fa-sign-out-alt menuIcons"></i>로그아웃</a></li>
 							
 						</ul>
 					</div><!-- /gn-scroller -->

@@ -63,9 +63,9 @@ public class CSAccountController {
 	 * @return view page path (메인 화면)
 	 */
 	@RequestMapping("/signOut.do")
-	public String signOut(HttpSession session) {
+	public @ResponseBody boolean signOut(HttpSession session) {
 		session.invalidate();
-		return "redirect:/index.jsp";
+		return true;
 	}
 	
 	/**
