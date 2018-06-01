@@ -1,0 +1,447 @@
+@charset "UTF-8";
+
+/* 폰트 정의 */
+@font-face {
+  font-family: basicFont_oldPicture3;
+  src: url('../fonts/oldPicture_3.ttf');
+}
+
+ol > li {
+	border : 1px solid black!important;
+}
+
+.vertical_center {
+	margin-top: auto;
+	margin-bottom: auto;
+}
+
+
+.justify_center {
+	display: flex;
+	justify-content: center;
+}
+
+.navIcons {
+	padding-left : 40px;
+	padding-right : 20px;
+	font-size: 15px;
+}
+.menuIcons {
+	padding-left : 20px;
+	padding-right : 25px;
+	font-size: 15px;
+}
+
+
+.text-conceptColor {
+	color: #003358;
+}
+
+.orderNumberForm {
+	width:10em; 
+	margin-top: 0px!important;
+}
+
+.callForm {
+	text-align:  right;
+    margin-right: 9.5em;
+    height: 40px;
+}
+
+.bg_conceptColor {
+	background-color: #34495e!important;
+	color: white;
+}
+
+#minusBtn {
+	cursor: pointer;
+}
+
+.table {
+	width: 60%!important;
+}
+
+
+.hover_table:hover {
+	background-color : #e03e9c;
+	color: white;
+}
+
+
+
+li.active {
+	background-color: #34495e!important;
+}
+
+
+.bg-light {
+	background-color: #34495e!important;
+}
+
+#navbarNav {
+	justify-content: flex-end;
+	display: flex!important;
+}
+
+.addressForm::placeholder, .addressFormSub::placeholder {
+	color: rgba(128, 128, 128, 0.7);
+	font-size: 12px;
+}
+
+.addressForm {
+	width : 28.5em!important;
+	margin-top: 1.5em!important;
+}
+.addressFormSub {
+	width : 11.2em!important;
+	margin-top: 1.5em;
+}
+.quickFirstTitle {
+	position: relative;
+	margin-top : 1em;
+	font-size: 2em;
+}
+
+#loginUserName {
+	margin-left : 15px;
+	line-height: 45px;
+}
+/* 폰트 적용 */
+* {
+  font-family: basicFont_oldPicture3;
+}
+	
+/* 첫화면 그림 꽉차게 */
+body {	margin: 0px; }
+
+@media (max-width : 575.98px) {
+	html {
+		font-size: 8px;
+	}
+}
+
+@media (min-width : 576px) {
+	html {
+		font-size: 10px;
+	}
+}
+
+@media (min-width: 768px) {
+	html {
+		font-size: 12px;
+	}	
+}
+
+@media (min-width: 992px) {
+	html {
+		font-size: 14px;
+	}	
+}
+
+@media (min-width: 1200px) {
+	html {
+		font-size: 16px;
+	}	
+}
+
+.mainBox {
+	background-image: url("../image/index_img/background_motorcycle.png");	
+	background-size: 100%;
+	background-repeat: no-repeat;
+	height: 50em;
+}
+
+.mainFont {
+	color: white;
+	font-size : 2em;
+	position: relative;
+	top: 3em;
+}
+
+.titleFont {
+	font-size : 3em;
+	color: white;
+	position: relative;
+	top : 3em;
+}
+
+.subFont {
+	font-size : 1em;
+	color: white;
+	position: relative;
+	top : 11em;
+}
+
+.centerBox {
+	margin-left: auto!important;
+	margin-right: auto!important;
+	text-align: center!important;
+}
+
+.displayBlock {
+	display: block;
+}
+
+.loginInput {
+	position: relative;
+	top: 13em;
+}
+.transparentInput {
+	background-color: transparent;
+	border : none;
+	width: fit-content;
+	text-align: center;
+	color: white;
+	border-bottom: 1px solid white;
+}
+.imageBox {
+	height: 128px;
+	line-height: 128px;
+}
+
+.mainListTitle{
+	position: relative;
+	top: 2em;
+	font-size: 2em;
+	
+}
+
+.whiteBox {
+	width: 40%;
+	height: 40px;
+	line-height: 40px;
+	color: white;
+	text-align : center;
+}
+
+.userIcon {
+	font-size: 20px;
+	margin-right: 10px;
+}
+
+input:-ms-input-placeholder { color: rgba(255, 255, 255, 0.65); }
+
+
+input::-webkit-input-placeholder { color: rgba(255, 255, 255, 0.65); } 
+
+
+input::-moz-placeholder { color: rgba(255, 255, 255, 0.65); }
+
+
+input::-moz-placeholder { color: rgba(255, 255, 255, 0.65); }
+	
+
+.font_3em {
+	font-size: 3em!important;
+}
+
+.font_2em {
+	font-size: 2em!important;
+}
+
+.font_1em {
+	font-size: 1em!important;
+}
+
+.desc_box {
+	height: 100px;
+}
+
+.corpBox {
+	display: none!important;
+}
+.subBox {
+	background-image: url("../image/index_img/background_deliveryService.png");	
+	background-size: 100%;
+	background-repeat: no-repeat;
+	height: 50em;
+}
+
+.whiteColor {
+	color: white;
+}
+
+#motorImg, #damasImg, #laboImg, #truckImg {
+	cursor: pointer;
+}
+
+.paddingZero {
+	padding: 0!important;
+}
+
+.urgentBox {
+	text-align : center;
+	display: flex;
+	justify-content: center;
+}
+
+
+td.day:hover {
+	background-color : #34495e!important;
+	color : white!important;
+}
+
+span.timepicker-hour:hover, span.timepicker-minute:hover {
+	background-color : #34495e!important;
+	color : white!important;
+}
+
+td.active {
+	background-color : #34495e!important;
+	color : white!important;
+}
+
+a.btn {
+	color: #34495e;
+	
+
+}
+
+div.datepicker-days > table > thead > tr:nth-child(1) > th:hover {
+	color : #34495e!important;
+}
+
+
+
+span.year.active, span.month.active {
+	color: white;
+	background-color : #34495e!important;
+}
+
+span.year:hover, span.month:hover {
+	color: white!important;
+	background-color : #34495e!important;
+}
+
+
+/* 색깔버튼 */
+
+
+.borderColor {
+	color: white;
+	cursor: pointer;
+	background-color: transparent!important;
+	position: relative;
+	border: 2px solid white;
+	transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1);
+0s;
+
+  height:35px;
+  font-size:14px;
+ padding:0 1em;
+  line-height: 35px;
+
+}
+.borderColor:hover {
+  	color: #34495e !important;
+	background-color: white!important;
+	
+}
+.borderColor:hover:before {
+	left: 0%;
+	right: auto;
+	width: 100%;
+}
+.borderColor:before {
+	display: block;
+	position: absolute;
+	top: 0px;
+	right: 0px;
+	height: 100%;
+	width: 0px;
+	z-index: -1;
+	content: '';
+	color: #34495e !important;
+	background: white;
+	transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1);
+0s;
+}
+
+
+
+
+
+
+.ColorBorder {
+	color: white;
+	cursor: pointer;
+	background-color: #34495e!important;
+	position: relative;
+	border: 2px solid #34495e;
+	transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1);
+0s;
+
+  height:35px;
+  font-size:14px;
+ padding:0 1em;
+  line-height: 35px;
+
+}
+.ColorBorder:hover {
+  	color: #34495e !important;
+	background-color: white!important;
+	
+}
+.ColorBorder:hover:before {
+	left: 0%;
+	right: auto;
+	width: 100%;
+}
+.ColorBorder:before {
+	display: block;
+	position: absolute;
+	top: 0px;
+	right: 0px;
+	height: 100%;
+	width: 0px;
+	z-index: -1;
+	content: '';
+	color: #34495e !important;
+	background: white;
+	transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1);
+0s;
+}
+
+
+
+
+
+.dangerBorder {
+	color: #e55b57;
+	cursor: pointer;
+	background-color: transparent!important;
+	position: relative;
+	border: 2px solid #e55b57;
+	transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1);
+0s;
+
+  height:35px;
+  font-size:14px;
+ padding:0 1em;
+  line-height: 35px;
+
+}
+.dangerBorder:hover {
+  	color: white !important;
+	background-color: #e55b57!important;
+	
+}
+.dangerBorder:hover:before {
+	left: 0%;
+	right: auto;
+	width: 100%;
+}
+.dangerBorder:before {
+	display: block;
+	position: absolute;
+	top: 0px;
+	right: 0px;
+	height: 100%;
+	width: 0px;
+	z-index: -1;
+	content: '';
+	color: white !important;
+	background: #e55b57;
+	transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1);
+0s;
+}
