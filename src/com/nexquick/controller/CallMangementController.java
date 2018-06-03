@@ -174,6 +174,7 @@ public class CallMangementController {
 	 */
 	@RequestMapping("/delFreight.do")
 	public @ResponseBody boolean delFreight(HttpSession session, int freightNum){
+		System.out.println(freightNum);
 		FreightInfo freightInfo = callSelectListService.selectFreight(freightNum);
 		OrderInfo orderInfo = callSelectListService.selectOrder(freightInfo.getOrderNum());
 		orderInfo.setOrderPrice(orderInfo.getOrderPrice()-freightInfo.getFreightPrice());

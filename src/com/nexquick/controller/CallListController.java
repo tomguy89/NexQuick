@@ -30,10 +30,12 @@ public class CallListController {
 	 * @param session
 	 * @return OnDelivery List
 	 */
-	public @ResponseBody List<OnDelivery> onDeliveryList(HttpSession session) {
+	@RequestMapping("/userCallList.do")
+	public String onDeliveryList(HttpSession session) {
 		CSInfo csInfo = (CSInfo)session.getAttribute("csInfo");
 		List<OnDelivery> list = callSelectListService.onDeliveryCallList(csInfo.getCsId());
-		return list;
+		session.setAttribute("userCallList", list);
+		return "mainPage/main_list";
 	}
 	
 	

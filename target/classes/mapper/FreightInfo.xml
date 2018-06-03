@@ -18,7 +18,7 @@
 	
 	<insert id="createFreight" parameterType="FreightInfo">
 		insert into freightInfo
-		values(#{freightNum}, #{orderNum},#{freightType},#{freightQuant},#{freightPrice},#{freightDetail})
+		values(#{freightNum}, #{orderNum},#{freightType},#{freightQuant},#{freightDetail},#{freightPrice})
 		
 		<selectKey keyProperty="freightNum" resultType="int" order="BEFORE">
 			SELECT fnumseq.nextval FROM DUAL

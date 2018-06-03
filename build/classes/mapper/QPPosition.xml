@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+      
+ <mapper namespace="qpPosition">
+ 
+  	<resultMap type="QPPosition" id="QPPositionResultMap">
+ 		<id column="qpId" property="qpId"/>	
+		<result column="qpLatitude" property="qpLatitude" />
+		<result column="qpLongitude" property="qpLongitude" />
+		<result column="bCode" property="bCode" />
+		<result column="hCode" property="hCode" />
+ 	</resultMap>
+ 	
+<!--insert, delete, update, select(지역코드로, qpId로) -->
+	<insert id="createQP" parameterType="QPPosition">
+		insert into qpPosition
+		values(#{qpId},#{qpLatitude},#{qpLongitude},#{bCode}, #{hCode})
+	</insert>
+	<delete id="deleteQP" parameterType="int">
+		delete qpPosition where qpId=#{qpId}
+	</delete>
+	<update id="updateQP" parameterType="QPPosition">
+		update  qpPosition
+		set qpLatitude=#{qpLatitude},
+			qpLongitude=#{qpLongitude},
+			bCode=#{bCode}
+			hCode=#{hCode}
+		where qpId=#{qpId}
+	</update>
+	<select id="selectQPbyId" parameterType="int">
+		select * from qpPosition
+		where qpId=#{qpId}
+	</select>
+	<select id="selectQPbybCode" parameterType="int">
+		select * from qpPosition
+		where bCode=#{bCode}
+	</select>
+		<select id="selectQPbyhCode" parameterType="int">
+		select * from qpPosition
+		where hCode=#{hCode}
+	</select>
+ </mapper>

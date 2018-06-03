@@ -451,44 +451,6 @@
     	
     	
     	$(".select").css("display", "flex").css("margin-left", "auto").css("margin-right", "auto");
-    	
-    	/* 첫 버튼 기능등록 */
-    	$("#saveFreight0").on("click", function() {
-			var id = $(this).attr("id").charAt($(this).attr("id").length-1);
-			console.log(id);
-			var $selectId = "#item0";
-			var $countId = "#count0";
-			var tableIndex = "table#table"+id+" > tbody";
-			/* 화물 추가 비동기통신 */
-			$.ajax({
-				
-			});
-			/* 옆에 리스트에 추가 */
-			$(tableIndex).append(
-				$("<tr>").attr("id", "tr"+trIndex)
-				.append(
-						$("<td>").text($($selectId).val())
-				).append(
-						$("<td>").text($($countId).val()+"개")
-				).append(
-						$("<td>").append(
-							$("<img src = <%=request.getContextPath()%>/image/quickApply_img/minusBtn.png width=20 height=20 />").attr("id", "minusBtn"+trIndex).on("click", function() {
-								var trId = $(this).attr("id").charAt($(this).attr("id").length-1);
-								var trRemove = "#tr"+trId;
-								/* 화물 삭제 비동기통신 */
-								$.ajax({
-									
-								});
-								
-								$(trRemove).remove();
-							})
-						)
-				)
-			)
-			trIndex++;
-		});
-    	
-    	
   		
   		$("#addressDetail0").keyup(function() {
   			console.log("ad");
@@ -536,17 +498,122 @@
   		
   		/* 첫번째 오더의 주문 저장. */
     	$("#saveOrder0").on("click", function() {
-	  		alert("도착지 정보가 저장되었습니다. 물품 정보를 설정하세요.");
+
+			/* 오더 저장 비동기통신 */
+    		$.ajax({
+   				url : "<%= request.getContextPath() %>/call/addOrder.do",
+   				data : {
+   					receiverName : $("#userNameApply0").val(),
+   					receiverAddress : $("#address0").val() + " " + $("#addressDetail0").val(),
+   					receiverPhone : $("#phone0").val(),
+   					memo : "wow"
+   				},
+   				dataType : "json",
+   				method : "POST",
+   				success : addOrder
+    		});	
+			
+    	});
+    	
+  		
+  		var id;
+  		var $selectId;
+  		var $countId;
+  		var tableIndex;
+  		var item;
+  		var freightType;
+  		var btnId;
+  		var trId;
+  		var trRemove;
+  		function addOrder(JSONDocument) {
+  			alert("도착지 정보가 저장되었습니다. 물품 정보를 설정하세요.");
 			$("#list0").slideDown(2000);
 			$("#saveOrder0").attr("disabled", "disabled");
 			$("#saveIcon0").removeClass("far").addClass("fas");
 			$("#saveText0").text(" 도착지 정보 저장됨");
-			/* 오더 저장 비동기통신 */
-    		$.ajax({
-    			
-    		});	
-    	});
-    	 
+			
+			
+			/* 첫 버튼 기능등록 */
+	    	$("#saveFreight0").on("click", function() {
+				btnId = $(this).attr("id").substring(11);
+				$selectId = "#item0";
+				$countId = "#count0";
+				tableIndex = "table#table"+btnId+" > tbody";
+				switch($($selectId).val().substring(0,1)) {
+				case 'd':
+					item = "서류";
+					freightType = 1;
+					break;
+				case 's':
+					item = "박스(소)";
+					freightType = 2;
+					break;
+				case 'm':
+					item = "박스(중)";
+					freightType = 3;
+					break;
+				case 'b':
+					item = "박스(대)";
+					freightType = 4;
+					break;
+				}
+				
+				alert(JSONDocument.orderNum);
+				
+				/* 화물 추가 비동기통신 */
+				$.ajax({
+	   				url : "<%= request.getContextPath() %>/call/addFreight.do",
+	   				data : {
+	   					orderNum : JSONDocument.orderNum,
+	   					freightType : freightType,
+	   					freightQuant : $($countId).val(),
+	   					freightDetail : "화물상세"
+	   				},
+	   				dataType : "json",
+	   				method : "POST",
+	   				success : addFreight
+					
+				});
+			});
+  		};
+  		
+  		function addFreight(JSONDocument) {
+			$(tableIndex).append(
+				$("<tr>").attr("id", "tr"+trIndex)
+				.append(
+					$("<td>").text(item)
+				).append(
+					$("<td>").text($($countId).val()+"개")
+				).append(
+					$("<td>").append(
+						$("<img src = <%=request.getContextPath()%>/image/quickApply_img/minusBtn.png width=20 height=20 />").attr("id", "minusBtn"+trIndex).on("click", function() {
+							trId = $(this).attr("id").substring(8);
+							trRemove = "#tr"+trId;
+							/* 화물 삭제 비동기통신 */
+							$.ajax({
+								url : "<%= request.getContextPath() %>/call/delFreight.do",
+				   				data : {
+				   					freightNum : JSONDocument.freightNum
+				   				},
+				   				dataType : "json",
+				   				method : "POST",
+				   				success : delFreight
+							});
+						})
+					)
+				)
+			)
+				trIndex++;
+  		}  		
+  		
+  		function delFreight(JSONDocument) {
+  			var result = confirm("정말 삭제하시겠습니까?");
+  			if(result) {
+	  			$(trRemove).remove();
+  			}
+  		}
+  		
+  		
   		$("#callFavorite0").on("click", function() {
   			/* 즐겨찾기 불러오기 비동기통신 */
   			$.ajax({

@@ -135,7 +135,7 @@
     			url : "<%= request.getContextPath() %>/call/newCall.do",
 				data : {
 					senderName : $("#userNameApply").val(),
-					senderAddress : $("#address").val() + $("#addressDetail").val(),
+					senderAddress : $("#address").val() + " " + $("#addressDetail").val(),
 					senderPhone : $("#phone").val(),
 					vehicleType : $("input:radio[name=radio-group]").val(),
 					urgent : urgent_value,

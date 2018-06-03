@@ -55,7 +55,7 @@ $(function() {
 	});
 	
 	$("#goToList").on("click", function() {
-		location.href="<%= request.getContextPath() %>/mainPage/main_list.jsp";
+		location.href="<%= request.getContextPath() %>/list/userCallList.do";
 	});
 	
 	$("#goToSetting").on("click", function() {

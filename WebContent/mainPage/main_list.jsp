@@ -1,3 +1,5 @@
+<%@ page import = "com.nexquick.model.vo.OnDelivery" %>
+<%@ page import = "java.util.*" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -20,10 +22,10 @@
 <link rel="stylesheet" type="text/css" href="../Table_Highlight_Vertical_Horizontal/css/util.css">
 <link rel="stylesheet" type="text/css" href="../Table_Highlight_Vertical_Horizontal/css/main.css">
 <link rel="stylesheet" type="text/css" href="<%= request.getContextPath() %>/css/indexStyle.css">
-<!-- 임시 링크 -->
+<title>NexQuick :: 진행중인 퀵</title>
 
+<% List<OnDelivery> deliveryList = (List<OnDelivery>) request.getSession().getAttribute("userCallList"); %>
 
-<title>NexQuick</title>
 <!-- 배송중인 배달이 있다면. -->
 <!-- 구글맵 API (기사님 위치 다 찍어야됨) -->
 
@@ -37,6 +39,9 @@
 		<div class = "col-md-4">
 			<h2 class = "centerBox mainListTitle text-conceptColor">
 				현재 배송 중입니다.
+				<% if(deliveryList != null) { %>
+					<%= deliveryList.size() %>
+				<%} %>
 			</h2>
 		</div>
 		<div class = "col-md-8">

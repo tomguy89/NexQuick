@@ -20,7 +20,7 @@
 	<insert id="createOrder" parameterType="OrderInfo">
 		insert into orderInfo values(
 			#{orderNum},#{callNum},#{receiverName},#{receiverAddress},#{receiverPhone},
-			#{orderPrice},#{isGet},null)
+			#{orderPrice},#{isGet},null, #{memo})
 		
 		<selectKey keyProperty="orderNum" resultType="int" order="BEFORE">
 			SELECT onumseq.nextval FROM DUAL
@@ -46,9 +46,8 @@
 		set receiverName=#{receiverName},
 		receiverAddress=#{receiverAddress},
 		receiverPhone=#{receiverPhone},
-		orderPrice=#{orderPrice}
+		orderPrice=#{orderPrice},
 		isget=#{isGet}
-		arrivalTime=#{arrivalTime}
 		where orderNum=#{orderNum}
 	</update>
 	<!-- arrivalTime만 바뀌는 거 / 사용자가 call 수정하면서 정보 바꾸는 거 둘 다 하나 메소드로 동시 처리? -->

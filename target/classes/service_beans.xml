@@ -21,7 +21,7 @@
 		p:callInfoDao-ref="callInfoDao" p:orderInfoDao-ref="orderInfoDao" p:freightInfoDao-ref="freightInfoDao"/>
 
 	<bean id="callSelectListService" class="com.nexquick.service.call.CallSelectListServiceImpl"
-		p:callInfoDao-ref="callInfoDao" p:orderInfoDao-ref="orderInfoDao"/>		
+		p:callInfoDao-ref="callInfoDao" p:orderInfoDao-ref="orderInfoDao" p:freightInfoDao-ref="freightInfoDao"/>		
 			
 	<bean id="pricingService" class="com.nexquick.service.call.PricingServiceImpl"
 		p:priceDao-ref="priceInfoDao" p:weatherCheckService-ref="weatherCheckService" />

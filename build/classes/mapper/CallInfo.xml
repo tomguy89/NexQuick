@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="callInfo">
+
+
+	<resultMap type="CallInfo" id="CallInfoResultMap">
+		<id column="callNum" property="callNum" />
+		<result column="csId" property="csId" />
+		<result column="qpId" property="qpId" />
+		<result column="senderName" property="senderName" />
+		<result column="senderAddress" property="senderAddress" />
+		<result column="senderPhone" property="senderPhone" />
+		<result column="vehicleType" property="vehicleType" />
+		<result column="totalPrice" property="totalPrice" />
+		<result column="payType" property="payType" />
+		<result column="urgent" property="urgent" />
+		<result column="series" property="series" />
+		<result column="reserved" property="reserved" />
+		<result column="reservationTime" property="reservationTime" />
+		<result column="deliveryStatus" property="deliveryStatus" />
+		<result column="payStatus" property="payStatus" />
+		<result column="callTime" property="callTime" />
+	</resultMap>
+
+
+	<insert id="createCall" parameterType="CallInfo">
+		insert into callInfo
+		values(#{callNum},#{csId},null,#{senderName},#{senderAddress},#{senderPhone},
+		#{vehicleType},#{totalPrice},#{payType},#{urgent},#{series},#{reserved},
+		to_date(#{reservationTime},'yyyy/mm/dd hh24:mi'),0,#{payStatus},null)
+		
+		<selectKey keyProperty="callNum" resultType="int" order="BEFORE">
+			SELECT cnumseq.nextval FROM DUAL
+		</selectKey>
+	</insert>
+
+	<select id="selectCallByCnum" parameterType="int" resultType="CallInfo">
+		select * from callInfo
+		where callNum=#{callNum}
+	</select><!--callNum으로 -->
+	
+	<select id="selectCallByCSId" parameterType="String" resultType="CallInfo">
+		select * from callInfo
+		where csId=#{csId}
+		and deliveryStatus = 0
+		and sysdate-callTime>1
+		and rownum=1
+	</select><!--csId 와  delivery status = 0으로 -->
+
+	<select id="selectCallListByCondition" parameterType="map" resultType="CallInfo">
+		select * from callInfo
+		<where>
+			<if test="csId != null">
+				csId = #{csId}
+			</if>
+			<if test="qpId != null">
+				AND qpId = #{qpId}
+			</if>
+			<if test="deliveryStatus != null">
+				AND deliveryStatus = #{deliveryStatus}			
+			</if>
+		</where>
+	</select><!--condition으로 -->
+	
+	<select id="selectCallList" resultType="CallInfo">
+		select * from callInfo
+	</select><!-- 전체로 -->
+	
+	<update id="updateCall" parameterType="CallInfo"> <!-- 이렇게만 바꾸면 될까? -->
+		update callInfo
+		set qpId=#{qpId}, 
+		senderName=#{senderName},
+		senderAddress=#{senderAddress},
+		senderPhone=#{senderPhone},
+		vehicleType=#{vehicleType},
+		totalPrice=#{totalPrice},
+		payType=#{payType},
+		urgent=#{urgent},
+		series=#{series},
+		reserved=#{reserved},
+		reservationTime=to_date(#{reservationTime},'yyyy-mm-dd hh24:mi'),
+		payStatus=#{payStatus}
+		callTime=sysdate
+		where callNum=#{callNum}
+	</update>
+
+
+	<delete id="deleteCall" parameterType="int">
+		delete callInfo where callNum=#{callNum}
+	</delete>
+	
+	<delete id="deletePastCalls">
+		delete from orderInfo
+		where sysdate-callTime > 1
+	</delete>
+	
+</mapper>

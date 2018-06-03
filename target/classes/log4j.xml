@@ -24,5 +24,29 @@
         <level value="trace" />  
         <appender-ref ref="console" />
     </logger>   
+    <logger name="favoriteInfo">
+        <level value="trace" />  
+        <appender-ref ref="console" />
+    </logger>   
+    <logger name="freightInfo">
+        <level value="trace" />  
+        <appender-ref ref="console" />
+    </logger>   
+    <logger name="orderInfo">
+        <level value="trace" />  
+        <appender-ref ref="console" />
+    </logger>   
+    <logger name="priceInfo">
+        <level value="trace" />  
+        <appender-ref ref="console" />
+    </logger>   
+    <logger name="qpPosition">
+        <level value="trace" />  
+        <appender-ref ref="console" />
+    </logger>   
+    <logger name="qpScore">
+        <level value="trace" />  
+        <appender-ref ref="console" />
+    </logger>   
     
 </log4j:configuration>
