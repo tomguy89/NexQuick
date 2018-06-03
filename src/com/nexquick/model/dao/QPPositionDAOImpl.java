@@ -39,8 +39,13 @@ public class QPPositionDAOImpl implements QPPositionDAO {
 	}
 
 	@Override
-	public List<QPPosition> selectQPPositionList(int localCode) {
-		return sqlSession.selectList("qpPosition.selectQPPositionList", localCode);
+	public List<QPPosition> selectQPbybCode(String bCode) {
+		return sqlSession.selectList("qpPosition.selectQPbybCode", bCode);
+	}
+	
+	@Override
+	public List<QPPosition> selectQPbyhCode(String hCode) {
+		return sqlSession.selectList("qpPosition.selectQPbyhCode", hCode);
 	}
 
 }

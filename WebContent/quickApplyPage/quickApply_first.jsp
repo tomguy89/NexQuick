@@ -156,6 +156,7 @@
  	
  	function gotoNextPage(JSONDocument) {
  		console.log("비동기통신 완료... 다음 페이지로 이동");
+ 		location.href = "./quickApply_second.jsp";
  		/* 객체를 비동기로 바로 생성하고 시작하면 location.href로 아무것도 가져가지 말고 페이지 이동하면 됨
  			아니라면 데이터 모두 갖고 이동 */
  	}
@@ -303,7 +304,7 @@
 			<div id = "reserveBox" class = "centerBox" style = "display: none;">
 				<span>예약시간 : </span>
 				<label class="field field_animated field_a2 page__field time">
-			      <input type="text" class="addressFormSub field__input" placeholder="클릭해서 시간 설정" name = "time" id="timeInput" readonly = "readonly" data-toggle="modal" data-target=".bd-example-modal-lg" style = "width: 12.5em!important;">
+			      <input type="text" class="addressFormSub field__input" placeholder="클릭해서 시간 설정" name = "time" id="timeInput" readonly = "readonly" data-toggle="modal" data-target="#modal1" style = "width: 12.5em!important;">
 			      <span class="field__label-wrap">
 			        <span class="field__label text-conceptColor">시간 설정</span>
 			      </span>
@@ -370,7 +371,7 @@
 <!-- 시간 들어갈 modal 팝업창 -->
 
 <!-- Modal -->
-<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+<div class="modal fade bd-example-modal-lg" id = "modal1" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">

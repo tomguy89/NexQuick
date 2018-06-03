@@ -34,6 +34,10 @@
 				$("#getModal").on("click", function() {
 					$('#exampleModal_1').modal('toggle');
 				});
+				
+				$("#getModal_title").on("click", function() {
+					$('#exampleModal_1').modal('toggle');
+				});
 
 				/* 비밀번호 체크 */
 				$("#passwordRe").keyup(function() {
@@ -66,19 +70,22 @@
 				
 				switch(<%=csInfo.getCsType()%>) {
 				case 1:
-					$("#test1").attr("checked", "checked");
+					$("#test3").attr("checked", "checked");
+					$(".corpForm").removeClass("corpBox");
 					$("#corpNum").val("<%=csInfo.getCsBusinessNumber()%>");
 					$("#corpName").val("<%=csInfo.getCsBusinessName()%>");
 					$("#deptName").val("<%=csInfo.getCsDepartment() %>");
 					break;
 				case 2:
 					$("#test2").attr("checked", "checked");
+					$(".corpForm").removeClass("corpBox");
 					$("#corpNum").val("<%=csInfo.getCsBusinessNumber()%>");
 					$("#corpName").val("<%=csInfo.getCsBusinessName()%>");
 					$("#deptName").val("<%=csInfo.getCsDepartment() %>");
 					break;
 				case 3:
-					$("#test3").attr("checked", "checked");
+					$(".corpForm").addClass("corpBox");
+					$("#test1").attr("checked", "checked");
 					break;
 				}
 				
@@ -207,7 +214,7 @@
 				</nav>
 			</li>
 			<li><a href="#"><i class="fas fa-motorcycle"></i><span> NexQuick</span></a></li>
-			<li><a href="#"><i class="far fa-user"></i><span> <%= csInfo.getCsName() %>님 환영합니다.</span></a></li>
+			<li><a id = "getModal_title" data-toggle="modal" data-target="#exampleModal_1"><i class="far fa-user"></i><span> <%= csInfo.getCsName() %>님 환영합니다.</span></a></li>
 		</ul>
 		<script src="<%= request.getContextPath() %>/GoogleNexusWebsiteMenu/js/classie.js"></script>
 		<script src="<%= request.getContextPath() %>/GoogleNexusWebsiteMenu/js/gnmenu.js"></script>
@@ -229,15 +236,15 @@
 	  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
 	    <div class="modal-content">
 	      <div class="modal-header">
-	        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+	        <h5 class="modal-title" id="exampleModalLabel">개인정보 수정</h5>
 	        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
 	          <span aria-hidden="true">&times;</span>
 	        </button>
 	      </div>
 	      <div class="modal-body">
 	      
-    		 	<div class = "row mb-3">
-		      		<div class = "col-md-4">
+    		 	<div class = "row">
+		      		<div class = "col-md-6">
 				      	<label class="field field_animated field_a2 page__field call">
 						    <input type="text" class="orderNumberForm field__input text-conceptColor" placeholder="ID를 입력하세요." name = "csId" id="userId" required disabled>
 						    <span class="field__label-wrap">
@@ -246,7 +253,10 @@
 						</label> 
 		      		</div>
 		      	</div>     	
-	      		      	
+   				<div class = "ml-2">
+	    	  		<span class = "text-dangerColor">ID는 변경할 수 없습니다. </span>
+		      	</div>  
+   	
 	      		      	
 		      	<!-- 비밀번호 -->
 		      	<div class = "row">
@@ -298,6 +308,7 @@
 						</label> 
 		      		</div>
 		      	</div>
+
 		      	<!-- 이름, 전화번호 끝 -->
 		      	
 		      	
@@ -306,7 +317,7 @@
 		      			* 고객분류
 		      		</div>
 		      		<div class = "col-md-3">
-		      		  	<input type="radio" id="test1" name="csType" value="1">
+		      		  	<input type="radio" id="test3" name="csType" value="1">
 					    <label for="test3">법인/기업</label>
 		      		</div>
 		      		<div class = "col-md-3">
@@ -314,7 +325,7 @@
 					    <label for="test2">자영업</label>
 		      		</div>
 		      		<div class = "col-md-3">
-		      		  	<input type="radio" id="test3" name="csType" value="3">
+		      		  	<input type="radio" id="test1" name="csType" value="3">
 					    <label for="test1">개인</label>
 		      		</div>
 		      	</div>
@@ -365,7 +376,7 @@
 			</div>
 	   		<div class="modal-footer">
 		        <button type="button" class="dangerBorder" data-dismiss="modal"><i class = "xi-close-circle-o"></i> 취소</button>
-		        <button type="button" class="ColorBorder" id = "submitBtn" data-dismiss="modal"><i class = "xi-user-plus"></i> 회원가입</button>
+		        <button type="button" class="ColorBorder" id = "submitBtn" data-dismiss="modal"><i class = "xi-user-plus"></i> 수정하기</button>
 		    </div>
 		      
 	    </div>

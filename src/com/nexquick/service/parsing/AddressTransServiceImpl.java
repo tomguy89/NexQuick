@@ -74,10 +74,10 @@ public class AddressTransServiceImpl implements AddressTransService {
 	
 	public Map<String, String> getCode(String longitude, String latitude){
 		Map<String, String> result = new LinkedHashMap<>();
-		String addr = longitude+","+latitude;
+		String addr = "x="+longitude+"&y="+latitude;
 		try {
 			String input = URLEncoder.encode(addr, "UTF-8");
-			String apiURL = "https://openapi.naver.com/v1/map/reversegeocode?query=" + input;
+			String apiURL = "https://dapi.kakao.com/v2/local/geo/coord2regioncode.json?" + input;
 			
 			URL url = new URL(apiURL);
             

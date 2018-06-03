@@ -403,7 +403,9 @@ span.year:hover, span.month:hover {
 }
 
 
-
+.text-dangerColor {
+	color: #e55b57;
+}
 
 
 .dangerBorder {

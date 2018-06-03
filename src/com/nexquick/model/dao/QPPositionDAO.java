@@ -45,11 +45,9 @@ public interface QPPositionDAO {
 	 */
 	List<QPPosition> selectQPPositionList();
 	
-	/**
-	 * 지역 코드가 일치하는 QP들의 위치 정보 조회
-	 * @param localCode
-	 * @return QPPosition List
-	 */
-	List<QPPosition> selectQPPositionList(int localCode);
+
+	List<QPPosition> selectQPbybCode(String bCode);
+
+	List<QPPosition> selectQPbyhCode(String hCode);
 	
 }

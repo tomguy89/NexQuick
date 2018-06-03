@@ -12,9 +12,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.nexquick.model.vo.Address;
+import com.nexquick.model.vo.CSInfo;
 import com.nexquick.model.vo.CallInfo;
 import com.nexquick.model.vo.FreightInfo;
 import com.nexquick.model.vo.OrderInfo;
+import com.nexquick.model.vo.QPPosition;
+import com.nexquick.service.account.QPPositionService;
 import com.nexquick.service.call.CallManagementService;
 import com.nexquick.service.call.CallSelectListService;
 import com.nexquick.service.call.PricingService;
@@ -59,6 +62,12 @@ public class CallMangementController {
 	public void setDistanceCheckService(DistanceCheckService distanceCheckService) {
 		this.distanceCheckService = distanceCheckService;
 	}
+	
+	private QPPositionService qpPositionService;
+	@Autowired
+	public void setQpPositionService(QPPositionService qpPositionService) {
+		this.qpPositionService = qpPositionService;
+	}
 
 
 	/**
@@ -78,10 +87,10 @@ public class CallMangementController {
 	public @ResponseBody CallInfo newCall(HttpSession session, String senderName, String senderAddress, String senderPhone,
 						  int vehicleType, int urgent, int reserved, String reservationTime) {
 		//세션에서 고객 아이디 가져오기
-		//String csId = ((CSInfo)session.getAttribute("CSInfo")).getCsId();
+		String csId = ((CSInfo)session.getAttribute("csInfo")).getCsId();
 		
 		//퀵 신청하기에서 주문자 정보 입력
-		CallInfo callInfo = new CallInfo("admin", senderName, senderAddress, senderPhone, vehicleType, urgent, reserved, "2018/05/29 15:30");
+		CallInfo callInfo = new CallInfo(csId, senderName, senderAddress, senderPhone, vehicleType, urgent, reserved, "");
 		callManagementService.newCall(callInfo);
 
 		//새로 생성된 콜 주문번호 세션에 저장
@@ -225,6 +234,21 @@ public class CallMangementController {
 		session.removeAttribute("callNum");
 		callManagementService.updateCall(callInfo);
 	}
+	
+	
+	
+	public void allocate() {
+		String addr = null;
+		List<QPPosition> qpList = null;
+		Address address = addressTransService.getAddress(addr);
+		if(address.gethCode()!=null || address.gethCode().length() != 0) {
+			qpList = qpPositionService.selectQPListByHCode(address.gethCode());
+		}else if(address.getbCode()!=null || address.getbCode().length() != 0) {
+			qpList = qpPositionService.selectQPListByBCode(address.getbCode());
+		}
+		
+	}
+	
 	
 	
 	@RequestMapping("/handover.do")

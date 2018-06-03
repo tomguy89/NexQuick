@@ -11,6 +11,9 @@
 	<bean id="qpAccountService" class="com.nexquick.service.account.QPAccountServiceImpl"
 		p:qpInfoDao-ref="qpInfoDao"/>
 	
+	<bean id="qpPositionService" class="com.nexquick.service.account.QPPositionServiceImpl"
+		p:qpPositionDao-ref="qpPositionDao"/>
+	
 	<bean id="favoriteManagementService" class="com.nexquick.service.account.FavoriteManagementServiceImpl"
 		p:favoriteInfoDao-ref="favoriteInfoDao" />
 		

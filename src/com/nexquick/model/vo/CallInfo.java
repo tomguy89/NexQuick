@@ -58,7 +58,6 @@ public class CallInfo {
 	}
 	
 	
-
 	public CallInfo(String csId, String senderName, String senderAddress, String senderPhone, int vehicleType,
 			int totalPrice, int payType, int urgent, int series, int reserved, String reservationTime,
 			int deliveryStatus, int payStatus, String callTime) {
@@ -78,6 +77,7 @@ public class CallInfo {
 		setPayStatus(payStatus);
 		setCallTime(callTime);
 	}
+
 
 	public int getCallNum() {
 		return callNum;

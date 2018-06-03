@@ -4,14 +4,14 @@ public class QPPosition {
 	private int qpId;			// QP ID
 	private long qpLatitude;	// QP 위치 (위도)
 	private long qpLongitude;	// QP 위치 (경도)
-	private int bCode;		// 지역번호
-	private int hCode;
+	private String bCode;		// 지역번호
+	private String hCode;
 	
 	public QPPosition() {
 		super();
 	}
 
-	public QPPosition(int qpId, long qpLatitude, long qpLongitude, int bCode, int hCode) {
+	public QPPosition(int qpId, long qpLatitude, long qpLongitude, String bCode, String hCode) {
 		super();
 		this.qpId = qpId;
 		this.qpLatitude = qpLatitude;
@@ -44,22 +44,19 @@ public class QPPosition {
 		this.qpLongitude = qpLongitude;
 	}
 
-	public int getbCode() {
+	public String getbCode() {
 		return bCode;
 	}
 
-	public void setbCode(int bCode) {
+	public void setbCode(String bCode) {
 		this.bCode = bCode;
 	}
 
-	public int gethCode() {
+	public String gethCode() {
 		return hCode;
 	}
 
-	public void sethCode(int hCode) {
+	public void sethCode(String hCode) {
 		this.hCode = hCode;
 	}
-
-
-	
 }
