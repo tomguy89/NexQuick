@@ -1,3 +1,5 @@
+<%@ page import = "com.nexquick.model.vo.QPInfo" %>
+<%@ page import = "java.util.*" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -23,6 +25,8 @@
 	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/Table_Highlight_Vertical_Horizontal/css/main.css">
 <!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/css/indexStyle.css">
+
+	<% List<QPInfo> qpList = (List<QPInfo>) request.getSession().getAttribute("qpList"); %>
 
 <title>NexQuick :: 관리자 페이지 :: 배송기사 관리</title>
 <script type="text/javascript">
@@ -55,18 +59,22 @@
 							</tr>
 						</thead>
 						<tbody>
-							<!-- 반복문 넣을 예정 -->
+						<% if(qpList != null) { 
+							int countNumber = 1;
+							for(QPInfo qp : qpList) {
+						%>
 							<tr class="row100">
-								<td class="column100 column1" data-column="column1">Lawrence Scott</td>
-								<td class="column100 column2" data-column="column2">8:00 AM</td>
-								<td class="column100 column3" data-column="column3">--</td>
-								<td class="column100 column4" data-column="column4">--</td>
-								<td class="column100 column5" data-column="column5">8:00 AM</td>
-								<td class="column100 column6" data-column="column6">--</td>
-								<td class="column100 column7" data-column="column7">퇴근</td>
+								<td class="column100 column1" data-column="column1"><%= qp.getQpId() %></td>
+								<td class="column100 column2" data-column="column2"><%= qp.getQpName() %></td>
+								<td class="column100 column3" data-column="column3"><%= qp.getQpPhone() %></td>
+								<td class="column100 column4" data-column="column4"><%= qp.getQpVehicleType() %></td>
+								<td class="column100 column5" data-column="column5"><%= qp.getQpLicense() %></td>
+								<td class="column100 column6" data-column="column6"><%= qp.getQpProfile() %></td>
+								<td class="column100 column7" data-column="column7"><%= qp.getQpDeposit() %></td>
 								<td class="column100 column8" data-column="column8">100</td>
 							</tr>
-							<!-- 여기까지 -->
+							<% countNumber++; } %>
+						<% } %>
 						</tbody>
 					</table>
 				</div>

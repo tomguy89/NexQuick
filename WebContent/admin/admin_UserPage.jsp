@@ -1,3 +1,4 @@
+<%@ page import = "java.util.*" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -23,12 +24,22 @@
 	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/Table_Highlight_Vertical_Horizontal/css/main.css">
 <!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/css/indexStyle.css">
-
+	
+	<% List<CSInfo> csList = (List<CSInfo>) request.getSession().getAttribute("csList"); %>
+	
 <title>NexQuick :: 관리자 페이지 :: 사용자 관리</title>
 <script type="text/javascript">
-	$(function() {
-		
-	});
+
+function onopen(buttonId)
+{
+	var url =
+	"http://www.ftc.go.kr/bizCommPop.do?wrkr_no="+$(buttonId).text();
+	window.open(url, "bizCommPop", "width=750, height=700;");
+}
+
+$(function() {
+	
+});
 </script>
 </head>
 <body>
@@ -49,20 +60,43 @@
 								<th class="column100 column3" data-column="column3">전화번호</th>
 								<th class="column100 column4" data-column="column4">고객분류</th>
 								<th class="column100 column5" data-column="column5">회원등급</th>
-								<th class="column100 column6" data-column="column6">등록현황</th>
+								<th class="column100 column6" data-column="column6">마일리지</th>
+								<th class="column100 column7" data-column="column7">사업자등록번호</th>
+								<th class="column100 column8" data-column="column8">법인명</th>
+								<th class="column100 column9" data-column="column9">부서명</th>
 							</tr>
 						</thead>
 						<tbody>
-							<!-- 반복문 넣을 예정 -->
-							<!-- 고객ID 누르면 주문관리 페이지로 넘어가서 주문한 리스트 보여주게끔(자동검색). -->
+						<!-- 고객ID 누르면 주문관리 페이지로 넘어가서 주문한 리스트 보여주게끔(자동검색). -->
+						<% if(csList != null) { 
+							int countNumber = 1;
+							for(CSInfo ci : csList) {
+						%>
 							<tr class="row100">
-								<td class="column100 column1" data-column="column1">Lawrence Scott</td>
-								<td class="column100 column2" data-column="column2">8:00 AM</td>
-								<td class="column100 column3" data-column="column3">--</td>
-								<td class="column100 column4" data-column="column4">--</td>
-								<td class="column100 column5" data-column="column5">8:00 AM</td>
-								<td class="column100 column6" data-column="column6">--</td>
+								<td class="column100 column1" data-column="column1"><%= ci.getCsId() %></td>
+								<td class="column100 column2" data-column="column2"><%= ci.getCsName() %></td>
+								<td class="column100 column3" data-column="column3"><%= ci.getCsPhone() %></td>
+								<td class="column100 column4" data-column="column4"><%= ci.getCsType() %></td>
+								<td class="column100 column5" data-column="column5"><%= ci.getCsGrade() %></td>
+								<td class="column100 column6" data-column="column6"><%= ci.getCsMilege() %></td>
+								<td class="column100 column7" data-column="column7">
+								<% if(ci.getCsBusinessNumber() != null) { %>
+									<button id = "btn<%= countNumber %>" onclick = "onopen(this);"><%= ci.getCsBusinessNumber() %></button>
+								<%} %>
+								</td>
+								<td class="column100 column8" data-column="column8">
+								<% if(ci.getCsBusinessName() != null) { %>
+									<%= ci.getCsBusinessName() %>
+								<%} %>
+								</td>
+								<td class="column100 column9" data-column="column9">
+								<% if(ci.getCsDepartment() != null) { %>
+									<%= ci.getCsDepartment() %>
+								<%} %>
+								</td>
 							</tr>
+							<% countNumber++; } %>
+						<% } %>
 							<!-- 여기까지 -->
 						</tbody>
 					</table>

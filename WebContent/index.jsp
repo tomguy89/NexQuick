@@ -302,6 +302,7 @@
 						    </span>
 						</label> 
 		      		</div>
+		      		
 		      		<div class = "col-md-2 vertical_center">
 		      			<button type = "button" class = "ColorBorder" id = "checkId">중복확인</button>
 		      		</div>
@@ -433,6 +434,7 @@
 		        <button type="button" class="dangerBorder" data-dismiss="modal"><i class = "xi-close-circle-o"></i> 취소</button>
 		        <button type="button" class="ColorBorder" id = "submitBtn" data-dismiss="modal"><i class = "xi-user-plus"></i> 회원가입</button>
 		      </div>
+		      
 		    </div>
 		  </div>
 		</div>

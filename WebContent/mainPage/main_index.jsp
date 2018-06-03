@@ -9,6 +9,8 @@
 <!--===============================================================================================-->	
 <link rel="icon" type="image/png" href="images/icons/favicon.ico"/>
 <!--===============================================================================================-->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+<!-- bootstrap js -->
 <link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/Table_Highlight_Vertical_Horizontal/vendor/bootstrap/css/bootstrap.min.css">
 <!--===============================================================================================-->
 <link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/Table_Highlight_Vertical_Horizontal/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
@@ -24,6 +26,7 @@
 <!--===============================================================================================-->
 <link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/css/indexStyle.css">
 <link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/css/boxStyle.css">
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
 <script type="text/javascript">
 $(function() {
 	
@@ -58,6 +61,7 @@ $(function() {
 	$("#goToSetting").on("click", function() {
 		location.href="<%= request.getContextPath() %>/mainPage/main_list.jsp";
 	});
+
 	
 });
 </script>
@@ -65,6 +69,10 @@ $(function() {
 <title>NexQuick :: 메인 페이지</title>
 </head>
 <body>
+
+		
+
+
 <%@ include file = "../navigation.jsp" %>
 
 
@@ -100,14 +108,14 @@ $(function() {
         <div class="col-sm-4">
           <div class="card text-center" id = "goToList">
             <div class="title">
-              <i class="fa fas fa-list-ul" aria-hidden="true"></i>
+              <i class="fa fas fa-motorcycle" aria-hidden="true"></i>
               <h2 class = "mt-5">진행중인 퀵</h2>
             </div>
             <div class = "emptyBox mt-3">
             </div>
             <div class="option">
               <ul id = "list_second" style = "display : none;">
-              <li> <i class="fa fa-check" aria-hidden="true"></i> 신청내역 조회 </li>
+              <li> <i class="fa fa-check" aria-hidden="true"></i> 진행중인 신청내역 조회 </li>
               <li> <i class="fa fa-check" aria-hidden="true"></i> 배송기사 정보 조회 </li>
               <li> <i class="fa fa-check" aria-hidden="true"></i> 배송기사 위치 조회 </li>
               <li> <i class="fa fa-check" aria-hidden="true"></i> 배송 서비스 평가 </li>
@@ -120,16 +128,16 @@ $(function() {
         <div class="col-sm-4">
           <div class="card text-center" id = "goToSetting">
             <div class="title">
-              <i class="fa fas fa-cog" aria-hidden="true"></i>
-              <h2 class = "mt-5">계정 설정</h2>
+              <i class="fa fas fa-list-ul" aria-hidden="true"></i>
+              <h2 class = "mt-5">신청내역 조회</h2>
             </div>
             <div class = "emptyBox mt-3">
             </div>
             <div class="option">
               <ul id = "list_third" style = "display : none;">
-              <li> <i class="fa fa-check" aria-hidden="true"></i> 계정정보 조회 및 수정 </li>
-              <li> <i class="fa fa-check" aria-hidden="true"></i> 기본 배송지 설정 </li>
+              <li> <i class="fa fa-check" aria-hidden="true"></i> 결제금액 조회 </li>
               <li> <i class="fa fa-check" aria-hidden="true"></i> 전체 신청내역 조회 </li>
+              <li> <i class="fa fa-check" aria-hidden="true"></i> 날짜별 신청내역 조회 </li>
               <li> <i class="fa fa-check" aria-hidden="true"></i> 신청 상세보기 </li>
               </ul>
             </div>
@@ -147,5 +155,7 @@ $(function() {
 
 
 <%@ include file = "../footer.jsp" %>
+
+
 </body>
 </html>

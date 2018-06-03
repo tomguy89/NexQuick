@@ -114,7 +114,7 @@ public class CSAccountController {
 	 * @return view page path (비동기 통신 / 수정 완료 후 성공/실패 화면)
 	 */
 	@RequestMapping("/csModify.do")
-	public String csInfoModify(String csPassword, String csPhone, int csType, 
+	public @ResponseBody boolean csInfoModify(String csPassword, String csPhone, int csType, 
 							   String csBusinessName, String csBusinessNumber, String csDepartment,
 							   HttpSession session) {
 		
@@ -127,8 +127,8 @@ public class CSAccountController {
 		if(csBusinessNumber==null || csBusinessNumber.trim().length()==0) csInfo.setCsBusinessNumber(null);
 		if(csDepartment==null || csDepartment.trim().length()==0) csInfo.setCsDepartment(null);
 		
-		if(csAccountService.csModify(csInfo)) return "성공 시 이동 페이지";
-		else return "실패 시 이동 페이지";
+		if(csAccountService.csModify(csInfo)) return true;
+		else return false;
 	}
 	
 	
