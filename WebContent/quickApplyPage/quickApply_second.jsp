@@ -168,6 +168,19 @@
 		    						)
 		    					/* 이름, 연락처 */
 		    				).append(
+		    					$("<div class = centerBox>")
+		    					.append(
+		    						$("<label class='field field_animated field_a2 page__field textArea'>")
+		    						.append(
+		    							$("<textarea type=text class='textAreaForm field__input' placeholder='ex) 부재시 경비실에 맡겨주세요' name = quickMemo ></textarea>").attr("id", "quickMemo"+dataIndex)		
+		    						).append(
+		    							$("<span class='field__label-wrap'>")
+		    							.append(
+		    								$("<span class='field__label text-conceptColor'>배송 유의사항</span>")
+		    							)
+		    						)
+		    					)
+		    				).append(
 	    						$("<div class = centerBox  style = 'width: 100%; height: 100px;'>")
 	    						.append(
 	    							$("<button class = 'dangerBorder mt-5' type = button/>")
@@ -211,6 +224,21 @@
 						).append(
 							$("<div class='col-md-5' style = 'display : none;'>").attr("id", "list"+dataIndex)
 							.append(
+								$("<div class = 'centerBox'>")
+								.append(
+									$("<span class = 'text-conceptColor'> 배송 거리 : </span>")
+								).append(
+									$("<label class='field field_animated field_a2 page__field distance'>")
+									.append(
+										$("<input type=text class='addressFormSub field__input text-conceptColor' name = 'distance' disabled>").attr("id", "distance"+dataIndex)
+									).append(
+										$("<span class='field__label-wrap'>")
+										.append(
+											$("<span class='field__label text-conceptColor'>거리</span>")
+										)
+									)
+								)
+    						).append(
     							$("<div class = 'row mb-5'>")
     							.append(
     								$("<div class = 'col-md-4'>")
@@ -284,6 +312,8 @@
 			var favoriteText = "#favoriteText" + dataIndex;
 			var callFavorite = "#callFavorite" + dataIndex;
 			var list = "#list"+dataIndex;
+			var quickMemo = "#quickMemo"+dataIndex;
+			var distance = "#distance"+dataIndex;
 			var saveFreight;
 	 		$(addressDetail).keyup(function() {
 	  			if(/* $("#address0").val().trim().length != 0 && */ $(addressDetail).val() != ""
@@ -326,7 +356,7 @@
 	   					receiverName : $(userNameApply).val(),
 	   					receiverAddress : $(address).val() + " " + $(addressDetail).val(),
 	   					receiverPhone : $(phone).val(),
-	   					memo : "wow"
+	   					memo : $(quickMemo).val()
 	   				},
 	   				dataType : "json",
 	   				method : "POST",
@@ -344,6 +374,7 @@
 	  		function addOrders(JSONDocument) {
 	  			alert("도착지 정보가 저장되었습니다. 물품 정보를 설정하세요.");
 				$(list).slideDown(2000);
+				$(distance).val(JSONDocument.distance);
 				$(saveOrder).attr("disabled", "disabled");
 				$(saveText).text(" 도착지 정보 저장됨");
 				$(saveIcon).removeClass("far").addClass("fas");
@@ -563,7 +594,7 @@
    					receiverName : $("#userNameApply0").val(),
    					receiverAddress : $("#address0").val() + " " + $("#addressDetail0").val(),
    					receiverPhone : $("#phone0").val(),
-   					memo : "wow"
+   					memo : $("#quickMemo0").val()
    				},
    				dataType : "json",
    				method : "POST",
@@ -584,6 +615,7 @@
   		var trRemove;
   		function addOrder(JSONDocument) {
   			alert("도착지 정보가 저장되었습니다. 물품 정보를 설정하세요.");
+  			$("#distance0").val(JSONDocument.distance + "KM");
 			$("#list0").slideDown(2000);
 			$("#saveOrder0").attr("disabled", "disabled");
 			$("#saveIcon0").removeClass("far").addClass("fas");
@@ -833,7 +865,7 @@
 					  			<span class = "ml-5">주문번호 : </span>
 					  			
 					  			 <label class="field field_animated field_a2 page__field call">
-								     <input type="text" class="orderNumberForm field__input" placeholder="도착정보를 저장하세요." name = "callId" id="callId0" readonly>
+								     <input type="text" class="orderNumberForm field__input text-conceptColor" placeholder="도착정보를 저장하세요." name = "callId" id="callId0" readonly>
 								     <span class="field__label-wrap">
 								     	<span class="field__label text-conceptColor">저장 시 생성</span>
 								     </span>
@@ -844,7 +876,7 @@
 						<div class = "centerBox mt-0">
 							<img class = "mr-3" src = "<%= request.getContextPath() %>/image/quickApply_img/map.png" width = "40" height = "40" />
 							<label class="field field_animated field_a2 page__field add">
-						    	<input type="text" class="addressForm field__input" placeholder="클릭해서 주소를 검색하세요." name = "address" id="address0" onclick = "goPopup(this);" readonly>
+						    	<input type="text" class="addressForm field__input text-conceptColor" placeholder="클릭해서 주소를 검색하세요." name = "address" id="address0" onclick = "goPopup(this);" readonly>
 						    	<span class="field__label-wrap">
 						    		<span class="field__label text-conceptColor">주소</span>
 						    	</span>
@@ -855,7 +887,7 @@
 							<img class = "mr-3" src = "<%= request.getContextPath() %>/image/quickApply_img/addressDetail.png" width = "40" height = "40" />
 							
 							<label class="field field_animated field_a2 page__field addD">
-						    	<input type="text" class="addressForm field__input" placeholder="ex) 멀티캠퍼스 9층 904호" name = "addressDetail" id="addressDetail0">
+						    	<input type="text" class="addressForm field__input text-conceptColor" placeholder="ex) 멀티캠퍼스 9층 904호" name = "addressDetail" id="addressDetail0">
 						    	<span class="field__label-wrap">
 						    		<span class="field__label text-conceptColor">상세주소</span>
 						    	</span>
@@ -866,7 +898,7 @@
 						<div class = "centerBox">
 							<img class = "mr-3" src = "<%= request.getContextPath() %>/image/quickApply_img/name.png" width = "40" height = "40" />
 							<label class="field field_animated field_a2 page__field name">
-						      <input type="text" class="addressFormSub field__input" placeholder="ex) 김민규" name = "userNameApply" id="userNameApply0">
+						      <input type="text" class="addressFormSub field__input text-conceptColor" placeholder="ex) 김민규" name = "userNameApply" id="userNameApply0">
 						      <span class="field__label-wrap">
 						        <span class="field__label text-conceptColor">수령인</span>
 						      </span>
@@ -874,16 +906,23 @@
 						    
 							<img class = "mr-3" src = "<%= request.getContextPath() %>/image/quickApply_img/phone.png" width = "40" height = "40" style = "margin-left : 1.5em;"/>
 							<label class="field field_animated field_a2 page__field phone">
-						      <input type="text" class="addressFormSub field__input" placeholder="ex) 01049408292" name = "phone" id="phone0">
+						      <input type="text" class="addressFormSub field__input text-conceptColor" placeholder="ex) 01049408292" name = "phone" id="phone0">
 						      <span class="field__label-wrap">
 						        <span class="field__label text-conceptColor">수령인 연락처</span>
 						      </span>
 						    </label>   
 						</div>
 						
-						<div>
-						
+						<div class = "centerBox">
+							<label class="field field_animated field_a2 page__field textArea">
+						      <textarea type="text" class="textAreaForm field__input text-conceptColor" placeholder="ex) 부재시 경비실에 맡겨주세요" name = "quickMemo" id="quickMemo0"></textarea>
+						      <span class="field__label-wrap">
+						        <span class="field__label text-conceptColor">배송 유의사항</span>
+						      </span>
+						    </label>   
 						</div>
+						
+						
 						<div class = "centerBox" style = "width: 100%; height: 100px;">
 							<button class = "dangerBorder mt-5" id = "deleteOrder0" type = "button" data-container="body" data-toggle="popover" data-placement="bottom" data-content="첫번째 주문 정보는 삭제가 불가합니다." readonly><i class="far fa-times-circle"></i>&nbsp;도착지 삭제하기</button>
 							<button class = "ColorBorder mt-5" id = "saveOrder0" type = "button" disabled = "disabled"><i class="far fa-save" id = "saveIcon0"></i><span id = "saveText0">&nbsp;도착지 저장하기</span></button>
@@ -892,7 +931,15 @@
 					
 						<!-- 리스트 목록 나옴 -->
 						<div class = "col-md-5" style = "display : none;" id = "list0">
-							
+							<div class = "centerBox">
+								<span class = "text-conceptColor"> 배송 거리 : </span>
+								<label class="field field_animated field_a2 page__field distance">
+							      <input type="text" class="addressFormSub field__input text-conceptColor" name = "distance" id="distance0" disabled>
+							      <span class="field__label-wrap">
+							        <span class="field__label text-conceptColor">거리</span>
+							      </span>
+							    </label>   
+							</div>
 							<!-- selectBox -->
 							<div class = "row mb-5">
 								<div class = "col-md-4">

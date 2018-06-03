@@ -10,6 +10,15 @@ ol > li {
 	border : 1px solid black!important;
 }
 
+.textAreaForm {
+	width: 100%;
+	resize: none;
+}
+
+.textArea {
+	width: 60%;
+}
+
 .vertical_center {
 	margin-top: auto;
 	margin-bottom: auto;
