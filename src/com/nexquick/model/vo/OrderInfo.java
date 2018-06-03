@@ -10,6 +10,7 @@ public class OrderInfo {
 	private int orderPrice;					// 주문 가격
 	private int isGet;						// 배송 상태
 	private String arrivalTime;				// 도착 시간
+	private String distance;
 	
 	public OrderInfo() {
 		super();
@@ -118,6 +119,14 @@ public class OrderInfo {
 
 	public void setArrivalTime(String arrivalTime) {
 		this.arrivalTime = arrivalTime;
+	}
+
+	public String getDistance() {
+		return distance;
+	}
+
+	public void setDistance(String distance) {
+		this.distance = distance;
 	}
 	
 	

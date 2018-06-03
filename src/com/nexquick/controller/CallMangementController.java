@@ -130,6 +130,7 @@ public class CallMangementController {
 		double distance = distanceCheckService.singleDistanceCheck(point);
 		int price = pricingService.proportionalPrice(distance);
 		OrderInfo orderInfo = new OrderInfo(callNum, receiverName, receiverAddress, receiverPhone, memo, price);
+		orderInfo.setDistance(distance+"");
 		totalPrice += price;
 		session.setAttribute("totalPrice", totalPrice);
 		callManagementService.addOrder(orderInfo);
