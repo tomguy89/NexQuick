@@ -38,10 +38,14 @@
 	</select>
 	<select id="selectQPbybCode" parameterType="int">
 		select * from qpPosition
-		where bCode=#{bCode}
+		where substr(bCode, 0, 3)=substr(#{bCode}, 0, 3)
+		order by abs(to_number(#{bCode})-to_number(bCode)),
+		abs(power(qplatitude-#{qpLatitude}, 2)+power(qplongitude-#{qpLongitude}, 2));
 	</select>
 		<select id="selectQPbyhCode" parameterType="int">
 		select * from qpPosition
-		where hCode=#{hCode}
+		where substr(hCode, 0, 3)=substr(#{hCode}, 0, 3)
+		order by abs(to_number(#{hCode})-to_number(hCode)),
+		abs(power(qplatitude-#{qpLatitude}, 2)+power(qplongitude-#{qpLongitude}, 2));
 	</select>
  </mapper>
