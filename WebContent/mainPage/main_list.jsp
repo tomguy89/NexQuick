@@ -39,9 +39,7 @@
 		<div class = "col-md-4">
 			<h2 class = "centerBox mainListTitle text-conceptColor">
 				현재 배송 중입니다.
-				<% if(deliveryList != null) { %>
-					<%= deliveryList.size() %>
-				<%} %>
+			
 			</h2>
 		</div>
 		<div class = "col-md-8">
@@ -64,17 +62,20 @@
 							</tr>
 						</thead>
 						<tbody>
+							<% if(deliveryList != null) { %>
+								<% for(OnDelivery od : deliveryList) { %>
 						<!-- 반복문 넣을 예정 -->
 							<tr class="row100">
-								<td class="column100 column1" data-column="column1">Lawrence Scott</td>
-								<td class="column100 column2" data-column="column2">8:00 AM</td>
-								<td class="column100 column3" data-column="column3">--</td>
-								<td class="column100 column4" data-column="column4">--</td>
-								<td class="column100 column5" data-column="column5">8:00 AM</td>
-								<td class="column100 column6" data-column="column6">--</td>
+								<td class="column100 column1" data-column="column1"><%= od.getOrderNum() %></td>
+								<td class="column100 column2" data-column="column2"><%= od.getCallTime() %></td>
+								<td class="column100 column3" data-column="column3"><%= od.getOrderPrice() %></td>
+								<td class="column100 column4" data-column="column4"><%= od.getReceiverAddress() %></td>
+								<td class="column100 column5" data-column="column5"><%= od.getDeliveryStatus() %></td>
+								<td class="column100 column6" data-column="column6">김민규</td>
 							</tr>
 						<!-- 여기까지 -->
-							
+								<%} %>
+							<%} %>
 						</tbody>
 					</table>
 				</div>

@@ -8,6 +8,8 @@
 
 <!--===============================================================================================-->	
 <script src="../Table_Highlight_Vertical_Horizontal/vendor/jquery/jquery-3.2.1.min.js"></script>
+<script type="text/javascript" src="https://service.iamport.kr/js/iamport.payment-1.1.5.js"></script>
+
 <!--===============================================================================================-->
 <script src="../Table_Highlight_Vertical_Horizontal/vendor/bootstrap/js/popper.js"></script>
 <script src="../Table_Highlight_Vertical_Horizontal/vendor/bootstrap/js/bootstrap.min.js"></script>
@@ -92,11 +94,12 @@
 		    										)
 		    									)
 		    								).append(
-		    										$("<label style = 'line-height: 35px; color: #34495e; height: 35px; margin-bottom: 0px!important;'>즐겨찾기에 추가</label>").attr("for", "saveFavorite"+dataIndex)
+	    										$("<label style = 'line-height: 35px; color: #34495e; height: 35px; margin-bottom: 0px!important;'>즐겨찾기에 추가</label>").attr("for", "saveFavorite"+dataIndex)
 		    								)
 		    							)
 		    						).append(
-		    							$("<span style='display: none;'>").append(
+		    							$("<span style='display: none;'>")
+		    							.append(
 		    								$("<span class='ml-5'>주문번호 : </span>")		
 		    							).append(
 		    								$("<label class='field field_animated field_a2 page__field call'>")
@@ -111,18 +114,18 @@
 			    						)
 		    						)
 		    				).append(
-		    						$("<div class = 'centerBox mt-0'/>")
-		    						.append(
-	    								$("<img class='mr-3' src = <%= request.getContextPath() %>/image/quickApply_img/map.png width = 40 height = 40 />")
-		    						).append(
-	    								$("<label class='field field_animated field_a2 page__field add'>")
-	    								.append(
-	    									$("<input type=text class='addressForm field__input' placeholder='클릭해서 주소를 검색하세요.' onclick='goPopup(this);' name = 'address' readonly>").attr("id", "address" + dataIndex)		
-	    								).append(
-	    									$("<span class='field__label-wrap'>")
-	    									.append("<span class='field__label text-conceptColor'>주소</span>")
-	    								)
-		    						)
+	    						$("<div class = 'centerBox mt-0'/>")
+	    						.append(
+    								$("<img class='mr-3' src = <%= request.getContextPath() %>/image/quickApply_img/map.png width = 40 height = 40 />")
+	    						).append(
+    								$("<label class='field field_animated field_a2 page__field add'>")
+    								.append(
+    									$("<input type=text class='addressForm field__input' placeholder='클릭해서 주소를 검색하세요.' onclick='goPopup(this);' name = 'address' readonly>").attr("id", "address" + dataIndex)		
+    								).append(
+    									$("<span class='field__label-wrap'>")
+    									.append("<span class='field__label text-conceptColor'>주소</span>")
+    								)
+	    						)
 								/* 첫번째 centerbox까지 붙임(주소) */    				
 		    				)
 		    				.append(
@@ -165,54 +168,51 @@
 		    						)
 		    					/* 이름, 연락처 */
 		    				).append(
-									
-/* 									<button class = "ColorBorder mt-5" id = "saveOrder0" type = "button" disabled = "disabled"><i class="far fa-save" id = "saveIcon0"></i><span id = "saveText0">&nbsp;도착지 저장하기</span></button>
-									<button class = "ColorBorder mt-5" id = "saveFavorite0" type = "button" disabled = "disabled"><i class="far fa-star" id = "favIcon0"></i><span id = "favoriteText0">&nbsp;입력하세요.</span></button> */
-		    						$("<div class = centerBox  style = 'width: 100%; height: 100px;'>")
-		    						.append(
-		    							$("<button class = 'dangerBorder mt-5' type = button/>")
-		    							.append(
-		    								$("<i class='far fa-times-circle'></i>")		
-		    							).append(
-		    								$("<span>&nbsp;도착지 삭제하기</span>")
-		    							).attr("id", "deleteOrder"+dataIndex).on("click", function() {
-		    								/* 오더 삭제 비동기통신 넣을 자리 */
-		    								$.ajax({
-		    									
-		    								});
-		    								
-		    								/* 해당 오더 삭제하는 기능 */
-		    								var id = $(this).attr("id").substring(11);
-		    								var $car_Item = "#car-item"+id;
-		    								var $li = "#li"+id;
-		    								var result = confirm("해당 배송지를 삭제하시겠습니까?");
-		    								if(result) {
-			    								$($car_Item).remove();
-			    								$($li).remove();
-			    							    countIndex--;
-			    							    console.log(countIndex);
-			    								var listLocation = "div.carousel-inner > div:nth-child("+(countIndex)+")";
-			    								var liLocation = "ol.carousel-indicators > li:nth-child("+(countIndex)+")";
-			    							    console.log(listLocation);
-			    								$(listLocation).addClass("active");
-			    								$(liLocation).addClass("active");
-		    								}
-		    							})
-		    						).append(
-		    							$("<button class = 'ColorBorder mt-5' type = button disabled = disabled>")
-		    							.append(
-		    								$("<i class='far fa-save'></i>").attr("id", "saveIcon"+dataIndex)
-		    							).append(
-		    								$("<span>&nbsp;도착지 저장하기</span>").attr("id", "saveText"+dataIndex)
-		    							).attr("id", "saveOrder"+dataIndex)
-		    						)
+	    						$("<div class = centerBox  style = 'width: 100%; height: 100px;'>")
+	    						.append(
+	    							$("<button class = 'dangerBorder mt-5' type = button/>")
+	    							.append(
+	    								$("<i class='far fa-times-circle'></i>")		
+	    							).append(
+	    								$("<span>&nbsp;도착지 삭제하기</span>")
+	    							).attr("id", "deleteOrder"+dataIndex).on("click", function() {
+	    								/* 오더 삭제 비동기통신 넣을 자리 */
+	    								$.ajax({
+	    									
+	    								});
+	    								
+	    								/* 해당 오더 삭제하는 기능 */
+	    								var id = $(this).attr("id").substring(11);
+	    								var $car_Item = "#car-item"+id;
+	    								var $li = "#li"+id;
+	    								var result = confirm("해당 배송지를 삭제하시겠습니까?");
+	    								if(result) {
+		    								$($car_Item).remove();
+		    								$($li).remove();
+		    							    countIndex--;
+		    							    console.log(countIndex);
+		    								var listLocation = "div.carousel-inner > div:nth-child("+(countIndex)+")";
+		    								var liLocation = "ol.carousel-indicators > li:nth-child("+(countIndex)+")";
+		    							    console.log(listLocation);
+		    								$(listLocation).addClass("active");
+		    								$(liLocation).addClass("active");
+	    								}
+	    							})
+	    						).append(
+	    							$("<button class = 'ColorBorder mt-5' type = button disabled = disabled>")
+	    							.append(
+	    								$("<i class='far fa-save'></i>").attr("id", "saveIcon"+dataIndex)
+	    							).append(
+	    								$("<span>&nbsp;도착지 저장하기</span>").attr("id", "saveText"+dataIndex)
+	    							).attr("id", "saveOrder"+dataIndex)
+	    						)
 		    				)
 		    				/* 오른쪽 리스트 붙이기 시작 */
 						).append(
 							$("<div class='col-md-5' style = 'display : none;'>").attr("id", "list"+dataIndex)
 							.append(
-    						$("<div class = 'row mb-5'>")
-    						.append(
+    							$("<div class = 'row mb-5'>")
+    							.append(
     								$("<div class = 'col-md-4'>")
     								.append(
     										$("<select>").attr("id", "item"+dataIndex).attr("name", "item"+dataIndex)
@@ -226,68 +226,25 @@
     												$("<option>박스(대, 15kg 이상)</option>").attr("value", "bigbox"+dataIndex)
     										)
     								)
-    						).append(
+	    						).append(
     								$("<link/>")
     									.attr("rel", "stylesheet")
     									.attr("type", "text/css")
     									.attr("href", "<%= request.getContextPath() %>/css/selectionBoxStyle.css")
-    						).append(
+    							).append(
     								$("<script/>")
     									.attr("type", "text/javascript")
     									.attr("src", "<%=request.getContextPath()%>/js/selectionBoxStyle.js")
-    						).append(
+    							).append(
     								$("<div class = 'col-md-8 my-auto'>")
     								.append(
     										$("<span>개수 : </span>")
     								).append(
     										$("<input type = number min=1 value=1 style = 'width: 3em;'/>").attr("id", "count"+dataIndex)
     								).append(
-										$("<img src = <%= request.getContextPath() %>/image/quickApply_img/plusBtn.png width = 20 height = 20/>").attr("id", "saveFreight"+dataIndex).on("click", function() {
-											var id = $(this).attr("id").charAt($(this).attr("id").length-1);
-											var $selectId = "#item"+id;
-											var $countId = "#count"+id;
-											var tableIndex = "table#table"+id+" > tbody";
-											var freight_type = $($selectId).val();
-											var freight_name;
-											if(freight_type == "document"+dataIndex) {
-												freight_name = "서류";
-											} else if (freight_type == "smallBox"+dataIndex) {
-												freight_name = "박스(소)";
-											} else if (freight_type == "middleBox"+dataIndex) {
-												freight_name = "박스(중)";
-											} else if (freight_type == "bigBox"+dataIndex) {
-												freight_name = "박스(대)";
-											}
-											/* 화물 추가 비동기통신 */
-											$.ajax({
-												
-											});
-											
-											/* 옆에 리스트에 추가 */
-											$(tableIndex).append(
-												$("<tr>").attr("id", "tr"+trIndex)
-												.append(
-														$("<td>").text(freight_name)
-												).append(
-														$("<td>").text($($countId).val()+"개")
-												).append(
-														$("<td>").append(
-															$("<img src = <%=request.getContextPath()%>/image/quickApply_img/minusBtn.png width=20 height=20 />").attr("id", "minusBtn"+trIndex).on("click", function() {
-																var trId = $(this).attr("id").charAt($(this).attr("id").length-1);
-																var $trId = "#tr"+trId;
-																/* 화물 삭제 비동기통신 */
-																$.ajax({
-																	
-																});
-																$($trId).remove();
-															})
-														)
-												)
-											)
-											trIndex++;
-										})
-    								)
-	    						)
+										$("<img src = <%= request.getContextPath() %>/image/quickApply_img/plusBtn.png width = 20 height = 20/>").attr("id", "saveFreight"+dataIndex)
+									)
+   								)
 	    				).append(
 							$("<table class='table table-bordered'>").attr("id", "table"+dataIndex)
 							.append(
@@ -315,6 +272,7 @@
 			
 			var id = $(this).attr("id").charAt($(this).attr("id").length-1);
 			/* 값 변경시 저장버튼 활성화 */
+			var address = "#address" + dataIndex;
 			var addressDetail = "#addressDetail"+dataIndex;
 			var userNameApply = "#userNameApply"+dataIndex;
 			var phone = "#phone"+dataIndex;
@@ -326,7 +284,7 @@
 			var favoriteText = "#favoriteText" + dataIndex;
 			var callFavorite = "#callFavorite" + dataIndex;
 			var list = "#list"+dataIndex;
-			
+			var saveFreight;
 	 		$(addressDetail).keyup(function() {
 	  			if(/* $("#address0").val().trim().length != 0 && */ $(addressDetail).val() != ""
 						&& $(userNameApply).val() != "" && $(phone).val() != "") {
@@ -358,18 +316,118 @@
 	  			 }
 	  		});
 			
+	  		var realId;
 	  		$(saveOrder).on("click", function() {
-	  			alert(this.id + "번째 도착지 정보가 저장되었습니다. 물품 정보를 설정하세요.");
+	  			realId = $(this).attr("id").substring(9);
+				/* 비동기통신. 오더 저장 */
+				$.ajax({
+					url : "<%= request.getContextPath() %>/call/addOrder.do",
+	   				data : {
+	   					receiverName : $(userNameApply).val(),
+	   					receiverAddress : $(address).val() + " " + $(addressDetail).val(),
+	   					receiverPhone : $(phone).val(),
+	   					memo : "wow"
+	   				},
+	   				dataType : "json",
+	   				method : "POST",
+	   				success : addOrders
+				});
+		
+				
+	  		});
+	  		
+			var $selectId;
+			var $countId;
+			var tableIndex;
+			var freightType;
+			var item;
+	  		function addOrders(JSONDocument) {
+	  			alert("도착지 정보가 저장되었습니다. 물품 정보를 설정하세요.");
 				$(list).slideDown(2000);
 				$(saveOrder).attr("disabled", "disabled");
 				$(saveText).text(" 도착지 정보 저장됨");
 				$(saveIcon).removeClass("far").addClass("fas");
-				/* 비동기통신. 오더 저장 */
-				$.ajax({
+				saveFreight = "#saveFreight"+realId;
+				$(saveFreight).on("click", function() {
+					$selectId = "#item"+realId;
+					$countId = "#count"+realId;
+					tableIndex = "table#table"+realId+" > tbody";
+					freight_type = $($selectId).val();
+					switch($($selectId).val().substring(0,1)) {
+					case 'd':
+						item = "서류";
+						freightType = 1;
+						break;
+					case 's':
+						item = "박스(소)";
+						freightType = 2;
+						break;
+					case 'm':
+						item = "박스(중)";
+						freightType = 3;
+						break;
+					case 'b':
+						item = "박스(대)";
+						freightType = 4;
+						break;
+					}
 					
+					/* 화물 추가 비동기통신 */
+					$.ajax({
+						url : "<%= request.getContextPath() %>/call/addFreight.do",
+		   				data : {
+		   					orderNum : JSONDocument.orderNum,
+		   					freightType : freightType,
+		   					freightQuant : $($countId).val(),
+		   					freightDetail : "화물상세"
+		   				},
+		   				dataType : "json",
+		   				method : "POST",
+		   				success : addFreights
+					});
 				});
+	  		}
+	  		
+  			var trId;
+  			var trRemove;
+	  		function addFreights (JSONDocument) {
+	  			/* 옆에 리스트에 추가 */
+				$(tableIndex).append(
+					$("<tr>").attr("id", "tr"+trIndex)
+					.append(
+							$("<td>").text(item)
+					).append(
+							$("<td>").text($($countId).val()+"개")
+					).append(
+							$("<td>").append(
+								$("<img src = <%=request.getContextPath()%>/image/quickApply_img/minusBtn.png width=20 height=20 />").attr("id", "minusBtn"+trIndex).on("click", function() {
+									trId = $(this).attr("id").substring(8);
+									trRemove = "#tr"+trId;
+									/* 화물 삭제 비동기통신 */
+									$.ajax({
+										url : "<%= request.getContextPath() %>/call/delFreight.do",
+						   				data : {
+						   					freightNum : JSONDocument.freightNum
+						   				},
+						   				dataType : "json",
+						   				method : "POST",
+						   				success : delFreights
+									});
 				
-	  		});
+								})
+							)
+					)
+				)
+				trIndex++;
+	  		}
+	  		
+	  		function delFreights(JSONDocument) {
+	  			var result = confirm("정말 삭제하시겠습니까?");
+	  			if(result) {
+					$(trRemove).remove();
+	  			}
+	  		}
+	  		
 	  		
 	  		$(saveFavorite).on("click", function() {
 	  			console.log(this.id + "번째가 즐겨찾기에 저장됨");
@@ -414,8 +472,7 @@
 				real_id = id.substring(7);
 				addressId = "#address"+real_id;
 				addressDetailId = "#address"+real_id;
-				
-				goPopup();
+				goPopup(this);
 			});
 	
 	  	 	
@@ -638,7 +695,38 @@
     	
     	/* 주소 입력 API! */
     	
-    	
+    	$("#goToPay").on("click", function() {
+    		IMP.init('imp94690506');
+    		
+    		IMP.request_pay({
+    		    pg : 'inicis', // version 1.1.0부터 지원.
+    		    pay_method : 'card',
+    		    merchant_uid : 'merchant_' + new Date().getTime(),
+    		    name : 'NexQuick 퀵 결제',
+    		    amount : $("#payment").val(),
+    		    buyer_email : 'mmk8292@naver.com',
+    		    buyer_name : '김민규',
+    		    buyer_tel : '010-4940-8292',
+    		    buyer_addr : '서울특별시 강남구 강남강남',
+    		    buyer_postcode : '123-456',
+    		    m_redirect_url : '<%=request.getContextPath()%>/quickApplyPage/quickApply_end.jsp'
+    		}, function(rsp) {
+    		    if ( rsp.success ) {
+    		        var msg = '결제가 완료되었습니다.';
+    		        msg += '고유ID : ' + rsp.imp_uid;
+    		        msg += '상점 거래ID : ' + rsp.merchant_uid;
+    		        msg += '결제 금액 : ' + rsp.paid_amount;
+    		        msg += '카드 승인번호 : ' + rsp.apply_num;
+	    		    alert(msg);
+	    		   	location.href = "./quickApply_end.jsp";
+    		    } else {
+    		        var msg = '결제에 실패하였습니다.';
+    		        msg += '에러내용 : ' + rsp.error_msg;
+	    		    alert(msg);
+    		    }
+    		});
+    		
+    	});
     	
     	
     	
@@ -793,6 +881,9 @@
 						    </label>   
 						</div>
 						
+						<div>
+						
+						</div>
 						<div class = "centerBox" style = "width: 100%; height: 100px;">
 							<button class = "dangerBorder mt-5" id = "deleteOrder0" type = "button" data-container="body" data-toggle="popover" data-placement="bottom" data-content="첫번째 주문 정보는 삭제가 불가합니다." readonly><i class="far fa-times-circle"></i>&nbsp;도착지 삭제하기</button>
 							<button class = "ColorBorder mt-5" id = "saveOrder0" type = "button" disabled = "disabled"><i class="far fa-save" id = "saveIcon0"></i><span id = "saveText0">&nbsp;도착지 저장하기</span></button>
@@ -837,7 +928,7 @@
 			
 			<div class = "centerBox mt-5">
 				<!-- <input type = "submit" class = "centerBox"/> -->
-				<button id = "orderNow" type = "button" class = "ColorBorder">주문하기</button>
+				<button id = "orderNow" type = "button" class = "ColorBorder" data-toggle="modal" data-target="#payBox">주문하기</button>
 				<button id = "addOrderBtn" type = "button" class = "ColorBorder">배송지 추가하기</button>
 			</div>
 			
@@ -900,16 +991,16 @@
 
 
 
-
-<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+<div class="modal fade bd-example-modal-lg" id = "payBox" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h2 class="modal-title centerBox" id="exampleModalCenterTitle">주소 찾기</h2>
       </div>
       <div class="modal-body">
-		
-       
+		<input id = "payment" val = "10"/>
+		<button id = "goToPay" type = "button">결제하기</button>
+		<span id = "resultSpan">결제하세요.</span>
       </div>
       <div class="modal-footer">
         <button type="button" class="dangerBorder" data-dismiss="modal">취소</button>
@@ -918,7 +1009,6 @@
     </div>
   </div>
 </div>
-
 
 
 
