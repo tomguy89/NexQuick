@@ -21,12 +21,10 @@ import java.util.ArrayList;
 @SuppressLint("ValidFragment")
 public class Fragment1 extends Fragment {
 
-
     ViewPager viewPager;
     ListView insuListView;
     ListView indoListView;
     View view;
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

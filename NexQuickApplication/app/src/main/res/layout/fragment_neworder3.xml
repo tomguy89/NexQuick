@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Fragment1">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_margin="10dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="금액"
+                android:textAlignment="center"
+                android:textSize="20dp" />
+
+            <TextView
+
+                android:id="@+id/totalPrice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:text="0000원"
+                android:textAlignment="viewEnd"
+                android:textSize="20dp" />
+
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/payTypeInfo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="결제유형 선택"
+            android:textColor="@color/colorPrimary" />
+
+
+        <TableLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center">
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+
+                <Button
+                    android:id="@+id/pay1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="카드+선불" />
+
+                <Button
+                    android:id="@+id/pay2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="카드+착불" />
+
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <Button
+                    android:id="@+id/pay3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="현금+선불" />
+
+                <Button
+                    android:id="@+id/pay4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="현금+착불" />
+
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <Button
+                    android:id="@+id/pay5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="입금+선불" />
+
+                <Button
+                    android:id="@+id/pay6"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="신용결제" />
+
+            </TableRow>
+
+
+        </TableLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/prev2p"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/colorPrimary"
+                android:layout_gravity="start"
+                android:textColor="#ffffff"
+                android:text="이전" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+</FrameLayout>

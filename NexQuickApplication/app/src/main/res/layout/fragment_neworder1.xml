@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Fragment1">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_margin="10dp">
+
+        <TextView
+            android:id="@+id/senderInfo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="출발지"
+            android:textColor="@color/colorPrimary" />
+
+        <Spinner
+            android:id="@+id/senderAdressSpinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/senderName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:hint="이름" />
+
+            <EditText
+                android:id="@+id/senderPhone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:ems="10"
+                android:hint="연락처"
+                android:inputType="phone" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/senderAddress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="textPostalAddress" />
+
+            <Button
+                android:id="@+id/senderAddressBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="주소찾기" />
+        </LinearLayout>
+
+        <EditText
+            android:id="@+id/senderAddressDetail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textPostalAddress" />
+
+        <CheckBox
+            android:id="@+id/senderSaveCbx"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="이 배송지를 즐겨찾기로 저장" />
+
+        <TextView
+            android:id="@+id/orderTypeInfo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="배송유형"
+            android:textColor="@color/colorPrimary" />
+
+        <CheckBox
+            android:id="@+id/urgentCbx"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="긴급배송여부" />
+
+        <CheckBox
+            android:id="@+id/reserveCbx"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="예약배송여부" />
+
+        <TextView
+            android:id="@+id/ArriveTime"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="인수 예정시간" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/date_picker"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ems="10"
+                android:hint="@string/date"
+                android:inputType="date" />
+
+            <EditText
+                android:id="@+id/time_picker"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ems="10"
+                android:hint="@string/time"
+                android:inputType="time" />
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/next2p"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/colorPrimary"
+                android:textColor="#ffffff"
+                android:text="다음" />
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+</FrameLayout>
