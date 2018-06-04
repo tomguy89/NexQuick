@@ -1,0 +1,5 @@
+conn system/manager;
+create user nexquick identified by balbadak;
+grant connect, resource, create view to nexquick;
+
+
