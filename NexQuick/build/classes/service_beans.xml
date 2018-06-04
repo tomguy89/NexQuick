@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:p="http://www.springframework.org/schema/p" xmlns:c="http://www.springframework.org/schema/c"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.2.xsd">
+
+	<bean id="csAccountService" class="com.nexquick.service.account.CSAccountServiceImpl"
+		p:csInfoDao-ref="csInfoDao"/>
+	
+	<bean id="qpAccountService" class="com.nexquick.service.account.QPAccountServiceImpl"
+		p:qpInfoDao-ref="qpInfoDao"/>
+	
+	<bean id="qpPositionService" class="com.nexquick.service.account.QPPositionServiceImpl"
+		p:qpPositionDao-ref="qpPositionDao"/>
+	
+	<bean id="favoriteManagementService" class="com.nexquick.service.account.FavoriteManagementServiceImpl"
+		p:favoriteInfoDao-ref="favoriteInfoDao" />
+		
+	<bean id="callManagementService" class="com.nexquick.service.call.CallManagementServiceImpl"
+		p:callInfoDao-ref="callInfoDao" p:orderInfoDao-ref="orderInfoDao" p:freightInfoDao-ref="freightInfoDao"/>
+
+	<bean id="callSelectListService" class="com.nexquick.service.call.CallSelectListServiceImpl"
+		p:callInfoDao-ref="callInfoDao" p:orderInfoDao-ref="orderInfoDao"/>		
+			
+	<bean id="pricingService" class="com.nexquick.service.call.PricingServiceImpl"
+		p:priceDao-ref="priceInfoDao" p:weatherCheckService-ref="weatherCheckService" />
+		
+	<bean id="addressTransService" class="com.nexquick.service.parsing.AddressTransServiceImpl" />
+	
+	<bean id="distanceCheckService" class="com.nexquick.service.parsing.DistanceCheckServiceImpl"/>
+	
+	<bean id="weatherCheckService" class="com.nexquick.service.parsing.WeatherCheckServiceImpl"/>
+		
+</beans>

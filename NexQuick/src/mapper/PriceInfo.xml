@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+      
+ <mapper namespace="priceInfo">
+
+	<insert id="createPrice" parameterType="PriceInfo">
+		insert into priceInfo
+		values(#{freightType},#{freightName},#{freeCount},#{price})
+	</insert>
+	<delete id="deletePrice" parameterType="int">
+		delete priceInfo where freightType=#{freightType}
+	</delete>
+	<update id="updatePrice" parameterType="PriceInfo">
+		update  priceInfo
+		set freightName=#{freightName},
+			freeCount=#{freeCount}
+			price=#{price}
+		where freightType=#{freightType}
+	</update>
+	<select id="selectPrice" parameterType="int" resultType="PriceInfo">
+		select * from priceInfo
+		where freightType=#{freightType}
+	</select>
+
+ </mapper>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+
+	<typeAliases>
+		<typeAlias type="com.nexquick.model.vo.Address" alias="Address"/>
+		<typeAlias type="com.nexquick.model.vo.FavoriteInfo" alias="FavoriteInfo"/>
+		<typeAlias type="com.nexquick.model.vo.CallInfo" alias="CallInfo" />
+		<typeAlias type="com.nexquick.model.vo.CSInfo" alias="CSInfo" />
+		<typeAlias type="com.nexquick.model.vo.FreightInfo" alias="FreightInfo" />
+		<typeAlias type="com.nexquick.model.vo.OnDelivery" alias="OnDelivery" />
+		<typeAlias type="com.nexquick.model.vo.OrderInfo" alias="OrderInfo" />
+		<typeAlias type="com.nexquick.model.vo.PriceInfo" alias="PriceInfo" />
+		<typeAlias type="com.nexquick.model.vo.QPInfo" alias="QPInfo" />
+		<typeAlias type="com.nexquick.model.vo.QPPosition" alias="QPPosition" />
+		<typeAlias type="com.nexquick.model.vo.QPScore" alias="QPScore" />
+	</typeAliases>
+	
+	<mappers>
+		<mapper resource="mapper/CallInfo.xml"/>
+		<mapper resource="mapper/CSInfo.xml"/>
+		<mapper resource="mapper/FavoriteInfo.xml"/>
+		<mapper resource="mapper/FreightInfo.xml"/>
+		<mapper resource="mapper/OrderInfo.xml"/>
+		<mapper resource="mapper/PriceInfo.xml"/>
+		<mapper resource="mapper/QPInfo.xml"/>
+		<mapper resource="mapper/QPPosition.xml"/>
+		<mapper resource="mapper/QPScore.xml"/>
+	</mappers>
+</configuration>
