@@ -31,6 +31,8 @@ public class  LoginActivity extends AppCompatActivity {
     EditText etLogin;
     EditText etPassword;
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -114,7 +116,7 @@ public class  LoginActivity extends AppCompatActivity {
 
             //doInBackground()로 부터 리턴된 값이 onPostExecute()의 매개변수로 넘어오므로 s를 출력한다.
             if(s!=null){
-               Log.e("s값",s);
+                Log.e("s값",s);
                 Toast.makeText(context, s, Toast.LENGTH_LONG).show();
             }
 

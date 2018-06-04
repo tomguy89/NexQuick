@@ -15,7 +15,10 @@ public class QPAccountServiceImpl implements QPAccountService {
 	@Override
 	public QPInfo qpSignIn(String qpPhone, String qpPassword) {
 		QPInfo qpInfo = qpInfoDao.selectQP(qpPhone);
-		if(qpInfo.getQpPassword().equals(qpPassword)) return qpInfo;
+		if(qpInfo!=null) {
+			if(qpInfo.getQpPassword().equals(qpPassword)) return qpInfo;
+			else return null;
+		}
 		else return null;
 	}
 
