@@ -29,10 +29,9 @@ public class QPAccountController {
 	 * @param session:세션에 qpInfo 저장
 	 * @return JSON ([비동기 통신] 로그인 성공:true / 로그인 실패:false) 
 	 */
-	@RequestMapping("/qpSignIn.do")
-	public @ResponseBody boolean csSignIn(String qpPhone, String qpPassword, HttpSession session) {
-		System.out.println(qpPhone+qpPassword);
-		QPInfo qpInfo = qpAccountService.qpSignIn(qpPhone, qpPassword);
+	@RequestMapping("/csSignIn.do")
+	public @ResponseBody boolean csSignIn(String qpId, String qpPassword, HttpSession session) {
+		QPInfo qpInfo = qpAccountService.qpSignIn(qpId, qpPassword);
 		if(qpInfo != null) {
 			session.setAttribute("qpInfo", qpInfo);
 			return true;

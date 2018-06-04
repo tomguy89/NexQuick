@@ -192,7 +192,7 @@
 									<li><a href = "<%= request.getContextPath() %>/admin/allCs.do"><i class="far fa-user navIcons"></i>고객 관리</a></li>
 									<li><a href = "<%= request.getContextPath() %>/admin/allQp.do"><i class="fas fa-motorcycle navIcons"></i>배송기사 관리</a></li>
 									<li><a><i class="fas fa-coins navIcons"></i>매출 관리</a></li>
-									<li><a><i class="far fa-file-alt navIcons"></i>신청 관리</a></li>
+									<li><a href = "<%= request.getContextPath() %>/list/adminAllOrder.do"><i class="far fa-file-alt navIcons"></i>신청 관리</a></li>
 									<li><a><i class="far fa-comments navIcons"></i>상담내역 관리</a></li>
 								</ul>
 							</li>
@@ -202,7 +202,7 @@
 								<ul class="gn-submenu">
 									<li><a href = "<%= request.getContextPath() %>/quickApplyPage/quickApply_first.jsp"><i class="fas fa-box navIcons"></i>퀵 신청하기</a></li>
 									<li><a href = "<%= request.getContextPath() %>/list/userCallList.do"><i class="fas fa-motorcycle navIcons"></i>진행중인 퀵</a></li>
-									<li><a><i class="fas fa-list-ul navIcons"></i>신청내역 조회</a></li>
+									<li><a href = "<%= request.getContextPath() %>/list/userAllCallList.do?csId=<%=csInfo.getCsId()%>"><i class="fas fa-list-ul navIcons"></i>신청내역 조회</a></li>
 									<li ><a id = "getModal" data-toggle="modal" data-target="#exampleModal_1"><i class="fas fa-users-cog navIcons"></i>개인정보 수정</a></li>
 								</ul>
 							</li>

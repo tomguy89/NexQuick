@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.nexquick.model.vo.CSInfo;
 import com.nexquick.model.vo.CallInfo;
 import com.nexquick.model.vo.OnDelivery;
+import com.nexquick.model.vo.OrderInfo;
 import com.nexquick.service.call.CallSelectListService;
 
 @RequestMapping("/list")
@@ -37,6 +38,19 @@ public class CallListController {
 		return "mainPage/main_list";
 	}
 	
+	@RequestMapping("/userAllCallList.do")
+	public String AllCallList(HttpSession session, String csId) {
+		List<OnDelivery> list = callSelectListService.getAllOrderByCsId(csId);
+		session.setAttribute("userAllCallList", list);
+		return "csPage/UserPage"; 
+	}
 	
+	
+	@RequestMapping("/adminAllOrder.do")
+	public String AllCallListForAdmin(HttpSession session) {
+		List<OrderInfo> list = callSelectListService.getAllOrderForAdmin();
+		session.setAttribute("AllOrderForAdmin", list);
+		return "admin/admin_OrderPage"; 
+	}
 	
 }

@@ -53,4 +53,11 @@ public class OrderInfoDAOImpl implements OrderInfoDAO {
 	public List<OnDelivery> onDeliveryCallList(String csId) {
 		return sqlSession.selectList("orderInfo.onDeliveryCallList", csId);
 	}
+
+	@Override
+	public List<OnDelivery> selectAllOrderListByCsId(String csId) {
+		return sqlSession.selectList("orderInfo.allCallList", csId);
+	}
+	
+	
 }

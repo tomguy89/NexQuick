@@ -30,20 +30,38 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/js/bootstrap-datetimepicker.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/css/bootstrap-datetimepicker.min.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/xeicon@2.3.3/xeicon.min.css">
 <script type="text/javascript">
 
-
 	$(function() {
-/* 		document.domain = "70.12.109.171"; */
-		/* document.domain = "http://70.12.109.171/NexQuick/quickApplyPage/quickApply_second.jsp"; */
+		
+		var callNum = <%= request.getSession().getAttribute("callNum")%>;
+		/* 콜넘버 받아와서 그룹배송이 체크안되어있었으면 오더추가 막기 */
+		$.ajax({
+			url : "<%= request.getContextPath() %>/call/getCall.do",
+			data : {
+				callNum : callNum
+			},
+			dataType : "json",
+			method : "POST",
+			success : callInfomation
+		});
+		
+		
+		
+		
 		
 		var totalPrice = 0;
 		/* 단계별 이미지박스 설정.(2단계 : 세번째 그림만 회색으로) */
+    	$("#placeholderImg").attr("src", "<%= request.getContextPath() %>/image/quickApply_img/placeholder_link.png");
     	$("#right_Img_2").attr("src", "<%= request.getContextPath() %>/image/quickApply_img/right_grey.png");
     	$("#completeImg").attr("src", "<%= request.getContextPath() %>/image/quickApply_img/complete_grey.png");
     	$("#completeImgText").css("color", "#d1d1d1");
-		
+    	$("#placeholderImgText").css("color", "#00B7FF");
+    	
+	    $('#placeholderImgText').popover();   
+	
+	
     	$('.carousel').carousel({
     	    interval: false
     	}); 
@@ -51,6 +69,8 @@
     	var dataIndex = 1;
     	var trIndex = 0;
     	var countIndex = 1;
+    	
+    	
     	
     	/* 오더버튼 추가 */
     	$("#addOrderBtn").on("click", function() {
@@ -373,7 +393,9 @@
 			var freightType;
 			var item;
 	  		function addOrders(JSONDocument) {
-	  			alert("도착지 정보가 저장되었습니다. 물품 정보를 설정하세요.");
+	  			alert("도착지 정보가 저장되었습니다. 물품 정보를 설정해야 결제하실 수 있습니다.");
+	  			callNum = JSONDocument.callNum;
+	  			console.log(callNum);
 				$(list).slideDown(2000);
 				$(distance).val(JSONDocument.distance + "KM");
 				$(saveOrder).attr("disabled", "disabled");
@@ -425,6 +447,7 @@
   			var trRemove;
 	  		function addFreights (JSONDocument) {
 	  			/* 옆에 리스트에 추가 */
+	  			alert("물품이 추가되었습니다. 이제 결제하실 수 있습니다. ");
 				$(tableIndex).append(
 					$("<tr>").attr("id", "tr"+trIndex)
 					.append(
@@ -616,7 +639,9 @@
   		var trId;
   		var trRemove;
   		function addOrder(JSONDocument) {
-  			alert("도착지 정보가 저장되었습니다. 물품 정보를 설정하세요.");
+  			alert("도착지 정보가 저장되었습니다. 물품 정보를 설정해야 결제할 수 있습니다.");
+  			callNum = JSONDocument.callNum;
+  			console.log(callNum);
   			$("#distance0").val(JSONDocument.distance + "KM");
 			$("#list0").slideDown(2000);
 			$("#saveOrder0").attr("disabled", "disabled");
@@ -650,8 +675,6 @@
 					break;
 				}
 				
-				alert(JSONDocument.orderNum);
-				
 				/* 화물 추가 비동기통신 */
 				$.ajax({
 	   				url : "<%= request.getContextPath() %>/call/addFreight.do",
@@ -659,7 +682,7 @@
 	   					orderNum : JSONDocument.orderNum,
 	   					freightType : freightType,
 	   					freightQuant : $($countId).val(),
-	   					freightDetail : "화물상세"
+	   					freightDetail : $("#quickMemo0").val()
 	   				},
 	   				dataType : "json",
 	   				method : "POST",
@@ -670,6 +693,8 @@
   		};
   		
   		function addFreight(JSONDocument) {
+  			$("#orderNow").attr("data-toggle", "modal").attr("data-target", "#payBox");
+  			alert("물품이 추가되었습니다. 이제 결제하실 수 있습니다. ");
 			$(tableIndex).append(
 				$("<tr>").attr("id", "tr"+trIndex)
 				.append(
@@ -695,7 +720,7 @@
 					)
 				)
 			)
-				trIndex++;
+			trIndex++;
   		}  		
   		
   		function delFreight(JSONDocument) {
@@ -728,11 +753,11 @@
     	
     	
     	$("#orderNow").on("click", function() {
-    		$("#payment").val(totalPrice);
+    		$("#payment").text(totalPrice);
     	});
     	/* 주소 입력 API! */
     	
-    	$("#goToPay").on("click", function() {
+    	$(".goToPay").on("click", function() {
     		
     		IMP.init('imp94690506');
     		
@@ -741,13 +766,12 @@
     		    pay_method : 'card',
     		    merchant_uid : 'merchant_' + new Date().getTime(),
     		    name : 'NexQuick 퀵 결제',
-    		    amount : $("#payment").val(),
+    		    amount : $("#payment").text(),
     		    buyer_email : 'mmk8292@naver.com',
     		    buyer_name : '김민규',
     		    buyer_tel : '010-4940-8292',
     		    buyer_addr : '서울특별시 강남구 강남강남',
-    		    buyer_postcode : '123-456',
-    		    m_redirect_url : '<%=request.getContextPath()%>/quickApplyPage/quickApply_end.jsp'
+    		    buyer_postcode : '123-456'
     		}, function(rsp) {
     		    if ( rsp.success ) {
     		        var msg = '결제가 완료되었습니다.';
@@ -756,7 +780,7 @@
     		        msg += '결제 금액 : ' + rsp.paid_amount;
     		        msg += '카드 승인번호 : ' + rsp.apply_num;
 	    		    alert(msg);
-	    		   	location.href = "./quickApply_end.jsp";
+	    		   	location.href = "<%=request.getContextPath()%>/call/getOrders.do?callNum="+callNum;
     		    } else {
     		        var msg = '결제에 실패하였습니다.';
     		        msg += '에러내용 : ' + rsp.error_msg;
@@ -766,32 +790,7 @@
     		
     	});
     	
-    	
-    	
-    	
-    	
-    	
-    	
-    	
-    	
-    	
-    	
-    	$("#payMethod_1").bind({
-    	})
-    	
-    	
-    	$("#payMethod_2").bind({
-    	})	
-    	
-    	$("#payMethod_3").bind({
-    	})
-    	$("#payMethod_4").bind({
-    	})
-    	$("#payMethod_5").bind({
-    	})
-    	
-    	$("#payMethod_6").bind({
-    	})
+
     	
     	
 	});
@@ -823,7 +822,19 @@
    	} 
     	 	
 	
-	
+	function callInfomation(JSONDocument) {
+		if(JSONDocument.series == 0) { /* 그룹배송이 아닐때 */
+			$("#addOrderBtn").css("display", "none");
+		}
+		$("#placeholderImg")
+		.attr("data-toggle", "modal")
+		.attr("data-target", "#callInfoBox");
+		
+		$("#placeholderImgText")
+		.attr("data-toggle", "popover")
+		.attr("data-content", "Some content inside the popover");
+	}
+
 	
 	
 
@@ -845,9 +856,10 @@
 					도착지 정보
 				</h2>
 			</div>
-			<div class = "col-md-3">
-				<h2 class = "centerBox quickFirstTitle mb-5 text-conceptColor">
+			<div class = "col-md-5">
+				<h2 class = "centerBox quickFirstTitle mb-5 text-conceptColor mr-3">
 					물품 정보
+					<button class = "ColorBorder ml-3" id = "gotoPayTable" data-toggle = "modal" data-target = "#payTable">요금표</button>
 				</h2>
 			</div>
 		</div>
@@ -1005,7 +1017,7 @@
 			
 			<div class = "centerBox mt-5">
 				<!-- <input type = "submit" class = "centerBox"/> -->
-				<button id = "orderNow" type = "button" class = "ColorBorder" data-toggle="modal" data-target="#payBox">주문하기</button>
+				<button id = "orderNow" type = "button" class = "ColorBorder">주문하기</button>
 				<button id = "addOrderBtn" type = "button" class = "ColorBorder">배송지 추가하기</button>
 			</div>
 			
@@ -1024,47 +1036,10 @@
 	</div>
 	
 	
-	
-	<!-- 결제버튼 들어갈곳 -->
-<%-- 	<div class = "col-md-5">
-		<!-- 카드 + 선불 / 카드 + 후불 -->
-		<div class = "row">
-			<button>
-				<img alt="" src="<%= request.getContextPath() %>/image/quickApply_img/credit-card_black.png" width = "50" height = "50"/>
-				<img alt="" src="<%= request.getContextPath() %>/image/quickApply_img/login_black.png" width = "50" height = "50"/>
-			</button>
-			<button>
-				<img alt="" src="<%= request.getContextPath() %>/image/quickApply_img/credit-card_black.png" width = "50" height = "50"/>
-				<img alt="" src="<%= request.getContextPath() %>/image/quickApply_img/logout_black.png" width = "50" height = "50"/>
-			</button>
-		</div>
-		<!-- 현금 + 선불 / 현금 + 후불 -->
-		<div class = "row">
-			<button>
-				<img alt="" src="<%= request.getContextPath() %>/image/quickApply_img/coins-black.png" width = "50" height = "50"/>
-				<img alt="" src="<%= request.getContextPath() %>/image/quickApply_img/login_black.png" width = "50" height = "50"/>
-			</button>
-			<button>
-				<img alt="" src="<%= request.getContextPath() %>/image/quickApply_img/coins-black.png" width = "50" height = "50"/>
-				<img alt="" src="<%= request.getContextPath() %>/image/quickApply_img/logout_black.png" width = "50" height = "50"/>
-			</button>
-		</div>
-		<!-- 입금 + 선불 / 기업 신용결제 -->
-		<div class = "row">
-			<button>
-				<img alt="" src="<%= request.getContextPath() %>/image/quickApply_img/atm-machine_black.png" width = "50" height = "50"/>
-				<img alt="" src="<%= request.getContextPath() %>/image/quickApply_img/login_black.png" width = "50" height = "50"/>
-			</button>
-			<button>
-				<img alt="" src="<%= request.getContextPath() %>/image/quickApply_img/building_black.png" width = "50" height = "50"/>
-				<img alt="" src="<%= request.getContextPath() %>/image/quickApply_img/hand-shake_black.png" width = "50" height = "50"/>
-			</button>
-		</div>
-		
-	</div> --%>
 </div>
 
 <%@ include file = "../footer.jsp" %>
+
 
 
 
@@ -1072,16 +1047,11 @@
   <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h2 class="modal-title centerBox" id="exampleModalCenterTitle">결제</h2>
+        <h2 class="modal-title centerBox" id="exampleModalCenterTitle">결제할 금액 : <span id = "payment"></span></h2>
       </div>
       <div class="modal-body">
-		<input type = "text" id = "payment"/>
-		
-		
+		<div class = "text-conceptColor centerBox">결제 방법을 선택하세요.</div>
 		<!-- 결제버튼 -->
-<div class = "centerBox mb-5">
-	<h6>이동하려면 영역의 아무 곳이나 클릭하세요.</h6>
-</div>
 <section class = "mt-5 section_s">
   <div class="container-fluid">
     <div >
@@ -1090,126 +1060,312 @@
         <div class="col-sm-4">
           <div class="card_s text-center" id = "payMethod_1">
             <div class="title_s">
-              <i class="fas fa-box fa_s" aria-hidden="true"></i>
-              <h2 class = "mt-5">퀵 신청하기</h2>
+              <i class="fas fa-globe fa_s" aria-hidden="true"></i>
+              <h2 class = "mt-5">웹 결제</h2>
             </div>
             <div class = "emptyBox_s mt-3">
-            	
             </div>
-            <div class="option_s">
-              <ul id = "list_1" >
-              <li> <i class="fa_s fa-check" aria-hidden="true"></i> 일괄배송 </li>
-              </ul>
+            <div class = "row">
+            	<div class = "col-md-6">
+		            <button type = "button" id = "web_card" class = "borderColor payBtn goToPay"><i class="fa_s far fa-credit-card"></i> 카드</button>
+            	</div>
+            	<div class = "col-md-6">
+		            <button type = "button" id = "web_sendMoney" class = "borderColor payBtn goToPay"><i class="fa_s xi-bank"></i> 입금</button>
+            	</div>
             </div>
-            <a>이동하기</a>
           </div>
         </div>
         <!-- END Col one -->
         <div class="col-sm-4">
           <div class="card_s text-center" id = "payMethod_2">
             <div class="title_s">
-              <i class="fas fa-box fa_s" aria-hidden="true"></i>
-              <h2 class = "mt-5">퀵 신청하기</h2>
+              <i class="far fa-handshake fa_s" aria-hidden="true"></i>
+              <h2 class = "mt-5">현장결제(선불)</h2>
             </div>
             <div class = "emptyBox_s mt-3">
-            	
             </div>
-            <div class="option_s">
-              <ul id = "list_2">
-              <li> <i class="fa_s fa-check" aria-hidden="true"></i> 일괄배송 </li>
-              </ul>
+            <div class = "row">
+            	<div class = "col-md-6">
+		            <button type = "button" id = "place_first_card" class = "borderColor payBtn"><i class="fa_s far fa-credit-card"></i> 카드</button>
+            	</div>
+            	<div class = "col-md-6">
+		            <button type = "button" id = "place_first_money" class = "borderColor payBtn"><i class="fa_s fas fa-hand-holding-usd"></i> 현금</button>
+            	</div>
             </div>
-            <a>이동하기</a>
           </div>
         </div>
         <!-- END Col two -->
        <div class="col-sm-4">
           <div class="card_s text-center" id = "payMethod_3">
             <div class="title_s">
-              <i class="fas fa-box fa_s" aria-hidden="true"></i>
-              <h2 class = "mt-5">퀵 신청하기</h2>
+              <i class="far fa-handshake fa_s" aria-hidden="true"></i>
+              <h2 class = "mt-5">현장결제(착불)</h2>
             </div>
             <div class = "emptyBox_s mt-3">
             	
             </div>
-            <div class="option_s">
-              <ul id = "list_3">
-              <li> <i class="fa_s fa-check" aria-hidden="true"></i> 일괄배송 </li>
-              </ul>
+            <div class = "row">
+            	<div class = "col-md-6">
+		            <button type = "button" id = "place_last_card" class = "borderColor payBtn"><i class="fa_s far fa-credit-card"></i> 카드</button>
+            	</div>
+            	<div class = "col-md-6">
+		            <button type = "button" id = "place_last_money" class = "borderColor payBtn"><i class="fa_s fas fa-hand-holding-usd"></i> 현금</button>
+            	</div>
             </div>
-            <a>이동하기</a>
           </div>
         </div>
         </div>
         <!-- END Col three -->
-        <div class = "row">
-       <div class="col-sm-4">
-          <div class="card_s text-center" id = "payMethod_4">
-            <div class="title_s">
-              <i class="fas fa-box fa_s" aria-hidden="true"></i>
-              <h2 class = "mt-5">퀵 신청하기</h2>
-            </div>
-            <div class = "emptyBox_s mt-3">
-            	
-            </div>
-            <div class="option_s">
-              <ul id = "list_4" >
-              <li> <i class="fa_s fa-check" aria-hidden="true"></i> 일괄배송 </li>
-              </ul>
-            </div>
-            <a>이동하기</a>
-          </div>
-        </div>
-       <div class="col-sm-4">
-          <div class="card_s text-center" id = "payMethod_5">
-            <div class="title_s">
-              <i class="fas fa-box fa_s" aria-hidden="true"></i>
-              <h2 class = "mt-5">퀵 신청하기</h2>
-            </div>
-            <div class = "emptyBox_s mt-3">
-            	
-            </div>
-            <div class="option_s">
-              <ul id = "list_5" >
-              <li> <i class="fa_s fa-check" aria-hidden="true"></i> 일괄배송 </li>
-              </ul>
-            </div>
-            <a>이동하기</a>
-          </div>
-        </div>
-       <div class="col-sm-4">
-          <div class="card_s text-center" id = "payMethod_6">
-            <div class="title_s">
-              <i class="fas fa-box fa_s" aria-hidden="true"></i>
-              <h2 class = "mt-5">퀵 신청하기</h2>
-            </div>
-            <div class = "emptyBox_s mt-3">
-            	
-            </div>
-            <div class="option_s">
-              <ul id = "list_6">
-              <li> <i class="fa_s fa-check" aria-hidden="true"></i> 일괄배송 </li>
-              </ul>
-            </div>
-            <a>이동하기</a>
-          </div>
-        </div>
+        <div class = "row mt-5">
+     		<div class="col-md-12">
+     		
+     		
+          		<div class="card_s text-center" id = "payMethod_4">
+          		
+          			<div class = "row">
+	          			<div class = "col-md-6 vertical_center">
+			            	<div class="title_s">
+			              		<i class="fas fa-building fa_ss" aria-hidden="true"></i>
+			            	</div>
+	          			</div>
+	            		<div class = "col-md-6">
+		              		<h2 class = "mt-5">신용결제(법인회원 전용)</h2>
+				            <div class = "emptyBox_s mt-3">
+				            </div>
+				           <button type = "button" id = "place_last_card" class = "borderColor payBtn"><i class="fa_s far fa-credit-card"></i> 결제목록에 추가</button>
+				          </div>
+	            		</div>
+          			</div>
+		        </div>
+		      </div>
+		    </div>
+		  </div>
+		</section>
+			
+      </div>
+      <div class="modal-footer centerBox">
+        <button type="button" class="dangerBorder" data-dismiss="modal">취소</button>
       </div>
     </div>
   </div>
-</section>
-		
-		
-		
-		
-		
-		
-		<button id = "goToPay" type = "button">결제하기</button>
-		<span id = "resultSpan">결제하세요.</span>
+</div>
+
+
+
+
+<!-- 방금 신청한 퀵 정보 보여줄 모달 -->
+<div class="modal fade bd-example-modal-lg" id = "callInfoBox" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title centerBox" id="exampleModalCenterTitle">결제할 금액 : <span id = "payment"></span></h2>
       </div>
-      <div class="modal-footer">
+      <div class="modal-body">
+		<div class = "text-conceptColor centerBox">결제 방법을 선택하세요.</div>
+		<!-- 결제버튼 -->
+<section class = "mt-5 section_s">
+  <div class="container-fluid">
+    <div >
+      <div class="row">
+      <!-- 첫번째 -->
+        <div class="col-sm-4">
+          <div class="card_s text-center" id = "payMethod_1">
+            <div class="title_s">
+              <i class="fas fa-globe fa_s" aria-hidden="true"></i>
+              <h2 class = "mt-5">웹 결제</h2>
+            </div>
+            <div class = "emptyBox_s mt-3">
+            </div>
+            <div class = "row">
+            	<div class = "col-md-6">
+		            <button type = "button" id = "web_card" class = "borderColor payBtn goToPay"><i class="fa_s far fa-credit-card"></i> 카드</button>
+            	</div>
+            	<div class = "col-md-6">
+		            <button type = "button" id = "web_sendMoney" class = "borderColor payBtn goToPay"><i class="fa_s xi-bank"></i> 입금</button>
+            	</div>
+            </div>
+          </div>
+        </div>
+        <!-- END Col one -->
+        <div class="col-sm-4">
+          <div class="card_s text-center" id = "payMethod_2">
+            <div class="title_s">
+              <i class="far fa-handshake fa_s" aria-hidden="true"></i>
+              <h2 class = "mt-5">현장결제(선불)</h2>
+            </div>
+            <div class = "emptyBox_s mt-3">
+            </div>
+            <div class = "row">
+            	<div class = "col-md-6">
+		            <button type = "button" id = "place_first_card" class = "borderColor payBtn"><i class="fa_s far fa-credit-card"></i> 카드</button>
+            	</div>
+            	<div class = "col-md-6">
+		            <button type = "button" id = "place_first_money" class = "borderColor payBtn"><i class="fa_s fas fa-hand-holding-usd"></i> 현금</button>
+            	</div>
+            </div>
+          </div>
+        </div>
+        <!-- END Col two -->
+       <div class="col-sm-4">
+          <div class="card_s text-center" id = "payMethod_3">
+            <div class="title_s">
+              <i class="far fa-handshake fa_s" aria-hidden="true"></i>
+              <h2 class = "mt-5">현장결제(착불)</h2>
+            </div>
+            <div class = "emptyBox_s mt-3">
+            	
+            </div>
+            <div class = "row">
+            	<div class = "col-md-6">
+		            <button type = "button" id = "place_last_card" class = "borderColor payBtn"><i class="fa_s far fa-credit-card"></i> 카드</button>
+            	</div>
+            	<div class = "col-md-6">
+		            <button type = "button" id = "place_last_money" class = "borderColor payBtn"><i class="fa_s fas fa-hand-holding-usd"></i> 현금</button>
+            	</div>
+            </div>
+          </div>
+        </div>
+        </div>
+        <!-- END Col three -->
+        <div class = "row mt-5">
+     		<div class="col-md-12">
+     		
+     		
+          		<div class="card_s text-center" id = "payMethod_4">
+          		
+          			<div class = "row">
+	          			<div class = "col-md-6 vertical_center">
+			            	<div class="title_s">
+			              		<i class="fas fa-building fa_ss" aria-hidden="true"></i>
+			            	</div>
+	          			</div>
+	            		<div class = "col-md-6">
+		              		<h2 class = "mt-5">신용결제(법인회원 전용)</h2>
+				            <div class = "emptyBox_s mt-3">
+				            </div>
+				           <button type = "button" id = "place_last_card" class = "borderColor payBtn"><i class="fa_s far fa-credit-card"></i> 결제목록에 추가</button>
+				          </div>
+	            		</div>
+          			</div>
+		        </div>
+		      </div>
+		    </div>
+		  </div>
+		</section>
+			
+      </div>
+      <div class="modal-footer centerBox">
         <button type="button" class="dangerBorder" data-dismiss="modal">취소</button>
-        <button type="button" class="ColorBorder" id = "saveTime" data-dismiss="modal">확인</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<!-- 요금표 보여줄 모달 -->
+<div class="modal fade bd-example-modal-lg" id = "payTable" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title centerBox" id="exampleModalCenterTitle">결제할 금액 : <span id = "payment"></span></h2>
+      </div>
+      <div class="modal-body">
+		<div class = "text-conceptColor centerBox">결제 방법을 선택하세요.</div>
+		<!-- 결제버튼 -->
+<section class = "mt-5 section_s">
+  <div class="container-fluid">
+    <div >
+      <div class="row">
+      <!-- 첫번째 -->
+        <div class="col-sm-4">
+          <div class="card_s text-center" id = "payMethod_1">
+            <div class="title_s">
+              <i class="fas fa-globe fa_s" aria-hidden="true"></i>
+              <h2 class = "mt-5">웹 결제</h2>
+            </div>
+            <div class = "emptyBox_s mt-3">
+            </div>
+            <div class = "row">
+            	<div class = "col-md-6">
+		            <button type = "button" id = "web_card" class = "borderColor payBtn goToPay"><i class="fa_s far fa-credit-card"></i> 카드</button>
+            	</div>
+            	<div class = "col-md-6">
+		            <button type = "button" id = "web_sendMoney" class = "borderColor payBtn goToPay"><i class="fa_s xi-bank"></i> 입금</button>
+            	</div>
+            </div>
+          </div>
+        </div>
+        <!-- END Col one -->
+        <div class="col-sm-4">
+          <div class="card_s text-center" id = "payMethod_2">
+            <div class="title_s">
+              <i class="far fa-handshake fa_s" aria-hidden="true"></i>
+              <h2 class = "mt-5">현장결제(선불)</h2>
+            </div>
+            <div class = "emptyBox_s mt-3">
+            </div>
+            <div class = "row">
+            	<div class = "col-md-6">
+		            <button type = "button" id = "place_first_card" class = "borderColor payBtn"><i class="fa_s far fa-credit-card"></i> 카드</button>
+            	</div>
+            	<div class = "col-md-6">
+		            <button type = "button" id = "place_first_money" class = "borderColor payBtn"><i class="fa_s fas fa-hand-holding-usd"></i> 현금</button>
+            	</div>
+            </div>
+          </div>
+        </div>
+        <!-- END Col two -->
+       <div class="col-sm-4">
+          <div class="card_s text-center" id = "payMethod_3">
+            <div class="title_s">
+              <i class="far fa-handshake fa_s" aria-hidden="true"></i>
+              <h2 class = "mt-5">현장결제(착불)</h2>
+            </div>
+            <div class = "emptyBox_s mt-3">
+            	
+            </div>
+            <div class = "row">
+            	<div class = "col-md-6">
+		            <button type = "button" id = "place_last_card" class = "borderColor payBtn"><i class="fa_s far fa-credit-card"></i> 카드</button>
+            	</div>
+            	<div class = "col-md-6">
+		            <button type = "button" id = "place_last_money" class = "borderColor payBtn"><i class="fa_s fas fa-hand-holding-usd"></i> 현금</button>
+            	</div>
+            </div>
+          </div>
+        </div>
+        </div>
+        <!-- END Col three -->
+        <div class = "row mt-5">
+     		<div class="col-md-12">
+     		
+     		
+          		<div class="card_s text-center" id = "payMethod_4">
+          		
+          			<div class = "row">
+	          			<div class = "col-md-6 vertical_center">
+			            	<div class="title_s">
+			              		<i class="fas fa-building fa_ss" aria-hidden="true"></i>
+			            	</div>
+	          			</div>
+	            		<div class = "col-md-6">
+		              		<h2 class = "mt-5">신용결제(법인회원 전용)</h2>
+				            <div class = "emptyBox_s mt-3">
+				            </div>
+				           <button type = "button" id = "place_last_card" class = "borderColor payBtn"><i class="fa_s far fa-credit-card"></i> 결제목록에 추가</button>
+				          </div>
+	            		</div>
+          			</div>
+		        </div>
+		      </div>
+		    </div>
+		  </div>
+		</section>
+			
+      </div>
+      <div class="modal-footer centerBox">
+        <button type="button" class="dangerBorder" data-dismiss="modal">취소</button>
       </div>
     </div>
   </div>

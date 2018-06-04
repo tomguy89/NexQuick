@@ -57,6 +57,20 @@ public class CallInfo {
 		setReservationTime(reservationTime);
 	}
 	
+	public CallInfo(String csId, String senderName, String senderAddress, String senderPhone, int vehicleType,
+			int urgent, int reserved, int series, String reservationTime) {
+		super();
+		setCsId(csId);
+		setSenderName(senderName);
+		setSenderAddress(senderAddress);
+		setSenderPhone(senderPhone);
+		setVehicleType(vehicleType);
+		setUrgent(urgent);
+		setReserved(reserved);
+		setSeries(series);
+		setReservationTime(reservationTime);
+	}
+	
 	
 	public CallInfo(String csId, String senderName, String senderAddress, String senderPhone, int vehicleType,
 			int totalPrice, int payType, int urgent, int series, int reserved, String reservationTime,

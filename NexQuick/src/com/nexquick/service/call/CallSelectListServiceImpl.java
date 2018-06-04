@@ -58,6 +58,15 @@ public class CallSelectListServiceImpl implements CallSelectListService {
 	}
 	
 	
+	@Override
+	public List<OnDelivery> getAllOrderByCsId(String csId) {
+		return orderInfoDao.selectAllOrderListByCsId(csId);
+	}
+
+	public List<OrderInfo> getAllOrderForAdmin() {
+		return orderInfoDao.selectOrderList();
+	}
+	
 	
 	
 }

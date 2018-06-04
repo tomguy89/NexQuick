@@ -58,4 +58,6 @@ public interface OrderInfoDAO {
 
 	List<OnDelivery> onDeliveryCallList(String csId);
 	
+	List<OnDelivery> selectAllOrderListByCsId(String csId);
+	
 }
