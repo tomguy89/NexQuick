@@ -85,16 +85,17 @@ public class CallMangementController {
 	 */
 	@RequestMapping("/newCall.do")
 	public @ResponseBody CallInfo newCall(HttpSession session, String senderName, String senderAddress, String senderPhone,
-						  int vehicleType, int urgent, int reserved, String reservationTime) {
+						  int vehicleType, int urgent, int reserved, int series, String reservationTime) {
 		//세션에서 고객 아이디 가져오기
 		String csId = ((CSInfo)session.getAttribute("csInfo")).getCsId();
 		
 		//퀵 신청하기에서 주문자 정보 입력
-		CallInfo callInfo = new CallInfo(csId, senderName, senderAddress, senderPhone, vehicleType, urgent, reserved, "");
+		CallInfo callInfo = new CallInfo(csId, senderName, senderAddress, senderPhone, vehicleType, urgent, reserved, series, "");
 		callManagementService.newCall(callInfo);
 
 		//새로 생성된 콜 주문번호 세션에 저장
 		int callNum = callInfo.getCallNum();
+		session.setAttribute("senderAddress", senderAddress);
 		session.setAttribute("callNum", callNum);
 		session.setAttribute("totalPrice", 0);
 		return callInfo;
@@ -295,4 +296,22 @@ public class CallMangementController {
 			return false;
 		}
 	}
+	
+//	콜번호로 오더들 조회
+	@RequestMapping("/getOrders.do")
+	public String orderListByCallNum(HttpSession session, int callNum) {
+		List<OrderInfo> list = callSelectListService.orderInfoList(callNum);
+		session.setAttribute("ordersByCall", list);
+		CallInfo callInfo = callSelectListService.selectCallInfo(callNum);
+		session.setAttribute("getCallByCallNum", callInfo);
+		return "quickApplyPage/quickApply_end";
+	}
+	
+
+//	콜번호로 콜 조회
+	@RequestMapping("/getCall.do")
+	public @ResponseBody CallInfo callInfoByCallId(int callNum) {
+		return callSelectListService.selectCallInfo(callNum);
+	}
+	
 }

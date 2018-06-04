@@ -73,5 +73,13 @@
 		and isGet = 0
 		order by callTime
 	</select>
+	
+	<select id="allCallList" parameterType="String" resultType="OnDelivery">
+		select c.callNum, orderNum, callTime, senderAddress, receiverAddress,	orderPrice, deliveryStatus 
+		from orderInfo o, callInfo c
+		where c.callNum = o.callNum
+		and csId = #{csId}
+		order by callTime
+	</select>
 </mapper>
 
