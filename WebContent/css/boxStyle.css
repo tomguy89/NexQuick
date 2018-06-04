@@ -1,4 +1,4 @@
-section {
+.section {
   width: 100%;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
@@ -81,3 +81,92 @@ section {
 .emptyBox {
 	height: 60px;
 }
+
+
+
+
+
+
+.section_s {
+  width: 100%;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+.card_s {
+  position: relative;
+  max-width: 200px;
+  height: auto;
+  background: #34495e;
+  border-radius: 15px;
+  margin: 0 auto;
+  padding: 10px 20px;
+  -webkit-box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+  -webkit-transition: 0.5s;
+  transition: 0.5s;
+}
+.card_s:hover {
+  -webkit-transform: scale(1.1);
+  transform: scale(1.1);
+  
+}
+
+.title_s .fa_s {
+  color: #fff;
+  font-size: 20px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  text-align: center;
+  line-height: 50px;
+  -webkit-box-shadow: 0 10px 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 10px 10px rgba(0, 0, 0, 0.1);
+}
+.title_s h2 {
+  position: relative;
+  margin: 20px 0 0;
+  padding: 0;
+  color: #fff;
+  font-size: 14px;
+  z-index: 2;
+}
+.option_s {
+  position: relative;
+  z-index: 2;
+}
+.option_s ul {
+  margin: 0;
+  padding: 0;
+}
+.option_s ul li {
+  margin: 0 0 10px;
+  padding: 0;
+  list-style: none;
+  color: #fff;
+  font-size: 10px;
+}
+.card_s a {
+  position: relative;
+  z-index: 2;
+  background: #fff;
+  color: black;
+  width: 150px;
+  height: 40px;
+  line-height: 40px;
+  border-radius: 40px;
+  display: block;
+  text-align: center;
+  margin: 20px auto 0;
+  font-size: 16px;
+  cursor: pointer;
+  -webkit-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+}
+.card_s a:hover {
+  text-decoration: none;
+}
+
+.emptyBox_s {
+	height: 20px;
+}
+

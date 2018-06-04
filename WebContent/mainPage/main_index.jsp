@@ -30,25 +30,46 @@
 <script type="text/javascript">
 $(function() {
 	
-	$("#goToApply").mouseover(function() {
-		$("#list_first").slideDown(400);
-	});
-	$("#goToApply").mouseleave(function() {
-		$("#list_first").slideUp(200);
-	});
-	$("#goToList").mouseover(function() {
-		$("#list_second").slideDown(400);
-	});
-	$("#goToList").mouseleave(function() {
-		$("#list_second").slideUp(200);
-	});
-	$("#goToSetting").mouseover(function() {
-		$("#list_third").slideDown(400);
-	});
-	$("#goToSetting").mouseleave(function() {
-		$("#list_third").slideUp(200);
-	});
+	$("#goToApply").bind({
+		mouseover : function() {
+			var list = $("#list_first");
+			if(!list.is(":animated")) list.slideDown(400);
+		}
+	})
 	
+	$("#goToApply").bind({
+		mouseleave : function() {
+			var list = $("#list_first");
+			if(!list.is(":animated")) list.slideUp(200);
+		}
+	})
+	
+	$("#goToList").bind({
+		mouseover : function() {
+			var list = $("#list_second");
+			if(!list.is(":animated")) list.slideDown(400);
+		}
+	})	
+	
+	$("#goToList").bind({
+		mouseleave : function() {
+			var list = $("#list_second");
+			if(!list.is(":animated")) list.slideUp(200);
+		}
+	})	
+	
+	$("#goToSetting").bind({
+		mouseover : function() {
+			var list = $("#list_third");
+			if(!list.is(":animated")) list.slideDown(400);
+		}
+	})
+	$("#goToSetting").bind({
+		mouseleave : function() {
+			var list = $("#list_third");
+			if(!list.is(":animated")) list.slideUp(200);
+		}
+	})
 	
 	$("#goToApply").on("click", function() {
 		location.href="<%= request.getContextPath() %>/quickApplyPage/quickApply_first.jsp";
@@ -80,7 +101,7 @@ $(function() {
 <div class = "centerBox mb-5">
 	<h6>이동하려면 영역의 아무 곳이나 클릭하세요.</h6>
 </div>
-<section class = "mt-5">
+<section class = "mt-5 section">
   <div class="container-fluid">
     <div class="container">
       <div class="row">

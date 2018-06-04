@@ -23,6 +23,7 @@
 <link rel="stylesheet" type="text/css" href="<%= request.getContextPath() %>/css/checkBoxstyle.css">
 <link rel="stylesheet" type="text/css" href="<%= request.getContextPath() %>/css/InputBoxStyle.css">
 <link rel="stylesheet" type="text/css" href="<%= request.getContextPath() %>/css/hrStyle.css">
+<link rel="stylesheet" type="text/css" href="<%= request.getContextPath() %>/css/boxStyle.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/momentjs/2.14.1/moment.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
@@ -37,7 +38,7 @@
 /* 		document.domain = "70.12.109.171"; */
 		/* document.domain = "http://70.12.109.171/NexQuick/quickApplyPage/quickApply_second.jsp"; */
 		
-		
+		var totalPrice = 0;
 		/* 단계별 이미지박스 설정.(2단계 : 세번째 그림만 회색으로) */
     	$("#right_Img_2").attr("src", "<%= request.getContextPath() %>/image/quickApply_img/right_grey.png");
     	$("#completeImg").attr("src", "<%= request.getContextPath() %>/image/quickApply_img/complete_grey.png");
@@ -374,11 +375,12 @@
 	  		function addOrders(JSONDocument) {
 	  			alert("도착지 정보가 저장되었습니다. 물품 정보를 설정하세요.");
 				$(list).slideDown(2000);
-				$(distance).val(JSONDocument.distance);
+				$(distance).val(JSONDocument.distance + "KM");
 				$(saveOrder).attr("disabled", "disabled");
 				$(saveText).text(" 도착지 정보 저장됨");
 				$(saveIcon).removeClass("far").addClass("fas");
 				saveFreight = "#saveFreight"+realId;
+				totalPrice = totalPrice + JSONDocument.orderPrice;
 				$(saveFreight).on("click", function() {
 					$selectId = "#item"+realId;
 					$countId = "#count"+realId;
@@ -621,6 +623,7 @@
 			$("#saveIcon0").removeClass("far").addClass("fas");
 			$("#saveText0").text(" 도착지 정보 저장됨");
 			
+			totalPrice = totalPrice + JSONDocument.orderPrice;
 			
 			/* 첫 버튼 기능등록 */
 	    	$("#saveFreight0").on("click", function() {
@@ -724,10 +727,13 @@
     	
     	
     	
-    	
+    	$("#orderNow").on("click", function() {
+    		$("#payment").val(totalPrice);
+    	});
     	/* 주소 입력 API! */
     	
     	$("#goToPay").on("click", function() {
+    		
     		IMP.init('imp94690506');
     		
     		IMP.request_pay({
@@ -762,6 +768,30 @@
     	
     	
     	
+    	
+    	
+    	
+    	
+    	
+    	
+    	
+    	
+    	$("#payMethod_1").bind({
+    	})
+    	
+    	
+    	$("#payMethod_2").bind({
+    	})	
+    	
+    	$("#payMethod_3").bind({
+    	})
+    	$("#payMethod_4").bind({
+    	})
+    	$("#payMethod_5").bind({
+    	})
+    	
+    	$("#payMethod_6").bind({
+    	})
     	
     	
 	});
@@ -1042,10 +1072,138 @@
   <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h2 class="modal-title centerBox" id="exampleModalCenterTitle">주소 찾기</h2>
+        <h2 class="modal-title centerBox" id="exampleModalCenterTitle">결제</h2>
       </div>
       <div class="modal-body">
-		<input id = "payment" val = "10"/>
+		<input type = "text" id = "payment"/>
+		
+		
+		<!-- 결제버튼 -->
+<div class = "centerBox mb-5">
+	<h6>이동하려면 영역의 아무 곳이나 클릭하세요.</h6>
+</div>
+<section class = "mt-5 section_s">
+  <div class="container-fluid">
+    <div >
+      <div class="row">
+      <!-- 첫번째 -->
+        <div class="col-sm-4">
+          <div class="card_s text-center" id = "payMethod_1">
+            <div class="title_s">
+              <i class="fas fa-box fa_s" aria-hidden="true"></i>
+              <h2 class = "mt-5">퀵 신청하기</h2>
+            </div>
+            <div class = "emptyBox_s mt-3">
+            	
+            </div>
+            <div class="option_s">
+              <ul id = "list_1" >
+              <li> <i class="fa_s fa-check" aria-hidden="true"></i> 일괄배송 </li>
+              </ul>
+            </div>
+            <a>이동하기</a>
+          </div>
+        </div>
+        <!-- END Col one -->
+        <div class="col-sm-4">
+          <div class="card_s text-center" id = "payMethod_2">
+            <div class="title_s">
+              <i class="fas fa-box fa_s" aria-hidden="true"></i>
+              <h2 class = "mt-5">퀵 신청하기</h2>
+            </div>
+            <div class = "emptyBox_s mt-3">
+            	
+            </div>
+            <div class="option_s">
+              <ul id = "list_2">
+              <li> <i class="fa_s fa-check" aria-hidden="true"></i> 일괄배송 </li>
+              </ul>
+            </div>
+            <a>이동하기</a>
+          </div>
+        </div>
+        <!-- END Col two -->
+       <div class="col-sm-4">
+          <div class="card_s text-center" id = "payMethod_3">
+            <div class="title_s">
+              <i class="fas fa-box fa_s" aria-hidden="true"></i>
+              <h2 class = "mt-5">퀵 신청하기</h2>
+            </div>
+            <div class = "emptyBox_s mt-3">
+            	
+            </div>
+            <div class="option_s">
+              <ul id = "list_3">
+              <li> <i class="fa_s fa-check" aria-hidden="true"></i> 일괄배송 </li>
+              </ul>
+            </div>
+            <a>이동하기</a>
+          </div>
+        </div>
+        </div>
+        <!-- END Col three -->
+        <div class = "row">
+       <div class="col-sm-4">
+          <div class="card_s text-center" id = "payMethod_4">
+            <div class="title_s">
+              <i class="fas fa-box fa_s" aria-hidden="true"></i>
+              <h2 class = "mt-5">퀵 신청하기</h2>
+            </div>
+            <div class = "emptyBox_s mt-3">
+            	
+            </div>
+            <div class="option_s">
+              <ul id = "list_4" >
+              <li> <i class="fa_s fa-check" aria-hidden="true"></i> 일괄배송 </li>
+              </ul>
+            </div>
+            <a>이동하기</a>
+          </div>
+        </div>
+       <div class="col-sm-4">
+          <div class="card_s text-center" id = "payMethod_5">
+            <div class="title_s">
+              <i class="fas fa-box fa_s" aria-hidden="true"></i>
+              <h2 class = "mt-5">퀵 신청하기</h2>
+            </div>
+            <div class = "emptyBox_s mt-3">
+            	
+            </div>
+            <div class="option_s">
+              <ul id = "list_5" >
+              <li> <i class="fa_s fa-check" aria-hidden="true"></i> 일괄배송 </li>
+              </ul>
+            </div>
+            <a>이동하기</a>
+          </div>
+        </div>
+       <div class="col-sm-4">
+          <div class="card_s text-center" id = "payMethod_6">
+            <div class="title_s">
+              <i class="fas fa-box fa_s" aria-hidden="true"></i>
+              <h2 class = "mt-5">퀵 신청하기</h2>
+            </div>
+            <div class = "emptyBox_s mt-3">
+            	
+            </div>
+            <div class="option_s">
+              <ul id = "list_6">
+              <li> <i class="fa_s fa-check" aria-hidden="true"></i> 일괄배송 </li>
+              </ul>
+            </div>
+            <a>이동하기</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+		
+		
+		
+		
+		
+		
 		<button id = "goToPay" type = "button">결제하기</button>
 		<span id = "resultSpan">결제하세요.</span>
       </div>

@@ -24,7 +24,6 @@ public class CallListController {
 		this.callSelectListService = callSelectListService;
 	}
 	
-	
 	/**
 	 * 현재 진행중인 오더 목록(배송 완료 전) 가져오기
 	 * @param session
