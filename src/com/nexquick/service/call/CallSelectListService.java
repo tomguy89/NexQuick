@@ -50,4 +50,11 @@ public interface CallSelectListService {
 	List<OnDelivery> onDeliveryCallList(String csId);
 
 	FreightInfo selectFreight(int freightNum);
+	
+	
+	
+	List<OnDelivery> getAllOrderByCsId(String csId);
+	
+	List<OrderInfo> getAllOrderForAdmin();
+	
 }

@@ -120,11 +120,24 @@
     	$("#goNextBtn").on("click", function() {
     		/* 긴급배송 여부를 숫자값으로 표현하기 위해. */
     		var urgent_value;
+    		var group_value;
+    		var reserve_value;
     		if($('input:checkbox[id=urgentBox]').is(":checked")) {
     			urgent_value = 1;
     		} else {
     			urgent_value = 0;
     		}
+    		if($('input:checkbox[id=groupDelivery]').is(":checked")) {
+    			group_value = 1;
+    		} else {
+    			group_value = 0;
+    		}
+    		if($('input:checkbox[id=reserveDelivery]').is(":checked")) {
+    			reserve_value = 1;
+    		} else {
+    			reserve_value = 0;
+    		}
+    		
     		
     		/* 선택한 날짜, 시간 값 가져오기 */
     		console.log($(".table-condensed > tbody > tr > td.active").attr("data-day"));
@@ -139,12 +152,16 @@
 					senderPhone : $("#phone").val(),
 					vehicleType : $("input:radio[name=radio-group]").val(),
 					urgent : urgent_value,
-					reserved : 0, /* 예약배송 여부는 사용 안할것같음 */
-					reservationTime : "22222222" /* 날짜데이터 어떻게 넣을지 확인해야 함 */
+					series : group_value,
+					reserved : reserve_value, /* 예약배송 여부는 사용 안할것같음 */
+					reservationTime : $("#timeInput")+":00" /* 날짜데이터 어떻게 넣을지 확인해야 함 */
 				},
 				dataType : "json",
 				method : "POST",
-				success : gotoNextPage
+				success : gotoNextPage,
+				error : function() {
+					alert("퀵 신청에 오류가 발생했습니다. 다시 작성해주세요.");
+				}
     		}) 
     	});
     	
@@ -318,13 +335,13 @@
 				<img src = "<%= request.getContextPath() %>/image/quickApply_img/motorcycle.png" width = "64" height = "64" id = "motorImg"/>			
 			</div>
 			<div class = "col-md-3 centerBox">
-				<img src = "<%= request.getContextPath() %>/image/quickApply_img/motorcycle.png" width = "64" height = "64" id = "damasImg"/>
+				<img src = "<%= request.getContextPath() %>/image/quickApply_img/damas.png" width = "64" height = "64" id = "damasImg"/>
 			</div>
 			<div class = "col-md-3 centerBox">
-				<img src = "<%= request.getContextPath() %>/image/quickApply_img/motorcycle.png" width = "64" height = "64" id = "laboImg"/>
+				<img src = "<%= request.getContextPath() %>/image/quickApply_img/labo.png" width = "64" height = "64" id = "laboImg"/>
 			</div>
 			<div class = "col-md-3 centerBox">
-				<img src = "<%= request.getContextPath() %>/image/quickApply_img/motorcycle.png" width = "64" height = "64" id = "truckImg"/>
+				<img src = "<%= request.getContextPath() %>/image/quickApply_img/truck.png" width = "64" height = "64" id = "truckImg"/>
 			</div>
 		</div>
 		<!-- radio버튼  -->

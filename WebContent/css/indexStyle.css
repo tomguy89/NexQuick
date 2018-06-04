@@ -3,7 +3,11 @@
 /* 폰트 정의 */
 @font-face {
   font-family: basicFont_oldPicture3;
-  src: url('../fonts/oldPicture_3.ttf');
+  /* src: url('../fonts/oldPicture_3.ttf');
+  src: url('../fonts/oldPicture_4.ttf'); */
+   /* src: url('../fonts/basicFont.otf'); */ 
+  /* src: url('../fonts/basicFont_B.otf'); */
+  src: url('../fonts/basicFont_M.otf');
 }
 
 ol > li {
@@ -17,6 +21,11 @@ ol > li {
 
 .textArea {
 	width: 60%;
+}
+
+.payBtn {
+	width: 100%!important;
+	font-size: 12px!important;
 }
 
 .vertical_center {
@@ -70,6 +79,15 @@ ol > li {
 	width: 60%!important;
 }
 
+.table100 {
+	width: 80%!important;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.col_100 {
+	padding : 10px 20px;
+}
 
 .hover_table:hover {
 	background-color : #e03e9c;

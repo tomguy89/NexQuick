@@ -1,7 +1,10 @@
 package com.nexquick.service.call;
 
+import java.util.List;
+
 import com.nexquick.model.vo.CallInfo;
 import com.nexquick.model.vo.FreightInfo;
+import com.nexquick.model.vo.OnDelivery;
 import com.nexquick.model.vo.OrderInfo;
 
 /**
@@ -79,5 +82,6 @@ public interface CallManagementService {
 	 * 하루 이상 지난 미완료 콜을 삭제
 	 */
 	void delPastCall();
+	
 
 }
