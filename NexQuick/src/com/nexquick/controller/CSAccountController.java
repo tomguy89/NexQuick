@@ -98,6 +98,7 @@ public class CSAccountController {
 	 */
 	@RequestMapping("/csIdDuplCheck.do")
 	public @ResponseBody boolean csIdDuplCheck(String csId) {
+		System.out.println(csId);
 		return csAccountService.csIdDuplicateCheck(csId);
 	}
 	
