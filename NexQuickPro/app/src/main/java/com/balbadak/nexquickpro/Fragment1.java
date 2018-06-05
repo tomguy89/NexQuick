@@ -1,6 +1,7 @@
 package com.balbadak.nexquickpro;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -81,6 +82,15 @@ public class Fragment1 extends Fragment {
             Button detailBtn = (Button) v.findViewById(R.id.detailBtn);
 
             dateTextView.setText(dates.get(position));
+
+
+            detailBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(getActivity(), DialogActivity.class);
+                    startActivity(intent);
+                }
+            });
 
             return v;
         }

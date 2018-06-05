@@ -7,7 +7,6 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
@@ -16,6 +15,8 @@ import android.widget.Switch;
 import android.widget.Toast;
 
 import com.tsengvn.typekit.TypekitContextWrapper;
+
+import java.security.Signature;
 
 
 public class  LoginActivity extends AppCompatActivity {
@@ -43,7 +44,7 @@ public class  LoginActivity extends AppCompatActivity {
         autoSwitch = (Switch)findViewById(R.id.autoSwitch);
         loginInfo = getSharedPreferences("setting", 0);
 
-        if(loginInfo!=null && loginInfo.getString("qpPhone", "")!=null && loginInfo.getString("qpPhone", "").length()!=0){
+        if(loginInfo!=null){
             qpPhone = loginInfo.getString("qpPhone", "");
             qpPassword = loginInfo.getString("qpPassword", "");
             signIn();
@@ -109,6 +110,7 @@ public class  LoginActivity extends AppCompatActivity {
         // AsyncTask를 통해 HttpURLConnection 수행.
         NetworkTask networkTask = new NetworkTask(url, values);
         networkTask.execute();
+
     }
 
     @Override

@@ -42,4 +42,11 @@
     <string name="prompt_username">이름</string>
     <string name="prompt_user_phone">전화번호</string>
     <string name="detail">상세보기</string>
+    <string name="prompt_user_account">정산 계좌번호</string>
+    <string name="prompt_lisence">면허증 업로드</string>
+    <string name="prompt_picture">사진 업로드</string>
+    <string name="prompt_bank">은행</string>
+    <string name="quick_detail_title">퀵 상세보기</string>
+    <string name="quick_detail_contents">퀵 상세보기</string>
+    <string name="blank_string">이름을 시와 이름자 별 나는 까닭입니다. 그리고 멀리 책상을 봅니다. 무덤 이름을 그리워 불러 별 없이 덮어 아침이 까닭입니다. 별 릴케 경, 까닭입니다. 언덕 파란 피어나듯이 다 너무나 딴은 지나고 버리었습니다. 멀리 이제 위에 자랑처럼 내린 라이너 남은 계십니다. 언덕 묻힌 내 어머니, 계집애들의 무엇인지 부끄러운 릴케 있습니다. 어머니 이제 피어나듯이 하나에 경, 부끄러운 그리워 시와 어머님, 거외다. 가을로 묻힌 언덕 이국 어머니, 불러 나의 거외다.</string>
 </resources>

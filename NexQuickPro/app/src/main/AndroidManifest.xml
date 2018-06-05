@@ -45,7 +45,12 @@
             android:name="com.kakao.sdk.AppKey"
             android:value="aa50824339a1434072f8e7522d94aa54" />
 
-        <activity android:name=".KeyHashActivity"></activity>
+        <activity
+            android:name=".KeyHashActivity"
+            android:theme="@style/DialogTheme" />
+        <activity
+            android:name=".DialogActivity"
+            android:theme="@style/DialogTheme" />
     </application>
 
 </manifest>
