@@ -1,6 +1,7 @@
 package com.balbadak.nexquickapplication;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -31,6 +32,16 @@ public class Fragment3 extends Fragment {
             }
         });
 
+        Button pay1 = (Button) view.findViewById(R.id.pay1);
+
+        pay1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent(getActivity(), DialogPayActivity.class);
+                startActivityForResult(intent, 2000);
+            }
+        });
 
         return view;
     }

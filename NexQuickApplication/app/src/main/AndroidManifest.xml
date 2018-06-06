@@ -42,6 +42,24 @@
             android:theme="@style/DialogTheme" />
         <activity android:name=".KeyHashActivity"/>
 
+        <!-- 20180606 18:00 -->
+        <activity
+            android:name=".DialogPayActivity"
+            android:theme="@style/DialogTheme" >
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:scheme="iamporttest" />
+            </intent-filter>
+
+
+        </activity>
+
+
+
     </application>
 
 </manifest>
