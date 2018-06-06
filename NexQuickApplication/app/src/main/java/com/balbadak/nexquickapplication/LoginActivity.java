@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
@@ -15,6 +16,9 @@ import android.widget.Switch;
 import android.widget.Toast;
 
 import com.tsengvn.typekit.TypekitContextWrapper;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class  LoginActivity extends AppCompatActivity {
 
@@ -26,6 +30,7 @@ public class  LoginActivity extends AppCompatActivity {
     Switch autoSwitch;
     private boolean remember;
     private SharedPreferences loginInfo;
+    private SharedPreferences.Editor editor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,9 +46,9 @@ public class  LoginActivity extends AppCompatActivity {
         autoSwitch = (Switch)findViewById(R.id.autoSwitch);
         loginInfo = getSharedPreferences("setting", 0);
 
-        if(loginInfo!=null && loginInfo.getString("csId", "")!=null && loginInfo.getString("csId", "").length()!=0){
-            csId = loginInfo.getString("csId", "");
-            csPassword = loginInfo.getString("csPassword", "");
+        if(loginInfo!=null && loginInfo.getString("rememberId", "")!=null && loginInfo.getString("rememberId", "").length()!=0){
+            csId = loginInfo.getString("rememberId", "");
+            csPassword = loginInfo.getString("rememberPassword", "");
             signIn();
         }
 
@@ -71,14 +76,14 @@ public class  LoginActivity extends AppCompatActivity {
                     return;
                 }
 
-                SharedPreferences.Editor editor = loginInfo.edit();
+                editor = loginInfo.edit();
                 if (remember) {
-                    editor.putString("csId", csId);
-                    editor.putString("csPassword", csPassword);
+                    editor.putString("rememberId", csId);
+                    editor.putString("rememberPassword", csPassword);
                     editor.commit();
                 } else{
-                    editor.remove("csId");
-                    editor.remove("csPassword");
+                    editor.remove("rememberId");
+                    editor.remove("rememberPassword");
                     editor.commit();
                 }
 
@@ -132,15 +137,31 @@ public class  LoginActivity extends AppCompatActivity {
             String result; // 요청 결과를 저장할 변수.
             RequestHttpURLConnection requestHttpURLConnection = new RequestHttpURLConnection();
             result = requestHttpURLConnection.request(url, values); // 해당 URL로 부터 결과물을 얻어온다.
-
             return result;
         }
 
         @Override
         protected void onPostExecute(String s) {
+            String csId = null;
+            String csName = null;
+            String csPhone = null;
             super.onPostExecute(s);
+
             if(s!=null){
-                if(s.equals("true")){
+                try {
+                    JSONObject object = new JSONObject(s);
+                    csId = object.getString("csId");
+                    csName = object.getString("csName");
+                    csPhone = object.getString("csPhone");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                if(csName != null){
+                    editor.putString("csId", csId);
+                    editor.putString("csName", csName);
+                    editor.putString("csPhone", csPhone);
+                    editor.commit();
                     Toast.makeText(context, "로그인 되었습니다.", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(getApplicationContext(), MainMenuActivity.class);
                     startActivity(intent);

@@ -11,6 +11,7 @@
 		<result column="csId" property="csId" />
 		<result column="addressType" property="addressType" />
 		<result column="address" property="address"/>
+		<result column="addrDetail" property="addrDetail"/>
 		<result column="receiverName" property="receiverName"/>
 		<result column="receiverPhone" property="receiverPhone"/>
 		
@@ -20,24 +21,26 @@
  	
  	<insert id="createFavorite" parameterType="FavoriteInfo">
  		insert into favoriteInfo
- 		values(fanumseq,#{csId},#{addressType},#{address},#{receiverName},#{receiverPhone})
+ 		values(fanumseq.nextval,#{csId},#{addressType},#{address},#{addrDetail},#{receiverName},#{receiverPhone})
  	</insert>
  	<select id="selectFavorite" parameterType="int" resultType="FavoriteInfo">
  		select * from favoriteInfo
  		where favoriteId=#{favoriteId}
  	</select><!--	addId로 하나만 -->
- 	<select id="selectFavoriteList" parameterType="Map" resultType="favoriteInfo">
+ 	<select id="selectFavoriteList" parameterType="Map" resultType="FavoriteInfo">
  		select * from favoriteInfo
  		where csId=#{csId}
  		<if test="addressType != 0">
 			and addressType=#{addressType}
 		</if>
  	</select><!-- csId로 리스트 -->
+ 	
  	<update id="updateFavorite" parameterType="FavoriteInfo">
  		update favoriteInfo
  		set addressType=#{addressType},
- 			address=#{address}
- 			receiverName=#{receiverName}
+ 			address=#{address},
+ 			addrDetail=#{addrDetail},
+ 			receiverName=#{receiverName},
  			receiverPhone=#{receiverPhone}
  		where favoriteId=#{favoriteId}
  	</update>

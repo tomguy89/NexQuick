@@ -31,7 +31,7 @@
 		insert into callInfo
 		values(#{callNum},#{csId},null,#{senderName},#{senderAddress},#{senderPhone},
 		#{vehicleType},#{totalPrice},#{payType},#{urgent},#{series},#{reserved},
-		to_date(#{reservationTime},'yyyy/mm/dd hh24:mi'),0,#{payStatus},null)
+		to_date(#{reservationTime},'mm/dd/yyyy hh24:mi'),0,#{payStatus},null)
 		
 		<selectKey keyProperty="callNum" resultType="int" order="BEFORE">
 			SELECT cnumseq.nextval FROM DUAL
@@ -49,6 +49,11 @@
 		and deliveryStatus = 0
 		and sysdate-callTime>1
 		and rownum=1
+	</select><!--csId 와  delivery status = 0으로 -->
+	
+	<select id="selectCallListByCSId" parameterType="String" resultType="CallInfo">
+		select * from callInfo
+		where csId=#{csId}
 	</select><!--csId 와  delivery status = 0으로 -->
 
 	<select id="selectCallListByCondition" parameterType="map" resultType="CallInfo">
