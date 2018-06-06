@@ -39,4 +39,7 @@ public interface FavoriteManagementService {
 	 */
 	List<FavoriteInfo> getDestinationList(String csId);
 
+	
+	boolean saveDestination(FavoriteInfo favInfo);
+	
 }

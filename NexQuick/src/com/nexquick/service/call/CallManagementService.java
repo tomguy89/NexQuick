@@ -83,5 +83,5 @@ public interface CallManagementService {
 	 */
 	void delPastCall();
 	
-
+	List<CallInfo> getCallsByCsId(String csId);
 }

@@ -42,7 +42,7 @@ public class CSAccountController {
 	 * @return JSON ([비동기 통신] 로그인 성공:true / 로그인 실패:false) 
 	 */
 	@RequestMapping("/csSignIn.do")
-	public @ResponseBody boolean csSignIn(String csId, String csPassword, HttpSession session) {
+	public @ResponseBody CSInfo csSignIn(String csId, String csPassword, HttpSession session) {
 		CSInfo csInfo = csAccountService.csSignIn(csId, csPassword);
 		if(csInfo != null) {
 			session.setAttribute("csInfo", csInfo);
@@ -51,9 +51,9 @@ public class CSAccountController {
 				session.setAttribute("callNum", inComplCall.getCallNum());
 				session.setAttribute("totalPrice", inComplCall.getTotalPrice());
 			}
-			return true;
+			return csInfo;
 		}
-		else return false;
+		else return null;
 	}
 	
 	/**
@@ -98,7 +98,6 @@ public class CSAccountController {
 	 */
 	@RequestMapping("/csIdDuplCheck.do")
 	public @ResponseBody boolean csIdDuplCheck(String csId) {
-		System.out.println(csId);
 		return csAccountService.csIdDuplicateCheck(csId);
 	}
 	

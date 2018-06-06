@@ -78,5 +78,8 @@ public class CallManagementServiceImpl implements CallManagementService {
 		callInfoDao.deletePastCalls();
 	}
 
-
+	public List<CallInfo> getCallsByCsId(String csId) {
+		return callInfoDao.selectCallList(csId);
+	}
+	
 }

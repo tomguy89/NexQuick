@@ -14,9 +14,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.nexquick.model.vo.Address;
 import com.nexquick.model.vo.CSInfo;
 import com.nexquick.model.vo.CallInfo;
+import com.nexquick.model.vo.FavoriteInfo;
 import com.nexquick.model.vo.FreightInfo;
 import com.nexquick.model.vo.OrderInfo;
 import com.nexquick.model.vo.QPPosition;
+import com.nexquick.service.account.FavoriteManagementService;
 import com.nexquick.service.account.QPPositionService;
 import com.nexquick.service.call.CallManagementService;
 import com.nexquick.service.call.CallSelectListService;
@@ -32,6 +34,14 @@ import com.nexquick.service.parsing.DistanceCheckService;
 @RequestMapping("/call")
 @Controller
 public class CallMangementController {
+
+	
+	private FavoriteManagementService favoriteManagementService;
+	
+	@Autowired
+	public void setFavoriteManagementService(FavoriteManagementService favoriteManagementService) {
+		this.favoriteManagementService = favoriteManagementService;
+	}
 
 	private CallManagementService callManagementService;
 	@Autowired
@@ -88,9 +98,12 @@ public class CallMangementController {
 						  int vehicleType, int urgent, int reserved, int series, String reservationTime) {
 		//세션에서 고객 아이디 가져오기
 		String csId = ((CSInfo)session.getAttribute("csInfo")).getCsId();
-		
+		System.out.println(reservationTime);
+		if(reserved == 0) {
+			reservationTime = "";
+		}
 		//퀵 신청하기에서 주문자 정보 입력
-		CallInfo callInfo = new CallInfo(csId, senderName, senderAddress, senderPhone, vehicleType, urgent, reserved, series, "");
+		CallInfo callInfo = new CallInfo(csId, senderName, senderAddress, senderPhone, vehicleType, urgent, reserved, series, reservationTime);
 		callManagementService.newCall(callInfo);
 
 		//새로 생성된 콜 주문번호 세션에 저장
@@ -155,9 +168,10 @@ public class CallMangementController {
 		//빈칸 처리
 		if(freightDetail == null || freightDetail.trim().length()==0) freightDetail = null;
 		int price = pricingService.setFreightPrice(freightType, freightQuant);
+		totalPrice += price;
 		FreightInfo freightInfo = new FreightInfo(orderNum, freightType, freightQuant, price, freightDetail);
 		if(callManagementService.addFreight(freightInfo)) {
-			session.setAttribute("totalPrice", totalPrice+price);
+			session.setAttribute("totalPrice", totalPrice);
 			OrderInfo orderInfo = callSelectListService.selectOrder(orderNum);
 			orderInfo.setOrderPrice(orderInfo.getOrderPrice()+price);
 			callManagementService.updateOrder(orderInfo);
@@ -313,5 +327,35 @@ public class CallMangementController {
 	public @ResponseBody CallInfo callInfoByCallId(int callNum) {
 		return callSelectListService.selectCallInfo(callNum);
 	}
+	
+	
+	@RequestMapping("/saveFavorite.do") 
+	public @ResponseBody boolean saveFavorite(HttpSession session, int addressType, String address, String addrDetail, String receiverName, String receiverPhone) {
+		CSInfo csInfo = (CSInfo) session.getAttribute("csInfo"); 
+		String csId = csInfo.getCsId();
+		FavoriteInfo favInfo = new FavoriteInfo(csId, addressType, address, addrDetail, receiverName, receiverPhone);
+		return favoriteManagementService.saveDestination(favInfo);
+	}
+	
+	
+	@RequestMapping("/getFavorite.do")
+	public String favInfoList(HttpSession session) {
+		CSInfo csInfo = (CSInfo) session.getAttribute("csInfo"); 
+		String csId = csInfo.getCsId();
+		List<FavoriteInfo> list = favoriteManagementService.getDestinationList(csId);
+		session.setAttribute("favList", list);
+		return "quickApplyPage/quickApply_second";
+	}
+	
+	
+	@RequestMapping("/getCallsByCsId")
+	public String getCallList(HttpSession session) {
+		CSInfo csInfo = (CSInfo) session.getAttribute("csInfo"); 
+		String csId = csInfo.getCsId();
+		List<CallInfo> list = callManagementService.getCallsByCsId(csId); 
+		session.setAttribute("callListByCsId", list);
+		return "csPage/UserPage";
+	}
+	
 	
 }

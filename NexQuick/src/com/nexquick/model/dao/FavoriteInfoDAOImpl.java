@@ -16,22 +16,22 @@ public class FavoriteInfoDAOImpl implements FavoriteInfoDAO {
 	
 	@Override
 	public boolean createAddress(FavoriteInfo addressInfo) {
-		return sqlSession.insert("addressInfo.createAddress", addressInfo)>0;
+		return sqlSession.insert("favoriteInfo.createFavorite", addressInfo)>0;
 	}
 
 	@Override
 	public boolean updateAddress(FavoriteInfo addressInfo) {
-		return sqlSession.update("addressInfo.updateAddress", addressInfo)>0;
+		return sqlSession.update("favoriteInfo.updateAddress", addressInfo)>0;
 	}
 
 	@Override
 	public boolean deleteAddress(int addId) {
-		return sqlSession.delete("addressInfo.updateAddress", addId)>0;
+		return sqlSession.delete("favoriteInfo.updateAddress", addId)>0;
 	}
 
 	@Override
 	public FavoriteInfo selectAddress(int addId) {
-		return sqlSession.selectOne("addressInfo.selectAddress", addId);
+		return sqlSession.selectOne("favoriteInfo.selectAddress", addId);
 	}
 
 	@Override
@@ -39,7 +39,10 @@ public class FavoriteInfoDAOImpl implements FavoriteInfoDAO {
 		HashMap<String, Object> condition = new HashMap<>();
 		condition.put("csId", csId);
 		condition.put("addressType", addressType);
-		return sqlSession.selectList("addressInfo.selectAddress", condition);
+		return sqlSession.selectList("favoriteInfo.selectFavoriteList", condition);
 	}
 
+	
+	
+	
 }

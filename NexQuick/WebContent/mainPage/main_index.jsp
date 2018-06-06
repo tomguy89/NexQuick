@@ -80,7 +80,7 @@ $(function() {
 	});
 	
 	$("#goToSetting").on("click", function() {
-		location.href="<%= request.getContextPath() %>/mainPage/main_list.jsp";
+		location.href="<%= request.getContextPath() %>/call/getCallsByCsId.do";
 	});
 
 	
@@ -106,6 +106,7 @@ $(function() {
     <div class="container">
       <div class="row">
         <div class="col-sm-4">
+        
           <div class="card text-center" id = "goToApply">
             <div class="title">
               <i class="fas fa-box fa" aria-hidden="true"></i>
@@ -124,6 +125,7 @@ $(function() {
             </div>
             <a>이동하기</a>
           </div>
+          
         </div>
         <!-- END Col one -->
         <div class="col-sm-4">

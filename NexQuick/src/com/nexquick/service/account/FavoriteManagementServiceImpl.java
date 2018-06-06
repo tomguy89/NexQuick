@@ -37,4 +37,10 @@ public class FavoriteManagementServiceImpl implements FavoriteManagementService 
 	public List<FavoriteInfo> getDestinationList(String csId){
 		return addressInfoDao.selectAddressList(csId, 3);
 	}
+	
+	public boolean saveDestination(FavoriteInfo favInfo) {
+		return addressInfoDao.createAddress(favInfo);
+	}
+	
+	
 }

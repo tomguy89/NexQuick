@@ -1,3 +1,5 @@
+<%@ page import = "com.nexquick.model.vo.FavoriteInfo" %>
+<%@ page import = "java.util.*" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -97,7 +99,7 @@
 		    							.append(
 		    								$("<div class = col-md-6>")
 		    								.append(
-		    									$("<button type = button class = ColorBorder><i class='fas fa-download'></i>&nbsp;불러오기</button>").attr("id", "callFavorite"+dataIndex)
+		    									$("<button type = button class = ColorBorder onclick = 'getSaveId(this)'><i class='fas fa-download'></i>&nbsp;불러오기</button>").attr("id", "callFavorite"+dataIndex)
 		    								)
 		    							).append(
 		    								$("<div class = col-md-6>")
@@ -258,6 +260,18 @@
 											$("<span class='field__label text-conceptColor'>거리</span>")
 										)
 									)
+								).append(
+									$("<span class = 'text-conceptColor'> 거리 요금 : </span>")
+								).append(
+									$("<label class='field field_animated field_a2 page__field distancePay'>")
+									.append(
+										$("<input type=text class='addressFormSub field__input text-conceptColor' name = 'distancePay' disabled>").attr("id", "distancePay"+dataIndex)
+									).append(
+										$("<span class='field__label-wrap'>")
+										.append(
+											$("<span class='field__label text-conceptColor'>요금</span>")
+										)
+									)
 								)
     						).append(
     							$("<div class = 'row mb-5'>")
@@ -335,6 +349,7 @@
 			var list = "#list"+dataIndex;
 			var quickMemo = "#quickMemo"+dataIndex;
 			var distance = "#distance"+dataIndex;
+			var distancePay = "#distancePay"+dataIndex;
 			var saveFreight;
 	 		$(addressDetail).keyup(function() {
 	  			if(/* $("#address0").val().trim().length != 0 && */ $(addressDetail).val() != ""
@@ -393,7 +408,22 @@
 			var freightType;
 			var item;
 	  		function addOrders(JSONDocument) {
-	  			alert("도착지 정보가 저장되었습니다. 물품 정보를 설정해야 결제하실 수 있습니다.");
+	  			var result = confirm("도착지 정보가 저장되었습니다. 즐겨찾기에 저장할까요?");
+	  			if (result) {
+	  				$.ajax({
+		  				url : "<%= request.getContextPath() %>/call/saveFavorite.do",
+		   				data : {
+		   					addressType : 3,
+		   					address : $(address).val(),
+		   					addrDetail : $(addressDetail).val(),
+		   					receiverName : $(userNameApply).val(),
+		   					receiverPhone : $(phone).val()
+		   				},
+		   				dataType : "json",
+		   				method : "POST",
+		   				success : addFavorites
+	  				});
+	  			}
 	  			callNum = JSONDocument.callNum;
 	  			console.log(callNum);
 				$(list).slideDown(2000);
@@ -403,6 +433,7 @@
 				$(saveIcon).removeClass("far").addClass("fas");
 				saveFreight = "#saveFreight"+realId;
 				totalPrice = totalPrice + JSONDocument.orderPrice;
+				$(distancePay).val(JSONDocument.orderPrice + "원");
 				$(saveFreight).on("click", function() {
 					$selectId = "#item"+realId;
 					$countId = "#count"+realId;
@@ -443,11 +474,18 @@
 				});
 	  		}
 	  		
+	  		function addFavorites(JSONDocument) {
+	  			if(JSONDocument) {
+	  	   			$(saveFavorite).attr("checked", "checked").attr("disabled", "disabled");
+	  	   		}	
+	  		}
+	  		
   			var trId;
   			var trRemove;
 	  		function addFreights (JSONDocument) {
 	  			/* 옆에 리스트에 추가 */
 	  			alert("물품이 추가되었습니다. 이제 결제하실 수 있습니다. ");
+	  			totalPrice += JSONDocument.freightPrice;
 				$(tableIndex).append(
 					$("<tr>").attr("id", "tr"+trIndex)
 					.append(
@@ -597,16 +635,7 @@
 			 }
   		});
   		
-  		/* 첫번째 즐겨찾기 */
-  		$("#saveFavorite0").on("click", function() {
-  			console.log("즐겨찾기에 저장됨");
-  			/* 즐겨찾기 데이터 보내서 DB에 저장하는 비동기통신 */
-  			$.ajax({
-  				
-  			});
-  			
-  		});
-  		
+
   		
   		
   		/* 첫번째 오더의 주문 저장. */
@@ -639,7 +668,22 @@
   		var trId;
   		var trRemove;
   		function addOrder(JSONDocument) {
-  			alert("도착지 정보가 저장되었습니다. 물품 정보를 설정해야 결제할 수 있습니다.");
+  			var result = confirm("도착지 정보가 저장되었습니다. 즐겨찾기에 저장할까요?");
+  			if (result) {
+  				$.ajax({
+	  				url : "<%= request.getContextPath() %>/call/saveFavorite.do",
+	   				data : {
+	   					addressType : 3,
+	   					address : $("#address0").val(),
+	   					addrDetail : $("#addressDetail0").val(),
+	   					receiverName : $("#userNameApply0").val(),
+	   					receiverPhone : $("#phone0").val()
+	   				},
+	   				dataType : "json",
+	   				method : "POST",
+	   				success : addFavorite
+  				});
+  			}
   			callNum = JSONDocument.callNum;
   			console.log(callNum);
   			$("#distance0").val(JSONDocument.distance + "KM");
@@ -650,12 +694,15 @@
 			
 			totalPrice = totalPrice + JSONDocument.orderPrice;
 			
+			$("#distancePay0").val(JSONDocument.orderPrice + "원");
+			
 			/* 첫 버튼 기능등록 */
 	    	$("#saveFreight0").on("click", function() {
 				btnId = $(this).attr("id").substring(11);
 				$selectId = "#item0";
 				$countId = "#count0";
 				tableIndex = "table#table"+btnId+" > tbody";
+				
 				switch($($selectId).val().substring(0,1)) {
 				case 'd':
 					item = "서류";
@@ -695,6 +742,7 @@
   		function addFreight(JSONDocument) {
   			$("#orderNow").attr("data-toggle", "modal").attr("data-target", "#payBox");
   			alert("물품이 추가되었습니다. 이제 결제하실 수 있습니다. ");
+  			totalPrice += JSONDocument.freightPrice;
 			$(tableIndex).append(
 				$("<tr>").attr("id", "tr"+trIndex)
 				.append(
@@ -731,15 +779,11 @@
   		}
   		
   		
-  		$("#callFavorite0").on("click", function() {
-  			/* 즐겨찾기 불러오기 비동기통신 */
-  			$.ajax({
-  				
-  			});
-  			
-  		});
+
   		
-    	 
+  		
+  		
+  		
    		$('#deleteOrder0').popover();
    		
     	$("#deleteOrder0").mouseenter(function() {
@@ -790,7 +834,7 @@
     		
     	});
     	
-
+    	$("#placeholderImgText").popover('show');
     	
     	
 	});
@@ -803,8 +847,6 @@
    	    var pop = window.open("<%=request.getContextPath()%>/jusoPopup.jsp","pop","width=570,height=420, scrollbars=yes, resizable=yes");
    		btnId = $(buttonId).attr("id");
    		btn_real = btnId.substring(7);
-   		// 모바일 웹인 경우, 호출된 페이지(jusopopup.jsp)에서 실제 주소검색URL(http://www.juso.go.kr/addrlink/addrMobileLinkUrl.do)를 호출하게 됩니다.
-   	    //var pop = window.open("/popup/jusoPopup.jsp","pop","scrollbars=yes, resizable=yes"); 
    	}
    	/** API 서비스 제공항목 확대 (2017.02) **/
    	function jusoCallBack(roadFullAddr,roadAddrPart1,addrDetail,roadAddrPart2,engAddr, jibunAddr, zipNo, admCd, rnMgtSn, bdMgtSn
@@ -814,14 +856,15 @@
    		var addressDetail = "#addressDetail" + btn_real;
    		$(address).val(roadAddrPart1);
    		$(addressDetail).val(addrDetail);
-   		/* $(addressDetailId).val(roadAddrPart2); */
-   		/* document.form.roadAddrPart1.value = roadAddrPart1;
-   		document.form.roadAddrPart2.value = roadAddrPart2;
-   		document.form.addrDetail.value = addrDetail;
-   		document.form.zipNo.value = zipNo; */
    	} 
-    	 	
-	
+
+   	function addFavorite(JSONDocument) {
+   		if(JSONDocument) {
+   			$("#saveFavorite0").attr("checked", "checked").attr("disabled", "disabled");
+   		}	
+   	}
+   	
+	/* 콜정보 받아와서 모달에 데이터 입력 */
 	function callInfomation(JSONDocument) {
 		if(JSONDocument.series == 0) { /* 그룹배송이 아닐때 */
 			$("#addOrderBtn").css("display", "none");
@@ -831,13 +874,84 @@
 		.attr("data-target", "#callInfoBox");
 		
 		$("#placeholderImgText")
+		.attr("data-container", "body")
 		.attr("data-toggle", "popover")
-		.attr("data-content", "Some content inside the popover");
+		.attr("data-placement", "bottom")
+		.attr("data-content", "그림 클릭 시 기본정보를 확인할 수 있습니다.");
+		
+		
+		$("#placeholderImgText").popover('show');
+		setTimeout(function() {
+	        $('#placeholderImgText').popover('hide');
+	    }, 2000);
+		
+		$("#callInfo1").val(JSONDocument.senderAddress);
+		$("#callInfo2").val(JSONDocument.senderName);
+		$("#callInfo3").val(JSONDocument.senderPhone);
+		if(JSONDocument.urgent == 1) {
+			$("#urgentBox").attr("checked", "checked");
+		}
+		if(JSONDocument.series == 1) {
+			$("#groupDelivery").attr("checked", "checked");
+		}
+		if(JSONDocument.reserved == 1) {
+			$("#reserveDelivery").attr("checked", "checked");
+			$("#timeInputBox").slideDown();
+			$("#callInfo4").val(JSONDocument.reservationTime);
+		}
+		
+		switch(JSONDocument.vehicleType) {
+		case 1:
+			$("#motorcycle").attr("checked", "checked");
+			break;
+		case 2:
+			$("#damas").attr("checked", "checked");
+			break;
+		case 3:
+			$("#labo").attr("checked", "checked");
+			break;
+		case 4:
+			$("#truck").attr("checked", "checked");
+			break;
+		}
 	}
 
 	
+	function getSaveId(saveId) {
+  		$("#favList").modal("show");
+  		$(".favBtn").on("click", function() {
+  			var formId = saveId.id.substring(12);
+  			var favListId = this.id.substring(6);
+  			var userName = "#userNameApply"+formId;
+  			var userPhone = "#phone"+formId;
+  			var userAddress = "#address"+formId;
+  			var userAddrDetail = "#addressDetail"+formId;
+  			var tdAddress = "#tdAddress"+favListId;
+  			var tdAddressDetail = "#tdAddressDetail"+favListId;
+  			var tdName = "#tdName"+favListId;
+  			var tdPhone = "#tdPhone"+favListId;
+  			
+  			$(userName).val($(tdName).text());
+  			$(userAddress).val($(tdAddress).text());
+  			$(userAddrDetail).val($(tdAddressDetail).text());
+  			$(userPhone).val($(tdPhone).text());
+  			console.log("zz");
+  		});
+  		
+  		
+	}
 	
-
+/* 	
+	function insertAddress(btnId) {
+		console.log(btnId.id);
+		var Id = btnId.id.substring(6);
+		$("#userNameApply0").val(),
+		$("#address0").val() + " " + $("#addressDetail0").val(),
+		$("#phone0").val(),
+		$("#quickMemo0").val()
+	}
+	
+ */
 </script>
 
 
@@ -886,7 +1000,7 @@
 				  			
 				  			<div class = "row">
 				  				<div class = "col-md-6">
-				  					<button type = "button" id = "callFavorite0" class = "ColorBorder"><i class="fas fa-download"></i>&nbsp;불러오기</button>
+				  					<button type = "button" id = "callFavorite0" onclick = "getSaveId(this)" class = "ColorBorder"><i class="fas fa-download"></i>&nbsp;불러오기</button>
 				  				</div>
 								<div class = "col-md-6">
 								  	<label class="label font_1em paddingZero">
@@ -974,11 +1088,20 @@
 						<!-- 리스트 목록 나옴 -->
 						<div class = "col-md-5" style = "display : none;" id = "list0">
 							<div class = "centerBox">
+
 								<span class = "text-conceptColor"> 배송 거리 : </span>
 								<label class="field field_animated field_a2 page__field distance">
 							      <input type="text" class="addressFormSub field__input text-conceptColor" name = "distance" id="distance0" disabled>
 							      <span class="field__label-wrap">
 							        <span class="field__label text-conceptColor">거리</span>
+							      </span>
+							    </label>
+							       
+								<span class = "text-conceptColor"> 거리 요금 : </span>
+								<label class="field field_animated field_a2 page__field pay">
+							      <input type="text" class="addressFormSub field__input text-conceptColor" name = "distancePay" id="distancePay0" disabled>
+							      <span class="field__label-wrap">
+							        <span class="field__label text-conceptColor">요금</span>
 							      </span>
 							    </label>   
 							</div>
@@ -1158,104 +1281,119 @@
   <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h2 class="modal-title centerBox" id="exampleModalCenterTitle">결제할 금액 : <span id = "payment"></span></h2>
+        <h2 class="modal-title centerBox" id="exampleModalCenterTitle">출발지 정보</h2>
       </div>
-      <div class="modal-body">
-		<div class = "text-conceptColor centerBox">결제 방법을 선택하세요.</div>
-		<!-- 결제버튼 -->
-<section class = "mt-5 section_s">
-  <div class="container-fluid">
-    <div >
-      <div class="row">
-      <!-- 첫번째 -->
-        <div class="col-sm-4">
-          <div class="card_s text-center" id = "payMethod_1">
-            <div class="title_s">
-              <i class="fas fa-globe fa_s" aria-hidden="true"></i>
-              <h2 class = "mt-5">웹 결제</h2>
-            </div>
-            <div class = "emptyBox_s mt-3">
-            </div>
-            <div class = "row">
-            	<div class = "col-md-6">
-		            <button type = "button" id = "web_card" class = "borderColor payBtn goToPay"><i class="fa_s far fa-credit-card"></i> 카드</button>
-            	</div>
-            	<div class = "col-md-6">
-		            <button type = "button" id = "web_sendMoney" class = "borderColor payBtn goToPay"><i class="fa_s xi-bank"></i> 입금</button>
-            	</div>
-            </div>
-          </div>
-        </div>
-        <!-- END Col one -->
-        <div class="col-sm-4">
-          <div class="card_s text-center" id = "payMethod_2">
-            <div class="title_s">
-              <i class="far fa-handshake fa_s" aria-hidden="true"></i>
-              <h2 class = "mt-5">현장결제(선불)</h2>
-            </div>
-            <div class = "emptyBox_s mt-3">
-            </div>
-            <div class = "row">
-            	<div class = "col-md-6">
-		            <button type = "button" id = "place_first_card" class = "borderColor payBtn"><i class="fa_s far fa-credit-card"></i> 카드</button>
-            	</div>
-            	<div class = "col-md-6">
-		            <button type = "button" id = "place_first_money" class = "borderColor payBtn"><i class="fa_s fas fa-hand-holding-usd"></i> 현금</button>
-            	</div>
-            </div>
-          </div>
-        </div>
-        <!-- END Col two -->
-       <div class="col-sm-4">
-          <div class="card_s text-center" id = "payMethod_3">
-            <div class="title_s">
-              <i class="far fa-handshake fa_s" aria-hidden="true"></i>
-              <h2 class = "mt-5">현장결제(착불)</h2>
-            </div>
-            <div class = "emptyBox_s mt-3">
-            	
-            </div>
-            <div class = "row">
-            	<div class = "col-md-6">
-		            <button type = "button" id = "place_last_card" class = "borderColor payBtn"><i class="fa_s far fa-credit-card"></i> 카드</button>
-            	</div>
-            	<div class = "col-md-6">
-		            <button type = "button" id = "place_last_money" class = "borderColor payBtn"><i class="fa_s fas fa-hand-holding-usd"></i> 현금</button>
-            	</div>
-            </div>
-          </div>
-        </div>
-        </div>
-        <!-- END Col three -->
-        <div class = "row mt-5">
-     		<div class="col-md-12">
-     		
-     		
-          		<div class="card_s text-center" id = "payMethod_4">
-          		
-          			<div class = "row">
-	          			<div class = "col-md-6 vertical_center">
-			            	<div class="title_s">
-			              		<i class="fas fa-building fa_ss" aria-hidden="true"></i>
-			            	</div>
-	          			</div>
-	            		<div class = "col-md-6">
-		              		<h2 class = "mt-5">신용결제(법인회원 전용)</h2>
-				            <div class = "emptyBox_s mt-3">
-				            </div>
-				           <button type = "button" id = "place_last_card" class = "borderColor payBtn"><i class="fa_s far fa-credit-card"></i> 결제목록에 추가</button>
-				          </div>
-	            		</div>
-          			</div>
-		        </div>
-		      </div>
-		    </div>
-		  </div>
-		</section>
+      <div class="modal-body mt-5">
+		
+		<!-- 출발지 -->
+		<div class="group">      
+	      <input class = "inputDesign" type="text" id = "callInfo1" disabled>
+	      <span class="highlight"></span>
+	      <span class="bar"></span>
+	      <label class = "labelDesign"><i class = "fas fa-street-view"></i> 출발지</label>
+	    </div>
+
+		<!-- 발송인  -->
+		<div class = "row">
+			<div class = "col-md-6">
+				<div class="group">      
+			      <input class = "inputDesign" type="text" id = "callInfo2" disabled>
+			      <span class="highlight"></span>
+			      <span class="bar"></span>
+			      <label class = "labelDesign"><i class = "far fa-user"></i> 발송인</label>
+			    </div>
+			</div>
 			
-      </div>
+			<!-- 연락처 -->
+			<div class = "col-md-6">
+				<div class="group">      
+			      <input class = "inputDesign" type="text" id = "callInfo3" disabled>
+			      <span class="highlight"></span>
+			      <span class="bar"></span>
+			      <label class = "labelDesign"><i class = "fas fa-phone"></i> 발송인 연락처</label>
+			    </div>
+			</div>			
+		</div>
+
+
+		<div class = "urgentBox">
+			<label class="label font_1em paddingZero">
+			    <input  class="label__checkbox" type="checkbox" id = "urgentBox" disabled />
+			    <span class="label__text ">
+			      <span class="label__check">
+			        <i class="fa fa-check icon font_1em"></i>
+			      </span>
+			    </span>
+		  	</label>
+		  	<label for="urgentBox" style = "line-height: 28px; color: #34495e">긴급배송</label>
+		  	
+		  	<label class="label font_1em paddingZero">
+			    <input  class="label__checkbox" type="checkbox" id = "groupDelivery" disabled/>
+			    <span class="label__text">
+			      <span class="label__check ml-5">
+			        <i class="fa fa-check icon font_1em"></i>
+			      </span>
+			    </span>
+		  	</label>
+		  	<label for="groupDelivery" style = "line-height: 28px; color: #34495e">일괄배송</label>
+		  	
+		  	<label class="label font_1em paddingZero">
+			    <input  class="label__checkbox" type="checkbox" id = "reserveDelivery" disabled/>
+			    <span class="label__text">
+			      <span class="label__check ml-5">
+			        <i class="fa fa-check icon font_1em"></i>
+			      </span>
+			    </span>
+		  	</label>
+		  	<label for="reserveDelivery" style = "line-height: 28px; color: #34495e">예약배송</label>
+					  
+		</div>			  	
+		  	
+		<div class="group" id = "timeInputBox" style = "display : none;">      
+	      <input class = "inputDesign" type="text" id = "callInfo4" disabled>
+	      <span class="highlight"></span>
+	      <span class="bar"></span>
+	      <label class = "labelDesign"><i class = "fas fa-street-view"></i> 예약배송 시간 </label>
+   		</div>
+
+<!-- 배송수단 -->
+		<div class = "row mt-5 mb-3">
+			<div class = "col-md-3 centerBox">
+				<img src = "<%= request.getContextPath() %>/image/quickApply_img/motorcycle.png" width = "64" height = "64" id = "motorImg"/>			
+			</div>
+			<div class = "col-md-3 centerBox">
+				<img src = "<%= request.getContextPath() %>/image/quickApply_img/damas.png" width = "64" height = "64" id = "damasImg"/>
+			</div>
+			<div class = "col-md-3 centerBox">
+				<img src = "<%= request.getContextPath() %>/image/quickApply_img/labo.png" width = "64" height = "64" id = "laboImg"/>
+			</div>
+			<div class = "col-md-3 centerBox">
+				<img src = "<%= request.getContextPath() %>/image/quickApply_img/truck.png" width = "64" height = "64" id = "truckImg"/>
+			</div>
+		</div>
+		<!-- radio버튼  -->
+      	<div class = "row mt-4 mb-3">
+      		<div class = "col-md-3 centerBox">
+      		  	<input type="radio" id="motorcycle" name="radio-group" value="1" disabled>
+			    <label for="motorcycle">오토바이</label>
+      		</div>
+      		<div class = "col-md-3 centerBox">
+      		 	<input type="radio" id="damas" name="radio-group" value="2" disabled>
+			    <label for="damas">다마스</label>
+      		</div>
+      		<div class = "col-md-3 centerBox">
+      		  	<input type="radio" id="labo" name="radio-group" value="3" disabled>
+			    <label for="labo">라보</label>
+      		</div>
+      		<div class = "col-md-3 centerBox">
+      		  	<input type="radio" id="truck" name="radio-group" value="4" disabled>
+			    <label for="truck">트럭</label>
+      		</div>
+      	</div>
+			
+      </div> <!-- 모달끝 -->
       <div class="modal-footer centerBox">
-        <button type="button" class="dangerBorder" data-dismiss="modal">취소</button>
+        <button type="button" class="ColorBorder" data-dismiss="modal">확인</button>
       </div>
     </div>
   </div>
@@ -1268,104 +1406,121 @@
   <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h2 class="modal-title centerBox" id="exampleModalCenterTitle">결제할 금액 : <span id = "payment"></span></h2>
+        <h2 class="modal-title centerBox" id="exampleModalCenterTitle">요금표</h2>
       </div>
       <div class="modal-body">
-		<div class = "text-conceptColor centerBox">결제 방법을 선택하세요.</div>
-		<!-- 결제버튼 -->
-<section class = "mt-5 section_s">
-  <div class="container-fluid">
-    <div >
-      <div class="row">
-      <!-- 첫번째 -->
-        <div class="col-sm-4">
-          <div class="card_s text-center" id = "payMethod_1">
-            <div class="title_s">
-              <i class="fas fa-globe fa_s" aria-hidden="true"></i>
-              <h2 class = "mt-5">웹 결제</h2>
-            </div>
-            <div class = "emptyBox_s mt-3">
-            </div>
-            <div class = "row">
-            	<div class = "col-md-6">
-		            <button type = "button" id = "web_card" class = "borderColor payBtn goToPay"><i class="fa_s far fa-credit-card"></i> 카드</button>
-            	</div>
-            	<div class = "col-md-6">
-		            <button type = "button" id = "web_sendMoney" class = "borderColor payBtn goToPay"><i class="fa_s xi-bank"></i> 입금</button>
-            	</div>
-            </div>
-          </div>
-        </div>
-        <!-- END Col one -->
-        <div class="col-sm-4">
-          <div class="card_s text-center" id = "payMethod_2">
-            <div class="title_s">
-              <i class="far fa-handshake fa_s" aria-hidden="true"></i>
-              <h2 class = "mt-5">현장결제(선불)</h2>
-            </div>
-            <div class = "emptyBox_s mt-3">
-            </div>
-            <div class = "row">
-            	<div class = "col-md-6">
-		            <button type = "button" id = "place_first_card" class = "borderColor payBtn"><i class="fa_s far fa-credit-card"></i> 카드</button>
-            	</div>
-            	<div class = "col-md-6">
-		            <button type = "button" id = "place_first_money" class = "borderColor payBtn"><i class="fa_s fas fa-hand-holding-usd"></i> 현금</button>
-            	</div>
-            </div>
-          </div>
-        </div>
-        <!-- END Col two -->
-       <div class="col-sm-4">
-          <div class="card_s text-center" id = "payMethod_3">
-            <div class="title_s">
-              <i class="far fa-handshake fa_s" aria-hidden="true"></i>
-              <h2 class = "mt-5">현장결제(착불)</h2>
-            </div>
-            <div class = "emptyBox_s mt-3">
-            	
-            </div>
-            <div class = "row">
-            	<div class = "col-md-6">
-		            <button type = "button" id = "place_last_card" class = "borderColor payBtn"><i class="fa_s far fa-credit-card"></i> 카드</button>
-            	</div>
-            	<div class = "col-md-6">
-		            <button type = "button" id = "place_last_money" class = "borderColor payBtn"><i class="fa_s fas fa-hand-holding-usd"></i> 현금</button>
-            	</div>
-            </div>
-          </div>
-        </div>
-        </div>
-        <!-- END Col three -->
-        <div class = "row mt-5">
-     		<div class="col-md-12">
-     		
-     		
-          		<div class="card_s text-center" id = "payMethod_4">
-          		
-          			<div class = "row">
-	          			<div class = "col-md-6 vertical_center">
-			            	<div class="title_s">
-			              		<i class="fas fa-building fa_ss" aria-hidden="true"></i>
-			            	</div>
-	          			</div>
-	            		<div class = "col-md-6">
-		              		<h2 class = "mt-5">신용결제(법인회원 전용)</h2>
-				            <div class = "emptyBox_s mt-3">
-				            </div>
-				           <button type = "button" id = "place_last_card" class = "borderColor payBtn"><i class="fa_s far fa-credit-card"></i> 결제목록에 추가</button>
-				          </div>
-	            		</div>
-          			</div>
-		        </div>
-		      </div>
-		    </div>
-		  </div>
-		</section>
-			
+      	
+      	
+<table class="table table1000 table-bordered">
+  <thead class="thead-light">
+    <tr>
+      <th class = "centerBox" scope="col">물품</th>
+      <th class = "centerBox" scope="col">서류</th>
+      <th class = "centerBox" scope="col">박스(소)</th>
+      <th class = "centerBox" scope="col">박스(중)</th>
+      <th class = "centerBox" scope="col">박스(대)</th>
+      <th class = "centerBox" scope="col">음식물</th>
+    </tr>
+  </thead>
+  <tbody class = "centerBox">
+    <tr>
+      <td>기본 개수</td>
+      <td>10개</td>
+      <td>5개</td>
+      <td>2개</td>
+      <td>1개</td>
+      <td>1개</td>
+    </tr>
+    <tr>
+      <td>기본 요금</td>
+      <td colspan = "5" class = "centerBox">무료</td>
+    </tr>
+    <tr>
+      <td>추가 요금</td>
+      <td>500원/개</td>
+      <td>1500원/개</td>
+      <td>3000원/개</td>
+      <td>4500원/개</td>
+      <td>5000원/개</td>
+    </tr>
+  </tbody>
+</table>
+
+
+
+	 <div class = "text-paySize">① 총 요금(<b class = "text-linkColor">거리 30KM 이하</b>) : <b class = "text-conceptColor">3000원(기본 거리요금)</b> + <b class = "text-dangerColor">추가 물품요금</b></div>
+	 <div class = "text-paySize">② 총 요금(<b class = "text-dangerColor">거리 30KM 초과</b>) : <b class = "text-linkColor">((총 거리 - 기본 거리)/10) ^ 2 * 500 원</b> + <b class = "text-conceptColor">3000원(기본 거리요금)</b> + <b class = "text-dangerColor">추가 물품요금</b></div>
+	 <div class = "text-paySize mt-3 ml-5">ex) 50KM, 박스(대) 3개 신청</div>
+	 <div class = "text-paySize mt-2 ml-5">= <b class = "text-linkColor">((50 - 30)/10)^2 * 500</b> + <b class = "text-conceptColor">3000</b> + <b class = "text-dangerColor">(3-1) * 4500원</b> </div>
+	 <div class = "text-paySize mt-2 ml-5">= <b class = "text-linkColor">2 ^ 2 * 500</b> + <b class = "text-conceptColor">3000</b> + <b class = "text-dangerColor">2 * 4500원</b></div>
+	 <div class = "text-paySize mt-2 ml-5">= <b class = "text-conceptColor">14000원</b></div>
+      	
       </div>
       <div class="modal-footer centerBox">
-        <button type="button" class="dangerBorder" data-dismiss="modal">취소</button>
+        <button type="button" class="ColorBorder" data-dismiss="modal">확인</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+<!-- 즐겨찾기 목록 보여줄 모달 -->
+<div class="modal fade bd-example-modal-lg" id = "favList" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title centerBox" id="exampleModalCenterTitle">즐겨찾기 목록</h2>
+      </div>
+      <div class="modal-body">
+   
+   
+   
+         
+<table class="table table1000 table-bordered">
+  <thead class="thead-light">
+    <tr>
+      <th class = "centerBox" scope="col">주소</th>
+      <th class = "centerBox" scope="col">상세주소</th>
+      <th class = "centerBox" scope="col">수령인</th>
+      <th class = "centerBox" scope="col">수령인 연락처</th>
+      <th class = "centerBox" scope="col"></th>
+    </tr>
+  </thead>
+  <tbody class = "centerBox">
+  	<% List<FavoriteInfo> favList = (List<FavoriteInfo>) request.getSession().getAttribute("favList"); 
+      		if(favList == null) {
+    %>
+    <tr>
+    	<td colspan = "4">저장된 즐겨찾기 주소가 없습니다. </td>
+    </tr>
+    <% } else { 
+    	int IDIndex = 0;
+    	for(FavoriteInfo fi : favList) {
+    %>
+    <tr>
+   		<td id = "tdAddress<%= IDIndex %>"><%= fi.getAddress() %></td>
+		<td id = "tdAddressDetail<%= IDIndex %>"><%= fi.getAddrDetail() %></td>
+		<td id = "tdName<%= IDIndex %>"><%= fi.getReceiverName() %></td>
+		<td id = "tdPhone<%= IDIndex %>"><%= fi.getReceiverPhone() %></td>
+		<td><button id = "favBtn<%= IDIndex %>" class = "favBtn">바로 입력하기</button></td>
+    </tr>
+    
+      	<%  IDIndex++; } %>
+   	<% } %>
+   
+  </tbody>
+</table>
+      
+      	
+      	
+	
+      </div>
+      <div class="modal-footer centerBox">
+        <button type="button" class="ColorBorder" data-dismiss="modal">확인</button>
       </div>
     </div>
   </div>

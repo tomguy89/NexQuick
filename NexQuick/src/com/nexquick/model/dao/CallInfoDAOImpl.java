@@ -38,6 +38,11 @@ public class CallInfoDAOImpl implements CallInfoDAO {
 	public CallInfo selectCall(String csId) {
 		return sqlSession.selectOne("callInfo.selectCallByCSId", csId);
 	}
+	
+	@Override
+	public List<CallInfo> selectCallList(String csId) {
+		return sqlSession.selectList("callInfo.selectCallListByCSId", csId);
+	}
 
 	@Override
 	public List<CallInfo> selectCallList() {

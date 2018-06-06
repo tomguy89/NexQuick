@@ -134,15 +134,16 @@
     		}
     		if($('input:checkbox[id=reserveDelivery]').is(":checked")) {
     			reserve_value = 1;
+    			if($("#timeInput").val() == "" || $("#timeInput").val().length == 0) {
+    				alert("시간을 설정해주세요.");
+    				return;
+    			}
     		} else {
     			reserve_value = 0;
     		}
     		
-    		
+			console.log($("input:radio[name=radio-group]:checked").val());    		
     		/* 선택한 날짜, 시간 값 가져오기 */
-    		console.log($(".table-condensed > tbody > tr > td.active").attr("data-day"));
-    		console.log($(".timepicker-hour").text());
-    		console.log($(".timepicker-minute").text());
     		
     		 $.ajax({ 
     			url : "<%= request.getContextPath() %>/call/newCall.do",
@@ -150,11 +151,11 @@
 					senderName : $("#userNameApply").val(),
 					senderAddress : $("#address").val() + " " + $("#addressDetail").val(),
 					senderPhone : $("#phone").val(),
-					vehicleType : $("input:radio[name=radio-group]").val(),
+					vehicleType : $("input:radio[name=radio-group]:checked").val(),
 					urgent : urgent_value,
 					series : group_value,
 					reserved : reserve_value, /* 예약배송 여부는 사용 안할것같음 */
-					reservationTime : $("#timeInput")+":00" /* 날짜데이터 어떻게 넣을지 확인해야 함 */
+					reservationTime : $("#timeInput").val() /* 날짜데이터 어떻게 넣을지 확인해야 함 */
 				},
 				dataType : "json",
 				method : "POST",
@@ -173,7 +174,7 @@
  	
  	function gotoNextPage(JSONDocument) {
  		console.log("비동기통신 완료... 다음 페이지로 이동");
- 		location.href = "./quickApply_second.jsp";
+ 		location.href = "<%=request.getContextPath()%>/call/getFavorite.do";
  		/* 객체를 비동기로 바로 생성하고 시작하면 location.href로 아무것도 가져가지 말고 페이지 이동하면 됨
  			아니라면 데이터 모두 갖고 이동 */
  	}

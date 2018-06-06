@@ -60,6 +60,17 @@ ol > li {
 	margin-top: 0px!important;
 }
 
+.popover {
+	max-width : 300px!important;
+}
+
+.popover.right {
+	width : 400px!important;
+}
+.popover-content {
+	color : #e55b57!important;
+}
+
 .callForm {
 	text-align:  right;
     margin-right: 9.5em;
@@ -433,6 +444,17 @@ span.year:hover, span.month:hover {
 .text-dangerColor {
 	color: #e55b57;
 }
+.text-linkColor {
+	color : rgb(43, 146, 255);
+}
+
+.text-paySize {
+	font-size: 16px;
+}
+
+.inputDesign:disabled {
+	background-color: white;
+}
 
 
 .dangerBorder {
@@ -473,4 +495,11 @@ span.year:hover, span.month:hover {
 	background: #e55b57;
 	transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1);
 0s;
+}
+
+
+.table1000 {
+	width: 100%!important;
+	margin-left: auto;
+	margin-right: auto;
 }

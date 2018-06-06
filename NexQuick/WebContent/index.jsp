@@ -35,7 +35,8 @@
 				},
 				dataType : "json",
 				method : "POST",
-				success : loginFunction
+				success : loginFunction,
+				error : errorFunction
 			});
 		});
 		
@@ -187,10 +188,15 @@
 		}
 	}
 
+	
+	function errorFunction(JSONDocument) {
+		alert("아이디 또는 비밀번호가 틀렸습니다. 다시 확인해주세요.");
+	}
+	
 	/* 로그인 */
 	function loginFunction(JSONDocument) {
 		console.log("로그인 비동기통신 완료");
-		if(JSONDocument) {
+		if(JSONDocument.csId.length != 0) {
 			<% CSInfo csInfo = (CSInfo) request.getSession().getAttribute("csInfo"); %>
 			<% if(csInfo != null) { %>
 				<% if(csInfo.getCsType() == 0) { %>	
@@ -205,10 +211,7 @@
 				console.log("널일때");	
 				location.replace("<%= request.getContextPath() %>/mainPage/main_index.jsp");
 			<% } %>
-		} else {
-			alert("ID 또는 비밀번호가 틀렸습니다.");
-			console.log("로그인 실패");
-		}
+		} 
 		console.log("로그인 비동기통신 끝");
 		
 	}

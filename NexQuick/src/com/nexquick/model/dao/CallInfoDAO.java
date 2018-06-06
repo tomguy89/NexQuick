@@ -65,6 +65,8 @@ public interface CallInfoDAO {
 
 	void deletePastCalls();
 
+	List<CallInfo> selectCallList(String csId);
+
 
 
 	
