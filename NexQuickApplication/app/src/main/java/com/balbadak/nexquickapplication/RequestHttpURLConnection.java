@@ -84,14 +84,14 @@ public class RequestHttpURLConnection {
 
             // 출력물의 라인과 그 합에 대한 변수.
             String line;
-            String page = "";
+            StringBuilder result = new StringBuilder();
 
             // 라인을 받아와 합친다.
             while ((line = reader.readLine()) != null){
-                page += line;
+                result.append(line);
             }
 
-            return page;
+            return result.toString();
 
         } catch (MalformedURLException e) { // for URL.
             e.printStackTrace();
