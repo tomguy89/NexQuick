@@ -8,8 +8,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_margin="10dp">
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/receiverInfo"
@@ -64,7 +63,7 @@
                 android:layout_height="wrap_content"
                 android:background="@color/colorPrimary"
                 android:textColor="#ffffff"
-                android:text="@string/findAddress" />
+                android:text="주소찾기" />
         </LinearLayout>
 
         <EditText
@@ -78,7 +77,7 @@
             android:id="@+id/receiverSaveCbx"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/setFavoriteInfo" />
+            android:text="이 배송지를 즐겨찾기로 저장" />
 
         <TextView
             android:id="@+id/freightInfo"
@@ -147,7 +146,7 @@
                 android:background="@color/colorPrimary"
                 android:layout_gravity="start"
                 android:textColor="#ffffff"
-                android:text="@string/prev" />
+                android:text="이전" />
 
             <Button
                 android:id="@+id/next3p"
@@ -156,7 +155,7 @@
                 android:background="@color/colorPrimary"
                 android:textColor="#ffffff"
                 android:layout_gravity="end"
-                android:text="@string/next" />
+                android:text="다음" />
 
         </LinearLayout>
 

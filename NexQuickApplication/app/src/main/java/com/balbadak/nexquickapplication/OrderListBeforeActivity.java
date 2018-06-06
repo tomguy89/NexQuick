@@ -15,8 +15,6 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.tsengvn.typekit.TypekitContextWrapper;
-
 import java.util.ArrayList;
 
 public class OrderListBeforeActivity extends AppCompatActivity {
@@ -24,14 +22,6 @@ public class OrderListBeforeActivity extends AppCompatActivity {
 
     private Spinner spinner;
     private ListView listView;
-
-    @Override
-    protected void attachBaseContext(Context newBase) {
-        super.attachBaseContext(TypekitContextWrapper.wrap(newBase));
-    }
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
