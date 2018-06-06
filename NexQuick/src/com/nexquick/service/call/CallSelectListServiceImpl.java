@@ -67,6 +67,15 @@ public class CallSelectListServiceImpl implements CallSelectListService {
 		return orderInfoDao.selectOrderList();
 	}
 	
+	@Override
+	public List<CallInfo> selectCallList(String csId, int qpId, int deliveryStatus) {
+		return callInfoDao.selectCallList(csId, qpId, deliveryStatus);
+	}
+
+	@Override
+	public List<OrderInfo> selectOrderListToConfrim(String qpId, String receiverPhone) {
+		return orderInfoDao.selectOrderListToConfrim(qpId,receiverPhone);
+	}
 	
 	
 }

@@ -1,5 +1,6 @@
 package com.nexquick.model.dao;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
@@ -57,6 +58,14 @@ public class OrderInfoDAOImpl implements OrderInfoDAO {
 	@Override
 	public List<OnDelivery> selectAllOrderListByCsId(String csId) {
 		return sqlSession.selectList("orderInfo.allCallList", csId);
+	}
+	
+	@Override
+	public List<OrderInfo> selectOrderListToConfrim(String qpId, String receiverPhone) {
+		HashMap<String, Object> condition = new HashMap<>();
+		condition.put("qpId", qpId);
+		condition.put("receiverPhone", receiverPhone);
+		return sqlSession.selectList("orderInfo.selectOrderListToConfrim", condition);
 	}
 	
 	

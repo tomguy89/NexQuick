@@ -57,4 +57,8 @@ public interface CallSelectListService {
 	
 	List<OrderInfo> getAllOrderForAdmin();
 	
+	List<CallInfo> selectCallList(String csId, int qpId, int deliveryStatus);
+	
+	List<OrderInfo> selectOrderListToConfrim(String qpId, String receiverPhone);
+	
 }

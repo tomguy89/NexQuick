@@ -60,4 +60,6 @@ public interface OrderInfoDAO {
 	
 	List<OnDelivery> selectAllOrderListByCsId(String csId);
 	
+	List<OrderInfo> selectOrderListToConfrim(String qpId, String receiverPhone);
+	
 }

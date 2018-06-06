@@ -64,5 +64,16 @@ public class CallListController {
 		return "admin/admin_OrderPage"; 
 	}
 	
+	@RequestMapping("/confirmCall.do")
+	public @ResponseBody CallInfo selectCallList(String csId, int qpId, int deliveryStatus) {
+		return (CallInfo) callSelectListService.selectCallList(csId, qpId, 2);
+	}
+	
+	@RequestMapping("/confirmOrder.do")
+	public @ResponseBody OrderInfo selectOrderListToConfrim(String qpId, String receiverPhone) {
+		return (OrderInfo) callSelectListService.selectOrderListToConfrim(qpId,receiverPhone);
+	}
+	
+	
 	
 }

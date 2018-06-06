@@ -32,7 +32,6 @@
 		values(#{callNum},#{csId},null,#{senderName},#{senderAddress},#{senderPhone},
 		#{vehicleType},#{totalPrice},#{payType},#{urgent},#{series},#{reserved},
 		to_date(#{reservationTime},'mm/dd/yyyy hh24:mi'),0,#{payStatus},null)
-<<<<<<< HEAD
 		
 		<selectKey keyProperty="callNum" resultType="int" order="BEFORE">
 			SELECT cnumseq.nextval FROM DUAL
@@ -44,8 +43,6 @@
 		values(#{callNum},#{csId},null,#{senderName},#{senderAddress},#{senderPhone},
 		#{vehicleType},#{totalPrice},#{payType},#{urgent},#{series},#{reserved},
 		sysdate,0,#{payStatus},null)
-=======
->>>>>>> f9e7698af8e2f066053b9caa5e50c7a41201d1f2
 		
 		<selectKey keyProperty="callNum" resultType="int" order="BEFORE">
 			SELECT cnumseq.nextval FROM DUAL
