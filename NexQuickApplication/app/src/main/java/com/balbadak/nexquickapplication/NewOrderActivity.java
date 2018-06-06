@@ -1,6 +1,7 @@
 package com.balbadak.nexquickapplication;
 
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -14,12 +15,19 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.tsengvn.typekit.TypekitContextWrapper;
+
 
 public class NewOrderActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
 
     private TabLayout tabLayout;
     private ViewPager viewPager;
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(TypekitContextWrapper.wrap(newBase));
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
