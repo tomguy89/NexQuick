@@ -94,13 +94,13 @@ public class CallMangementController {
 	 * @return JSON (비동기 CallInfo)
 	 */
 	@RequestMapping("/newCall.do")
-	public @ResponseBody CallInfo newCall(HttpSession session, String senderName, String senderAddress, String senderPhone,
+	public @ResponseBody CallInfo newCall(HttpSession session, String senderName, String senderAddress, String senderAddressDetail, String senderPhone,
 						  int vehicleType, int urgent, int reserved, int series, String reservationTime) {
 		//세션에서 고객 아이디 가져오기
 		String csId = ((CSInfo)session.getAttribute("csInfo")).getCsId();
 		System.out.println(reservationTime);
 		//퀵 신청하기에서 주문자 정보 입력
-		CallInfo callInfo = new CallInfo(csId, senderName, senderAddress, senderPhone, vehicleType, urgent, reserved, series, reservationTime);
+		CallInfo callInfo = new CallInfo(csId, senderName, senderAddress, senderAddressDetail, senderPhone, vehicleType, urgent, reserved, series, reservationTime);
 		if(reserved == 0) {
 			reservationTime = "";
 			callInfo.setReservationTime(reservationTime);
@@ -244,7 +244,7 @@ public class CallMangementController {
 	 * @param payStatus
 	 */
 	@RequestMapping("/registCall.do")
-	public void registCall(HttpSession session, int payType, int payStatus) {
+	public @ResponseBody boolean registCall(HttpSession session, int payType, int payStatus) {
 		int callNum = (int)session.getAttribute("callNum");
 		int totalPrice = (int)session.getAttribute("totalPrice");
 		CallInfo callInfo = callSelectListService.selectCallInfo(callNum);
@@ -254,6 +254,24 @@ public class CallMangementController {
 		callInfo.setPayStatus(payStatus);
 		session.removeAttribute("callNum");
 		callManagementService.updateCall(callInfo);
+		return true;
+	}
+	
+	@RequestMapping("/updateCall.do")
+	public @ResponseBody boolean updateCall(HttpSession session, int callNum, String senderName, String senderAddress, String senderAddressDetail, String senderPhone,
+			  int vehicleType, int urgent, int reserved, int series, String reservationTime) {
+		CallInfo callInfo = callSelectListService.selectCallInfo(callNum);
+		callInfo.setSenderName(senderName);
+		callInfo.setReservationTime(reservationTime);
+		callInfo.setSenderAddress(senderAddress);
+		callInfo.setSenderAddressDetail(senderAddressDetail);
+		callInfo.setSenderPhone(senderPhone);
+		callInfo.setVehicleType(vehicleType);
+		callInfo.setUrgent(urgent);
+		callInfo.setReserved(reserved);
+		callInfo.setSeries(series);
+		callManagementService.updateCall(callInfo);
+		return true;
 	}
 	
 	
@@ -375,6 +393,15 @@ public class CallMangementController {
 		String csId = csInfo.getCsId();
 		return callManagementService.getCallsByCsId(csId);
 	}
+	
+	
+//	현재 작성중인 콜(오더가 없는) 이 있다면 불러오기.(최신 1개만)
+	@RequestMapping("/currentCall.do")
+	public @ResponseBody CallInfo selectCall(String csId) {
+		return callSelectListService.selectCallInfo(csId);
+	}
+	
+	
 	
 	
 }

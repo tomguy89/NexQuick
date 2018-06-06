@@ -65,7 +65,7 @@
 	</delete>
 	
 	<select id="onDeliveryCallList" parameterType="String" resultType="OnDelivery">
-		select c.callNum, orderNum, callTime, senderAddress, receiverAddress,	orderPrice, deliveryStatus 
+		select c.callNum, orderNum, callTime, senderAddress, receiverName, receiverAddress, orderPrice, urgent, deliveryStatus 
 		from orderInfo o, callInfo c
 		where c.callNum = o.callNum
 		and csId = #{csId}

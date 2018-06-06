@@ -145,6 +145,7 @@ public class  LoginActivity extends AppCompatActivity {
             String csId = null;
             String csName = null;
             String csPhone = null;
+            int csType = 0;
             super.onPostExecute(s);
 
             if(s!=null){
@@ -153,6 +154,7 @@ public class  LoginActivity extends AppCompatActivity {
                     csId = object.getString("csId");
                     csName = object.getString("csName");
                     csPhone = object.getString("csPhone");
+                    csType = object.getInt("csType");
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -161,6 +163,7 @@ public class  LoginActivity extends AppCompatActivity {
                     editor.putString("csId", csId);
                     editor.putString("csName", csName);
                     editor.putString("csPhone", csPhone);
+                    editor.putInt("csType", csType);
                     editor.commit();
                     Toast.makeText(context, "로그인 되었습니다.", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(getApplicationContext(), MainMenuActivity.class);

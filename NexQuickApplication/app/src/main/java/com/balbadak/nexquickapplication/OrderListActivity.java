@@ -1,7 +1,10 @@
 package com.balbadak.nexquickapplication;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -9,6 +12,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -18,16 +22,26 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import com.tsengvn.typekit.TypekitContextWrapper;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
 public class OrderListActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
-
+    private Context context = this;
+    private SharedPreferences loginInfo;
     ListView listView;
+    private String csId;
+    private String csName;
+    ArrayList<String> dateList = new ArrayList<>();
+
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -56,14 +70,24 @@ public class OrderListActivity extends AppCompatActivity implements NavigationVi
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-
-
         listView = (ListView) this.findViewById(R.id.order_listview);
+        loginInfo = getSharedPreferences("setting", 0);
 
-        ArrayList<String> dateList = new ArrayList<>();
-        dateList.add("5/28");
-        dateList.add("5/29");
-        dateList.add("5/30");
+        if(loginInfo!=null && loginInfo.getString("csId", "")!=null && loginInfo.getString("csId", "").length()!=0){
+            csId = loginInfo.getString("csId", "");
+            csName = loginInfo.getString("csName", "");
+        }
+
+
+        String url = "http://70.12.109.173:9090/NexQuick/list/userAllCallLists.do";
+
+        ContentValues values = new ContentValues();
+        values.put("csId", csId);
+        // AsyncTask를 통해 HttpURLConnection 수행.
+        OrderListActivity.GetListTask getListTask = new OrderListActivity.GetListTask(url, values);
+        getListTask.execute();
+
+
 
 
 //        ArrayList<String> itemList = new ArrayList<>();
@@ -71,8 +95,8 @@ public class OrderListActivity extends AppCompatActivity implements NavigationVi
 //        itemList.add("도곡동/서류/1개");
 //        itemList.add("대치동/서류/2개");
 
-         CustomAdapter adapter = new CustomAdapter(this, 0, dateList);
-         listView.setAdapter(adapter);
+//         CustomAdapter adapter = new CustomAdapter(this, 0, dateList);
+//         listView.setAdapter(adapter);
 
 
         Button orderListBeforeBtn = (Button) findViewById(R.id.orderListBeforeBtn);
@@ -83,14 +107,8 @@ public class OrderListActivity extends AppCompatActivity implements NavigationVi
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), OrderListBeforeActivity.class);
                 startActivity(intent);
-
-
-
-
             }
         });
-
-
 
 
     }
@@ -184,5 +202,65 @@ public class OrderListActivity extends AppCompatActivity implements NavigationVi
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+
+    public class GetListTask extends AsyncTask<Void, Void, String> {
+
+        private String url;
+        private ContentValues values;
+
+        public GetListTask(String url, ContentValues values) {
+
+            this.url = url;
+            this.values = values;
+        }
+
+        @Override
+        protected String doInBackground(Void... params) {
+
+            String result; // 요청 결과를 저장할 변수.
+            RequestHttpURLConnection requestHttpURLConnection = new RequestHttpURLConnection();
+            result = requestHttpURLConnection.request(url, values); // 해당 URL로 부터 결과물을 얻어온다.
+            return result;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            StringBuilder sb = new StringBuilder();
+            super.onPostExecute(s);
+            Log.e("받아온 것", s);
+            if(s!=null){
+                try {
+                    JSONObject object = new JSONObject(s);
+                    JSONArray array = new JSONArray(object);
+                    JSONObject data;
+                    for(int i=0; i<array.length(); i++){
+                        data = array.getJSONObject(i);
+                        sb.setLength(0);
+                        if(data.getInt("urgent")==1){
+                            sb.append("급/");
+                        }
+                        sb.append(data.getString("receiverName"));
+                        sb.append(data.getString("callTime"));
+                        //여기에 표시할 내용 추가하기
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                if(csName != null){
+                    dateList.add("5/28");
+                    dateList.add("5/29");
+                    dateList.add("5/30");
+                    CustomAdapter adapter = new CustomAdapter(context, 0, dateList);
+                    listView.setAdapter(adapter);
+                    Toast.makeText(context, "받아옴", Toast.LENGTH_SHORT).show();
+                } else{
+                    Toast.makeText(context, "ㅎㅇㅎㅇ", Toast.LENGTH_LONG).show();
+                }
+            }
+        }
     }
 }

@@ -1,5 +1,6 @@
 DROP TABLE CHATINFO;
 DROP TABLE FAVORITEINFO;
+DROP TABLE QPACCOUNT;
 DROP TABLE QPSCORE;
 DROP TABLE QPPOSITION;
 DROP TABLE FREIGHTINFO;
@@ -48,8 +49,6 @@ CREATE TABLE qpinfo (
 	qpPhone VARCHAR2(15) NOT NULL, /* qpPhone */
 	qpLicense VARCHAR(300) NOT NULL, /* qpLicense */
 	qpVehicleType NUMBER NOT NULL, /* qpVehicleType */
-    qpAccount VARCHAR2(30) NOT NULL,
-    qpBank VARCHAR2(21) NOT NULL,
     qpDeposit NUMBER NOT NULL,
 	qpProfile VARCHAR2(500) /* qpProfile */
 );
@@ -67,10 +66,6 @@ COMMENT ON COLUMN qpinfo.qpPhone IS 'qpPhone';
 COMMENT ON COLUMN qpinfo.qpLicense IS 'qpLicense';
 
 COMMENT ON COLUMN qpinfo.qpVehicleType IS 'qpVehicleType';
-
-COMMENT ON COLUMN qpinfo.qpDeposit IS 'qpAccount';
-
-COMMENT ON COLUMN qpinfo.qpDeposit IS 'qpBank';
 
 COMMENT ON COLUMN qpinfo.qpDeposit IS 'qpDeposit';
 
@@ -143,6 +138,7 @@ CREATE TABLE callinfo (
 	qpId NUMBER, /* qpId */
 	senderName VARCHAR2(30) NOT NULL, /* senderName */
 	senderAddress VARCHAR2(500) NOT NULL, /* senderAddress */
+    senderAddressDetail VARCHAR2(500) NOT NULL,
 	senderPhone VARCHAR2(15) NOT NULL, /* senderPhone */
 	vehicleType NUMBER NOT NULL, /* vehicleType */
 	totalPrice NUMBER NOT NULL, /* totalPrice */
@@ -167,6 +163,8 @@ COMMENT ON COLUMN callinfo.qpId IS 'qpId';
 COMMENT ON COLUMN callinfo.senderName IS 'senderName';
 
 COMMENT ON COLUMN callinfo.senderAddress IS 'senderAddress';
+
+COMMENT ON COLUMN callinfo.senderAddressDetail IS 'senderAddressDetail';
 
 COMMENT ON COLUMN callinfo.senderPhone IS 'senderPhone';
 
@@ -325,8 +323,6 @@ COMMENT ON COLUMN QPPosition.qpLatitude IS '위도';
 
 COMMENT ON COLUMN QPPosition.qpLongitude IS '경도';
 
-COMMENT ON COLUMN QPPosition.localCode IS '지역코드';
-
 CREATE UNIQUE INDEX PK_QPPosition
 	ON QPPosition (
 		qpId ASC
@@ -371,6 +367,23 @@ ALTER TABLE QPScore
 		PRIMARY KEY (
 			ratingNum
 		);
+        
+CREATE TABLE qpAccount (
+    qpId NUMBER NOT NULL,
+    qpAccount VARCHAR2(30) NOT NULL,
+    qpBank VARCHAR2(21) NOT NULL
+);
+
+ALTER TABLE qpAccount
+	ADD
+		CONSTRAINT FK_qpinfo_TO_qpAccount
+		FOREIGN KEY (
+			qpId
+		)
+		REFERENCES qpinfo (
+			qpId
+		);
+
 
 /* 화물 */
 CREATE TABLE freightInfo (

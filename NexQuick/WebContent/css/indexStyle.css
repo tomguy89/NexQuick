@@ -10,6 +10,14 @@
   src: url('../fonts/basicFont_M.otf');
 }
 
+.modal_resize {
+	max-width: 1000px!important;
+	margin-top: 100px;
+}
+
+.modalTable {
+	max-height: 500px!important;
+}
 ol > li {
 	border : 1px solid black!important;
 }
@@ -503,3 +511,17 @@ span.year:hover, span.month:hover {
 	margin-left: auto;
 	margin-right: auto;
 }
+
+footer {
+	margin : 0px!important;
+	position : fixed;
+	bottom: 0px!important;
+	background-color: #34495e;
+	height: 40px;
+	width: 100%;
+	line-height: 40px;
+	color: white;
+	
+}
+
+

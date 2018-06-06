@@ -19,10 +19,31 @@
 <link rel="stylesheet" type="text/css" href="<%= request.getContextPath() %>/css/checkBoxstyle.css">
 <link rel="stylesheet" type="text/css" href="<%= request.getContextPath() %>/css/InputBoxStyle.css">
 <link rel="stylesheet" type="text/css" href="<%= request.getContextPath() %>/css/hrStyle.css">
-
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/momentjs/2.14.1/moment.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/js/bootstrap-datetimepicker.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/css/bootstrap-datetimepicker.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+<%@ include file = "../navigation.jsp" %>
 
 <script>
+
+var currentCall = 0;
+var callNum;
  	$(function () {
+ 		$.ajax({
+ 			url : "<%= request.getContextPath() %>/call/currentCall.do",
+			data : {
+				csId : "<%= csInfo.getCsId() %>"
+			},
+			dataType : "json",
+			method : "POST",
+			success : getCurrentCall
+ 		});
+ 		
+ 		
+ 		
     	$('#datetimepicker1').datetimepicker();
     	
     	setTimeout(function(){
@@ -127,7 +148,7 @@
     		} else {
     			urgent_value = 0;
     		}
-    		if($('input:checkbox[id=groupDelivery]').is(":checked")) {
+    		if($('input:checkbox[id= groupDelivery]').is(":checked")) {
     			group_value = 1;
     		} else {
     			group_value = 0;
@@ -142,28 +163,53 @@
     			reserve_value = 0;
     		}
     		
-			console.log($("input:radio[name=radio-group]:checked").val());    		
-    		/* 선택한 날짜, 시간 값 가져오기 */
+			console.log(callNum);
     		
-    		 $.ajax({ 
-    			url : "<%= request.getContextPath() %>/call/newCall.do",
-				data : {
-					senderName : $("#userNameApply").val(),
-					senderAddress : $("#address").val() + " " + $("#addressDetail").val(),
-					senderPhone : $("#phone").val(),
-					vehicleType : $("input:radio[name=radio-group]:checked").val(),
-					urgent : urgent_value,
-					series : group_value,
-					reserved : reserve_value, /* 예약배송 여부는 사용 안할것같음 */
-					reservationTime : $("#timeInput").val() /* 날짜데이터 어떻게 넣을지 확인해야 함 */
-				},
-				dataType : "json",
-				method : "POST",
-				success : gotoNextPage,
-				error : function() {
-					alert("퀵 신청에 오류가 발생했습니다. 다시 작성해주세요.");
-				}
-    		}) 
+    		if(currentCall == 0) {
+	    		 $.ajax({ 
+	    			url : "<%= request.getContextPath() %>/call/newCall.do",
+					data : {
+						senderName : $("#userNameApply").val(),
+						senderAddress : $("#address").val(),
+						senderAddressDetail : $("#addressDetail").val(),
+						senderPhone : $("#phone").val(),
+						vehicleType : $("input:radio[name=radio-group]:checked").val(),
+						urgent : urgent_value,
+						series : group_value,
+						reserved : reserve_value, /* 예약배송 여부는 사용 안할것같음 */
+						reservationTime : $("#timeInput").val() /* 날짜데이터 어떻게 넣을지 확인해야 함 */
+					},
+					dataType : "json",
+					method : "POST",
+					success : gotoNextPage,
+					error : function() {
+						alert("퀵 신청에 오류가 발생했습니다. 다시 작성해주세요.");
+					}
+	    		}); 
+    		} else if (currentCall == 1) {
+	    		 $.ajax({ 
+	    			url : "<%= request.getContextPath() %>/call/updateCall.do",
+					data : {
+						'callNum' : callNum,
+						'senderName' : $("#userNameApply").val(),
+						'senderAddress' : $("#address").val(),
+						'senderAddressDetail' : $("#addressDetail").val(),
+						'senderPhone' : $("#phone").val(),
+						'vehicleType' : $("input:radio[name=radio-group]:checked").val(),
+						'urgent' : urgent_value,
+						'series' : group_value,
+						'reserved' : reserve_value, /* 예약배송 여부는 사용 안할것같음 */
+						'reservationTime' : $("#timeInput").val() /* 날짜데이터 어떻게 넣을지 확인해야 함 */
+					},
+					dataType : "json",
+					method : "POST",
+					success : gotoNextPage,
+					error : function() {
+						alert("퀵 신청에 오류가 발생했습니다. 다시 작성해주세요.");
+					}
+	    		});     			
+    		} /* if문 끝 */
+    		
     	});
     	
     	
@@ -200,23 +246,60 @@
    	} 
     	 	
  	
- 	
+/*  최신 콜 받아오기.  */
+   	function getCurrentCall(JSONDocument) {
+   		console.log(JSONDocument);
+   		var result = confirm("현재 신청중인 퀵이 있습니다. 이어서 작성하시겠습니까?");
+   		if(result) { // 이어서 작성
+   			currentCall = 1;
+			$("#userNameApply").val(JSONDocument.senderName);
+			$("#address").val(JSONDocument.senderAddress);
+			$("#addressDetail").val(JSONDocument.senderAddressDetail);
+			$("#phone").val(JSONDocument.senderPhone);
+			switch(JSONDocument.vehicleType) {
+			case 1:
+				$("#motorcycle").attr("checked", "checked");
+				break;
+			case 2:
+				$("#damas").attr("checked", "checked");
+				break;
+			case 3:
+				$("#labo").attr("checked", "checked");
+				break;
+			case 4:
+				$("#truck").attr("checked", "checked");
+				break;
+			}
+			if(JSONDocument.urgent == 1) {
+				$('input:checkbox[id=urgentBox]').attr("checked", "checked");
+			}
+			
+			if(JSONDocument.series == 1) {
+				$("#groupDelivery").attr("checked", "checked");
+			}
+			
+			if(JSONDocument.reserved == 1) {
+				$("#reserveDelivery").attr("checked", "checked");
+	    		$("#reserveBox").slideDown();
+	    		$("#timeInput").val(JSONDocument.reservationTime);
+			}
+			callNum = JSONDocument.callNum;
+			console.log(callNum);
+   		} else { // 처음부터 작성
+   			console.log("처음부터 작성합니다.");
+   		}
+   	}
  	
 </script>
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-<script src="https://cdn.jsdelivr.net/momentjs/2.14.1/moment.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/js/bootstrap-datetimepicker.min.js"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/css/bootstrap-datetimepicker.min.css">
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+
 
 
 
 <title>NexQuick :: 퀵 신청하기 - 기본정보 설정</title>
 </head>
 <body>
-<%@ include file = "../navigation.jsp" %>
+
 <%@ include file = "../quickApplyPage/quickApply_going_box.jsp" %>
 
 

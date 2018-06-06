@@ -6,6 +6,7 @@ public class CallInfo {
 	private int qpId;					// 배정받은 QP ID
 	private String senderName;			// 보내는 사람 이름(이하 3개항목 기본으로 고객정보로 입력) 		
 	private String senderAddress;		// 보내는 사람 주소
+	private String senderAddressDetail;		// 보내는 사람 상세주소
 	private String senderPhone; 		// 보내는 사람 전화번호
 	private int vehicleType;			// 운송수단
 	private int totalPrice;				// 콜 총 가격
@@ -18,6 +19,8 @@ public class CallInfo {
 	private int payStatus;				// 결제 상태
 	private String callTime;			// 콜 들어온 시간
 	
+
+
 	public CallInfo() {
 		super();
 	}
@@ -57,12 +60,13 @@ public class CallInfo {
 		setReservationTime(reservationTime);
 	}
 	
-	public CallInfo(String csId, String senderName, String senderAddress, String senderPhone, int vehicleType,
+	public CallInfo(String csId, String senderName, String senderAddress, String senderAddressDetail , String senderPhone, int vehicleType,
 			int urgent, int reserved, int series, String reservationTime) {
 		super();
 		setCsId(csId);
 		setSenderName(senderName);
 		setSenderAddress(senderAddress);
+		setSenderAddressDetail(senderAddressDetail);
 		setSenderPhone(senderPhone);
 		setVehicleType(vehicleType);
 		setUrgent(urgent);
@@ -221,5 +225,12 @@ public class CallInfo {
 		this.callTime = callTime;
 	}
 	
+	public String getSenderAddressDetail() {
+		return senderAddressDetail;
+	}
+
+	public void setSenderAddressDetail(String senderAddressDetail) {
+		this.senderAddressDetail = senderAddressDetail;
+	}
 	
 }

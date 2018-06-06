@@ -157,7 +157,7 @@ function orderList(JSONDocument) {
 
 			
 	<div class="modal fade bd-example-modal-lg" id="orderList" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-	  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+	  <div class="modal-dialog modal-dialog-centered modal-lg modal_resize" role="document">
 	    <div class="modal-content">
 	      <div class="modal-header">
 	        <h5 class="modal-title" id="exampleModalLabel">개인정보 수정</h5>
@@ -188,7 +188,7 @@ function orderList(JSONDocument) {
 							</thead>
 						</table>
 					</div>
-					<div class="table100-body js-pscroll">
+					<div class="table100-body js-pscroll modalTable">
 						<table class = "table1000">
 							<tbody id = "orderListTable">
 						<%-- 	<% if(list != null) { 
@@ -208,9 +208,6 @@ function orderList(JSONDocument) {
 							</tbody>
 						</table>
 					</div>
-					<div class = "centerBox text-conceptColor mt-5">
-						<h6> 콜 번호를 클릭하면 해당 콜에 대한 상세 정보를 조회할 수 있습니다. </h6>
-					</div>
 				</div>
 			</div>
 		</div>
@@ -220,9 +217,8 @@ function orderList(JSONDocument) {
 	      
 	      
 	      </div>
-          <div class="modal-footer">
-	        <button type="button" class="dangerBorder" data-dismiss="modal"><i class = "xi-close-circle-o"></i> 취소</button>
-	        <button type="button" class="ColorBorder" id = "submitBtn" data-dismiss="modal"><i class = "xi-user-plus"></i> 수정하기</button>
+          <div class="modal-footer centerBox">
+	        <button type="button" class="ColorBorder" id = "submitBtn" data-dismiss="modal"> 창 닫기 </button>
 	      </div>
 		      
 	    </div>

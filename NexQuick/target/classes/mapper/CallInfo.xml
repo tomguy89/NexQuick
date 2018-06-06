@@ -13,6 +13,7 @@
 		<result column="qpId" property="qpId" />
 		<result column="senderName" property="senderName" />
 		<result column="senderAddress" property="senderAddress" />
+		<result column="senderAddressDetail" property="senderAddressDetail" />
 		<result column="senderPhone" property="senderPhone" />
 		<result column="vehicleType" property="vehicleType" />
 		<result column="totalPrice" property="totalPrice" />
@@ -29,9 +30,9 @@
 
 	<insert id="createCall" parameterType="CallInfo">
 		insert into callInfo
-		values(#{callNum},#{csId},null,#{senderName},#{senderAddress},#{senderPhone},
+		values(#{callNum},#{csId},null,#{senderName},#{senderAddress},#{senderAddressDetail}, #{senderPhone},
 		#{vehicleType},#{totalPrice},#{payType},#{urgent},#{series},#{reserved},
-		to_date(#{reservationTime},'mm/dd/yyyy hh24:mi'),0,#{payStatus},null)
+		to_date(#{reservationTime},'mm/dd/yyyy hh24:mi'),0,#{payStatus},sysdate)
 		
 		<selectKey keyProperty="callNum" resultType="int" order="BEFORE">
 			SELECT cnumseq.nextval FROM DUAL
@@ -40,9 +41,9 @@
 	
 	<insert id="createCallNow" parameterType="CallInfo">
 		insert into callInfo
-		values(#{callNum},#{csId},null,#{senderName},#{senderAddress},#{senderPhone},
+		values(#{callNum},#{csId},null,#{senderName},#{senderAddress},#{senderAddressDetail}, #{senderPhone},
 		#{vehicleType},#{totalPrice},#{payType},#{urgent},#{series},#{reserved},
-		sysdate,0,#{payStatus},null)
+		sysdate,0,#{payStatus},sysdate)
 		
 		<selectKey keyProperty="callNum" resultType="int" order="BEFORE">
 			SELECT cnumseq.nextval FROM DUAL
@@ -50,15 +51,21 @@
 	</insert>
 
 	<select id="selectCallByCnum" parameterType="int" resultType="CallInfo">
-		select * from callInfo
+		select callNum, csId, qpId, senderName, senderAddress, senderAddressDetail,
+				senderPhone, vehicleType, totalPrice, payType, urgent, series, 
+				reserved, to_char(reservationTime, 'mm/dd/yyyy hh24:mi') as reservationTime, deliveryStatus, payStatus, to_char(callTime, 'mm/dd/yyyy hh24:mi')
+		from callInfo
 		where callNum=#{callNum}
 	</select><!--callNum으로 -->
 	
 	<select id="selectCallByCSId" parameterType="String" resultType="CallInfo">
-		select * from callInfo
+		select callNum, csId, qpId, senderName, senderAddress, senderAddressDetail,
+				senderPhone, vehicleType, totalPrice, payType, urgent, series, 
+				reserved, to_char(reservationTime, 'mm/dd/yyyy hh24:mi') as reservationTime, deliveryStatus, payStatus, to_char(callTime, 'mm/dd/yyyy hh24:mi') 
+		from callInfo
 		where csId=#{csId}
 		and deliveryStatus = 0
-		and sysdate-callTime>1
+		and sysdate-callTime &lt; 1
 		and rownum=1
 	</select><!--csId 와  delivery status = 0으로 -->
 	
@@ -88,9 +95,10 @@
 	
 	<update id="updateCall" parameterType="CallInfo"> <!-- 이렇게만 바꾸면 될까? -->
 		update callInfo
-		set qpId=#{qpId}, 
+		set qpId=null, 
 		senderName=#{senderName},
 		senderAddress=#{senderAddress},
+		senderAddressDetail=#{senderAddressDetail},
 		senderPhone=#{senderPhone},
 		vehicleType=#{vehicleType},
 		totalPrice=#{totalPrice},
@@ -98,8 +106,8 @@
 		urgent=#{urgent},
 		series=#{series},
 		reserved=#{reserved},
-		reservationTime=to_date(#{reservationTime},'yyyy-mm-dd hh24:mi'),
-		payStatus=#{payStatus}
+		reservationTime=to_date(#{reservationTime},'mm/dd/yyyy hh24:mi'),
+		payStatus=#{payStatus},
 		callTime=sysdate
 		where callNum=#{callNum}
 	</update>

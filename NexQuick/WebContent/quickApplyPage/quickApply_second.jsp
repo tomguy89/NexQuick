@@ -34,8 +34,9 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
 <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/xeicon@2.3.3/xeicon.min.css">
 <script type="text/javascript">
-
+var isUrgent = 1;
 	$(function() {
+		
 		
 		var callNum = <%= request.getSession().getAttribute("callNum")%>;
 		/* 콜넘버 받아와서 그룹배송이 체크안되어있었으면 오더추가 막기 */
@@ -880,6 +881,8 @@
 		.attr("data-content", "그림 클릭 시 기본정보를 확인할 수 있습니다.");
 		
 		
+		
+		 
 		$("#placeholderImgText").popover('show');
 		setTimeout(function() {
 	        $('#placeholderImgText').popover('hide');
@@ -890,6 +893,7 @@
 		$("#callInfo3").val(JSONDocument.senderPhone);
 		if(JSONDocument.urgent == 1) {
 			$("#urgentBox").attr("checked", "checked");
+			isUrgent = 1.5;
 		}
 		if(JSONDocument.series == 1) {
 			$("#groupDelivery").attr("checked", "checked");

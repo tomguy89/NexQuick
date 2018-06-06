@@ -31,6 +31,29 @@
 <% List<OrderInfo> orderList = (List<OrderInfo>)request.getSession().getAttribute("ordersByCall");
 	CallInfo callInfo = (CallInfo) request.getSession().getAttribute("getCallByCallNum");
 %>
+<script type="text/javascript">
+$(function() {
+	$.ajax({
+		url : "<%= request.getContextPath() %>/call/registCall.do",
+			data : {
+				payType : 0,
+				payStatus : 1
+			},
+		dataType : "json",
+		method : "POST",
+		success : registCall
+	});
+});
+
+function registCall(JSONDocument) {
+	if(JSONDocument) {
+		console.log("저장됨");
+	} else {
+		console.log("저장안됨");
+	}
+}	
+	
+</script>
 </head>
 <body>
 <%-- <%@ include file = "../navigation.jsp" %> --%>
