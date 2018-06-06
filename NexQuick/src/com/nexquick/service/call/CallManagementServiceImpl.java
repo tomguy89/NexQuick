@@ -30,6 +30,11 @@ public class CallManagementServiceImpl implements CallManagementService {
 	public boolean newCall(CallInfo callInfo) {
 		return callInfoDao.createCall(callInfo);
 	}
+	
+	@Override
+	public boolean newCallNow(CallInfo callInfo) {
+		return callInfoDao.createCallNow(callInfo);
+	}
 
 	@Override
 	public boolean addOrder(OrderInfo orderInfo) {

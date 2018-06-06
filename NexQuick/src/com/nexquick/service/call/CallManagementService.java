@@ -21,6 +21,9 @@ public interface CallManagementService {
 	 */
 	boolean newCall(CallInfo callInfo);
 
+//	지금 시간대로 생성
+	public boolean newCallNow(CallInfo callInfo);
+	
 	/**
 	 * 콜에 새로운 주문을 추가
 	 * @param orderInfo

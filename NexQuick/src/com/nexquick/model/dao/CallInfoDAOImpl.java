@@ -18,6 +18,11 @@ public class CallInfoDAOImpl implements CallInfoDAO {
 	public boolean createCall(CallInfo callInfo) {
 		return sqlSession.insert("callInfo.createCall", callInfo)>0;
 	}
+	
+	@Override
+	public boolean createCallNow(CallInfo callInfo) {
+		return sqlSession.insert("callInfo.createCallNow", callInfo)>0;
+	}
 
 	@Override
 	public boolean updateCall(CallInfo callInfo) {

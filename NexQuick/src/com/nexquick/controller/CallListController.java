@@ -38,11 +38,22 @@ public class CallListController {
 		return "mainPage/main_list";
 	}
 	
+	@RequestMapping("/userCallLists.do")
+	public @ResponseBody List<OnDelivery> onDeliveryLists(HttpSession session) {
+		CSInfo csInfo = (CSInfo)session.getAttribute("csInfo");
+		return callSelectListService.onDeliveryCallList(csInfo.getCsId());
+	}
+	
 	@RequestMapping("/userAllCallList.do")
 	public String AllCallList(HttpSession session, String csId) {
 		List<OnDelivery> list = callSelectListService.getAllOrderByCsId(csId);
 		session.setAttribute("userAllCallList", list);
 		return "csPage/UserPage"; 
+	}
+	
+	@RequestMapping("/userAllCallLists.do")
+	public @ResponseBody List<OnDelivery> AllCallLists(HttpSession session, String csId) {
+		return callSelectListService.getAllOrderByCsId(csId); 
 	}
 	
 	
@@ -52,5 +63,6 @@ public class CallListController {
 		session.setAttribute("AllOrderForAdmin", list);
 		return "admin/admin_OrderPage"; 
 	}
+	
 	
 }

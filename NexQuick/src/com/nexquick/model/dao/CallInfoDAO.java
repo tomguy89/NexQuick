@@ -18,6 +18,10 @@ public interface CallInfoDAO {
 	 */
 	boolean createCall(CallInfo callInfo);
 	
+//	지금 시간대로 콜 생성
+	public boolean createCallNow(CallInfo callInfo);
+
+	
 	/**
 	 * 콜에 대한 정보 수정
 	 * @param callInfo

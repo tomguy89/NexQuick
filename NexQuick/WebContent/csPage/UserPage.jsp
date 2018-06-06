@@ -27,52 +27,106 @@
 <!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/css/indexStyle.css">
 
+<script type="text/javascript">
+$(function() {
+	
+	
+});
 
+function getOrders(callNum) {
+	console.log(callNum.text);
+	$.ajax({
+		url : "<%=request.getContextPath()%>/call/getOrderList.do",
+		data : {
+			"callNum" : callNum.text
+		},
+		dataType : "json",
+		method : "POST",
+		success : orderList
+	});
+}
+
+
+function orderList(JSONDocument) {
+	$("#orderListTable").empty();		
+    for (var i in JSONDocument) {
+    	$("#orderListTable").append(
+    		$("<tr class='row100 body'>")
+    		.append(
+    			$("<td class='cell100 column1 centerBox'>").text(JSONDocument[i].orderNum)
+    		).append(
+    			$("<td class='cell100 column2 centerBox'>").text(JSONDocument[i].receiverName)
+    		).append(
+    			$("<td class='cell100 column3 centerBox'>").text(JSONDocument[i].receiverAddress)
+    		).append(
+    			$("<td class='cell100 column4 centerBox'>").text(JSONDocument[i].memo)
+    		).append(
+    			$("<td class='cell100 column5 centerBox'>").text(JSONDocument[i].orderPrice)
+    		).append(
+    			$("<td class='cell100 column6 centerBox'>").text(JSONDocument[i].isGet)
+    		)
+    	);
+    }
+	$("#orderList").modal("show");
+    
+}
+
+
+
+</script>
 
 <title>NexQuick :: 전체 신청목록</title>
 </head>
 <body>
 <%@ include file = "../navigation.jsp" %>
+
 	<div class="limiter">
 		<div class="container-table100" style = "top:0em!important;">
-			<div class="wrap-table100">
-				<div class="table100 ver3 m-b-110">
-					<table data-vertable="ver3">
-						<thead>
-							<tr class="row100 head">
-								<th class="column100 column1" data-column="column1">콜 번호</th>
-								<th class="column100 column2" data-column="column2">오더 번호</th>
-								<th class="column100 column3" data-column="column3">발송지</th>
-								<th class="column100 column4" data-column="column4">수령지</th>
-								<th class="column100 column5" data-column="column5">요금</th>
-								<th class="column100 column6" data-column="column6">배송상황</th>
-								<th class="column100 column7" data-column="column7">배송시간</th>
-								<th class="column100 column8" data-column="column8">평점</th>
-							</tr>
-						</thead>
-						<tbody>
-						<% if(list != null) { 
-							int countNumber = 1;
-							for(CallInfo ci : list) {
-						%>
-							<tr class="row100">
-								<td class="column100 column1" data-column="column1"><%= ci.getCallNum() %></td>
-								<td class="column100 column2" data-column="column2"><%= ci.getTotalPrice() %></td>
-								<td class="column100 column3" data-column="column3"><%= ci.getCsId() %></td>
-								<td class="column100 column4" data-column="column4"><%= ci.getDeliveryStatus() %></td>
-								<td class="column100 column5" data-column="column5"><%= ci.getReserved() %></td>
-								<td class="column100 column6" data-column="column6"><%= ci.getSenderName() %></td>
-								<td class="column100 column7" data-column="column7"><%= ci.getSenderAddress() %></td>
-								<td class="column100 column8" data-column="column8">100</td>
-							</tr>
-							<% countNumber++; } %>
-						<% } %>
-						</tbody>
-					</table>
+			<div class = "table1000">
+				<div class="table100 ver1">
+					<div class="table100-head">
+				
+						<table class = "table1000">
+							<thead>
+								<tr class="row100 head">
+									<th class="column100 column1 centerBox">콜 번호</th>
+									<th class="column100 column2 centerBox">발송인</th>
+									<th class="column100 column3 centerBox">발송지</th>
+									<th class="column100 column4 centerBox">신청날짜</th>
+									<th class="column100 column5 centerBox">요금</th>
+									<th class="column100 column6 centerBox">배송상황</th>
+								</tr>
+							</thead>
+						</table>
+					</div>
+					<div class="table100-body js-pscroll">
+						<table class = "table1000">
+							<tbody>
+							<% if(list != null) { 
+								int countNumber = 1;
+								for(CallInfo ci : list) {
+							%>
+								<tr class="row100 body">
+									<td class="cell100 column1 centerBox"><a id = "callNum<%=ci.getCallNum()%>" onclick = "getOrders(this)"><%= ci.getCallNum() %></a></td>
+									<td class="cell100 column2 centerBox"><%= ci.getSenderName() %></td>
+									<td class="cell100 column3 centerBox"><%= ci.getSenderAddress() %></td>
+									<td class="cell100 column4 centerBox"><%= ci.getReservationTime() %></td>
+									<td class="cell100 column5 centerBox"><%= ci.getTotalPrice() %></td>
+									<td class="cell100 column6 centerBox"><%= ci.getDeliveryStatus() %></td>
+								</tr>
+								<% countNumber++; } %>
+							<% } %>
+							</tbody>
+						</table>
+					</div>
+					<div class = "centerBox text-conceptColor mt-5">
+						<h6> 콜 번호를 클릭하면 해당 콜에 대한 상세 정보를 조회할 수 있습니다. </h6>
+					</div>
 				</div>
 			</div>
 		</div>
 	</div>
+
 
 <!-- javascript가 여기에 들어가야 작동됨 -->
 <!--===============================================================================================-->
@@ -97,8 +151,89 @@
 <!--===============================================================================================-->
 	<script src="<%=request.getContextPath() %>/Table_Fixed_Header/js/main.js"></script>
 	
-	
 <%@ include file = "../footer.jsp" %>
+
+
+
+			
+	<div class="modal fade bd-example-modal-lg" id="orderList" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <h5 class="modal-title" id="exampleModalLabel">개인정보 수정</h5>
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	          <span aria-hidden="true">&times;</span>
+	        </button>
+	      </div>
+	      <div class="modal-body">
+
+
+
+	<div class="limiter">
+		<div class="container-table100" style = "top:0em!important;">
+			<div class = "table1000">
+				<div class="table100 ver1">
+					<div class="table100-head">
+				
+						<table class = "table1000">
+							<thead>
+								<tr class="row100 head">
+									<th class="column100 column1 centerBox">오더 번호</th>
+									<th class="column100 column2 centerBox">수령인</th>
+									<th class="column100 column3 centerBox">수령지</th>
+									<th class="column100 column4 centerBox">배송메모</th>
+									<th class="column100 column5 centerBox">가격</th>
+									<th class="column100 column6 centerBox">배송상태</th>
+								</tr>
+							</thead>
+						</table>
+					</div>
+					<div class="table100-body js-pscroll">
+						<table class = "table1000">
+							<tbody id = "orderListTable">
+						<%-- 	<% if(list != null) { 
+								int countNumber = 1;
+								for(CallInfo ci : list) {
+							%>
+								<tr class="row100 body">
+									<td class="cell100 column1 centerBox"><a id = "callNum<%=ci.getCallNum()%>" onclick = "getOrders(this)"><%= ci.getCallNum() %></a></td>
+									<td class="cell100 column2 centerBox"><%= ci.getSenderName() %></td>
+									<td class="cell100 column3 centerBox"><%= ci.getSenderAddress() %></td>
+									<td class="cell100 column4 centerBox"><%= ci.getReservationTime() %></td>
+									<td class="cell100 column5 centerBox"><%= ci.getTotalPrice() %></td>
+									<td class="cell100 column6 centerBox"><%= ci.getDeliveryStatus() %></td>
+								</tr>
+								<% countNumber++; } %>
+							<% } %> --%>
+							</tbody>
+						</table>
+					</div>
+					<div class = "centerBox text-conceptColor mt-5">
+						<h6> 콜 번호를 클릭하면 해당 콜에 대한 상세 정보를 조회할 수 있습니다. </h6>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	      
+	      
+	      
+	      </div>
+          <div class="modal-footer">
+	        <button type="button" class="dangerBorder" data-dismiss="modal"><i class = "xi-close-circle-o"></i> 취소</button>
+	        <button type="button" class="ColorBorder" id = "submitBtn" data-dismiss="modal"><i class = "xi-user-plus"></i> 수정하기</button>
+	      </div>
+		      
+	    </div>
+	  </div>
+	</div>
+
+		
+	
+
+
+
 	
 </body>
 </html>

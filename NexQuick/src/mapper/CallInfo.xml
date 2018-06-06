@@ -37,6 +37,17 @@
 			SELECT cnumseq.nextval FROM DUAL
 		</selectKey>
 	</insert>
+	
+	<insert id="createCallNow" parameterType="CallInfo">
+		insert into callInfo
+		values(#{callNum},#{csId},null,#{senderName},#{senderAddress},#{senderPhone},
+		#{vehicleType},#{totalPrice},#{payType},#{urgent},#{series},#{reserved},
+		sysdate,0,#{payStatus},null)
+		
+		<selectKey keyProperty="callNum" resultType="int" order="BEFORE">
+			SELECT cnumseq.nextval FROM DUAL
+		</selectKey>
+	</insert>
 
 	<select id="selectCallByCnum" parameterType="int" resultType="CallInfo">
 		select * from callInfo

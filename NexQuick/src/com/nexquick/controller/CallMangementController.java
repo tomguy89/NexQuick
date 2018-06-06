@@ -99,12 +99,16 @@ public class CallMangementController {
 		//세션에서 고객 아이디 가져오기
 		String csId = ((CSInfo)session.getAttribute("csInfo")).getCsId();
 		System.out.println(reservationTime);
-		if(reserved == 0) {
-			reservationTime = "";
-		}
 		//퀵 신청하기에서 주문자 정보 입력
 		CallInfo callInfo = new CallInfo(csId, senderName, senderAddress, senderPhone, vehicleType, urgent, reserved, series, reservationTime);
-		callManagementService.newCall(callInfo);
+		if(reserved == 0) {
+			reservationTime = "";
+			callInfo.setReservationTime(reservationTime);
+			callManagementService.newCallNow(callInfo);
+		} else {
+			callManagementService.newCall(callInfo);
+		}
+		
 
 		//새로 생성된 콜 주문번호 세션에 저장
 		int callNum = callInfo.getCallNum();
@@ -311,7 +315,7 @@ public class CallMangementController {
 		}
 	}
 	
-//	콜번호로 오더들 조회
+//	콜번호로 오더들 조회(마지막페이지)
 	@RequestMapping("/getOrders.do")
 	public String orderListByCallNum(HttpSession session, int callNum) {
 		List<OrderInfo> list = callSelectListService.orderInfoList(callNum);
@@ -319,6 +323,13 @@ public class CallMangementController {
 		CallInfo callInfo = callSelectListService.selectCallInfo(callNum);
 		session.setAttribute("getCallByCallNum", callInfo);
 		return "quickApplyPage/quickApply_end";
+	}
+	
+//	콜번호로 오더들 조회(신청조회 페이지)
+	@RequestMapping("/getOrderList.do")
+	public @ResponseBody List<OrderInfo> orderListByCallNumFor(HttpSession session, int callNum) {
+		List<OrderInfo> list = callSelectListService.orderInfoList(callNum);
+		return list;
 	}
 	
 
@@ -347,7 +358,7 @@ public class CallMangementController {
 		return "quickApplyPage/quickApply_second";
 	}
 	
-	
+//	페이지로 리턴
 	@RequestMapping("/getCallsByCsId")
 	public String getCallList(HttpSession session) {
 		CSInfo csInfo = (CSInfo) session.getAttribute("csInfo"); 
@@ -355,6 +366,14 @@ public class CallMangementController {
 		List<CallInfo> list = callManagementService.getCallsByCsId(csId); 
 		session.setAttribute("callListByCsId", list);
 		return "csPage/UserPage";
+	}
+	
+//	객체로 리턴
+	@RequestMapping("/getCallsByCsIds")
+	public @ResponseBody List<CallInfo> getCallLists(HttpSession session) {
+		CSInfo csInfo = (CSInfo) session.getAttribute("csInfo"); 
+		String csId = csInfo.getCsId();
+		return callManagementService.getCallsByCsId(csId);
 	}
 	
 	
