@@ -65,10 +65,10 @@ public class CallListController {
 	}
 	
 	@RequestMapping("/confirmCall.do")
-	public @ResponseBody CallInfo selectCallList(String csId, String qpId) {
+	public @ResponseBody List<CallInfo> selectCallList(String csId, String qpId) {
 		System.out.println(qpId);
 		System.out.println(csId);
-		return (CallInfo) callSelectListService.selectCallList(csId, Integer.parseInt(qpId), 2);
+		return callSelectListService.selectCallList(csId, Integer.parseInt(qpId), 2);
 	}
 	
 	@RequestMapping("/confirmOrder.do")

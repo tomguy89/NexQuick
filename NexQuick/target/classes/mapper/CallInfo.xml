@@ -102,6 +102,7 @@
 		senderPhone=#{senderPhone},
 		vehicleType=#{vehicleType},
 		totalPrice=#{totalPrice},
+		deliveryStatus=#{deliveryStatus},
 		payType=#{payType},
 		urgent=#{urgent},
 		series=#{series},
