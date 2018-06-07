@@ -93,4 +93,6 @@ public interface CallManagementService {
 	List<CallInfo> getAllCallsByIdAndDate(HashMap<String, Object> condition);
 //	관리자용, 이름과 날짜로 검색
 	List<CallInfo> getAllCallsByNameAndDate(HashMap<String, Object> condition);
+
+	FreightInfo getFreight(int freightNum);
 }

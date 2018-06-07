@@ -61,6 +61,11 @@ public class CallManagementServiceImpl implements CallManagementService {
 	public boolean delFreightsOne(int freightNum) {
 		return freightInfoDao.deleteFreight(freightNum);
 	}
+	
+	@Override
+	public FreightInfo getFreight(int freightNum) {
+		return freightInfoDao.selectFreight(freightNum);
+	}
 
 	@Override
 	public boolean delOrder(int orderNum) {

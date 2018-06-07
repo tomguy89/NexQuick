@@ -92,7 +92,7 @@ $(function() {
 	});
 	
 	$("#goToList").on("click", function() {
-		location.href="<%= request.getContextPath() %>/list/userCallList.do";
+		location.href="<%= request.getContextPath() %>/mainPage/main_list.jsp";
 	});
 	
 	$("#goToSetting").on("click", function() {

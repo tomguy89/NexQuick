@@ -30,6 +30,7 @@
 	<script src="<%=request.getContextPath() %>/js/datepicker.min.js"></script>
 	<script src="<%=request.getContextPath() %>/js/datepicker.en.js"></script>
 <script type="text/javascript">
+var callPrice;
 $(function() {
 	
 	$.ajax({
@@ -40,7 +41,7 @@ $(function() {
 			callTime : $("#callTime").val()
 		},
 		success : setCallList
-			
+
 	});
 	
 	$("#searchBtn").on("click", function() {
@@ -67,6 +68,7 @@ $(function() {
 				}
 			}
 		})
+		
 	}, 60*60*1000);
 	
 	
@@ -147,6 +149,7 @@ function orderList(JSONDocument) {
     		)
     	);
     	totalPrice += JSONDocument[i].orderPrice;
+    	
     }
     $("#orderListTable").append(
 		$("<tr class='row100 body'>").css("border-top", "1px solid #34495e")
@@ -156,7 +159,7 @@ function orderList(JSONDocument) {
 			$("<td class='cell100 column1 centerBox' colspan='2'>").text(totalPrice + "원")
 		)
 	)
-    
+    callPrice = totalPrice;
 	$("#orderList").modal("show");
     
 }
@@ -211,14 +214,6 @@ function orderList(JSONDocument) {
 					<div class="table100-body js-pscroll">
 						<table class = "table1000">
 							<tbody id = "tableBody">
-							<%-- 	<tr class="row100 body">
-									<td class="cell100 column1 centerBox"><a id = "callNum<%=ci.getCallNum()%>" onclick = "getOrders(this)"><%= ci.getCallNum() %></a></td>
-									<td class="cell100 column2 centerBox"><%= ci.getSenderName() %></td>
-									<td class="cell100 column3 centerBox"><%= ci.getSenderAddress() %></td>
-									<td class="cell100 column4 centerBox"><%= ci.getReservationTime() %></td>
-									<td class="cell100 column5 centerBox"><%= ci.getTotalPrice() %></td>
-									<td class="cell100 column6 centerBox"><%= ci.getDeliveryStatus() %></td>
-								</tr> --%>
 							</tbody>
 						</table>
 					</div>

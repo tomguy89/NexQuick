@@ -8,12 +8,12 @@
     <uses-permission android:name="android.permission.READ_CONTACTS" />
 
     <application
+        android:name=".CustomStartApp"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:name=".CustomStartApp"
         android:theme="@style/AppTheme">
         <activity android:name=".LoginActivity">
             <intent-filter>
@@ -22,43 +22,51 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainMenuActivity" />
-        <activity android:name=".OrderListActivity"
-                android:theme="@style/AppTheme.NoActionBar"/>
-        <activity android:name=".OrderListBeforeActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity android:name=".MainMenuActivity"
+            android:label="NexQuick"/>
+
+        <activity
+            android:name=".OrderListActivity"
+            android:label="최근주문"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:launchMode="singleTop" />
+        <activity
+            android:name=".OrderListBeforeActivity"
+            android:label="이전주문"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:launchMode="singleTop" />
         <activity
             android:name=".NavigationActivity"
             android:label="@string/title_activity_navigation"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".NewOrderActivity"
-            android:label="@string/title_activity_new_order"
+            android:label="퀵 신청"
             android:theme="@style/AppTheme.NoActionBar"
-            android:uiOptions="splitActionBarWhenNarrow" />
+            android:uiOptions="splitActionBarWhenNarrow"
+            android:launchMode="singleTop" />
         <activity
             android:name=".SignupActivity"
-            android:label="@string/title_activity_signup"
+            android:label="키생성"
+            android:theme="@style/DialogTheme"
+            android:launchMode="singleTop" />
+        <activity android:name=".KeyHashActivity" />
+
+        <activity
+            android:name=".DialogDetailActivity"
             android:theme="@style/DialogTheme" />
-        <activity android:name=".KeyHashActivity"/>
 
         <!-- 20180606 18:00 -->
         <activity
             android:name=".DialogPayActivity"
-            android:theme="@style/DialogTheme" >
+            android:theme="@style/DialogTheme">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
-
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-
                 <data android:scheme="iamporttest" />
             </intent-filter>
-
-
         </activity>
-
-
 
     </application>
 

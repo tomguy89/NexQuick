@@ -161,6 +161,8 @@ public class  LoginActivity extends AppCompatActivity {
                 }
 
                 if(csName != null){
+                    Log.e("csId", csId);
+                    Log.e("csName", csName);
                     editor.putString("csId", csId);
                     editor.putString("csName", csName);
                     editor.putString("csPhone", csPhone);

@@ -7,11 +7,12 @@ import javax.servlet.http.HttpSession;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-
 import com.nexquick.model.vo.CSInfo;
 import com.nexquick.model.vo.CallInfo;
 import com.nexquick.model.vo.OnDelivery;
@@ -34,11 +35,10 @@ public class CallListController {
 	 * @return OnDelivery List
 	 */
 	@RequestMapping("/userCallList.do")
-	public String onDeliveryList(HttpSession session) {
+	public @ResponseBody List<OnDelivery> onDeliveryList(HttpSession session) {
 		CSInfo csInfo = (CSInfo)session.getAttribute("csInfo");
 		List<OnDelivery> list = callSelectListService.onDeliveryCallList(csInfo.getCsId());
-		session.setAttribute("userCallList", list);
-		return "mainPage/main_list";
+		return list;
 	}
 	
 	@RequestMapping("/userCallLists.do")
@@ -79,48 +79,67 @@ public class CallListController {
 	
 	
 	@RequestMapping("/updateCallAfterConfirm.do")
-	public void updateCallList(JSONArray jsonarray) {	
+	public void updateCallList(String params) {	
 		List <Integer> list = new ArrayList<>();
-		System.out.println("updatecalllist로 들어왔다.");
-		/*여기서 리스트를 만든다.
-		 */
-		for(int i=0;i<jsonarray.size();i++) {
-			JSONObject object = (JSONObject) jsonarray.get(i);
-			System.out.println("object에서 callNum 키로 뺀 값은"+object.get("callNum"));
-			list.add((Integer) object.get("callNum"));
+		//[{"callNum":"2"},{"callNum":"3"}] 이렇게 들어왔다.
+		JSONParser parser = new JSONParser();
+		try {
+			Object obj = parser.parse(params);
+			JSONArray jsonArray = (JSONArray) obj;
+			for(int i=0;i<jsonArray.size();i++) {
+				JSONObject jsonObj=(JSONObject) jsonArray.get(i);
+				list.add(Integer.valueOf((String) jsonObj.get("callNum")));
+			}
+			
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
+	
 		callSelectListService.updateCallAfterConfirm(list);
 	}
 	
 	
 	@RequestMapping("/updateOrderAfterConfirm.do")
-	public void updateOrderList(JSONArray jsonarray) {
-		System.out.println("updateorderlist로 들어왔다.");
+	public void updateOrderList(String params) {
+		System.out.println(params);
 		
 		List <Integer> list = new ArrayList<>();
-		for(int i=0;i<jsonarray.size();i++) {
-			JSONObject object = (JSONObject) jsonarray.get(i);
-			System.out.println("object에서 orderNum 키로 뺀 값은"+object.get("orderNum"));
-			list.add((Integer) object.get("orderNum"));
+
+		JSONParser parser = new JSONParser();
+		try {
+			Object obj = parser.parse(params);
+			JSONArray jsonArray = (JSONArray) obj;
+			for(int i=0;i<jsonArray.size();i++) {
+				JSONObject jsonObj=(JSONObject) jsonArray.get(i);
+				list.add(Integer.valueOf((String) jsonObj.get("orderNum")));
+			}
+			
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		
 		callSelectListService.updateOrderAfterConfirm(list);
 		
-		//업데이트  하고 나서 
+		//업데이트  하고 나서 일괄배송일 경우 isGet들이 모두 1로 변했는지 체크해서 call의 deliveryStatus를 수정한다.
 		
 		for(int i=0;i<list.size();i++) {
-			JSONObject object = (JSONObject) jsonarray.get(i);
-			int orderNum = (Integer)object.get("orderNum");
+			int orderNum=list.get(i);
+			System.out.println(orderNum);
 			int callNum=callSelectListService.selectOrder(orderNum).getCallNum();
+			System.out.println(callNum);
 			int comp1=callSelectListService.sumIsGet(callNum);
+			System.out.println(comp1);
 			int comp2=callSelectListService.countLinkedOrder(callNum);
+			System.out.println(comp2);
 			
-			if(comp1==comp2) {
+			if(comp1==comp2) {//모든 isGet이 1로 변했다면
 				callSelectListService.updateAfterOrdersChecked(callNum);
 			}
 		}
 		
-		//받은 orderNum
+
 	}
 	
 }

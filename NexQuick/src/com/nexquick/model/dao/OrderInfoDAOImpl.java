@@ -75,17 +75,17 @@ public class OrderInfoDAOImpl implements OrderInfoDAO {
 	
 	@Override
 	public void updateOrderAfterConfirm(List<Integer> list) {
-		sqlSession.update("orderInfo.updateOrderAfterConfirm");
+		sqlSession.update("orderInfo.updateOrderAfterConfirm",list);
 	}
 
 	@Override
 	public int sumIsGet(int callNum) {
-		return sqlSession.selectOne("orderInfo.sumIsGet");
+		return sqlSession.selectOne("orderInfo.sumIsGet",callNum);
 	}
 
 	@Override
 	public int countLinkedOrder(int callNum) {
-		return sqlSession.selectOne("orderInfo.countLinkedOrder");
+		return sqlSession.selectOne("orderInfo.countLinkedOrder",callNum);
 	}
 	
 }

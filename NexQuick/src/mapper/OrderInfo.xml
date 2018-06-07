@@ -106,7 +106,7 @@
 		callNum in (
 		select callNum from callInfo
 		where qpId=#{qpId}
-		and deliveryStauts=3
+		and deliveryStatus=3
 		)
 
 	</select>
@@ -117,7 +117,6 @@
 	set isGet=1, arrivalTime=sysdate
 	where orderNum in
 	<if test="list != null and list.size() >= 1">
-	where callNum in 
 	<foreach separator="," close=")" open="(" item="orderNum" collection="list"> #{orderNum} </foreach>
 	</if>
 	</update>

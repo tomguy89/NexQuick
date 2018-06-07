@@ -204,6 +204,12 @@ public class CallMangementController {
 		return callManagementService.delFreights(freightNum);
 	}
 	
+	@RequestMapping("/getFreight.do")
+	public @ResponseBody FreightInfo getFreight(HttpSession session, int freightNum){
+		System.out.println(freightNum);
+		return callManagementService.getFreight(freightNum);
+	}
+	
 	
 	
 	/**
@@ -245,15 +251,13 @@ public class CallMangementController {
 	 * @param payStatus
 	 */
 	@RequestMapping("/registCall.do")
-	public @ResponseBody boolean registCall(HttpSession session, int payType, int payStatus) {
+	public @ResponseBody boolean registCall(HttpSession session, int payType, int payStatus, int totalPrice) {
 		int callNum = (int)session.getAttribute("callNum");
-		int totalPrice = (int)session.getAttribute("totalPrice");
 		CallInfo callInfo = callSelectListService.selectCallInfo(callNum);
 		callInfo.setDeliveryStatus(1);
 		callInfo.setTotalPrice(totalPrice);
 		callInfo.setPayType(payType);
 		callInfo.setPayStatus(payStatus);
-		session.removeAttribute("callNum");
 		callManagementService.updateCall(callInfo);
 		return true;
 	}
@@ -428,6 +432,7 @@ public class CallMangementController {
 	@RequestMapping("/currentCall.do")
 	public @ResponseBody CallInfo selectCall(HttpSession session, String csId) {
 		CallInfo callInfo = callSelectListService.selectCallInfo(csId);
+		session.setAttribute("callNum", callInfo.getCallNum());
 		return callInfo; 
 	}
 	

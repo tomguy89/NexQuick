@@ -133,7 +133,6 @@
 		urgent=#{urgent},
 		series=#{series},
 		reserved=#{reserved},
-		reservationTime=to_date(#{reservationTime},'mm/dd/yyyy hh24:mi'),
 		payStatus=#{payStatus},
 		callTime=sysdate
 		where callNum=#{callNum}

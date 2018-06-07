@@ -6,25 +6,28 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-
-<script src="<%=request.getContextPath() %>/Table_Highlight_Vertical_Horizontal/vendor/jquery/jquery-3.2.1.min.js"></script>
-<!-- 임시 테이블 -->
-<link rel="stylesheet" type="text/css" href="../Table_Highlight_Vertical_Horizontal/vendor/bootstrap/css/bootstrap.min.css">
+	<script src="<%=request.getContextPath() %>/Table_Highlight_Vertical_Horizontal/vendor/jquery/jquery-3.2.1.min.js"></script>
+<!--===============================================================================================-->	
+	<link rel="icon" type="image/png" href="images/icons/favicon.ico"/>
 <!--===============================================================================================-->
-<link rel="stylesheet" type="text/css" href="../Table_Highlight_Vertical_Horizontal/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/Table_Fixed_Header/vendor/bootstrap/css/bootstrap.min.css">
 <!--===============================================================================================-->
-<link rel="stylesheet" type="text/css" href="../Table_Highlight_Vertical_Horizontal/vendor/animate/animate.css">
+	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/Table_Fixed_Header/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
 <!--===============================================================================================-->
-<link rel="stylesheet" type="text/css" href="../Table_Highlight_Vertical_Horizontal/vendor/select2/select2.min.css">
+	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/Table_Fixed_Header/vendor/animate/animate.css">
 <!--===============================================================================================-->
-<link rel="stylesheet" type="text/css" href="../Table_Highlight_Vertical_Horizontal/vendor/perfect-scrollbar/perfect-scrollbar.css">
+	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/Table_Fixed_Header/vendor/select2/select2.min.css">
 <!--===============================================================================================-->
-<link rel="stylesheet" type="text/css" href="../Table_Highlight_Vertical_Horizontal/css/util.css">
-<link rel="stylesheet" type="text/css" href="../Table_Highlight_Vertical_Horizontal/css/main.css">
-<link rel="stylesheet" type="text/css" href="<%= request.getContextPath() %>/css/indexStyle.css">
+	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/Table_Fixed_Header/vendor/perfect-scrollbar/perfect-scrollbar.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/Table_Fixed_Header/css/util.css">
+	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/Table_Fixed_Header/css/main.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/css/indexStyle.css">
+	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/css/InputBoxStyle.css">
+	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/css/datepicker.min.css">
 <title>NexQuick :: 진행중인 퀵</title>
 
-<% List<OnDelivery> deliveryList = (List<OnDelivery>) request.getSession().getAttribute("userCallList"); %>
 <script type="text/javascript">
 $(function() {
 	setInterval(function() {
@@ -40,11 +43,40 @@ $(function() {
 		})
 	}, 60*60*1000);
 	
-	
-	
-	
+	$.ajax({
+		url : "<%= request.getContextPath() %>/list/userCallList.do",
+		dataType : "json",
+		method : "POST",
+		success : setCallList
+	});
 	
 });
+
+function setCallList(JSONDocument) {
+	console.log(JSONDocument);
+	$("#tableBody").empty();
+	for(var i in JSONDocument) {
+		$("#tableBody").append(
+			$("<tr class='row100 body'>")
+			.append(
+				$("<td class='cell100 column1 centerBox'>").text(JSONDocument[i].orderNum)
+			).append(
+				$("<td class='cell100 column2 centerBox'>").text(JSONDocument[i].callTime)
+			).append(
+				$("<td class='cell100 column3 centerBox'>").text(JSONDocument[i].receiverAddress)
+			).append(
+				$("<td class='cell100 column4 centerBox'>").text("물품들")
+			).append(
+				$("<td class='cell100 column5 centerBox'>").text(JSONDocument[i].deliveryStatus)
+			).append(
+				$("<td class='cell100 column6 centerBox'>").text("배송기사")
+			)
+		)
+		
+	}
+	
+}
+
 </script>
 <!-- 배송중인 배달이 있다면. -->
 <!-- 구글맵 API (기사님 위치 다 찍어야됨) -->
@@ -57,7 +89,7 @@ $(function() {
 	
 	<div class = "row">
 		<div class = "col-md-4">
-			<h2 class = "centerBox mainListTitle text-conceptColor">
+			<h2 class = "centerBox mainListTitle text-conceptColor mb-3">
 				현재 배송 중입니다.
 			
 			</h2>
@@ -76,59 +108,64 @@ $(function() {
 			</script>
 		</div>
 		<div class = "col-md-8">
-			<h2 class = "centerBox mainListTitle text-conceptColor">
+			<h2 class = "centerBox mainListTitle text-conceptColor mb-3">
 				주문 이력
 			</h2>
+			
 			<div class="limiter">
-				<div class="container-table100">
-					<div class="wrap-table100">
-						<div class="table100 ver3 m-b-110">
-					<table data-vertable="ver3">
-						<thead>
-							<tr class="row100 head">
-								<th class="column100 column1" data-column="column1">주문번호</th>
-								<th class="column100 column2" data-column="column2">날짜</th>
-								<th class="column100 column3" data-column="column3">보낸 물품</th>
-								<th class="column100 column4" data-column="column4">목적지</th>
-								<th class="column100 column5" data-column="column5">배송 현황</th>
-								<th class="column100 column6" data-column="column6">배송기사</th>
-							</tr>
-						</thead>
-						<tbody>
-							<% if(deliveryList != null) { %>
-								<% for(OnDelivery od : deliveryList) { %>
-						<!-- 반복문 넣을 예정 -->
-							<tr class="row100">
-								<td class="column100 column1" data-column="column1"><%= od.getOrderNum() %></td>
-								<td class="column100 column2" data-column="column2"><%= od.getCallTime() %></td>
-								<td class="column100 column3" data-column="column3"><%= od.getOrderPrice() %></td>
-								<td class="column100 column4" data-column="column4"><%= od.getReceiverAddress() %></td>
-								<td class="column100 column5" data-column="column5"><%= od.getDeliveryStatus() %></td>
-								<td class="column100 column6" data-column="column6">김민규</td>
-							</tr>
-						<!-- 여기까지 -->
-								<%} %>
-							<%} %>
-						</tbody>
-					</table>
-				</div>
+				<div class="container-table100" style = "top:0em!important;">
+					<div class = "table1000">
+						<div class="table100 ver1" style = "max-height: 400px;">
+							<div class="table100-head">
+						
+								<table class = "table1000">
+									<thead>
+										<tr class="row100 head">
+											<th class="column100 column1 centerBox">주문번호</th>
+											<th class="column100 column2 centerBox">날짜</th>
+											<th class="column100 column3 centerBox">목적지</th>
+											<th class="column100 column4 centerBox">물품</th>
+											<th class="column100 column5 centerBox">배송 현황</th>
+											<th class="column100 column6 centerBox">배송 기사</th>
+										</tr>
+									</thead>
+								</table>
+							</div>
+							<div class="table100-body js-pscroll">
+								<table class = "table1000">
+									<tbody id = "tableBody">
+									</tbody>
+								</table>
+							</div>
+							<div class = "centerBox text-conceptColor mt-5">
+								<h6> 콜 번호를 클릭하면 해당 콜에 대한 상세 정보를 조회할 수 있습니다. </h6>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>
 			
+			
+			
+			
+			
 			<!-- javascript가 여기에 들어가야 작동됨 -->
+			<script src="<%=request.getContextPath() %>/Table_Fixed_Header/vendor/bootstrap/js/popper.js"></script>
+			<script src="<%=request.getContextPath() %>/Table_Fixed_Header/vendor/bootstrap/js/bootstrap.min.js"></script>
+			<script src="<%=request.getContextPath() %>/Table_Fixed_Header/vendor/select2/select2.min.js"></script>
+			<script src="<%=request.getContextPath() %>/Table_Fixed_Header/vendor/perfect-scrollbar/perfect-scrollbar.min.js"></script>
+		<!-- 왜인지는 모르겠음 -->
+				<script>
+				$('.js-pscroll').each(function(){
+					var ps = new PerfectScrollbar(this);
+		
+					$(window).on('resize', function(){
+						ps.update();
+					})
+				});
+			</script>
+			<script src="<%=request.getContextPath() %>/Table_Fixed_Header/js/main.js"></script>
 			
-			<!--===============================================================================================-->	
-			<script src="../Table_Highlight_Vertical_Horizontal/vendor/jquery/jquery-3.2.1.min.js"></script>
-			<!--===============================================================================================-->
-			<script src="../Table_Highlight_Vertical_Horizontal/vendor/bootstrap/js/popper.js"></script>
-			<script src="../Table_Highlight_Vertical_Horizontal/vendor/bootstrap/js/bootstrap.min.js"></script>
-			<!--===============================================================================================-->
-			<script src="../Table_Highlight_Vertical_Horizontal/vendor/select2/select2.min.js"></script>
-			<!--===============================================================================================-->
-			<script src="../Table_Highlight_Vertical_Horizontal/js/main.js"></script>
-			
-			<!-- 왜인지는 모르겠음 -->
 			
 		</div>
 	</div>

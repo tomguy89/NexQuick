@@ -30,6 +30,7 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
 <% List<OrderInfo> orderList = (List<OrderInfo>)request.getSession().getAttribute("ordersByCall");
 	CallInfo callInfo = (CallInfo) request.getSession().getAttribute("getCallByCallNum");
+	int totalPrice = 0;
 %>
 
 
@@ -39,7 +40,8 @@ $(function() {
 		url : "<%= request.getContextPath() %>/call/registCall.do",
 			data : {
 				payType : 0,
-				payStatus : 1
+				payStatus : 1,
+				totalPrice : $("#totalPrice").val()
 			},
 		dataType : "json",
 		method : "POST",
@@ -64,7 +66,7 @@ function registCall(JSONDocument) {
 </script>
 </head>
 <body>
-<%-- <%@ include file = "../navigation.jsp" %> --%>
+<%@ include file = "../navigation.jsp" %>
 <%@ include file = "../quickApplyPage/quickApply_going_box.jsp" %>
 
 	<!-- 신청한 내용 보여주기? -->
@@ -119,11 +121,12 @@ function registCall(JSONDocument) {
 				  	<th class = "col_100"><%= oi.getReceiverAddress() %></th>
 				  	<th class = "col_100 centerBox"><%= oi.getOrderPrice() %></th>
 			  	</tr>
-			  		<% } %>
+			  		
+			  		<% totalPrice += oi.getOrderPrice(); } %>
 			  	<% } %>
 			  </tbody>
 			</table>
-	
+		<input type = "number" id = "totalPrice" style = "display: none;" value = "<%= totalPrice %>" />
 	
 <%@ include file = "../footer.jsp" %>
 </body>

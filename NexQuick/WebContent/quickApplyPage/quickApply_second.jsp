@@ -252,33 +252,29 @@ var isUrgent = 1;
 		    				)
 		    				/* 오른쪽 리스트 붙이기 시작 */
 						).append(
-							$("<div class='col-md-5' style = 'display : none;'>").attr("id", "list"+dataIndex)
+							$("<div class='col-md-5' style = 'display : none; overflow : auto; max-height: 350px;'>").attr("id", "list"+dataIndex)
 							.append(
-								$("<div class = 'centerBox'>")
+								$("<div class = 'row centerBox' style = 'font-size: 1.2em;'>")
 								.append(
-									$("<span class = 'text-conceptColor'> 배송 거리 : </span>")
-								).append(
-									$("<label class='field field_animated field_a2 page__field distance'>")
+									$("<div class = 'col-md-4'>")
 									.append(
-										$("<input type=text class='addressFormSub field__input text-conceptColor' name = 'distance' disabled>").attr("id", "distance"+dataIndex)
+										$("<div class = 'text-conceptColor'> 배송 거리 </div>")
 									).append(
-										$("<span class='field__label-wrap'>")
+										$("<b class = 'text-linkColor'>")
 										.append(
-											$("<span class='field__label text-conceptColor'>거리</span>")
+											$("<div>").attr("id", "distance" + dataIndex)
 										)
 									)
 								).append(
-									$("<span class = 'text-conceptColor'> 거리 요금 : </span>")
-								).append(
-									$("<label class='field field_animated field_a2 page__field distancePay'>")
+									$("<div class = 'col-md-5'>")
 									.append(
-										$("<input type=text class='addressFormSub field__input text-conceptColor' name = 'distancePay' disabled>").attr("id", "distancePay"+dataIndex)
+										$("<div class = 'text-conceptColor'> 거리 요금 </div>")
 									).append(
-										$("<span class='field__label-wrap'>")
+										$("<b class = 'text-dangerColor'>")
 										.append(
-											$("<span class='field__label text-conceptColor'>요금</span>")
+											$("<div>").attr("id", "distancePay" + dataIndex)
 										)
-									)
+									)	
 								)
     						).append(
     							$("<div class = 'row mb-5'>")
@@ -320,6 +316,16 @@ var isUrgent = 1;
 							.append(
 								$("<tbody>")
 							)
+						).append(
+							$("<div class = 'centerBox' style = 'font-size : 1.2em;'>")
+							.append(
+								$("<span class = 'text-conceptColor'>").text("화물 요금 : ")
+							).append(
+								$("<b>")
+								.append(
+									$("<span class = 'text-dangerColor'>").attr("id", "freightPrice"+dataIndex)
+								)
+							)
 						)
 					) 
    				)
@@ -358,6 +364,7 @@ var isUrgent = 1;
 			var distance = "#distance"+dataIndex;
 			var distancePay = "#distancePay"+dataIndex;
 			var saveFreight;
+			var freightPrice = "#freightPrice" + dataIndex;
 	 		$(addressDetail).keyup(function() {
 	  			if(/* $("#address0").val().trim().length != 0 && */ $(addressDetail).val() != ""
 						&& $(userNameApply).val() != "" && $(phone).val() != "") {
@@ -434,13 +441,13 @@ var isUrgent = 1;
 	  			callNum = JSONDocument.callNum;
 	  			console.log(callNum);
 				$(list).slideDown(2000);
-				$(distance).val(JSONDocument.distance + "KM");
+				$(distance).text(JSONDocument.distance + "KM");
 				$(saveOrder).attr("disabled", "disabled");
 				$(saveText).text(" 도착지 정보 저장됨");
 				$(saveIcon).removeClass("far").addClass("fas");
 				saveFreight = "#saveFreight"+realId;
 				totalPrice = totalPrice + JSONDocument.orderPrice;
-				$(distancePay).val(JSONDocument.orderPrice + "원");
+				$(distancePay).text(JSONDocument.orderPrice + "원");
 				$(saveFreight).on("click", function() {
 					$selectId = "#item"+realId;
 					$countId = "#count"+realId;
@@ -493,6 +500,7 @@ var isUrgent = 1;
 	  			/* 옆에 리스트에 추가 */
 	  			alert("물품이 추가되었습니다. 이제 결제하실 수 있습니다. ");
 	  			totalPrice += JSONDocument.freightPrice;
+	  			$(freightPrice).text(Number($(freightPrice).text())+Number(JSONDocument.freightPrice));
 				$(tableIndex).append(
 					$("<tr>").attr("id", "tr"+trIndex)
 					.append(
@@ -506,13 +514,13 @@ var isUrgent = 1;
 									trRemove = "#tr"+trId;
 									/* 화물 삭제 비동기통신 */
 									$.ajax({
-										url : "<%= request.getContextPath() %>/call/delFreight.do",
+										url : "<%= request.getContextPath() %>/call/getFreight.do",
 						   				data : {
 						   					freightNum : JSONDocument.freightNum
 						   				},
 						   				dataType : "json",
 						   				method : "POST",
-						   				success : delFreights
+						   				success : getFreight
 									});
 				
 								})
@@ -522,24 +530,37 @@ var isUrgent = 1;
 				trIndex++;
 	  		}
 	  		
-	  		function delFreights(JSONDocument) {
-	  			var result = confirm("정말 삭제하시겠습니까?");
+	  		function getFreight(JSONDocument) {
+	  			totalPrice -= JSONDocument.freightPrice;
+	  			$(freightPrice).text(Number($(freightPrice).text())-Number(JSONDocument.freightPrice));
+	  			var result = confirm("해당 화물을 삭제하시겠습니까?");
 	  			if(result) {
+	  				$.ajax({
+	  					url : "<%= request.getContextPath() %>/call/delFreight.do",
+		   				data : {
+		   					freightNum : JSONDocument.freightNum
+		   				},
+		   				dataType : "json",
+		   				method : "POST",
+		   				success : delFreights
+	  				});
 					$(trRemove).remove();
+	  			} else {
+	  				console.log("삭제 취소");
+	  			}
+	  			
+	  		}
+	  		
+	  		function delFreights(JSONDocument) {
+	  			if(JSONDocument) {
+	  				console.log("삭제 완료");
+	  				
 	  			}
 	  		}
 	  		
 	  		
 	  		$(saveFavorite).on("click", function() {
 	  			console.log(this.id + "번째가 즐겨찾기에 저장됨");
-	  			$.ajax({
-	  				
-	  			});
-	  			
-	  		});
-	  		
-	  		$(callFavorite).on("click", function() {
-	  			/* 즐겨찾기 불러오기 비동기통신 */
 	  			$.ajax({
 	  				
 	  			});
@@ -575,10 +596,6 @@ var isUrgent = 1;
 				addressDetailId = "#address"+real_id;
 				goPopup(this);
 			});
-	
-	  	 	
-	  	 	
-	  	 	
 	  	 	
 	  	 	
 	  	 	
@@ -693,7 +710,7 @@ var isUrgent = 1;
   			}
   			callNum = JSONDocument.callNum;
   			console.log(callNum);
-  			$("#distance0").val(JSONDocument.distance + "KM");
+  			$("#distance0").text(JSONDocument.distance + "KM");
 			$("#list0").slideDown(2000);
 			$("#saveOrder0").attr("disabled", "disabled");
 			$("#saveIcon0").removeClass("far").addClass("fas");
@@ -701,7 +718,7 @@ var isUrgent = 1;
 			
 			totalPrice = totalPrice + JSONDocument.orderPrice;
 			
-			$("#distancePay0").val(JSONDocument.orderPrice + "원");
+			$("#distancePay0").text(JSONDocument.orderPrice + "원");
 			
 			/* 첫 버튼 기능등록 */
 	    	$("#saveFreight0").on("click", function() {
@@ -750,6 +767,7 @@ var isUrgent = 1;
   			$("#orderNow").attr("data-toggle", "modal").attr("data-target", "#payBox");
   			alert("물품이 추가되었습니다. 이제 결제하실 수 있습니다. ");
   			totalPrice += JSONDocument.freightPrice;
+  			$("#freightPrice0").text(Number($("#freightPrice0").text())+Number(JSONDocument.freightPrice));
 			$(tableIndex).append(
 				$("<tr>").attr("id", "tr"+trIndex)
 				.append(
@@ -763,13 +781,13 @@ var isUrgent = 1;
 							trRemove = "#tr"+trId;
 							/* 화물 삭제 비동기통신 */
 							$.ajax({
-								url : "<%= request.getContextPath() %>/call/delFreight.do",
+								url : "<%= request.getContextPath() %>/call/getFreight.do",
 				   				data : {
 				   					freightNum : JSONDocument.freightNum
 				   				},
 				   				dataType : "json",
 				   				method : "POST",
-				   				success : delFreight
+				   				success : getFreight
 							});
 						})
 					)
@@ -778,11 +796,29 @@ var isUrgent = 1;
 			trIndex++;
   		}  		
   		
-  		function delFreight(JSONDocument) {
-  			var result = confirm("정말 삭제하시겠습니까?");
+  		function getFreight(JSONDocument) {
+  			totalPrice -= JSONDocument.freightPrice;
+  			$("#freightPrice0").text(Number($("#freightPrice0").text())-Number(JSONDocument.freightPrice));
+  			var result = confirm("해당 화물을 삭제하시겠습니까?");
   			if(result) {
-	  			$(trRemove).remove();
+  				$.ajax({
+  					url : "<%= request.getContextPath() %>/call/delFreight.do",
+	   				data : {
+	   					freightNum : JSONDocument.freightNum
+	   				},
+	   				dataType : "json",
+	   				method : "POST",
+	   				success : delFreight
+  				});
+				$(trRemove).remove();
+  			} else {
+  				console.log("삭제 취소");
   			}
+  		}
+  		
+  		function delFreight(JSONDocument) {
+  			console.log(JSONDocument);
+  			console.log("삭제 완료");
   		}
   		
   		
@@ -1134,24 +1170,16 @@ var isUrgent = 1;
 					</div>
 					
 						<!-- 리스트 목록 나옴 -->
-						<div class = "col-md-5" style = "display : none;" id = "list0">
-							<div class = "centerBox">
-
-								<span class = "text-conceptColor"> 배송 거리 : </span>
-								<label class="field field_animated field_a2 page__field distance">
-							      <input type="text" class="addressFormSub field__input text-conceptColor" name = "distance" id="distance0" disabled>
-							      <span class="field__label-wrap">
-							        <span class="field__label text-conceptColor">거리</span>
-							      </span>
-							    </label>
-							       
-								<span class = "text-conceptColor"> 거리 요금 : </span>
-								<label class="field field_animated field_a2 page__field pay">
-							      <input type="text" class="addressFormSub field__input text-conceptColor" name = "distancePay" id="distancePay0" disabled>
-							      <span class="field__label-wrap">
-							        <span class="field__label text-conceptColor">요금</span>
-							      </span>
-							    </label>   
+						<div class = "col-md-5" style = "display : none; overflow : auto; max-height: 350px;" id = "list0">
+							<div class = "row centerBox" style = "font-size: 1.2em;">
+								<div class = "col-md-4">
+									<div class = "text-conceptColor"> 배송 거리 : </div>
+									<b class = "text-linkColor"><span id = "distance0"></span></b>
+								</div>
+								<div class = "col-md-5">
+									<div class = "text-conceptColor"> 거리 요금 : </div>
+									<b class = "text-dangerColor"><div id="distancePay0"></div></b>
+								</div>
 							</div>
 							<!-- selectBox -->
 							<div class = "row mb-5">
@@ -1179,6 +1207,13 @@ var isUrgent = 1;
 							  <tbody>
 							  </tbody>
 							</table>
+							
+							<div class = "centerBox" style = "font-size: 1.2em;">
+								<span class = "text-conceptColor">화물 요금 : </span>
+								<b><span class = "text-dangerColor" id = "freightPrice0"></span></b>
+							</div>
+							
+							
 						</div>
 						
 					</div>	

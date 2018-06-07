@@ -22,7 +22,8 @@ public class NewOrderActivity extends AppCompatActivity implements NavigationVie
 
 
     private TabLayout tabLayout;
-    private ViewPager viewPager;
+    private CustomViewPager viewPager;
+    private Intent orderIntent;
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -61,12 +62,15 @@ public class NewOrderActivity extends AppCompatActivity implements NavigationVie
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
         // Initializing ViewPager
-        viewPager = (ViewPager) findViewById(R.id.pager);
+        viewPager = (CustomViewPager) findViewById(R.id.pager);
+
+        viewPager.setPagingEnabled(false);
 
         // Creating TabPagerAdapter adapter
         TabPagerAdapter pagerAdapter = new TabPagerAdapter(getSupportFragmentManager(), tabLayout.getTabCount());
         viewPager.setAdapter(pagerAdapter);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+
 
         // Set TabSelectedListener
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
@@ -133,14 +137,6 @@ public class NewOrderActivity extends AppCompatActivity implements NavigationVie
         } else if (id == R.id.nav_order_list) {
             Intent intent = new Intent(getApplicationContext(), OrderListActivity.class);
             startActivity(intent);
-        } else if (id == R.id.nav_user_info) {
-
-        } else if (id == R.id.nav_customer_center) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

@@ -80,13 +80,13 @@ public class CallInfoDAOImpl implements CallInfoDAO {
 
 	@Override
 	public void updateCallAfterConfirm(List<Integer> list) {
-		sqlSession.update("callInfo.updateCallAfterConfirm");
+		sqlSession.update("callInfo.updateCallAfterConfirm",list);
 		
 	}
 
 	@Override
 	public void updateAfterOrdersChecked(int callNum) {
-		sqlSession.update("callInfo.updateAfterOrdersChecked");
+		sqlSession.update("callInfo.updateAfterOrdersChecked",callNum);
 	}
 
 

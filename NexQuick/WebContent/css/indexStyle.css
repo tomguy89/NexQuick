@@ -10,6 +10,10 @@
   src: url('../fonts/basicFont_M.otf');
 }
 
+.carousel-item {
+	height: 450px;
+}
+
 .modal_resize {
 	max-width: 1000px!important;
 	margin-top: 100px;
@@ -247,9 +251,7 @@ body {	margin: 0px; }
 
 .mainListTitle{
 	position: relative;
-	top: 2em;
 	font-size: 2em;
-	
 }
 
 .whiteBox {

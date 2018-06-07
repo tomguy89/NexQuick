@@ -71,7 +71,10 @@ var callNum;
     		
     	});
     	
-    	
+    	$('#timeInput').datepicker({
+    	    dateFormat: 'mm/dd/yyyy',
+    	    timeFormat: 'hh:ii'
+    	})
     	
     	/* 달력에 시간, 분 현재시간으로 설정 */
     	var d = new Date();
@@ -423,15 +426,18 @@ var callNum;
 		  	<label for="reserveDelivery" style = "line-height: 28px; color: #34495e">예약배송</label>
 					  	
 		</div>
-		<div id = "reserveBox" class = "centerBox mt-5" style = "display: none;">			  	
-			<div class="group" style = "width: 100%;">      
-			    <input class = "datepicker-here inputDesignForDay" type="text" id = "timeInput"  data-language='en'>
-			    <span class="highlight"></span>
-			    <span class="bar"></span>
-			    <label class = "labelDesignForDay text-conceptColor"><i class = "fas fa-street-view"></i>예약시간 설정</label>
-			</div>
-  		</div>
-		  	
+		<div class = "row justify-content-center mt-5">
+			<div class = "col-md-6 offset-md-3">
+				<div id = "reserveBox" class = "centerBox mt-3" style = "display: none;">			  	
+					<div class="group mb-0" style = "width: 100%;">      
+					    <input class = "datepicker-here inputDesignForApply" type="text" id = "timeInput" style = "width: 100%;" data-language='en' data-timepicker="true">
+					    <span class="highlight"></span>
+					    <span class="barApply"></span>
+					    <label class = "labelDesignForApply text-conceptColor"><i class = "fas fa-street-view"></i>예약시간 설정</label>
+					</div>
+		  		</div>
+	  		</div>
+	  	</div>
 <!-- 
 				<span>예약시간 : </span>
 				<label class="field field_animated field_a2 page__field time">
