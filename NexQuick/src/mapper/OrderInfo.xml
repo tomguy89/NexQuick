@@ -111,20 +111,6 @@
 
 	</select>
 	
-	
-		<select id="selectOrderListToConfrim" parameterType="map"
-		resultType="OrderInfo">
-		select * from orderInfo
-		where
-		receiverPhone = #{receiverPhone}
-		and
-		callNum in (
-		select callNum from callInfo
-		where qpId=#{qpId}
-		and deliveryStauts=3
-		)
-
-	</select>
 
 	<update id="updateOrderAfterConfirm" parameterType="map">
 	update orderinfo
