@@ -5,122 +5,143 @@
     android:layout_height="match_parent"
     tools:context=".Fragment1">
 
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:layout_margin="10dp">
+        android:orientation="vertical">
+
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:layout_margin="10dp"
+            android:orientation="vertical">
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="금액"
-                android:textAlignment="center"
-                android:textSize="20dp" />
+                android:text="여기는&#10;결제전&#10;퀵정보가&#10;간략하게&#10;표시될&#10;위치입니다"
+                android:textAlignment="center" />
 
-            <TextView
-
-                android:id="@+id/totalPrice"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="3"
-                android:text="0000원"
-                android:textAlignment="viewEnd"
-                android:textSize="20dp" />
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="총액"
+                    android:textAlignment="center"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="30dp"
+                    android:textStyle="bold" />
+
+                <TextView
+
+                    android:id="@+id/totalPrice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="3"
+                    android:text="0000원"
+                    android:textAlignment="viewEnd"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="30dp"
+                    android:textStyle="bold" />
 
 
+            </LinearLayout>
         </LinearLayout>
 
-        <TextView
-            android:id="@+id/payTypeInfo"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="결제유형 선택"
-            android:textColor="@color/colorPrimary" />
+            android:layout_margin="10dp"
+            android:orientation="vertical">
 
-
-        <TableLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center">
-
-            <TableRow
+            <TextView
+                android:id="@+id/payTypeInfo"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:text="결제유형 선택"
+                android:textColor="@color/colorPrimary"
+                android:textStyle="bold" />
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
 
                 <Button
                     android:id="@+id/pay1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="카드+선불" />
+                    android:layout_weight="1"
+                    android:text="앱에서&#10;지금결제"
+                    android:backgroundTint="@color/colorPrimary"
+                    android:textColor="#ffffff"
+                    android:textSize="25sp"/>
 
                 <Button
                     android:id="@+id/pay2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="카드+착불" />
+                    android:layout_weight="1"
+                    android:text="발송자&#10;현장결제"
+                    android:backgroundTint="@color/colorPrimary"
 
-            </TableRow>
-
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                    android:textColor="#ffffff"
+                    android:textSize="25sp"/>
 
                 <Button
                     android:id="@+id/pay3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="현금+선불" />
+                    android:layout_weight="1"
+                    android:text="수령자&#10;현장결제"
+                    android:backgroundTint="@color/colorPrimary"
+                    android:textColor="#ffffff"
+                    android:textSize="25sp"/>
 
-                <Button
-                    android:id="@+id/pay4"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="현금+착불" />
+            </LinearLayout>
 
-            </TableRow>
 
-            <TableRow
+            <Button
+                android:id="@+id/pay4"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <Button
-                    android:id="@+id/pay5"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="입금+선불" />
-
-                <Button
-                    android:id="@+id/pay6"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="신용결제" />
-
-            </TableRow>
+                android:layout_height="wrap_content"
+                android:text="신용결제"
+                android:backgroundTint="@color/colorPrimary"
+                android:textColor="#ffffff"
+                android:textSize="25sp"
+                />
 
 
-        </TableLayout>
+        </LinearLayout>
+
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_margin="10dp"
             android:orientation="horizontal">
 
             <Button
                 android:id="@+id/prev2p"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@color/colorPrimary"
                 android:layout_gravity="start"
-                android:textColor="#ffffff"
-                android:text="이전" />
+                android:backgroundTint="@color/colorPrimary"
+                android:text="이전"
+                android:textColor="#ffffff" />
 
         </LinearLayout>
     </LinearLayout>

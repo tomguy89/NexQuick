@@ -8,12 +8,12 @@
     <uses-permission android:name="android.permission.READ_CONTACTS" />
 
     <application
+        android:name=".CustomStartApp"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:name=".CustomStartApp"
         android:theme="@style/AppTheme">
         <activity android:name=".LoginActivity">
             <intent-filter>
@@ -23,10 +23,12 @@
             </intent-filter>
         </activity>
         <activity android:name=".MainMenuActivity" />
-        <activity android:name=".OrderListActivity"
-                android:theme="@style/AppTheme.NoActionBar"/>
-        <activity android:name=".OrderListBeforeActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity
+            android:name=".OrderListActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".OrderListBeforeActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".NavigationActivity"
             android:label="@string/title_activity_navigation"
@@ -40,12 +42,12 @@
             android:name=".SignupActivity"
             android:label="@string/title_activity_signup"
             android:theme="@style/DialogTheme" />
-        <activity android:name=".KeyHashActivity"/>
+        <activity android:name=".KeyHashActivity" />
 
         <!-- 20180606 18:00 -->
         <activity
             android:name=".DialogPayActivity"
-            android:theme="@style/DialogTheme" >
+            android:theme="@style/DialogTheme">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -54,12 +56,9 @@
 
                 <data android:scheme="iamporttest" />
             </intent-filter>
-
-
         </activity>
-
-
-
+        <activity android:name=".DialogDetailActivity"
+            android:theme="@style/DialogTheme"/>
     </application>
 
 </manifest>

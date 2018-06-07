@@ -30,11 +30,14 @@ public class DialogPayActivity extends AppCompatActivity {
 
         Display display = ((WindowManager) getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
 
-        int width = (int) (display.getWidth() * 0.7); //Display 사이즈의 70%
-        int height = (int) (display.getHeight() * 0.8);  //Display 사이즈의 80%
+        int width = (int) (display.getWidth() * 0.96); //Display 사이즈의 70%
+        int height = (int) (display.getHeight() * 0.98);  //Display 사이즈의 80%
 
         getWindow().getAttributes().width = width;
         getWindow().getAttributes().height = height;
+
+
+
 
 
         mainWebView = (WebView) findViewById(R.id.mainWebView);

@@ -22,7 +22,7 @@ public class NewOrderActivity extends AppCompatActivity implements NavigationVie
 
 
     private TabLayout tabLayout;
-    private ViewPager viewPager;
+    private CustomViewPager viewPager;
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -61,12 +61,15 @@ public class NewOrderActivity extends AppCompatActivity implements NavigationVie
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
         // Initializing ViewPager
-        viewPager = (ViewPager) findViewById(R.id.pager);
+        viewPager = (CustomViewPager) findViewById(R.id.pager);
+
+        viewPager.setPagingEnabled(false);
 
         // Creating TabPagerAdapter adapter
         TabPagerAdapter pagerAdapter = new TabPagerAdapter(getSupportFragmentManager(), tabLayout.getTabCount());
         viewPager.setAdapter(pagerAdapter);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+
 
         // Set TabSelectedListener
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {

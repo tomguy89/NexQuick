@@ -16,8 +16,11 @@ import android.annotation.SuppressLint;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -35,7 +38,7 @@ public class Fragment1 extends Fragment {
     private EditText etDatePicker;
     private EditText etTimePicker;
     private Spinner spinner;
-
+    private LinearLayout reserveView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -50,7 +53,7 @@ public class Fragment1 extends Fragment {
         etDatePicker.setInputType(0);
         etTimePicker.setInputType(0);
 
-        spinner = (Spinner) view.findViewById(R.id.senderAdressSpinner);
+        spinner = (Spinner) view.findViewById(R.id.senderAddressSpinner);
 
         final ArrayList<String> spinnerList = new ArrayList<>();
         spinnerList.add("즐겨찾기");
@@ -77,6 +80,27 @@ public class Fragment1 extends Fragment {
         });
 
 
+        CheckBox reserveCbx = (CheckBox) view.findViewById(R.id.reserveCbx);
+
+        reserveView = (LinearLayout) view.findViewById(R.id.reserveView);
+
+
+        reserveCbx.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+
+                if(isChecked) {
+
+                    reserveView.setVisibility(View.VISIBLE);
+
+                } else {
+
+                    reserveView.setVisibility(View.INVISIBLE);
+                }
+
+
+            }
+        });
 
 
         nextBtn.setOnClickListener(new View.OnClickListener() {
@@ -125,7 +149,7 @@ public class Fragment1 extends Fragment {
                         }
                     }, cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DATE));
 
-                    dialog.getDatePicker().setMaxDate(new Date().getTime());    //입력한 날짜 이후로 클릭 안되게 옵션
+                    dialog.getDatePicker().setMinDate(new Date().getTime());    //입력한 날짜 이전으로 클릭 안되게 옵션
                     dialog.show();
                 }
             }
@@ -139,8 +163,6 @@ public class Fragment1 extends Fragment {
 
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-
-
 
                 if(hasFocus) {
                     TimePickerDialog dialog = new TimePickerDialog(getActivity(), new TimePickerDialog.OnTimeSetListener() {

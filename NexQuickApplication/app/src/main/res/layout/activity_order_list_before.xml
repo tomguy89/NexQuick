@@ -14,21 +14,22 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:textSize="20dp"
-        android:text="ooo님 전체 주문 내역" />
+        android:text="ooo님 전체 주문 내역"
+        android:padding="10dp"/>
 
 
     <Spinner
         android:id="@+id/orderSpinner"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:padding="10dp"/>
 
     <ListView
         android:id="@+id/order_before_listview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="0.8"
-        tools:layout_editor_absoluteX="8dp"
-        tools:layout_editor_absoluteY="8dp" >
+        android:padding="10dp"
+ >
 
 
 
