@@ -1,5 +1,6 @@
 package com.nexquick.model.dao;
 
+import java.util.HashMap;
 import java.util.List;
 
 import com.nexquick.model.vo.CallInfo;
@@ -71,7 +72,10 @@ public interface CallInfoDAO {
 
 	List<CallInfo> selectCallList(String csId);
 
+//	고객용, 날짜로 검색
+	List<CallInfo> selectCallListByIdAndDate(HashMap<String, Object> condition);
 
-
+//	관리자용, 이름과 날짜로 검색
+	List<CallInfo> selectCallListByNameAndDate(HashMap<String, Object> condition);
 	
 }

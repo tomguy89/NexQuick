@@ -1,5 +1,6 @@
 package com.nexquick.service.call;
 
+import java.util.HashMap;
 import java.util.List;
 
 import com.nexquick.model.vo.CallInfo;
@@ -87,4 +88,9 @@ public interface CallManagementService {
 	void delPastCall();
 	
 	List<CallInfo> getCallsByCsId(String csId);
+	
+//	고객용, 날짜로 검색
+	List<CallInfo> getAllCallsByIdAndDate(HashMap<String, Object> condition);
+//	관리자용, 이름과 날짜로 검색
+	List<CallInfo> getAllCallsByNameAndDate(HashMap<String, Object> condition);
 }

@@ -25,6 +25,9 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/js/bootstrap-datetimepicker.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/css/bootstrap-datetimepicker.min.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/css/datepicker.min.css">
+<script src="<%=request.getContextPath() %>/js/datepicker.min.js"></script>
+<script src="<%=request.getContextPath() %>/js/datepicker.en.js"></script>
 <%@ include file = "../navigation.jsp" %>
 
 <script>
@@ -220,7 +223,7 @@ var callNum;
  	
  	function gotoNextPage(JSONDocument) {
  		console.log("비동기통신 완료... 다음 페이지로 이동");
- 		location.href = "<%=request.getContextPath()%>/call/getFavorite.do";
+ 		location.href = "./quickApply_second.jsp";
  		/* 객체를 비동기로 바로 생성하고 시작하면 location.href로 아무것도 가져가지 말고 페이지 이동하면 됨
  			아니라면 데이터 모두 갖고 이동 */
  	}
@@ -249,6 +252,8 @@ var callNum;
 /*  최신 콜 받아오기.  */
    	function getCurrentCall(JSONDocument) {
    		console.log(JSONDocument);
+   		callNum = JSONDocument.callNum;
+   		console.log("IF 전의 콜넘 " + callNum);
    		var result = confirm("현재 신청중인 퀵이 있습니다. 이어서 작성하시겠습니까?");
    		if(result) { // 이어서 작성
    			currentCall = 1;
@@ -283,10 +288,27 @@ var callNum;
 	    		$("#reserveBox").slideDown();
 	    		$("#timeInput").val(JSONDocument.reservationTime);
 			}
-			callNum = JSONDocument.callNum;
+			console.log("IF 안의 콜넘 " + callNum);
 			console.log(callNum);
    		} else { // 처음부터 작성
-   			console.log("처음부터 작성합니다.");
+   			console.log("else IF 안의 콜넘 " + callNum);
+   			$.ajax({
+   				url : "<%= request.getContextPath() %>/call/cancelCall.do",
+   				data : {
+   					'callNum' : callNum
+   				},
+				dataType : "json",
+				method : "POST",
+				success : function(JSONDocument) {
+					if(JSONDocument) {
+						console.log("처음부터 작성");
+					}
+				},
+				error : function() {
+					alert("해당 프로세스에서 오류가 생겨 처음부터 작성합니다.");
+				}
+   			});
+   			
    		}
    	}
  	
@@ -400,9 +422,17 @@ var callNum;
 		  	</label>
 		  	<label for="reserveDelivery" style = "line-height: 28px; color: #34495e">예약배송</label>
 					  	
-		</div>			  	
+		</div>
+		<div id = "reserveBox" class = "centerBox mt-5" style = "display: none;">			  	
+			<div class="group" style = "width: 100%;">      
+			    <input class = "datepicker-here inputDesignForDay" type="text" id = "timeInput"  data-language='en'>
+			    <span class="highlight"></span>
+			    <span class="bar"></span>
+			    <label class = "labelDesignForDay text-conceptColor"><i class = "fas fa-street-view"></i>예약시간 설정</label>
+			</div>
+  		</div>
 		  	
-			<div id = "reserveBox" class = "centerBox" style = "display: none;">
+<!-- 
 				<span>예약시간 : </span>
 				<label class="field field_animated field_a2 page__field time">
 			      <input type="text" class="addressFormSub field__input" placeholder="클릭해서 시간 설정" name = "time" id="timeInput" readonly = "readonly" data-toggle="modal" data-target="#modal1" style = "width: 12.5em!important;">
@@ -410,7 +440,7 @@ var callNum;
 			        <span class="field__label text-conceptColor">시간 설정</span>
 			      </span>
 			    </label>
-			</div>
+			</div> -->
 		  	
 		  	
 		

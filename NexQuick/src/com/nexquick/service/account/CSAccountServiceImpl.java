@@ -1,5 +1,6 @@
 package com.nexquick.service.account;
 
+import java.util.HashMap;
 import java.util.List;
 
 import com.nexquick.model.dao.CSInfoDAO;
@@ -39,6 +40,11 @@ public class CSAccountServiceImpl implements CSAccountService {
 	@Override
 	public List<CSInfo> csAllList() {
 		return csInfoDao.selectCSList();
+	}
+	
+	@Override
+	public List<CSInfo> csAllListByName(HashMap<String, Object> condition) {
+		return csInfoDao.selectCSListByName(condition);
 	}
 	
 	

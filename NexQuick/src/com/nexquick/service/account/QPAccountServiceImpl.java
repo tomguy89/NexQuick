@@ -1,5 +1,6 @@
 package com.nexquick.service.account;
 
+import java.util.HashMap;
 import java.util.List;
 
 import com.nexquick.model.dao.QPInfoDAO;
@@ -39,6 +40,11 @@ public class QPAccountServiceImpl implements QPAccountService {
 	@Override
 	public List<QPInfo> qpAllList() {
 		return qpInfoDao.selectQPList();
+	}
+	
+	@Override
+	public List<QPInfo> qpAllListByName(HashMap<String, Object> condition) {
+		return qpInfoDao.selectQPListByName(condition);
 	}
 	
 }

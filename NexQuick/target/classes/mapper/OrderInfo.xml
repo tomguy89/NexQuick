@@ -81,6 +81,21 @@
 		and csId = #{csId}
 		order by callTime
 	</select>
+	
+	<select id="allCallListByIdAndName" parameterType="String" resultType="OnDelivery">
+		select c.callNum, orderNum, callTime, senderAddress, receiverName, receiverAddress, orderPrice, deliveryStatus 
+		from orderInfo o, callInfo c
+		where c.callNum = o.callNum
+		<where>
+			<if test="csId != null">
+				AND csId = #{csId}
+			</if>
+			<if test="callTime != null">
+				AND callTime >= #{callTime}
+			</if>
+		</where>
+		order by callTime
+	</select>
 
 	<select id="selectOrderListToConfrim" parameterType="map"
 		resultType="OrderInfo">

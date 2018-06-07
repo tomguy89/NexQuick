@@ -1,5 +1,6 @@
 package com.nexquick.service.call;
 
+import java.util.HashMap;
 import java.util.List;
 
 import com.nexquick.model.dao.CallInfoDAO;
@@ -85,6 +86,16 @@ public class CallManagementServiceImpl implements CallManagementService {
 
 	public List<CallInfo> getCallsByCsId(String csId) {
 		return callInfoDao.selectCallList(csId);
+	}
+
+	@Override
+	public List<CallInfo> getAllCallsByIdAndDate(HashMap<String, Object> condition) {
+		return callInfoDao.selectCallListByIdAndDate(condition);
+	}
+	
+	@Override
+	public List<CallInfo> getAllCallsByNameAndDate(HashMap<String, Object> condition) {
+		return callInfoDao.selectCallListByNameAndDate(condition);
 	}
 	
 }

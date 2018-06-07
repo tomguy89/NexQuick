@@ -267,7 +267,7 @@ body {	margin: 0px; }
 
 input:-ms-input-placeholder { color: rgba(255, 255, 255, 0.65); }
 
-
+.inputDesignForDay::-webkit-input-placeholder { color : rgba(0,0,0,0.65)!important; font-size: 12px;}
 input::-webkit-input-placeholder { color: rgba(255, 255, 255, 0.65); } 
 
 

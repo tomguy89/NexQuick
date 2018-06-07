@@ -1,6 +1,4 @@
 <%@ page import = "java.util.*" %>
-<%@ page import = "com.nexquick.model.vo.CallInfo" %>
-<%@ page import = "com.nexquick.model.vo.OnDelivery" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -29,33 +27,19 @@
 	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/css/datepicker.min.css">
 	<script src="<%=request.getContextPath() %>/js/datepicker.min.js"></script>
 	<script src="<%=request.getContextPath() %>/js/datepicker.en.js"></script>
+
+	
+<title>NexQuick :: 관리자 페이지 :: 사용자 관리</title>
 <script type="text/javascript">
+
+function onopen(buttonId)
+{
+	var url =
+	"http://www.ftc.go.kr/bizCommPop.do?wrkr_no="+$(buttonId).text();
+	window.open(url, "bizCommPop", "width=750, height=700;");
+}
+
 $(function() {
-	
-	$.ajax({
-		url : "<%= request.getContextPath() %>/call/getCallsByIdAndDate.do",
-		dataType : "json",
-		method : "POST",
-		data : {
-			callTime : $("#callTime").val()
-		},
-		success : setCallList
-			
-	});
-	
-	$("#searchBtn").on("click", function() {
-		$.ajax({
-			url : "<%= request.getContextPath() %>/call/getCallsByIdAndDate.do",
-			dataType : "json",
-			method : "POST",
-			data : {
-				callTime : $("#callTime").val()
-			},
-			success : setCallList
-				
-		});
-	});
-	
 	setInterval(function() {
 		$.ajax({
 			url : "<%= request.getContextPath() %>/call/delPastCall.do",
@@ -70,117 +54,88 @@ $(function() {
 	}, 60*60*1000);
 	
 	
-});
-
-function setCallList(JSONDocument) {
-	
-	$("#tableBody").empty();
-	var totalPrice = 0;
-	for(var i in JSONDocument) {
-		$("#tableBody").append(
-			$("<tr class='row100 body'>")
-			.append(
-				$("<td class='cell100 column1 centerBox'>")
-				.append(
-					$("<a onclick='getOrders(this)'>").attr("id", "callNum" + JSONDocument[i].callNum).text(JSONDocument[i].callNum)
-				)
-			).append(
-				$("<td class='cell100 column2 centerBox'>").text(JSONDocument[i].senderName)
-			).append(
-				$("<td class='cell100 column3 centerBox'>").text(JSONDocument[i].senderAddress + " " + JSONDocument[i].senderAddressDetail)
-			).append(
-				$("<td class='cell100 column4 centerBox'>").text(JSONDocument[i].callTime)
-			).append(
-				$("<td class='cell100 column5 centerBox'>").text(JSONDocument[i].totalPrice + "원")
-			).append(
-				$("<td class='cell100 column6 centerBox'>").text(JSONDocument[i].deliveryStatus)
-			)
-		)
-		totalPrice += JSONDocument[i].totalPrice;
-	}
-    $("#tableBody").append(
-   		$("<tr class='row100 body'>").css("border-top", "1px solid #34495e")
-   		.append(
-   			$("<td class='cell100 column1 centerBox' colspan='4'>").text("총계")
-   		).append(
-   			$("<td class='cell100 column1 centerBox' colspan='2'>").text(totalPrice + "원")
-   		)
-    )
-	
-	console.log(JSONDocument);
-}
-
-
-
-function getOrders(callNum) {
-	console.log(callNum.text);
 	$.ajax({
-		url : "<%=request.getContextPath()%>/call/getOrderList.do",
-		data : {
-			"callNum" : callNum.text
-		},
+		url : "<%= request.getContextPath() %>/admin/allCsByName.do",
 		dataType : "json",
 		method : "POST",
-		success : orderList
+		data : {
+			csName : $("#csName").val()
+		},
+		success : setCsListTable 
+	})
+	
+	$("#searchBtn").on("click", function() {
+		$.ajax({
+			url : "<%= request.getContextPath() %>/admin/allCsByName.do",
+			dataType : "json",
+			method : "POST",
+			data : {
+				csName : $("#csName").val()
+			},
+			success : setCsListTable 
+		})
 	});
-}
+	
+	
+	
+});
 
-
-function orderList(JSONDocument) {
-	$("#orderListTable").empty();
-	var totalPrice = 0;
-    for (var i in JSONDocument) {
-    	$("#orderListTable").append(
-    		$("<tr class='row100 body'>")
-    		.append(
-    			$("<td class='cell100 column1 centerBox'>").text(JSONDocument[i].orderNum)
-    		).append(
-    			$("<td class='cell100 column2 centerBox'>").text(JSONDocument[i].receiverName)
-    		).append(
-    			$("<td class='cell100 column3 centerBox'>").text(JSONDocument[i].receiverAddress)
-    		).append(
-    			$("<td class='cell100 column4 centerBox'>").text(JSONDocument[i].memo)
-    		).append(
-    			$("<td class='cell100 column5 centerBox'>").text(JSONDocument[i].orderPrice + "원")
-    		).append(
-    			$("<td class='cell100 column6 centerBox'>").text(JSONDocument[i].isGet)
-    		)
-    	);
-    	totalPrice += JSONDocument[i].orderPrice;
-    }
-    $("#orderListTable").append(
-		$("<tr class='row100 body'>").css("border-top", "1px solid #34495e")
-		.append(
-			$("<td class='cell100 column1 centerBox' colspan='4'>").text("총계")
-		).append(
-			$("<td class='cell100 column1 centerBox' colspan='2'>").text(totalPrice + "원")
+function setCsListTable(JSONDocument) {
+	console.log(JSONDocument);
+	$("#tableBody").empty();
+	var count = 0;
+	var BusinessNumber;
+	var BusinessName;
+	var Department;
+	for(var i in JSONDocument) {
+		$("#tableBody").append(
+			$("<tr class = 'row100 body'>")
+			.append(
+				$("<td class = 'cell100 column1 c1 centerBox'>").text(JSONDocument[i].csId)
+			).append(
+				$("<td class = 'cell100 column2 c2 centerBox'>").text(JSONDocument[i].csName)
+			).append(
+				$("<td class = 'cell100 column3 c3 centerBox'>").text(JSONDocument[i].csPhone)
+			).append(
+				$("<td class = 'cell100 column4 c4 centerBox'>").text(JSONDocument[i].csType)
+			).append(
+				$("<td class = 'cell100 column5 c5 centerBox'>").text(JSONDocument[i].csGrade)
+			).append(
+				$("<td class = 'cell100 column6 c6 centerBox'>").text(JSONDocument[i].csMilege)
+			).append(
+				$("<td class = 'cell100 column7 c7 centerBox'>")
+				.append(
+					$("<button onclick = 'onopen(this)'>").attr("id", "btn"+count).text(JSONDocument[i].csBusinessNumber)
+				)
+			).append(
+				$("<td class = 'cell100 column8 c8 centerBox'>").text(JSONDocument[i].csBusinessName)
+			).append(
+				$("<td class = 'cell100 column9 c9 centerBox'>").text(JSONDocument[i].csDepartment)
+			)
 		)
-	)
-    
-	$("#orderList").modal("show");
-    
+		
+	}
+	
 }
-
 
 
 </script>
-
-<title>NexQuick :: 전체 신청목록</title>
 </head>
 <body>
 <%@ include file = "../navigation.jsp" %>
-	
+
 	<h2 class = "centerBox quickFirstTitle mb-5 text-conceptColor">
-		전체 신청목록 조회
+		사용자 관리
 	</h2>
+	
 	
 	<div class = "row">
 		<div class = "col-md-6">
 			<div class="group centerBox" style = "width: 20%; float : right;">      
-			    <input class = "datepicker-here inputDesignForDay" type="text" id = "callTime"  data-language='en' placeholder = "날짜를 입력하세요">
+			    <input class = "inputDesignForDay" type="text" id = "csName"  data-language='en' placeholder = "이름을 입력하세요">
 			    <span class="highlight"></span>
 			    <span class="bar"></span>
-			    <label class = "labelDesignForDay"><i class = "fas fa-street-view"></i>해당 날짜 이후</label>
+			    <label class = "labelDesignForDay"><i class = "fas fa-street-view"></i>사용자 이름검색</label>
 			</div>
 		</div>
 		<div class = "col-md-6">
@@ -198,12 +153,15 @@ function orderList(JSONDocument) {
 						<table class = "table1000">
 							<thead>
 								<tr class="row100 head">
-									<th class="column100 column1 centerBox">콜 번호</th>
-									<th class="column100 column2 centerBox">발송인</th>
-									<th class="column100 column3 centerBox">발송지</th>
-									<th class="column100 column4 centerBox">신청날짜</th>
-									<th class="column100 column5 centerBox">요금</th>
-									<th class="column100 column6 centerBox">배송상황</th>
+									<th class="column100 column1 c1 centerBox">고객ID</th>
+									<th class="column100 column2 c2 centerBox">이름</th>
+									<th class="column100 column3 c3 centerBox">전화번호</th>
+									<th class="column100 column4 c4 centerBox">고객분류</th>
+									<th class="column100 column5 c5 centerBox">회원등급</th>
+									<th class="column100 column6 c6 centerBox">마일리지</th>
+									<th class="column100 column7 c7 centerBox">사업자등록번호</th>
+									<th class="column100 column8 c8 centerBox">법인명</th>
+									<th class="column100 column9 c9 centerBox">부서명</th>
 								</tr>
 							</thead>
 						</table>
@@ -223,14 +181,12 @@ function orderList(JSONDocument) {
 						</table>
 					</div>
 					<div class = "centerBox text-conceptColor mt-5">
-						<h6> 콜 번호를 클릭하면 해당 콜에 대한 상세 정보를 조회할 수 있습니다. </h6>
+						<h6> 사업자등록번호를 클릭하여 등록된 사업장인지 확인할 수 있습니다. </h6>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-
-
 <!-- javascript가 여기에 들어가야 작동됨 -->
 <!--===============================================================================================-->
 	<script src="<%=request.getContextPath() %>/Table_Fixed_Header/vendor/bootstrap/js/popper.js"></script>
@@ -253,71 +209,8 @@ function orderList(JSONDocument) {
 	</script>
 <!--===============================================================================================-->
 	<script src="<%=request.getContextPath() %>/Table_Fixed_Header/js/main.js"></script>
-	
+
+
 <%@ include file = "../footer.jsp" %>
-
-
-
-			
-	<div class="modal fade bd-example-modal-lg" id="orderList" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-	  <div class="modal-dialog modal-dialog-centered modal-lg modal_resize" role="document">
-	    <div class="modal-content">
-	      <div class="modal-header">
-	        <h5 class="modal-title" id="exampleModalLabel">개인정보 수정</h5>
-	        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-	          <span aria-hidden="true">&times;</span>
-	        </button>
-	      </div>
-	      <div class="modal-body">
-
-
-
-	<div class="limiter">
-		<div class="container-table100" style = "top:0em!important;">
-			<div class = "table1000">
-				<div class="table100 ver1">
-					<div class="table100-head">
-				
-						<table class = "table1000">
-							<thead>
-								<tr class="row100 head">
-									<th class="column100 column1 centerBox">오더 번호</th>
-									<th class="column100 column2 centerBox">수령인</th>
-									<th class="column100 column3 centerBox">수령지</th>
-									<th class="column100 column4 centerBox">배송메모</th>
-									<th class="column100 column5 centerBox">가격</th>
-									<th class="column100 column6 centerBox">배송상태</th>
-								</tr>
-							</thead>
-						</table>
-					</div>
-					<div class="table100-body js-pscroll modalTable">
-						<table class = "table1000">
-							<tbody id = "orderListTable">
-							</tbody>
-						</table>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-	      
-	      
-	      </div>
-          <div class="modal-footer centerBox">
-	        <button type="button" class="ColorBorder" id = "submitBtn" data-dismiss="modal"> 창 닫기 </button>
-	      </div>
-		      
-	    </div>
-	  </div>
-	</div>
-
-	
-	
-	
-
-
-
-	
 </body>
 </html>

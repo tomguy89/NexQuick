@@ -31,6 +31,21 @@
 
 $(function() {
 	
+	
+	setInterval(function() {
+		$.ajax({
+			url : "<%= request.getContextPath() %>/call/delPastCall.do",
+			dataType : "json",
+			method : "POST",
+			success : function(JSONDocument) {
+				if(JSONDocument) {
+					console.log("하루 지난 미완료 콜 삭제 완료");
+				}
+			}
+		})
+	}, 60*60*1000);
+	
+	
 	$("#goToApply").bind({
 		mouseover : function() {
 			var list = $("#list_first");
@@ -81,7 +96,7 @@ $(function() {
 	});
 	
 	$("#goToSetting").on("click", function() {
-		location.href="<%= request.getContextPath() %>/call/getCallsByCsId.do";
+		location.href="<%= request.getContextPath() %>/csPage/UserPage.jsp";
 	});
 
 	

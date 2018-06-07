@@ -31,6 +31,8 @@
 <% List<OrderInfo> orderList = (List<OrderInfo>)request.getSession().getAttribute("ordersByCall");
 	CallInfo callInfo = (CallInfo) request.getSession().getAttribute("getCallByCallNum");
 %>
+
+
 <script type="text/javascript">
 $(function() {
 	$.ajax({
@@ -43,6 +45,12 @@ $(function() {
 		method : "POST",
 		success : registCall
 	});
+	
+	setTimeout(function(){
+        $('.trans--grow').addClass('grow');
+    }, 275);
+	
+	
 });
 
 function registCall(JSONDocument) {

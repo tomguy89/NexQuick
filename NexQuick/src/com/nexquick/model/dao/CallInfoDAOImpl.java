@@ -48,6 +48,16 @@ public class CallInfoDAOImpl implements CallInfoDAO {
 	public List<CallInfo> selectCallList(String csId) {
 		return sqlSession.selectList("callInfo.selectCallListByCSId", csId);
 	}
+	
+	@Override
+	public List<CallInfo> selectCallListByIdAndDate(HashMap<String, Object> condition) {
+		return sqlSession.selectList("callInfo.selectCallListByIdAndDate", condition);
+	}
+
+	@Override
+	public List<CallInfo> selectCallListByNameAndDate(HashMap<String, Object> condition) {
+		return sqlSession.selectList("callInfo.selectCallListByNameAndDate", condition);
+	}
 
 	@Override
 	public List<CallInfo> selectCallList() {
@@ -68,5 +78,6 @@ public class CallInfoDAOImpl implements CallInfoDAO {
 		sqlSession.delete("callInfo.deletePastCalls");
 	}
 
+	
 
 }

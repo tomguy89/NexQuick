@@ -1,5 +1,6 @@
 package com.nexquick.model.dao;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
@@ -36,6 +37,11 @@ public class CSInfoDAOImpl implements CSInfoDAO {
 	@Override
 	public List<CSInfo> selectCSList() {
 		return sqlSession.selectList("csInfo.selectCSList");
+	}
+	
+	@Override
+	public List<CSInfo> selectCSListByName(HashMap<String, Object> condition) {
+		return sqlSession.selectList("csInfo.selectCSListByName", condition);
 	}
 
 	@Override

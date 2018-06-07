@@ -89,6 +89,32 @@
 		</where>
 	</select><!--condition으로 -->
 	
+	<select id="selectCallListByIdAndDate" parameterType="map" resultType="CallInfo">
+		select * from callInfo
+		<where>
+			<if test="csId != null">
+				csId = #{csId}
+			</if>
+			<if test="callTime != null">
+				AND callTime >= to_date(#{callTime}, 'mm/dd/yyyy hh24:mi')
+			</if>
+		</where>
+		order by callTime
+	</select><!--condition으로 -->
+	
+	<select id="selectCallListByNameAndDate" parameterType="map" resultType="CallInfo">
+		select * from callInfo
+		<where>
+			<if test="senderName != null">
+				senderName like '%'||#{senderName}||'%'
+			</if>
+			<if test="callTime != null">
+				AND callTime >= to_date(#{callTime}, 'mm/dd/yyyy hh24:mi')
+			</if>
+		</where>
+		order by callTime
+	</select><!--condition으로 -->
+	
 	<select id="selectCallList" resultType="CallInfo">
 		select * from callInfo
 	</select><!-- 전체로 -->
@@ -119,7 +145,7 @@
 	</delete>
 	
 	<delete id="deletePastCalls">
-		delete from orderInfo
+		delete from callInfo
 		where sysdate-callTime > 1
 	</delete>
 	

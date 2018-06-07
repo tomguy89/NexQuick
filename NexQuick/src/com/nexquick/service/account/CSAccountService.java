@@ -1,5 +1,6 @@
 package com.nexquick.service.account;
 
+import java.util.HashMap;
 import java.util.List;
 
 import com.nexquick.model.vo.CSInfo;
@@ -46,5 +47,7 @@ public interface CSAccountService {
 	
 	
 	List<CSInfo> csAllList();
+
+	List<CSInfo> csAllListByName(HashMap<String, Object> condition);
 	
 }

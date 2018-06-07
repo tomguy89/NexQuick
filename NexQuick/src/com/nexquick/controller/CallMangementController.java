@@ -1,5 +1,6 @@
 package com.nexquick.controller;
 
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -223,8 +224,7 @@ public class CallMangementController {
 	 * @param session
 	 */
 	@RequestMapping("/cancelCall.do")
-	public void cancelCall(HttpSession session) {
-		int callNum = (int)session.getAttribute("callNum");
+	public @ResponseBody boolean cancelCall(HttpSession session, int callNum) {
 		List<OrderInfo> orderInfoList = callSelectListService.orderInfoList(callNum);
 		for(OrderInfo oi : orderInfoList) {
 			delOrderProcess(session, oi.getOrderNum());
@@ -232,6 +232,7 @@ public class CallMangementController {
 		callManagementService.delCall(callNum);
 		session.removeAttribute("callNum");
 		session.removeAttribute("totalPrice");
+		return true;
 	}
 	
 	
@@ -312,8 +313,9 @@ public class CallMangementController {
 	 * contextPath/call/delPastCall.do
 	 */
 	@RequestMapping("/delPastCall.do")
-	public void delPastCall() {
+	public @ResponseBody boolean delPastCall() {
 		callManagementService.delPastCall();
+		return true;
 	}
 	
 	
@@ -368,23 +370,50 @@ public class CallMangementController {
 	
 	
 	@RequestMapping("/getFavorite.do")
-	public String favInfoList(HttpSession session) {
+	public @ResponseBody List<FavoriteInfo> favInfoList(HttpSession session) {
 		CSInfo csInfo = (CSInfo) session.getAttribute("csInfo"); 
 		String csId = csInfo.getCsId();
-		List<FavoriteInfo> list = favoriteManagementService.getDestinationList(csId);
-		session.setAttribute("favList", list);
-		return "quickApplyPage/quickApply_second";
+		return favoriteManagementService.getDestinationList(csId); 
 	}
 	
-//	페이지로 리턴
-	@RequestMapping("/getCallsByCsId")
-	public String getCallList(HttpSession session) {
+//	객체로 리턴
+	@RequestMapping("/getCallsByIdAndDate")
+	public @ResponseBody List<CallInfo> getCallList(HttpSession session, String callTime) {
 		CSInfo csInfo = (CSInfo) session.getAttribute("csInfo"); 
 		String csId = csInfo.getCsId();
-		List<CallInfo> list = callManagementService.getCallsByCsId(csId); 
-		session.setAttribute("callListByCsId", list);
-		return "csPage/UserPage";
+		if(callTime.length() == 0 || callTime.equals("")) {
+			callTime = null;
+		}
+		System.out.println(callTime);
+		HashMap<String, Object> condition = new HashMap<>();
+		condition.put("csId", csId);
+		condition.put("callTime", callTime);
+		List<CallInfo> list = callManagementService.getAllCallsByIdAndDate(condition); 
+		return list;
 	}
+	
+	
+//	객체로 리턴
+	@RequestMapping("/getCallsByNameAndDate")
+	public @ResponseBody List<CallInfo> getCallList(HttpSession session, String senderName, String callTime) {
+		if(callTime.length() == 0 || callTime.equals("")) {
+			callTime = null;
+		}
+		if(senderName.length() == 0 || senderName.equals("")) {
+			senderName = null;
+		}
+		HashMap<String, Object> condition = new HashMap<>();
+		condition.put("senderName", senderName);
+		condition.put("callTime", callTime);
+		List<CallInfo> list = callManagementService.getAllCallsByNameAndDate(condition); 
+		return list;
+	}
+	
+	
+	
+	
+	
+	
 	
 //	객체로 리턴
 	@RequestMapping("/getCallsByCsIds")
@@ -397,8 +426,9 @@ public class CallMangementController {
 	
 //	현재 작성중인 콜(오더가 없는) 이 있다면 불러오기.(최신 1개만)
 	@RequestMapping("/currentCall.do")
-	public @ResponseBody CallInfo selectCall(String csId) {
-		return callSelectListService.selectCallInfo(csId);
+	public @ResponseBody CallInfo selectCall(HttpSession session, String csId) {
+		CallInfo callInfo = callSelectListService.selectCallInfo(csId);
+		return callInfo; 
 	}
 	
 	

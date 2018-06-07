@@ -33,10 +33,11 @@
 $(function() {
 	
 	$.ajax({
-		url : "<%= request.getContextPath() %>/call/getCallsByIdAndDate.do",
+		url : "<%= request.getContextPath() %>/call/getCallsByNameAndDate.do",
 		dataType : "json",
 		method : "POST",
 		data : {
+			senderName : $("#senderName").val(),
 			callTime : $("#callTime").val()
 		},
 		success : setCallList
@@ -45,10 +46,11 @@ $(function() {
 	
 	$("#searchBtn").on("click", function() {
 		$.ajax({
-			url : "<%= request.getContextPath() %>/call/getCallsByIdAndDate.do",
+			url : "<%= request.getContextPath() %>/call/getCallsByNameAndDate.do",
 			dataType : "json",
 			method : "POST",
 			data : {
+				senderName : $("#senderName").val(),
 				callTime : $("#callTime").val()
 			},
 			success : setCallList
@@ -174,16 +176,24 @@ function orderList(JSONDocument) {
 		전체 신청목록 조회
 	</h2>
 	
-	<div class = "row">
+	<div class = "row justify-content-start">
 		<div class = "col-md-6">
-			<div class="group centerBox" style = "width: 20%; float : right;">      
+			<div class="group" style = "width: 35%; margin-left: auto;">      
+			    <input class = "inputDesignForDay" type="text" id = "senderName"  data-language='en' placeholder = "이름을 입력하세요">
+			    <span class="highlight"></span>
+			    <span class="bar"></span>
+			    <label class = "labelDesignForDay"><i class = "fas fa-street-view"></i>신청자 검색</label>
+			</div>
+		</div>
+		<div class = "col-md-3">
+			<div class="group" style = "width: 100%;">      
 			    <input class = "datepicker-here inputDesignForDay" type="text" id = "callTime"  data-language='en' placeholder = "날짜를 입력하세요">
 			    <span class="highlight"></span>
 			    <span class="bar"></span>
 			    <label class = "labelDesignForDay"><i class = "fas fa-street-view"></i>해당 날짜 이후</label>
 			</div>
 		</div>
-		<div class = "col-md-6">
+		<div class = "col-md-2">
 			<button class = "ColorBorder" style = "height: 47px!important ; line-height: 47px!important;" id = "searchBtn">검색하기</button>
 		</div>
 	</div>

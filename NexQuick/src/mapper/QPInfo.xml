@@ -52,6 +52,15 @@
  		select * from qpInfo
  	</select><!-- 전체리스트 -->
  	
+ 	<select id="selectQPListByName" resultType="QPInfo">
+ 		select * from qpInfo
+ 		<where>
+			<if test="qpName != null">
+				qpName like '%'||#{qpName}||'%'
+			</if>
+		</where>
+ 	</select><!-- 전체리스트 -->
+ 	
 	<update id="updateQPList" parameterType="QPInfo">
 		update qpInfo
 		set qpPassword=#{qpPassword},

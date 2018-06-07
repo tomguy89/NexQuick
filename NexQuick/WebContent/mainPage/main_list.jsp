@@ -25,7 +25,27 @@
 <title>NexQuick :: 진행중인 퀵</title>
 
 <% List<OnDelivery> deliveryList = (List<OnDelivery>) request.getSession().getAttribute("userCallList"); %>
-
+<script type="text/javascript">
+$(function() {
+	setInterval(function() {
+		$.ajax({
+			url : "<%= request.getContextPath() %>/call/delPastCall.do",
+			dataType : "json",
+			method : "POST",
+			success : function(JSONDocument) {
+				if(JSONDocument) {
+					console.log("하루 지난 미완료 콜 삭제 완료");
+				}
+			}
+		})
+	}, 60*60*1000);
+	
+	
+	
+	
+	
+});
+</script>
 <!-- 배송중인 배달이 있다면. -->
 <!-- 구글맵 API (기사님 위치 다 찍어야됨) -->
 
@@ -41,6 +61,19 @@
 				현재 배송 중입니다.
 			
 			</h2>
+			
+			<div id="map" style="width:500px;height:400px;"></div>
+			<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=fb36d3fbdea0b0b3d5ac3c3bb1c0532d"></script>
+			<script type="text/javascript">
+			var container = document.getElementById('map'); //지도를 담을 영역의 DOM 레퍼런스
+			var options = { //지도를 생성할 때 필요한 기본 옵션
+				center: new daum.maps.LatLng(37.501225,  127.039188), //지도의 중심좌표.
+				level: 3 //지도의 레벨(확대, 축소 정도)
+			};
+			
+			var map = new daum.maps.Map(container, options); //지도 생성 및 객체 리턴
+			
+			</script>
 		</div>
 		<div class = "col-md-8">
 			<h2 class = "centerBox mainListTitle text-conceptColor">

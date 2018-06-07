@@ -1,5 +1,6 @@
 package com.nexquick.model.dao;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
@@ -41,6 +42,11 @@ public class QPInfoDAOImpl implements QPInfoDAO {
 	@Override
 	public List<QPInfo> selectQPList() {
 		return sqlSession.selectList("qpInfo.selectQPList");
+	}
+	
+	@Override
+	public List<QPInfo> selectQPListByName(HashMap<String, Object> condition) {
+		return sqlSession.selectList("qpInfo.selectQPListByName", condition);
 	}
 
 	@Override

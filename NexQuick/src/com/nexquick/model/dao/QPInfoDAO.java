@@ -1,5 +1,6 @@
 package com.nexquick.model.dao;
 
+import java.util.HashMap;
 import java.util.List;
 
 import com.nexquick.model.vo.QPInfo;
@@ -52,6 +53,9 @@ public interface QPInfoDAO {
 	 * @return QPInfo List
 	 */
 	List<QPInfo> selectQPList(int qpVehicleType);
+	
+//	관리자용. 이름으로검색
+	List<QPInfo> selectQPListByName(HashMap<String, Object> condition);
 
 
 	

@@ -1,5 +1,6 @@
 package com.nexquick.model.dao;
 
+import java.util.HashMap;
 import java.util.List;
 
 import com.nexquick.model.vo.CSInfo;
@@ -51,5 +52,7 @@ public interface CSInfoDAO {
 	 * @return CSInfo List(사업자 등록 번호가 일치하는 고객 정보 리스트)
 	 */
 	List<CSInfo> selectCSList(String csBusinessNumber);
+
+	List<CSInfo> selectCSListByName(HashMap<String, Object> condition);
 
 }

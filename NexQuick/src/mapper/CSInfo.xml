@@ -36,6 +36,16 @@
 	<select id="selectCSList" resultType="CSInfo">
 		select * from csInfo
 	</select>
+	
+	<select id="selectCSListByName" parameterType = "map" resultType="CSInfo">
+		select * from csInfo
+		<where>
+			<if test="csName != null">
+				csName like '%'||#{csName}||'%'
+			</if>
+		</where>
+	</select>
+	
 	<select id="selectCSListByBnum" parameterType="String"
 		resultType="CSInfo">
 		select * from csInfo where csBusinessNumber=#{csBusinessNumber}

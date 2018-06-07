@@ -203,7 +203,7 @@ LEVEL 4. SETTINGS
 
 
 
-/* google µðÀÚÀÎ */
+/* google ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
 
 /* form starting stylings ------------------------------- */
 .group {
@@ -219,6 +219,18 @@ LEVEL 4. SETTINGS
   border-bottom: 1px solid #757575;
 }
 .inputDesign:focus {
+  outline: none;
+}
+
+.inputDesignForDay {
+  font-size: 18px;
+  padding: 10px 10px 10px 5px;
+  display: block;
+  width: 100%;
+  border: none;
+  border-bottom: 1px solid #757575;
+}
+.inputDesignForDay:focus {
   outline: none;
 }
 
@@ -245,11 +257,33 @@ LEVEL 4. SETTINGS
   color: #5264ae;
 }
 
+.labelDesignForDay {
+  color: #999;
+  font-size: 18px;
+  font-weight: normal;
+  position: absolute;
+  pointer-events: none;
+  left: 5px;
+  top: 10px;
+  transition: 0.2s ease all;
+  -moz-transition: 0.2s ease all;
+  -webkit-transition: 0.2s ease all;
+}
+
+/* active state */
+
+.inputDesignForDay:focus ~ .labelDesignForDay,
+.inputDesignForDay:valid ~ .labelDesignForDay {
+  top: -20px!important;
+  font-size: 14px!important;
+  color: #34495e!important;
+}
+
 /* BOTTOM BARS ================================= */
 .bar {
   position: relative;
   display: block;
-  width: 300px;
+  width: 250px;
 }
 .bar:before,
 .bar:after {
@@ -258,13 +292,13 @@ LEVEL 4. SETTINGS
   width: 0;
   bottom: 1px;
   position: absolute;
-  background: #5264ae;
+  background: #34495e;
   transition: 0.2s ease all;
   -moz-transition: 0.2s ease all;
   -webkit-transition: 0.2s ease all;
 }
 .bar:before {
-  left: 50%;
+  left: 0%;
 }
 .bar:after {
   right: 50%;
@@ -273,6 +307,12 @@ LEVEL 4. SETTINGS
 /* active state */
 .inputDesign:focus ~ .bar:before,
 .inputDesign:focus ~ .bar:after {
+  width: 50%;
+}
+
+/* active state */
+.inputDesignForDay:focus ~ .bar:before,
+.inputDesignForDay:focus ~ .bar:after {
   width: 50%;
 }
 
@@ -293,11 +333,16 @@ LEVEL 4. SETTINGS
   -moz-animation: inputHighlighter 0.3s ease;
   animation: inputHighlighter 0.3s ease;
 }
+.inputDesignForDay:focus ~ .highlight {
+  -webkit-animation: inputHighlighter 0.3s ease;
+  -moz-animation: inputHighlighter 0.3s ease;
+  animation: inputHighlighter 0.3s ease;
+}
 
 /* ANIMATIONS ================ */
 @-webkit-keyframes inputHighlighter {
   from {
-    background: #5264ae;
+    background: #34495e;
   }
   to {
     width: 0;
@@ -306,7 +351,7 @@ LEVEL 4. SETTINGS
 }
 @-moz-keyframes inputHighlighter {
   from {
-    background: #5264ae;
+    background: #34495e;
   }
   to {
     width: 0;
@@ -315,7 +360,7 @@ LEVEL 4. SETTINGS
 }
 @keyframes inputHighlighter {
   from {
-    background: #5264ae;
+    background: #34495e;
   }
   to {
     width: 0;

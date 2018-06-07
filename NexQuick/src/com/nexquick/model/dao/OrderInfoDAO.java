@@ -1,5 +1,6 @@
 package com.nexquick.model.dao;
 
+import java.util.HashMap;
 import java.util.List;
 
 import com.nexquick.model.vo.OnDelivery;
@@ -59,7 +60,8 @@ public interface OrderInfoDAO {
 	List<OnDelivery> onDeliveryCallList(String csId);
 	
 	List<OnDelivery> selectAllOrderListByCsId(String csId);
-	
+	List<OnDelivery> selectAllOrderListByIdAndName(HashMap<String, Object> condition);
+
 	List<OrderInfo> selectOrderListToConfrim(String qpId, String receiverPhone);
 	
 }

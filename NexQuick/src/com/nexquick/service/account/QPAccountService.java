@@ -1,5 +1,6 @@
 package com.nexquick.service.account;
 
+import java.util.HashMap;
 import java.util.List;
 
 import com.nexquick.model.vo.QPInfo;
@@ -45,5 +46,7 @@ public interface QPAccountService {
 	boolean qpModify(QPInfo qpInfo);
 	
 	List<QPInfo> qpAllList();
+
+	List<QPInfo> qpAllListByName(HashMap<String, Object> condition);
 	
 }

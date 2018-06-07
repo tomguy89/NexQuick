@@ -36,7 +36,13 @@
 <script type="text/javascript">
 var isUrgent = 1;
 	$(function() {
+
 		
+		
+    	setTimeout(function(){
+	        $('.trans--grow').addClass('grow');
+	    }, 275);
+    	
 		
 		var callNum = <%= request.getSession().getAttribute("callNum")%>;
 		/* 콜넘버 받아와서 그룹배송이 체크안되어있었으면 오더추가 막기 */
@@ -920,16 +926,51 @@ var isUrgent = 1;
 		}
 	}
 
-	
+	var saveBtnId;
 	function getSaveId(saveId) {
   		$("#favList").modal("show");
-  		$(".favBtn").on("click", function() {
-  			var formId = saveId.id.substring(12);
+  		saveBtnId = saveId.id.substring(12);
+  		$.ajax({
+  			url : "<%= request.getContextPath() %>/call/getFavorite.do",
+			dataType : "json",
+			method : "POST",
+			success : getFavList
+  		});
+  		
+  		
+  		
+	}
+	
+	function getFavList(JSONDocument) {
+		$("#favBox").empty();
+		var Index = 0;
+		for(var i in JSONDocument) {
+			$("#favBox").append(
+				$("<tr>").append(
+					$("<td>").attr("id", "tdAddress" + Index).text(JSONDocument[i].address)
+				).append(
+					$("<td>").attr("id", "tdAddressDetail" + Index).text(JSONDocument[i].addrDetail)
+				).append(
+					$("<td>").attr("id", "tdName" + Index).text(JSONDocument[i].receiverName)
+				).append(
+					$("<td>").attr("id", "tdPhone" + Index).text(JSONDocument[i].receiverPhone)
+				).append(
+					$("<td>")
+					.append(
+						$("<button class = 'favBtn ColorBorder'>바로 입력하기</button>").attr("id", "favBtn"+Index)
+					)
+				)
+			);
+			Index++;
+		}
+		
+		
+		$(".favBtn").on("click", function() {
   			var favListId = this.id.substring(6);
-  			var userName = "#userNameApply"+formId;
-  			var userPhone = "#phone"+formId;
-  			var userAddress = "#address"+formId;
-  			var userAddrDetail = "#addressDetail"+formId;
+  			var userName = "#userNameApply"+saveBtnId;
+  			var userPhone = "#phone"+saveBtnId;
+  			var userAddress = "#address"+saveBtnId;
+  			var userAddrDetail = "#addressDetail"+saveBtnId;
   			var tdAddress = "#tdAddress"+favListId;
   			var tdAddressDetail = "#tdAddressDetail"+favListId;
   			var tdName = "#tdName"+favListId;
@@ -941,9 +982,12 @@ var isUrgent = 1;
   			$(userPhone).val($(tdPhone).text());
   			console.log("zz");
   		});
-  		
-  		
-	}
+		
+		
+	} 
+	
+
+	
 	
 /* 	
 	function insertAddress(btnId) {
@@ -1494,27 +1538,8 @@ var isUrgent = 1;
       <th class = "centerBox" scope="col"></th>
     </tr>
   </thead>
-  <tbody class = "centerBox">
-  	<% List<FavoriteInfo> favList = (List<FavoriteInfo>) request.getSession().getAttribute("favList"); 
-      		if(favList == null) {
-    %>
-    <tr>
-    	<td colspan = "4">저장된 즐겨찾기 주소가 없습니다. </td>
-    </tr>
-    <% } else { 
-    	int IDIndex = 0;
-    	for(FavoriteInfo fi : favList) {
-    %>
-    <tr>
-   		<td id = "tdAddress<%= IDIndex %>"><%= fi.getAddress() %></td>
-		<td id = "tdAddressDetail<%= IDIndex %>"><%= fi.getAddrDetail() %></td>
-		<td id = "tdName<%= IDIndex %>"><%= fi.getReceiverName() %></td>
-		<td id = "tdPhone<%= IDIndex %>"><%= fi.getReceiverPhone() %></td>
-		<td><button id = "favBtn<%= IDIndex %>" class = "favBtn">바로 입력하기</button></td>
-    </tr>
-    
-      	<%  IDIndex++; } %>
-   	<% } %>
+  <tbody class = "centerBox" id = "favBox">
+
    
   </tbody>
 </table>

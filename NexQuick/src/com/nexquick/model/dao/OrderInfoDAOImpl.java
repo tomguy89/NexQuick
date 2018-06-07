@@ -61,12 +61,18 @@ public class OrderInfoDAOImpl implements OrderInfoDAO {
 	}
 	
 	@Override
+	public List<OnDelivery> selectAllOrderListByIdAndName(HashMap<String, Object> condition) {
+		return sqlSession.selectList("orderInfo.allCallListByIdAndName", condition);
+	}
+	
+	@Override
 	public List<OrderInfo> selectOrderListToConfrim(String qpId, String receiverPhone) {
 		HashMap<String, Object> condition = new HashMap<>();
 		condition.put("qpId", qpId);
 		condition.put("receiverPhone", receiverPhone);
 		return sqlSession.selectList("orderInfo.selectOrderListToConfrim", condition);
 	}
+	
 	
 	
 }
