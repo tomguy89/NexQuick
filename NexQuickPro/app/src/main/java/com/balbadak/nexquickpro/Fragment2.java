@@ -1,5 +1,12 @@
 package com.balbadak.nexquickpro;
 
+import android.content.ContentValues;
+import android.content.Context;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -8,6 +15,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.annotation.SuppressLint;
 import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.Toast;
+
+import com.skt.Tmap.TMapData;
+import com.skt.Tmap.TMapMarkerItem;
+import com.skt.Tmap.TMapPoint;
+import com.skt.Tmap.TMapPolyLine;
+import com.skt.Tmap.TMapView;
 
 import net.daum.mf.map.api.CameraUpdateFactory;
 import net.daum.mf.map.api.MapPOIItem;
@@ -15,108 +30,72 @@ import net.daum.mf.map.api.MapPoint;
 import net.daum.mf.map.api.MapPointBounds;
 import net.daum.mf.map.api.MapView;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.xml.sax.SAXException;
+
+import java.io.IOException;
+import java.util.ArrayList;
+
+import javax.xml.parsers.ParserConfigurationException;
 
 
 @SuppressLint("ValidFragment")
 public class Fragment2 extends Fragment {
 
-
+    Context context;
     ViewPager viewPager;
+    TMapView tMapView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_route, container, false);
-
+        context = this.getActivity();
         Button cancelBtn = (Button) view.findViewById(R.id.quick_cancel);
         Button phoneBtn = (Button) view.findViewById(R.id.quick_phone);
         Button finishBtn = (Button) view.findViewById(R.id.quick_finish);
         viewPager = getActivity().findViewById(R.id.pager);
+        LinearLayout linearLayoutTmap = (LinearLayout) view.findViewById(R.id.linearLayoutTmap);
+        tMapView = new TMapView(context);
+
+        tMapView.setSKTMapApiKey( "2c831aee-8c6e-444b-82ed-1a23b76e504c" );
+        linearLayoutTmap.addView( tMapView );
+
+// 마커 아이콘
+        Bitmap qpMark = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(context.getResources(), R.drawable.scooter), 100, 100, true);
+        Bitmap sender = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(context.getResources(), R.drawable.location), 100, 100, true);
+        Bitmap receiver = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(context.getResources(), R.drawable.location_primary), 100, 100, true);
 
 
+        TMapMarkerItem qpMarker = new TMapMarkerItem();
+        TMapPoint qpPoint = new TMapPoint(37.570841, 126.985302); // QP 위치
+        qpMarker.setIcon(qpMark); // 마커 아이콘 지정
+        qpMarker.setPosition(0.5f, 1.0f); // 마커의 중심점을 중앙, 하단으로 설정
+        qpMarker.setTMapPoint( qpPoint ); // 마커의 좌표 지정
+        qpMarker.setName("Pro님의 현재 위치"); // 마커의 타이틀 지정
+        tMapView.addMarkerItem("qpMarker", qpMarker); // 지도에 마커 추가
+        tMapView.setCenterPoint( qpPoint.getLongitude(), qpPoint.getLatitude() );
 
-        /*        MapView mapView = new MapView(this);
-        mapView.setDaumMapApiKey("네이티브 앱 키 입력");
-        RelativeLayout container = (RelativeLayout) findViewById(R.id.map_view);
-        container.addView(mapView);*/
+        TMapPoint tMapPointStart = qpPoint; // 출발지
 
+        ArrayList<TMapPoint> passList = new ArrayList<>();
+        TMapMarkerItem newMarker;
+        TMapPoint newPoint;
+        for (int i=0; i<10; i++){
+            newMarker = new TMapMarkerItem();
+            newPoint = new TMapPoint(37.56990, 126.98227);
+            newMarker.setIcon(receiver); // 마커 아이콘 지정
+            newMarker.setPosition(0.5f, 1.0f); // 마커의 중심점을 중앙, 하단으로 설정
+            newMarker.setTMapPoint( newPoint ); // 마커의 좌표 지정
+            newMarker.setName((i+1)+"번째 방문 위치"); // 마커의 타이틀 지정
+            tMapView.addMarkerItem("Point"+(i+1), newMarker); // 지도에 마커 추가
+            tMapView.setCenterPoint( newPoint.getLongitude(), newPoint.getLatitude() );
+            passList.add(newPoint);
+        }
 
-        MapView mapView = new MapView(getActivity());
-
-        ViewGroup mapViewContainer = (ViewGroup) view.findViewById(R.id.map_view);
-        mapViewContainer.addView(mapView);
-
-        MapPOIItem marker1 = new MapPOIItem();
-        marker1.setItemName("퀵 프로님 위치");
-        marker1.setTag(0);
-        MapPoint POINT1 = MapPoint.mapPointWithGeoCoord(37.500900, 127.036600);
-        marker1.setMapPoint(POINT1);
-        marker1.setMarkerType(MapPOIItem.MarkerType.CustomImage);
-        marker1.setCustomImageResourceId(R.drawable.scooter);
-        //  marker1.setMarkerType(MapPOIItem.MarkerType.BluePin); // 기본으로 제공하는 BluePin 마커 모양.
-        //  marker1.setSelectedMarkerType(MapPOIItem.MarkerType.RedPin); // 마커를 클릭했을때, 기본으로 제공하는 RedPin 마커 모양.
-        mapView.addPOIItem(marker1);
-
-
-        MapPOIItem marker2 = new MapPOIItem();
-        marker2.setItemName("발송자 위치");
-        marker2.setTag(1);
-        MapPoint POINT2 = MapPoint.mapPointWithGeoCoord(37.512312, 127.136677);
-        marker2.setMapPoint(POINT2);
-        marker2.setMarkerType(MapPOIItem.MarkerType.CustomImage);
-        marker2.setCustomImageResourceId(R.drawable.location_accent);
-
-/*      marker2.setMarkerType(MapPOIItem.MarkerType.BluePin); // 기본으로 제공하는 BluePin 마커 모양.
-        marker2.setSelectedMarkerType(MapPOIItem.MarkerType.RedPin); // 마커를 클릭했을때, 기본으로 제공하는 RedPin 마커 모양.*/
-        mapView.addPOIItem(marker2);
-
-        MapPOIItem marker3 = new MapPOIItem();
-        marker3.setItemName("수령자 위치");
-        marker3.setTag(3);
-        MapPoint POINT3 = MapPoint.mapPointWithGeoCoord(37.500090, 127.1100);
-        marker3.setMapPoint(POINT3);
-        marker3.setMarkerType(MapPOIItem.MarkerType.CustomImage);
-        marker3.setCustomImageResourceId(R.drawable.location_primary);
-
-
-/*        marker3.setMarkerType(MapPOIItem.MarkerType.BluePin); // 기본으로 제공하는 BluePin 마커 모양.
-        marker3.setSelectedMarkerType(MapPOIItem.MarkerType.RedPin); // 마커를 클릭했을때, 기본으로 제공하는 RedPin 마커 모양.*/
-        mapView.addPOIItem(marker3);
-
-
-
-        MapPointBounds mapPointBounds = new MapPointBounds();
-
-        mapPointBounds.add(POINT1);
-        mapPointBounds.add(POINT2);
-        mapPointBounds.add(POINT3);
-        int padding = 100; // px
-        mapView.moveCamera(CameraUpdateFactory.newMapPointBounds(mapPointBounds,padding));
-
-
-
-
-        //mapView.getMapPointBounds();
-
-/*       try {
-            PackageInfo info = getPackageManager().getPackageInfo("com.balbadak.nexquick", PackageManager.GET_SIGNATURES);
-            for (Signature signature : info.signatures) {
-                MessageDigest md = MessageDigest.getInstance("SHA");
-                md.update(signature.toByteArray());
-                Log.e("KeyHash:", Base64.encodeToString(md.digest(), Base64.DEFAULT));
-            }
-        } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        }*/
-
-
-
-
-
-
-
+        NetworkTask networkTask = new NetworkTask(qpPoint, passList.get(passList.size()-1), passList);
+        networkTask.execute();
 
 
         cancelBtn.setOnClickListener(new View.OnClickListener() {
@@ -142,5 +121,45 @@ public class Fragment2 extends Fragment {
 
 
         return view;
+    }
+
+    public class NetworkTask extends AsyncTask<Void, Void, TMapPolyLine> {
+
+        private TMapPoint tMapPointStart;
+        private TMapPoint tMapPointEnd;
+        private ArrayList<TMapPoint> passList;
+
+        public NetworkTask(TMapPoint tMapPointStart, TMapPoint tMapPointEnd, ArrayList<TMapPoint> passList) {
+
+            this.tMapPointStart = tMapPointStart;
+            this.tMapPointEnd = tMapPointEnd;
+            this.passList = passList;
+        }
+
+        @Override
+        protected TMapPolyLine doInBackground(Void... params) {
+
+            TMapPolyLine tMapPolyLine = null;
+            try {
+                tMapPolyLine = new TMapData().findMultiPointPathData( tMapPointStart, tMapPointEnd, passList, 0);
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (ParserConfigurationException e) {
+                e.printStackTrace();
+            } catch (SAXException e) {
+                e.printStackTrace();
+            }
+
+            return tMapPolyLine;
+        }
+
+        @Override
+        protected void onPostExecute(TMapPolyLine tMapPolyLine) {
+            super.onPostExecute(tMapPolyLine);
+
+            tMapPolyLine.setLineColor(Color.BLUE);
+            tMapPolyLine.setLineWidth(2);
+            tMapView.addTMapPolyLine("Line1", tMapPolyLine);
+        }
     }
 }

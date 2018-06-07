@@ -62,4 +62,10 @@ public interface CallSelectListService {
 	
 	List<OrderInfo> selectOrderListToConfrim(String qpId, String receiverPhone);
 	
+	void updateCallAfterConfirm(List <Integer> list);
+	void updateOrderAfterConfirm(List<Integer> list);
+	int sumIsGet(int callNum);
+	int countLinkedOrder(int callNum);
+	void updateAfterOrdersChecked(int callNum);
+	
 }

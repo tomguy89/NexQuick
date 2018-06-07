@@ -79,5 +79,31 @@ public class CallSelectListServiceImpl implements CallSelectListService {
 		return orderInfoDao.selectOrderListToConfrim(qpId,receiverPhone);
 	}
 	
-	
+	@Override
+	public void updateCallAfterConfirm(List<Integer> list) {
+		callInfoDao.updateCallAfterConfirm(list);
+		
+	}
+
+	@Override
+	public void updateOrderAfterConfirm(List<Integer> list) {
+		orderInfoDao.updateOrderAfterConfirm(list);
+		
+	}
+
+	@Override
+	public int sumIsGet(int callNum) {
+		return orderInfoDao.sumIsGet(callNum);
+	}
+
+	@Override
+	public int countLinkedOrder(int callNum) {
+		return orderInfoDao.countLinkedOrder(callNum);
+	}
+
+	@Override
+	public void updateAfterOrdersChecked(int callNum) {
+		callInfoDao.updateAfterOrdersChecked(callNum);
+		
+	}
 }

@@ -64,4 +64,9 @@ public interface OrderInfoDAO {
 
 	List<OrderInfo> selectOrderListToConfrim(String qpId, String receiverPhone);
 	
+	void updateOrderAfterConfirm(List<Integer> list);
+	int sumIsGet(int callNum);
+	int countLinkedOrder(int callNum);
+	
+	
 }

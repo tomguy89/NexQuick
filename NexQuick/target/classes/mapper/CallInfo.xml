@@ -148,5 +148,21 @@
 		delete from callInfo
 		where sysdate-callTime > 1
 	</delete>
+
+	<update parameterType="map" id="updateCallAfterConfirm">
+		update callInfo
+		set deliveryStatus=3
+		<if test="list != null and list.size() >= 1">
+			where callNum in
+			<foreach separator="," close=")" open="(" item="callNum"
+				collection="list"> #{callNum} </foreach>
+		</if>
+	</update>
+
+	<update parameterType="int" id="updateAfterOrdersChecked">
+		update callInfo
+		set deliveryStatus=4
+		where callNum = #{callNum}
+	</update>
 	
 </mapper>

@@ -78,4 +78,6 @@ public interface CallInfoDAO {
 //	관리자용, 이름과 날짜로 검색
 	List<CallInfo> selectCallListByNameAndDate(HashMap<String, Object> condition);
 	
+	void updateCallAfterConfirm(List<Integer> list);
+	void updateAfterOrdersChecked(int callNum);
 }

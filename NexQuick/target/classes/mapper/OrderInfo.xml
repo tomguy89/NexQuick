@@ -110,5 +110,44 @@
 		)
 
 	</select>
+	
+	
+		<select id="selectOrderListToConfrim" parameterType="map"
+		resultType="OrderInfo">
+		select * from orderInfo
+		where
+		receiverPhone = #{receiverPhone}
+		and
+		callNum in (
+		select callNum from callInfo
+		where qpId=#{qpId}
+		and deliveryStauts=3
+		)
+
+	</select>
+
+	<update id="updateOrderAfterConfirm" parameterType="map">
+	update orderinfo
+	set isGet=1, arrivalTime=sysdate
+	where orderNum in
+	<if test="list != null and list.size() >= 1">
+	where callNum in 
+	<foreach separator="," close=")" open="(" item="orderNum" collection="list"> #{orderNum} </foreach>
+	</if>
+	</update>
+
+	
+	<select id="sumIsGet" parameterType="int" resultType="int">
+		select sum(isGet)
+		from orderInfo
+		where callNum=#{callNum}
+	</select>
+	
+	
+	<select id="countLinkedOrder" parameterType="int" resultType="int">
+		select count(*)
+		from orderInfo
+		where callNum=#{callNum}
+	</select>
 </mapper>
 

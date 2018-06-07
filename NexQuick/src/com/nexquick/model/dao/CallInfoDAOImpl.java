@@ -78,6 +78,16 @@ public class CallInfoDAOImpl implements CallInfoDAO {
 		sqlSession.delete("callInfo.deletePastCalls");
 	}
 
-	
+	@Override
+	public void updateCallAfterConfirm(List<Integer> list) {
+		sqlSession.update("callInfo.updateCallAfterConfirm");
+		
+	}
+
+	@Override
+	public void updateAfterOrdersChecked(int callNum) {
+		sqlSession.update("callInfo.updateAfterOrdersChecked");
+	}
+
 
 }

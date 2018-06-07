@@ -1,8 +1,6 @@
 package com.balbadak.nexquickpro;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
-import android.annotation.TargetApi;
+
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.res.Resources;
@@ -16,23 +14,18 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
 
-import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.inputmethod.EditorInfo;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioGroup;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.tsengvn.typekit.TypekitContextWrapper;
@@ -349,7 +342,6 @@ public class SignupActivity extends AppCompatActivity implements LoaderCallbacks
         @Override
         protected void onPostExecute(Boolean check) {
             super.onPostExecute(check);
-            Log.e("check", check.toString());
             if(url.substring(45, url.length()).equals("qpPhoneDuplCheck.do")){
                 if(!check){
                     mUserPhoneView.setError(getString(R.string.error_invalid_phone));

@@ -12,11 +12,10 @@
 
 
         <LinearLayout
-            android:id="@+id/map_view"
-            android:layout_width="match_parent"
-            android:layout_height="300dp"
-            android:orientation="vertical"
-            android:layout_margin="5px"/>
+        android:id="@+id/linearLayoutTmap"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:orientation="vertical"/>
 
         <Spinner
             android:id="@+id/quick_spinner"

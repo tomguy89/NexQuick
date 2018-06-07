@@ -1,9 +1,12 @@
 package com.nexquick.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -66,15 +69,58 @@ public class CallListController {
 	
 	@RequestMapping("/confirmCall.do")
 	public @ResponseBody List<CallInfo> selectCallList(String csId, String qpId) {
-		System.out.println(qpId);
-		System.out.println(csId);
 		return callSelectListService.selectCallList(csId, Integer.parseInt(qpId), 2);
 	}
 	
 	@RequestMapping("/confirmOrder.do")
-	public @ResponseBody OrderInfo selectOrderListToConfrim(String qpId, String receiverPhone) {
-		return (OrderInfo) callSelectListService.selectOrderListToConfrim(qpId,receiverPhone);
+	public @ResponseBody List<OrderInfo> selectOrderListToConfrim(String qpId, String receiverPhone) {
+		return callSelectListService.selectOrderListToConfrim(qpId,receiverPhone);
 	}
+	
+	
+	@RequestMapping("/updateCallAfterConfirm.do")
+	public void updateCallList(JSONArray jsonarray) {	
+		List <Integer> list = new ArrayList<>();
+		System.out.println("updatecalllist로 들어왔다.");
+		/*여기서 리스트를 만든다.
+		 */
+		for(int i=0;i<jsonarray.size();i++) {
+			JSONObject object = (JSONObject) jsonarray.get(i);
+			System.out.println("object에서 callNum 키로 뺀 값은"+object.get("callNum"));
+			list.add((Integer) object.get("callNum"));
+		}
+		callSelectListService.updateCallAfterConfirm(list);
+	}
+	
+	
+	@RequestMapping("/updateOrderAfterConfirm.do")
+	public void updateOrderList(JSONArray jsonarray) {
+		System.out.println("updateorderlist로 들어왔다.");
 		
+		List <Integer> list = new ArrayList<>();
+		for(int i=0;i<jsonarray.size();i++) {
+			JSONObject object = (JSONObject) jsonarray.get(i);
+			System.out.println("object에서 orderNum 키로 뺀 값은"+object.get("orderNum"));
+			list.add((Integer) object.get("orderNum"));
+		}
+		
+		callSelectListService.updateOrderAfterConfirm(list);
+		
+		//업데이트  하고 나서 
+		
+		for(int i=0;i<list.size();i++) {
+			JSONObject object = (JSONObject) jsonarray.get(i);
+			int orderNum = (Integer)object.get("orderNum");
+			int callNum=callSelectListService.selectOrder(orderNum).getCallNum();
+			int comp1=callSelectListService.sumIsGet(callNum);
+			int comp2=callSelectListService.countLinkedOrder(callNum);
+			
+			if(comp1==comp2) {
+				callSelectListService.updateAfterOrdersChecked(callNum);
+			}
+		}
+		
+		//받은 orderNum
+	}
 	
 }
