@@ -6,6 +6,7 @@
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.READ_PROFILE" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-permission android:name="android.permission.NFC" />
 
     <application
         android:name=".CustomStartApp"
@@ -22,29 +23,36 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-<<<<<<< HEAD
-        <activity android:name=".MainMenuActivity"
-            android:label="NexQuick"/>
+
+
+        <activity android:name=".CSBeamActivity">
+
+            <intent-filter>
+                <action android:name="android.nfc.action.NDEF_DISCOVERED" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data android:mimeType="text/plain" />
+            </intent-filter>
+
+
+        </activity>
+
+
+        <activity
+            android:name=".MainMenuActivity"
+            android:label="NexQuick" />
 
         <activity
             android:name=".OrderListActivity"
             android:label="최근주문"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:launchMode="singleTop" />
+            android:launchMode="singleTop"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".OrderListBeforeActivity"
             android:label="이전주문"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:launchMode="singleTop" />
-=======
-        <activity android:name=".MainMenuActivity" />
-        <activity
-            android:name=".OrderListActivity"
+            android:launchMode="singleTop"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".OrderListBeforeActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
->>>>>>> 900b8c93aa53af6ac6117b662602650a1b10fe6a
         <activity
             android:name=".NavigationActivity"
             android:label="@string/title_activity_navigation"
@@ -52,23 +60,19 @@
         <activity
             android:name=".NewOrderActivity"
             android:label="퀵 신청"
+            android:launchMode="singleTop"
             android:theme="@style/AppTheme.NoActionBar"
-            android:uiOptions="splitActionBarWhenNarrow"
-            android:launchMode="singleTop" />
+            android:uiOptions="splitActionBarWhenNarrow" />
         <activity
             android:name=".SignupActivity"
             android:label="키생성"
-            android:theme="@style/DialogTheme"
-            android:launchMode="singleTop" />
+            android:launchMode="singleTop"
+            android:theme="@style/DialogTheme" />
         <activity android:name=".KeyHashActivity" />
 
         <activity
             android:name=".DialogDetailActivity"
             android:theme="@style/DialogTheme" />
-<<<<<<< HEAD
-=======
-        <activity android:name=".KeyHashActivity" />
->>>>>>> 900b8c93aa53af6ac6117b662602650a1b10fe6a
 
         <!-- 20180606 18:00 -->
         <activity
@@ -76,17 +80,14 @@
             android:theme="@style/DialogTheme">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
+
                 <data android:scheme="iamporttest" />
             </intent-filter>
         </activity>
-<<<<<<< HEAD
 
-=======
-        <activity android:name=".DialogDetailActivity"
-            android:theme="@style/DialogTheme"/>
->>>>>>> 900b8c93aa53af6ac6117b662602650a1b10fe6a
     </application>
 
 </manifest>

@@ -37,6 +37,7 @@ public class MainMenuActivity extends AppCompatActivity {
         if (loginInfo != null && loginInfo.getString("csId", "") != null && loginInfo.getString("csId", "").length() != 0) {
             csId = loginInfo.getString("csId", "");
             csName = loginInfo.getString("csName", "");
+            //폰은
         }
 
         String temp = csName + "님 안녕하세요! :)";
@@ -65,8 +66,7 @@ public class MainMenuActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), OrderListActivity.class);
-                Toast.makeText(context, "미구현 기능입니다", Toast.LENGTH_SHORT);
+                Intent intent = new Intent(getApplicationContext(), CSBeamActivity.class);
                 startActivity(intent);
             }
         });

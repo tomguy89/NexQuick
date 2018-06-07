@@ -58,7 +58,7 @@ public class Fragment1 extends Fragment {
     private EditText etTimePicker;
 
     private Spinner spinner;
-    private LinearLayout reserveView;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -95,10 +95,6 @@ public class Fragment1 extends Fragment {
         etDatePicker.setInputType(0);
         etTimePicker.setInputType(0);
 
-<<<<<<< HEAD
-=======
-        spinner = (Spinner) view.findViewById(R.id.senderAddressSpinner);
->>>>>>> 900b8c93aa53af6ac6117b662602650a1b10fe6a
 
         final ArrayList<String> spinnerList = new ArrayList<>();
         spinnerList.add("즐겨찾기");
@@ -128,27 +124,6 @@ public class Fragment1 extends Fragment {
         cbxReserve = (CheckBox) view.findViewById(R.id.reserveCbx);
         reserveView = (LinearLayout) view.findViewById(R.id.reserveView);
 
-        CheckBox reserveCbx = (CheckBox) view.findViewById(R.id.reserveCbx);
-
-        reserveView = (LinearLayout) view.findViewById(R.id.reserveView);
-
-
-        reserveCbx.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-
-                if(isChecked) {
-
-                    reserveView.setVisibility(View.VISIBLE);
-
-                } else {
-
-                    reserveView.setVisibility(View.INVISIBLE);
-                }
-
-
-            }
-        });
 
         cbxReserve.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -229,11 +204,7 @@ public class Fragment1 extends Fragment {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
 
-<<<<<<< HEAD
                 if (hasFocus) {
-=======
-                if(hasFocus) {
->>>>>>> 900b8c93aa53af6ac6117b662602650a1b10fe6a
                     TimePickerDialog dialog = new TimePickerDialog(getActivity(), new TimePickerDialog.OnTimeSetListener() {
                         @Override
                         public void onTimeSet(TimePicker timePicker, int hour, int min) {
