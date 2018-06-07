@@ -45,6 +45,7 @@ public class  LoginActivity extends AppCompatActivity {
         etPassword = (EditText)findViewById(R.id.etPassword);
         autoSwitch = (Switch)findViewById(R.id.autoSwitch);
         loginInfo = getSharedPreferences("setting", 0);
+        editor = loginInfo.edit();
 
         if(loginInfo!=null && loginInfo.getString("rememberId", "")!=null && loginInfo.getString("rememberId", "").length()!=0){
             csId = loginInfo.getString("rememberId", "");
@@ -76,7 +77,7 @@ public class  LoginActivity extends AppCompatActivity {
                     return;
                 }
 
-                editor = loginInfo.edit();
+
                 if (remember) {
                     editor.putString("rememberId", csId);
                     editor.putString("rememberPassword", csPassword);
@@ -160,6 +161,8 @@ public class  LoginActivity extends AppCompatActivity {
                 }
 
                 if(csName != null){
+                    Log.e("csId", csId);
+                    Log.e("csName", csName);
                     editor.putString("csId", csId);
                     editor.putString("csName", csName);
                     editor.putString("csPhone", csPhone);

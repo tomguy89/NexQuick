@@ -232,17 +232,17 @@ public class OrderListActivity extends AppCompatActivity implements NavigationVi
             Log.e("받아온 것", s);
             if(s!=null){
                 try {
-                    JSONObject object = new JSONObject(s);
-                    JSONArray array = new JSONArray(object);
+                    JSONArray ja = new JSONArray(s);
                     JSONObject data;
-                    for(int i=0; i<array.length(); i++){
-                        data = array.getJSONObject(i);
+                    for(int i=0; i<ja.length(); i++){
+                        data = ja.getJSONObject(i);
                         sb.setLength(0);
                         if(data.getInt("urgent")==1){
                             sb.append("급/");
                         }
                         sb.append(data.getString("receiverName"));
                         sb.append(data.getString("callTime"));
+                        dateList.add(sb.toString());
                         //여기에 표시할 내용 추가하기
                     }
 
@@ -251,14 +251,9 @@ public class OrderListActivity extends AppCompatActivity implements NavigationVi
                 }
 
                 if(csName != null){
-                    dateList.add("5/28");
-                    dateList.add("5/29");
-                    dateList.add("5/30");
                     CustomAdapter adapter = new CustomAdapter(context, 0, dateList);
                     listView.setAdapter(adapter);
-                    Toast.makeText(context, "받아옴", Toast.LENGTH_SHORT).show();
                 } else{
-                    Toast.makeText(context, "ㅎㅇㅎㅇ", Toast.LENGTH_LONG).show();
                 }
             }
         }
