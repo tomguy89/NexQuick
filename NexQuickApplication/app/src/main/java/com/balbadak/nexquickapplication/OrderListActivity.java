@@ -38,7 +38,10 @@ public class OrderListActivity extends AppCompatActivity implements NavigationVi
     private Context context = this;
     private SharedPreferences loginInfo;
     private ListView listView;
+<<<<<<< HEAD
     private TextView titletextView;
+=======
+>>>>>>> 900b8c93aa53af6ac6117b662602650a1b10fe6a
     private String csId;
     private String csName;
     private int callNum;
@@ -57,8 +60,11 @@ public class OrderListActivity extends AppCompatActivity implements NavigationVi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order_list);
         dateList = new ArrayList<>();
+<<<<<<< HEAD
 
         titletextView = (TextView) findViewById(R.id.order_list_Title);
+=======
+>>>>>>> 900b8c93aa53af6ac6117b662602650a1b10fe6a
 
         // Adding Toolbar to the activity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -130,6 +136,8 @@ public class OrderListActivity extends AppCompatActivity implements NavigationVi
             TextView descStrView = (TextView) v.findViewById(R.id.order_list_item_detail);
             Button detailBtn = (Button) v.findViewById(R.id.detailBtn);
 
+<<<<<<< HEAD
+=======
 
             titleStrView.setText(data.get(position).getTitleStr());
             descStrView.setText(data.get(position).getDescStr());
@@ -149,6 +157,27 @@ public class OrderListActivity extends AppCompatActivity implements NavigationVi
                     startActivity(intent);
                 }
             });
+>>>>>>> 900b8c93aa53af6ac6117b662602650a1b10fe6a
+
+            titleStrView.setText(data.get(position).getTitleStr());
+            descStrView.setText(data.get(position).getDescStr());
+
+            callNum = data.get(position).getCallNum();
+            deliveryStatus = data.get(position).getDeliveryStatus();
+            Log.i("callNum", callNum+"");
+
+<<<<<<< HEAD
+            detailBtn.setOnClickListener(new View.OnClickListener() {
+                int cn = callNum;
+                int ds = deliveryStatus;
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(context, DialogDetailActivity.class);
+                    intent.putExtra("callNum", cn);
+                    intent.putExtra("deliveryStatus", ds);
+                    startActivity(intent);
+                }
+            });
 
             return v;
         }
@@ -157,6 +186,11 @@ public class OrderListActivity extends AppCompatActivity implements NavigationVi
     }
 
     // 여기부터 마이메뉴 네비게이션 영역
+=======
+    }
+
+
+>>>>>>> 900b8c93aa53af6ac6117b662602650a1b10fe6a
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -236,9 +270,14 @@ public class OrderListActivity extends AppCompatActivity implements NavigationVi
             StringBuilder titleSb = new StringBuilder();
             StringBuilder descSb = new StringBuilder();
             super.onPostExecute(s);
+<<<<<<< HEAD
 
             if (s != null) {
                 Log.e("받아온 것", s);
+=======
+            Log.e("받아온 것", s);
+            if (s != null) {
+>>>>>>> 900b8c93aa53af6ac6117b662602650a1b10fe6a
                 try {
                     JSONArray ja = new JSONArray(s);
                     JSONObject data;
@@ -277,8 +316,11 @@ public class OrderListActivity extends AppCompatActivity implements NavigationVi
                     CustomAdapter adapter = new CustomAdapter(context, 0, dateList);
                     listView.setAdapter(adapter);
                 } else {
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> 900b8c93aa53af6ac6117b662602650a1b10fe6a
                 }
             } else {
 

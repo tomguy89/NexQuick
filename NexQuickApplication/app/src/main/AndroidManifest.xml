@@ -22,6 +22,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+<<<<<<< HEAD
         <activity android:name=".MainMenuActivity"
             android:label="NexQuick"/>
 
@@ -35,6 +36,15 @@
             android:label="이전주문"
             android:theme="@style/AppTheme.NoActionBar"
             android:launchMode="singleTop" />
+=======
+        <activity android:name=".MainMenuActivity" />
+        <activity
+            android:name=".OrderListActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".OrderListBeforeActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+>>>>>>> 900b8c93aa53af6ac6117b662602650a1b10fe6a
         <activity
             android:name=".NavigationActivity"
             android:label="@string/title_activity_navigation"
@@ -55,6 +65,10 @@
         <activity
             android:name=".DialogDetailActivity"
             android:theme="@style/DialogTheme" />
+<<<<<<< HEAD
+=======
+        <activity android:name=".KeyHashActivity" />
+>>>>>>> 900b8c93aa53af6ac6117b662602650a1b10fe6a
 
         <!-- 20180606 18:00 -->
         <activity
@@ -67,7 +81,12 @@
                 <data android:scheme="iamporttest" />
             </intent-filter>
         </activity>
+<<<<<<< HEAD
 
+=======
+        <activity android:name=".DialogDetailActivity"
+            android:theme="@style/DialogTheme"/>
+>>>>>>> 900b8c93aa53af6ac6117b662602650a1b10fe6a
     </application>
 
 </manifest>

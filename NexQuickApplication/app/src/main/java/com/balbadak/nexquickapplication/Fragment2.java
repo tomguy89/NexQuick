@@ -24,15 +24,19 @@ public class Fragment2 extends Fragment {
     ViewPager viewPager;
     Spinner reSpinner;
     Spinner frSpinner;
+<<<<<<< HEAD
 
     private Bundle bundle;
 
+=======
+>>>>>>> 900b8c93aa53af6ac6117b662602650a1b10fe6a
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
     View view  =inflater.inflate(R.layout.fragment_neworder2, container, false);
 
+<<<<<<< HEAD
         bundle = getArguments();
         viewPager = (ViewPager) getActivity().findViewById(R.id.pager);
 
@@ -45,6 +49,20 @@ public class Fragment2 extends Fragment {
         reSpinnerList.add("신대방동");
         reSpinnerList.add("서초동");
 
+=======
+
+        viewPager = (ViewPager) getActivity().findViewById(R.id.pager);
+
+        reSpinner = (Spinner) view.findViewById(R.id.receiverAddressSpinner);
+
+        final ArrayList<String> reSpinnerList = new ArrayList<>();
+
+        reSpinnerList.add("즐겨찾기");
+        reSpinnerList.add("난곡동");
+        reSpinnerList.add("신대방동");
+        reSpinnerList.add("서초동");
+
+>>>>>>> 900b8c93aa53af6ac6117b662602650a1b10fe6a
 
         //스피너용 어댑터
         ArrayAdapter spinnerAdapter1;
