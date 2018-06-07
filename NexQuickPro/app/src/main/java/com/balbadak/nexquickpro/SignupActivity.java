@@ -3,8 +3,10 @@ package com.balbadak.nexquickpro;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.res.Resources;
+import android.graphics.drawable.Drawable;
 import android.support.v7.app.AppCompatActivity;
 import android.app.LoaderManager.LoaderCallbacks;
 
@@ -17,7 +19,10 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -26,7 +31,9 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.tsengvn.typekit.TypekitContextWrapper;
 
@@ -58,33 +65,123 @@ public class SignupActivity extends AppCompatActivity implements LoaderCallbacks
     /**
      * Keep track of the login task to ensure we can cancel it if requested.
      */
-    private UserLoginTask mAuthTask = null;
+
+    Context context = this;
 
     // UI references.
-    private AutoCompleteTextView mUserIdView;
+    private EditText mUserNameView;
+    private AutoCompleteTextView mUserPhoneView;
     private EditText mPasswordView;
-    private View mProgressView;
-    private View mLoginFormView;
+    private EditText mPasswordRe;
+    private EditText mUserBankView;
+    private EditText mUserAccountView;
 
+    Drawable confirmIcon;
+    private View focusView = null;
 
+    boolean usablePhone = false;
+    boolean usablePw = false;
+    boolean pwPaired = false;
+
+    private String qpPhone;
+    private int vehicleType;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
         // Set up the login form.
-        mUserIdView = (AutoCompleteTextView) findViewById(R.id.userId);
-
+        mUserNameView = (EditText) findViewById(R.id.username);
+        mUserPhoneView = (AutoCompleteTextView) findViewById(R.id.userPhone);
         mPasswordView = (EditText) findViewById(R.id.password);
-        mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+        mPasswordRe = (EditText) findViewById(R.id.passwordRe);
+        mUserBankView = (EditText) findViewById(R.id.account_bank);
+        mUserAccountView = (EditText) findViewById(R.id.account);
+        confirmIcon = getResources().getDrawable(R.drawable.confirm, null);
+        confirmIcon.setBounds(0, 0, 50, 50);
+
+        RadioGroup rg = (RadioGroup)findViewById(R.id.vehicleType);
+        rg.check(R.id.vehicleBtn1);
+        vehicleType = 1;
+        rg.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
-            public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
-                if (id == EditorInfo.IME_ACTION_DONE || id == EditorInfo.IME_NULL) {
-                    attemptSignUp();
-                    return true;
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                switch(checkedId){
+                    case R.id.vehicleBtn1:
+                        vehicleType = 1;
+                        break;
+                    case R.id.vehicleBtn2:
+                        vehicleType = 2;
+                        break;
+                    case R.id.vehicleBtn3:
+                        vehicleType = 3;
+                        break;
+                    case R.id.vehicleBtn4:
+                        vehicleType = 4;
+                        break;
                 }
-                return false;
             }
+        });
+
+        mUserPhoneView.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                qpPhone = mUserPhoneView.getText().toString().trim();
+                if(!hasFocus){
+                    if(qpPhone == null || qpPhone.length()==0) {
+                        mUserPhoneView.setError(null);
+                    }else{
+                        String url = "http://70.12.109.173:9090/NexQuick/qpAccount/qpPhoneDuplCheck.do";
+                        ContentValues values = new ContentValues();
+                        values.put("qpPhone", qpPhone);
+                        UserSignUpTask duplCheckTask = new UserSignUpTask(url, values);
+                        duplCheckTask.execute();
+                    }
+                }
+            }
+        });
+
+
+        mPasswordView.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                String password = mPasswordView.getText().toString();
+                if(!hasFocus){
+                    if(password==null || password.length()==0){
+                        mPasswordView.setError(null);
+                    }else if(password.length()<4){
+                        mPasswordView.setError(getString(R.string.error_invalid_password));
+                        focusView = mPasswordView;
+                        usablePw = false;
+                    } else{
+                        mPasswordView.setError(getString(R.string.error_valid_password), confirmIcon);
+                        usablePw = true;
+                    }
+                }
+            }
+        });
+
+        mPasswordRe.addTextChangedListener( new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                String password = mPasswordView.getText().toString().trim();
+                String passwordRe = mPasswordRe.getText().toString().trim();
+                if(passwordRe==null || passwordRe.length()==0){
+                    mPasswordRe.setError(null);
+                }else if(password.equals(passwordRe)){
+                    mPasswordRe.setError(getString(R.string.error_correct_password), confirmIcon);
+                    pwPaired = true;
+                }else{
+                    mPasswordRe.setError(getString(R.string.error_incorrect_password));
+                    pwPaired = false;
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) { }
         });
 
         Button mSignInButton = (Button) findViewById(R.id.sign_in_button);
@@ -98,102 +195,78 @@ public class SignupActivity extends AppCompatActivity implements LoaderCallbacks
     }
 
 
-
-
     /**
      * Attempts to sign in or register the account specified by the login form.
      * If there are form errors (invalid email, missing fields, etc.), the
      * errors are presented and no actual login attempt is made.
      */
     private void attemptSignUp() {
-        if (mAuthTask != null) {
+
+        // Reset errors.
+        mUserNameView.setError(null);
+        mUserBankView.setError(null);
+        mUserAccountView.setError(null);
+
+        // Store values at the time of the login attempt.
+        qpPhone = mUserPhoneView.getText().toString();
+        String qpPassword = mPasswordView.getText().toString();
+        String qpPasswordRe = mPasswordRe.getText().toString();
+        String qpName = mUserNameView.getText().toString();
+        String qpBank = mUserBankView.getText().toString();
+        String qpAccount = mUserAccountView.getText().toString();
+
+        focusView = null;
+
+        if(qpName == null || qpName.length()==0){
+            mUserNameView.setError(getString(R.string.error_field_required));
+            focusView = mUserNameView;
             return;
         }
 
-        // Reset errors.
-        mUserIdView.setError(null);
-        mPasswordView.setError(null);
+        if(qpPhone == null || qpPhone.length()==0){
+            mUserPhoneView.setError(getString(R.string.error_field_required));
+            focusView = mUserPhoneView;
+            usablePhone = false;
+            return;
+        }
 
-        // Store values at the time of the login attempt.
-        String userId = mUserIdView.getText().toString();
-        String password = mPasswordView.getText().toString();
-
-        boolean cancel = false;
-        View focusView = null;
-
-        // Check for a valid password, if the user entered one.
-        if (!TextUtils.isEmpty(password) && !isPasswordValid(password)) {
+        if(qpPassword == null || qpPassword.length()==0){
+            mPasswordView.setError(getString(R.string.error_field_required));
             focusView = mPasswordView;
-            cancel = true;
+            usablePw = false;
+            return;
         }
 
-        // Check for a valid email address.
-        if (TextUtils.isEmpty(userId)) {
-            mUserIdView.setError(getString(R.string.error_field_required));
-            focusView = mUserIdView;
-            cancel = true;
-        } else if (!isIdValid(userId)) {
-            mUserIdView.setError(getString(R.string.error_invalid_email));
-            focusView = mUserIdView;
-            cancel = true;
+        if(qpPasswordRe == null || qpPasswordRe.length()==0){
+            mPasswordRe.setError(getString(R.string.error_field_required));
+            focusView = mPasswordRe;
+            pwPaired = false;
+            return;
         }
 
-        if (cancel) {
-            // There was an error; don't attempt login and focus the first
-            // form field with an error.
-            focusView.requestFocus();
-        } else {
-            // Show a progress spinner, and kick off a background task to
-            // perform the user login attempt.
-            showProgress(true);
-            mAuthTask = new UserLoginTask(userId, password);
-            mAuthTask.execute((Void) null);
+        if(qpBank == null || qpBank.length()==0){
+            mUserBankView.setError(getString(R.string.error_field_required));
+            focusView = mUserBankView;
+            return;
         }
-    }
 
-    private boolean isIdValid(String userId) {
-        //TODO: Replace this with your own logic
-        return userId.length() == 0;
-    }
+        if(qpAccount == null || qpAccount.length()==0){
+            mUserAccountView.setError(getString(R.string.error_field_required));
+            focusView = mUserAccountView;
+            return;
+        }
 
-    private boolean isPasswordValid(String password) {
-        //TODO: Replace this with your own logic
-        return password.length() > 4;
-    }
-
-    /**
-     * Shows the progress UI and hides the login form.
-     */
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
-    private void showProgress(final boolean show) {
-        // On Honeycomb MR2 we have the ViewPropertyAnimator APIs, which allow
-        // for very easy animations. If available, use these APIs to fade-in
-        // the progress spinner.
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
-            int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
-
-            mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
-            mLoginFormView.animate().setDuration(shortAnimTime).alpha(
-                    show ? 0 : 1).setListener(new AnimatorListenerAdapter() {
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
-                }
-            });
-
-            mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-            mProgressView.animate().setDuration(shortAnimTime).alpha(
-                    show ? 1 : 0).setListener(new AnimatorListenerAdapter() {
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-                }
-            });
-        } else {
-            // The ViewPropertyAnimator APIs are not available, so simply show
-            // and hide the relevant UI components.
-            mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-            mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
+        if (usablePhone && usablePw && pwPaired) {
+            String url = "http://70.12.109.173:9090/NexQuick/qpAccount/qpSignUp.do";
+            ContentValues values = new ContentValues();
+            values.put("qpPhone", qpPhone);
+            values.put("qpPassword", qpPassword);
+            values.put("qpName", qpName);
+            values.put("vehicleType", vehicleType);
+            values.put("qpBank", qpBank);
+            values.put("qpAccount", qpAccount);
+            UserSignUpTask userSignUp = new UserSignUpTask(url, values);
+            userSignUp.execute();
         }
     }
 
@@ -237,7 +310,7 @@ public class SignupActivity extends AppCompatActivity implements LoaderCallbacks
                 new ArrayAdapter<>(SignupActivity.this,
                         android.R.layout.simple_dropdown_item_1line, emailAddressCollection);
 
-        mUserIdView.setAdapter(adapter);
+        mUserPhoneView.setAdapter(adapter);
     }
 
 
@@ -255,57 +328,45 @@ public class SignupActivity extends AppCompatActivity implements LoaderCallbacks
      * Represents an asynchronous login/registration task used to authenticate
      * the user.
      */
-    public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
+    public class UserSignUpTask extends AsyncTask<Void, Void, Boolean> {
 
-        private final String mEmail;
-        private final String mPassword;
+        private String url;
+        private ContentValues values;
 
-        UserLoginTask(String email, String password) {
-            mEmail = email;
-            mPassword = password;
+        UserSignUpTask(String url, ContentValues values)  {
+            this.url = url;
+            this.values = values;
         }
 
         @Override
         protected Boolean doInBackground(Void... params) {
-            // TODO: attempt authentication against a network service.
+            RequestHttpURLConnection requestHttpURLConnection = new RequestHttpURLConnection();
+            String result = requestHttpURLConnection.request(url, values);
+            if(result.equals("true")) return true;
+            else return false;
+        }
 
-            try {
-                // Simulate network access.
-                Thread.sleep(2000);
-            } catch (InterruptedException e) {
-                return false;
-            }
-
-            for (String credential : DUMMY_CREDENTIALS) {
-                String[] pieces = credential.split(":");
-                if (pieces[0].equals(mEmail)) {
-                    // Account exists, return true if the password matches.
-                    return pieces[1].equals(mPassword);
+        @Override
+        protected void onPostExecute(Boolean check) {
+            super.onPostExecute(check);
+            Log.e("check", check.toString());
+            if(url.substring(45, url.length()).equals("qpPhoneDuplCheck.do")){
+                if(!check){
+                    mUserPhoneView.setError(getString(R.string.error_invalid_phone));
+                    focusView = mUserPhoneView;
+                    usablePhone = false;
+                }else{
+                    //mUserIdView.setError(getString(R.string.error_valid_csId));
+                    mUserPhoneView.setError(getString(R.string.error_valid_phone), confirmIcon);
+                    //mUserIdView.setError(null);
+                    usablePhone = true;
                 }
-            }
-
-            // TODO: register the new account here.
-            return true;
-        }
-
-        @Override
-        protected void onPostExecute(final Boolean success) {
-            mAuthTask = null;
-            showProgress(false);
-
-            if (success) {
+            } else if(url.substring(45, url.length()).equals("qpSignUp.do")){
+                Toast.makeText(context, "회원가입이 완료되었습니다.", Toast.LENGTH_LONG).show();
                 finish();
-            } else {
-                mPasswordView.setError(getString(R.string.error_incorrect_password));
-                mPasswordView.requestFocus();
             }
         }
 
-        @Override
-        protected void onCancelled() {
-            mAuthTask = null;
-            showProgress(false);
-        }
     }
 
 

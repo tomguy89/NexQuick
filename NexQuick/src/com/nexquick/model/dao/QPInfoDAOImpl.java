@@ -17,6 +17,11 @@ public class QPInfoDAOImpl implements QPInfoDAO {
 	public boolean createQP(QPInfo qpInfo) {
 		return sqlSession.insert("qpInfo.createQP", qpInfo)>0;
 	}
+	
+	@Override
+	public void createQPAccount(QPInfo qpInfo) {
+		sqlSession.insert("qpInfo.createQPAccount", qpInfo);
+	}
 
 	@Override
 	public boolean updateQP(QPInfo qpInfo) {

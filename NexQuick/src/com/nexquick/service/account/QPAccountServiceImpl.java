@@ -21,12 +21,14 @@ public class QPAccountServiceImpl implements QPAccountService {
 
 	@Override
 	public boolean qpSignUp(QPInfo qpInfo) {
-		return qpInfoDao.createQP(qpInfo);
+		boolean result = qpInfoDao.createQP(qpInfo);
+		if(result) qpInfoDao.createQPAccount(qpInfo);
+		return result;
 	}
 
 	@Override
 	public boolean qpPhoneDuplicateCheck(String qpPhone) {
-		return qpInfoDao.selectQP(qpPhone)!=null;
+		return qpInfoDao.selectQP(qpPhone)==null;
 	}
 
 	@Override

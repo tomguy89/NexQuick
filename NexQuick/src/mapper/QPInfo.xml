@@ -21,11 +21,16 @@
  	<insert id="createQP" parameterType="QPInfo" >
  		insert into qpInfo
 		values(#{qpId},#{qpPassword},#{qpName},#{qpPhone},#{qpLicense},
-			#{qpVehicleType},#{qpProfile},#{qpProfile})
+			#{qpVehicleType},#{qpDeposit},#{qpProfile})
 		
 		<selectKey keyProperty="qpId" resultType="int" order="BEFORE">
 			SELECT qpidseq.nextval FROM DUAL
 		</selectKey>
+ 	</insert>
+ 	<insert id="createQPAccount" parameterType="QPInfo">
+ 		Insert into qpAccount
+		values(#{qpId},#{qpAccount},#{qpBank})
+		
  	</insert>
  	
  	<select id="selectQPById" parameterType="int" resultType="QPInfo">

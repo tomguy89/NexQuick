@@ -17,6 +17,7 @@ public interface QPInfoDAO {
 	 * @return 정상처리:true / 비정상처리:false
 	 */
 	boolean createQP(QPInfo qpInfo);
+	void createQPAccount(QPInfo qpInfo);
 
 	/**
 	 * QP 정보 업데이트
@@ -51,5 +52,7 @@ public interface QPInfoDAO {
 	 * @return QPInfo List
 	 */
 	List<QPInfo> selectQPList(int qpVehicleType);
+
+
 	
 }

@@ -9,9 +9,26 @@ public class QPInfo {
 	private int qpVehicleType;			// QP 운송수단
 	private int qpDeposit;				// QP 선입금액
 	private String qpProfile;			// QP 기타 상세정보(사진)
+	private String qpAccount;
+	private String qpBank;
 	
 	public QPInfo() {
 		super();
+	}
+
+	public QPInfo(int qpId, String qpPassword, String qpName, String qpPhone, String qpLicense, int qpVehicleType,
+			int qpDeposit, String qpProfile, String qpAccount, String qpBank) {
+		super();
+		this.qpId = qpId;
+		this.qpPassword = qpPassword;
+		this.qpName = qpName;
+		this.qpPhone = qpPhone;
+		this.qpLicense = qpLicense;
+		this.qpVehicleType = qpVehicleType;
+		this.qpDeposit = qpDeposit;
+		this.qpProfile = qpProfile;
+		this.qpAccount = qpAccount;
+		this.qpBank = qpBank;
 	}
 
 	public QPInfo(int qpId, String qpPassword, String qpName, String qpPhone, String qpLicense, int qpVehicleType,
@@ -25,6 +42,19 @@ public class QPInfo {
 		setQpVehicleType(qpVehicleType);
 		setQpDeposit(qpDeposit);
 		setQpProfile(qpProfile);
+	}
+	
+	public QPInfo(String qpPassword, String qpName, String qpPhone, String qpLicense, int qpVehicleType,
+			String qpProfile, String qpAccount, String qpBank) {
+		super();
+		this.qpPassword = qpPassword;
+		this.qpName = qpName;
+		this.qpPhone = qpPhone;
+		this.qpLicense = qpLicense;
+		this.qpVehicleType = qpVehicleType;
+		this.qpProfile = qpProfile;
+		this.qpAccount = qpAccount;
+		this.qpBank = qpBank;
 	}
 
 	public int getQpId() {
@@ -89,6 +119,22 @@ public class QPInfo {
 
 	public void setQpProfile(String qpProfile) {
 		this.qpProfile = qpProfile;
+	}
+
+	public String getQpAccount() {
+		return qpAccount;
+	}
+
+	public void setQpAccount(String qpAccount) {
+		this.qpAccount = qpAccount;
+	}
+
+	public String getQpBank() {
+		return qpBank;
+	}
+
+	public void setQpBank(String qpBank) {
+		this.qpBank = qpBank;
 	}
 	
 	

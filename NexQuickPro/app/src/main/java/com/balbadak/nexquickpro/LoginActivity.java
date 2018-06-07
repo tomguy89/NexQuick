@@ -16,6 +16,9 @@ import android.widget.Toast;
 
 import com.tsengvn.typekit.TypekitContextWrapper;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.security.Signature;
 
 
@@ -29,6 +32,7 @@ public class  LoginActivity extends AppCompatActivity {
     Switch autoSwitch;
     private boolean remember;
     private SharedPreferences loginInfo;
+    private SharedPreferences.Editor editor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,12 +47,14 @@ public class  LoginActivity extends AppCompatActivity {
         etPassword = (EditText)findViewById(R.id.etPassword);
         autoSwitch = (Switch)findViewById(R.id.autoSwitch);
         loginInfo = getSharedPreferences("setting", 0);
+        editor = loginInfo.edit();
 
-        if(loginInfo!=null){
-            qpPhone = loginInfo.getString("qpPhone", "");
-            qpPassword = loginInfo.getString("qpPassword", "");
+        if(loginInfo!=null && loginInfo.getString("rememberId", "")!=null && loginInfo.getString("rememberId", "").length()!=0){
+            qpPhone = loginInfo.getString("rememberId", "");
+            qpPassword = loginInfo.getString("rememberPassword", "");
             signIn();
         }
+
 
         autoSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -73,14 +79,13 @@ public class  LoginActivity extends AppCompatActivity {
                     return;
                 }
 
-                SharedPreferences.Editor editor = loginInfo.edit();
                 if (remember) {
-                    editor.putString("qpPhone", qpPhone);
-                    editor.putString("qpPassword", qpPassword);
+                    editor.putString("rememberId", qpPhone);
+                    editor.putString("rememberPassword", qpPassword);
                     editor.commit();
                 } else{
-                    editor.remove("qpPhone");
-                    editor.remove("qpPassword");
+                    editor.remove("rememberId");
+                    editor.remove("rememberPassword");
                     editor.commit();
                 }
 
@@ -142,10 +147,25 @@ public class  LoginActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
-
             //doInBackground()로 부터 리턴된 값이 onPostExecute()의 매개변수로 넘어오므로 s를 출력한다.
+            int qpId = 0;
+            String qpName = null;
+            String qpPhone = null;
+
             if(s!=null){
-                if(s.equals("true")){
+                try {
+                    JSONObject object = new JSONObject(s);
+                    qpId = object.getInt("qpId");
+                    qpName = object.getString("qpName");
+                    qpPhone = object.getString("qpPhone");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                if(qpId != 0){
+                    editor.putInt("qpId", qpId);
+                    editor.putString("qpName", qpName);
+                    editor.putString("qpPhone", qpPhone);
                     Toast.makeText(context, "로그인 되었습니다.", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                     startActivity(intent);

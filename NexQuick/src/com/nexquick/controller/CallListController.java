@@ -75,7 +75,6 @@ public class CallListController {
 	public @ResponseBody OrderInfo selectOrderListToConfrim(String qpId, String receiverPhone) {
 		return (OrderInfo) callSelectListService.selectOrderListToConfrim(qpId,receiverPhone);
 	}
-	
-	
+		
 	
 }
