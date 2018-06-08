@@ -40,10 +40,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.5"
-<<<<<<< HEAD
-                    android:text="";
-=======
->>>>>>> 900b8c93aa53af6ac6117b662602650a1b10fe6a
                     android:hint="이름" />
 
                 <EditText

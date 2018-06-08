@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+
+    <TextView
+        android:id="@+id/csbeamtv"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:text="이 화면에서 인수/인도 확인을 하실 수 있습니다. 고객님의 휴대폰 뒷면을 퀵프로님의 휴대폰 뒷면과 맞닿게 해주세요.
+앱의 로그인 상태가 유지되었다면 앱을 키지 않고도 인수/인도 확인을 하실 수 있습니다." />
+
+</LinearLayout>
