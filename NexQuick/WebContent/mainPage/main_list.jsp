@@ -55,7 +55,7 @@ $(function() {
 		success : setCallList
 	});
 	
-	
+
 
 	
 	
@@ -93,7 +93,7 @@ function setCallList(JSONDocument) {
 		$("#tableBody").append(
 			$("<tr class='row100 body'>")
 			.append(
-				$("<td class='cell100 column1 centerBox'>").addClass("callNum" + JSONDocument[i].callNum).attr("id", "tdId"+count).text(JSONDocument[i].orderNum).attr("onclick", "findAddress(this)")
+				$("<td class='cell100 column1 centerBox makeMarker'>").addClass("callNum" + JSONDocument[i].callNum).attr("id", "tdId"+count).text(JSONDocument[i].orderNum).attr("onclick", "findAddress(this)")
 			).append(
 				$("<td class='cell100 column2 c2 centerBox'>").text(JSONDocument[i].callTime)
 			).append(
@@ -149,7 +149,19 @@ function findAddress(Address) {
 	console.log(qpAddress_lat[index]);
 	console.log(qpAddress_lon[index]);
 	$("#lat").val(qpAddress_lat[index]);
-	$("#lot").val(qpAddress_lat[index]);
+	$("#lon").val(qpAddress_lon[index]);
+	
+	$("#senderAddress").val(senderAddressArr[index]);
+	$("#receiverAddress").val(receiverAddressArr[index]);
+	
+	setTimeout(function(){
+		console.log("타임아웃들어옴");
+		$("#lat").trigger("click");
+	}, 500);
+	
+	
+	
+	
 }
 
 
@@ -162,10 +174,11 @@ function findAddress(Address) {
 <body>
 	<!-- 내비게이션 임포트 -->
 	<%@ include file = "../navigation.jsp" %>  
-	<input type = "text" id = "lat" value="0" hidden onchange = "mapInit()"/>
-	<input type = "text" id = "lot" value="0" hidden/>
-	<input type = "text" id = "lat1" value="37.491225" hidden/>
-	<input type = "text" id = "lot2" value="127.039188" hidden/>
+	
+	<input type = "text" id = "lat" hidden/>
+	<input type = "text" id = "lon" hidden/>
+	<input type = "text" id = "senderAddress" hidden/>
+	<input type = "text" id = "receiverAddress" hidden/>
 	
 	<div class = "row">
 		<div class = "col-md-5">
@@ -174,49 +187,101 @@ function findAddress(Address) {
 			</h2>
 			
 			<div id="map" style="width:500px;height:400px;"></div>
-			<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=fb36d3fbdea0b0b3d5ac3c3bb1c0532d"></script>
+			<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=fb36d3fbdea0b0b3d5ac3c3bb1c0532d&libraries=services,clusterer,drawing"></script>
 			<script type="text/javascript">
-			function mapInit() {
-				var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
-			    mapOption = {
-			        center: new daum.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
-			        level: 3 // 지도의 확대 레벨
-			    };  
+			
+				document.getElementById('lat').addEventListener('click', mapInit)
+				function mapInit() {
+					var mapContainer = document.getElementById('map'), // 지도를 표시할 div  
+				    mapOption = { 
+				        center: new daum.maps.LatLng($("#lat").val(), $("#lon").val()), // 지도의 중심좌표
+				        level: 8 // 지도의 확대 레벨
+				    };
+			
+					var map = new daum.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
+					 
+					
+					
+					// 주소-좌표 변환 객체를 생성합니다
+					var geocoder = new daum.maps.services.Geocoder();
+					var coords;
+					var imageSrc = "http://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png";
+				    var imageSize = new daum.maps.Size(24, 35);
+				    var coords_Start;
+				    console.log($("#senderAddress").val());
+					geocoder.addressSearch($("#senderAddress").val(), function(result, status) {
+					    // 정상적으로 검색이 완료됐으면 
+					     if (status === daum.maps.services.Status.OK) {
+					    	coords_Start = new daum.maps.LatLng(result[0].y, result[0].x);
+					    	
+					        var marker = new daum.maps.Marker({
+					            map: map,
+					            position: coords_Start
+					        });
+					    	
+					    } 
+					});
+					
+					
+					var coords_End;
+				    console.log($("#receiverAddress").val());
+					geocoder.addressSearch($("#receiverAddress").val(), function(result, status) {
+					    // 정상적으로 검색이 완료됐으면 
+					     if (status === daum.maps.services.Status.OK) {
+					    	 coords_End = new daum.maps.LatLng(result[0].y, result[0].x);
+					        var marker = new daum.maps.Marker({
+					            map: map,
+					            position: coords_End
+					        });
+					    } 
+					});    
+					
 
-				// 지도를 생성합니다    
-				var map = new daum.maps.Map(mapContainer, mapOption); 
-	
-				// 주소-좌표 변환 객체를 생성합니다
-				var geocoder = new daum.maps.services.Geocoder();
-	
-				// 주소로 좌표를 검색합니다
-				geocoder.addressSearch('제주특별자치도 제주시 첨단로 242', function(result, status) {
-	
-				    // 정상적으로 검색이 완료됐으면 
-				     if (status === daum.maps.services.Status.OK) {
-	
-				        var coords = new daum.maps.LatLng(result[0].y, result[0].x);
-	
-				        // 결과값으로 받은 위치를 마커로 표시합니다
-				        var marker = new daum.maps.Marker({
-				            map: map,
-				            position: coords
-				        });
-	
-				        // 인포윈도우로 장소에 대한 설명을 표시합니다
-				        var infowindow = new daum.maps.InfoWindow({
-				            content: '<div style="width:150px;text-align:center;padding:6px 0;">우리회사</div>'
-				        });
-				        infowindow.open(map, marker);
-	
-				        // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
-				        map.setCenter(coords);
-				    } 
-				});    
+				    
+				    
+					/* // 주소로 좌표를 검색합니다
+					for(var i = 0 ; i < 2 ; i++) {
+						console.log(coords[i]);
+					    var markerImage = new daum.maps.MarkerImage(imageSrc, imageSize);
+						    // 정상적으로 검색이 완료됐으면 
+					    var marker = new daum.maps.Marker({
+					        map: map, // 마커를 표시할 지도
+					        position: coords[i], // 마커를 표시할 위치
+					        image : markerImage // 마커 이미지 
+					    });
+					}					 */
+					
+					
+					// 마커를 표시할 위치와 title 객체 배열입니다 
+					var positions = [
+					    {
+					        title: '퀵프로 위치', 
+					        latlng: new daum.maps.LatLng($("#lat").val(), $("#lon").val())
+					    }
+					];
+			
+					// 마커 이미지의 이미지 주소입니다
+					var imageSrc = "http://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png"; 
+					    
+					for (var i = 0; i < positions.length; i ++) {
+					    
+					    // 마커 이미지의 이미지 크기 입니다
+					    var imageSize = new daum.maps.Size(24, 35); 
+					    
+					    // 마커 이미지를 생성합니다    
+					    var markerImage = new daum.maps.MarkerImage(imageSrc, imageSize); 
+					    
+					    // 마커를 생성합니다
+					    var marker = new daum.maps.Marker({
+					        map: map, // 마커를 표시할 지도
+					        position: positions[i].latlng, // 마커를 표시할 위치
+					        title : positions[i].title, // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
+					        image : markerImage // 마커 이미지 
+					    });
+					}
+				}
+			
 				
-			}
-			
-			
 			</script>
 		</div>
 		<div class = "col-md-7">
