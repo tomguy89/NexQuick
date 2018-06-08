@@ -30,7 +30,10 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
 <% List<OrderInfo> orderList = (List<OrderInfo>)request.getSession().getAttribute("ordersByCall");
 	CallInfo callInfo = (CallInfo) request.getSession().getAttribute("getCallByCallNum");
+	int payType = (int) request.getSession().getAttribute("payType");
+	int payStatus = (int) request.getSession().getAttribute("payStatus");
 	int totalPrice = 0;
+	String vehicleType = null; 
 %>
 
 
@@ -39,8 +42,8 @@ $(function() {
 	$.ajax({
 		url : "<%= request.getContextPath() %>/call/registCall.do",
 			data : {
-				payType : 0,
-				payStatus : 1,
+				payType : <%= payType %>,
+				payStatus : <%= payStatus %>,
 				totalPrice : $("#totalPrice").val()
 			},
 		dataType : "json",
@@ -70,7 +73,21 @@ function registCall(JSONDocument) {
 <%@ include file = "../quickApplyPage/quickApply_going_box.jsp" %>
 
 	<!-- 신청한 내용 보여주기? -->
-			
+			<h2 class = "centerBox">
+				<% if(payType == 0 || payType == 1) { %>
+					입금이 완료되었습니다. 퀵 신청내역을 확인하세요.
+				<% } else if (payType == 2) {%>
+					현장결제(선불) - 카드 신청이 완료되었습니다. 퀵 신청내역을 확인하세요.				
+				<% } else if (payType == 3) {%>
+					현장결제(선불) - 현금 신청이 완료되었습니다. 퀵 신청내역을 확인하세요.				
+				<% } else if (payType == 4) {%>
+					현장결제(후불) - 카드 신청이 완료되었습니다. 퀵 신청내역을 확인하세요.
+				<% } else if (payType == 5) {%>
+					현장결제(후불) - 현금 신청이 완료되었습니다. 퀵 신청내역을 확인하세요.
+				<% } else if (payType == 6) {%>
+					신용결제(법인회원 전용) 신청이 완료되었습니다. 퀵 신청내역을 확인하세요.
+				<% } %>				
+			</h2>
 			<div class = "centerBox mt-5">
 				<h1>배송 정보</h1>
 			</div>
@@ -86,10 +103,17 @@ function registCall(JSONDocument) {
 			  <tbody>
 			  <tr>
 			  <% if(callInfo != null) { %>
+			  
+			  <% if(callInfo.getVehicleType()==0) { vehicleType = "오토바이";%>
+			  <% } else if (callInfo.getVehicleType()==1) { vehicleType = "다마스"; %>
+			  <% } else if (callInfo.getVehicleType()==2) { vehicleType = "라보"; %>
+			  <% } else if (callInfo.getVehicleType()==3) { vehicleType = "트럭"; %>
+			  <% } else if (callInfo.getVehicleType()==4) { vehicleType = "기타"; %>
+			  <% } %>
 			  	<th class = "col_100 centerBox"><%= callInfo.getCallNum() %></th>
 			  	<th class = "col_100 centerBox"><%= callInfo.getSenderName() %></th>
 			  	<th class = "col_100"><%= callInfo.getSenderAddress() %></th>
-			  	<th class = "col_100 centerBox"><%= callInfo.getVehicleType() %></th>
+			  	<th class = "col_100 centerBox"><%= vehicleType %></th>
 			  <% } %>
 			  </tr>
   			  <tr>

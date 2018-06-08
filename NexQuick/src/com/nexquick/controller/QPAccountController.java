@@ -9,9 +9,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.nexquick.model.vo.CSInfo;
 import com.nexquick.model.vo.QPInfo;
+import com.nexquick.model.vo.QPPosition;
 import com.nexquick.service.account.QPAccountService;
+import com.nexquick.service.account.QPPositionService;
 
-@RequestMapping("qpAccount")
+@RequestMapping("/qpAccount")
 @Controller
 public class QPAccountController {
 	
@@ -21,7 +23,12 @@ public class QPAccountController {
 		this.qpAccountService = qpAccountService;
 	}
 	
-	
+	private QPPositionService qpPositionService;
+	@Autowired
+	public void setQpPositionService(QPPositionService qpPositionService) {
+		this.qpPositionService = qpPositionService;
+	}
+
 	/**
 	 * QP의 로그인을 처리
 	 * contextPath/qpAccount/qpSignIn.do
@@ -73,6 +80,12 @@ public class QPAccountController {
 		
 		if(qpAccountService.qpSignUp(qpInfo)) return true;
 		else return false;
+	}
+	
+//	새로추가 0608
+	@RequestMapping("/getQPPosition.do")
+	public @ResponseBody QPPosition getQPPosition(int qpId) {
+		return qpPositionService.getQPPosition(qpId);
 	}
 	
 	

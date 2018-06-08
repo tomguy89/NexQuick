@@ -7,6 +7,7 @@ import com.nexquick.model.vo.CallInfo;
 import com.nexquick.model.vo.FreightInfo;
 import com.nexquick.model.vo.OnDelivery;
 import com.nexquick.model.vo.OrderInfo;
+import com.nexquick.model.vo.QPInfo;
 
 /**
  * 고객 주문을 접수 및 관리하는 서비스 입니다.
@@ -95,4 +96,7 @@ public interface CallManagementService {
 	List<CallInfo> getAllCallsByNameAndDate(HashMap<String, Object> condition);
 
 	FreightInfo getFreight(int freightNum);
+
+//	배송기사 이름 가져오기
+	QPInfo getQPInfo(int callNum);
 }

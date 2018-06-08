@@ -6,6 +6,7 @@ import java.util.List;
 import org.apache.ibatis.session.SqlSession;
 
 import com.nexquick.model.vo.CallInfo;
+import com.nexquick.model.vo.QPInfo;
 
 public class CallInfoDAOImpl implements CallInfoDAO {
 
@@ -88,6 +89,11 @@ public class CallInfoDAOImpl implements CallInfoDAO {
 	public void updateAfterOrdersChecked(int callNum) {
 		sqlSession.update("callInfo.updateAfterOrdersChecked",callNum);
 	}
-
-
+	
+	@Override
+	public QPInfo getQPInfo(int callNum) {
+		return sqlSession.selectOne("callInfo.getQPInfo", callNum);
+	}
+	
+	
 }

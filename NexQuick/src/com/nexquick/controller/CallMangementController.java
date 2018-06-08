@@ -18,6 +18,7 @@ import com.nexquick.model.vo.CallInfo;
 import com.nexquick.model.vo.FavoriteInfo;
 import com.nexquick.model.vo.FreightInfo;
 import com.nexquick.model.vo.OrderInfo;
+import com.nexquick.model.vo.QPInfo;
 import com.nexquick.model.vo.QPPosition;
 import com.nexquick.service.account.FavoriteManagementService;
 import com.nexquick.service.account.QPPositionService;
@@ -132,7 +133,7 @@ public class CallMangementController {
 	 */
 	@RequestMapping("/addOrder.do")
 	public @ResponseBody OrderInfo addOrder(HttpSession session,
-				String receiverName, String receiverAddress, String receiverPhone, String memo) {
+				String receiverName, String receiverAddress, String receiverAddressDetail, String receiverPhone, String memo) {
 		
 		//세션에서 현재 받고있는 콜 넘버 가져오기
 		int callNum = (int)session.getAttribute("callNum");
@@ -140,7 +141,7 @@ public class CallMangementController {
 		//입력 받은 주문 정보 생성
 		CallInfo callInfo = callSelectListService.selectCallInfo(callNum);
 		Address sendAddr = addressTransService.getAddress(callInfo.getSenderAddress());
-		Address recvAddr = addressTransService.getAddress(receiverAddress);
+		Address recvAddr = addressTransService.getAddress(receiverAddress+" " + receiverAddressDetail);
 		Map<String, Object> point = new LinkedHashMap<>();
 		point.put("startX", sendAddr.getLongitude());
 		point.put("startY", sendAddr.getLatitude());
@@ -148,7 +149,7 @@ public class CallMangementController {
 		point.put("endY", recvAddr.getLatitude());
 		double distance = distanceCheckService.singleDistanceCheck(point);
 		int price = pricingService.proportionalPrice(distance);
-		OrderInfo orderInfo = new OrderInfo(callNum, receiverName, receiverAddress, receiverPhone, memo, price);
+		OrderInfo orderInfo = new OrderInfo(callNum, receiverName, receiverAddress, receiverAddressDetail, receiverPhone, memo, price);
 		orderInfo.setDistance(distance+"");
 		totalPrice += price;
 		session.setAttribute("totalPrice", totalPrice);
@@ -341,11 +342,13 @@ public class CallMangementController {
 	
 //	콜번호로 오더들 조회(마지막페이지)
 	@RequestMapping("/getOrders.do")
-	public String orderListByCallNum(HttpSession session, int callNum) {
+	public String orderListByCallNum(HttpSession session, int callNum, int payType, int payStatus) {
 		List<OrderInfo> list = callSelectListService.orderInfoList(callNum);
 		session.setAttribute("ordersByCall", list);
 		CallInfo callInfo = callSelectListService.selectCallInfo(callNum);
 		session.setAttribute("getCallByCallNum", callInfo);
+		session.setAttribute("payType", payType);
+		session.setAttribute("payStatus", payStatus);
 		return "quickApplyPage/quickApply_end";
 	}
 	
@@ -435,6 +438,18 @@ public class CallMangementController {
 		session.setAttribute("callNum", callInfo.getCallNum());
 		return callInfo; 
 	}
+	
+	
+	
+	
+//	배송기사 이름 불러오기
+	@RequestMapping("/getQPInfo.do")
+	public @ResponseBody QPInfo getQPName(int callNum) {
+		QPInfo qpInfo = callManagementService.getQPInfo(callNum);
+		return qpInfo;
+	}
+	
+	
 	
 	
 	

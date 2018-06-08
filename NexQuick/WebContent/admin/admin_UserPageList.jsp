@@ -87,7 +87,22 @@ function setCsListTable(JSONDocument) {
 	var BusinessNumber;
 	var BusinessName;
 	var Department;
+	var csType;
 	for(var i in JSONDocument) {
+		switch(JSONDocument[i].csType) {
+		case 0:
+			csType = "관리자";
+			break;
+		case 1:
+			csType = "법인 고객";
+			break;
+		case 2:
+			csType = "자영업 고객";
+			break;
+		case 3:
+			csType = "개인 고객";
+			break;
+		}
 		$("#tableBody").append(
 			$("<tr class = 'row100 body'>")
 			.append(
@@ -97,7 +112,7 @@ function setCsListTable(JSONDocument) {
 			).append(
 				$("<td class = 'cell100 column3 c3 centerBox'>").text(JSONDocument[i].csPhone)
 			).append(
-				$("<td class = 'cell100 column4 c4 centerBox'>").text(JSONDocument[i].csType)
+				$("<td class = 'cell100 column4 c4 centerBox'>").text(csType)
 			).append(
 				$("<td class = 'cell100 column5 c5 centerBox'>").text(JSONDocument[i].csGrade)
 			).append(

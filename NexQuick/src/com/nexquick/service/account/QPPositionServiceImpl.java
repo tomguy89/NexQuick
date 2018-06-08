@@ -23,4 +23,11 @@ public class QPPositionServiceImpl implements QPPositionService {
 	public List<QPPosition> selectQPListByHCode(String hCode){
 		return qpPositionDao.selectQPbyhCode(hCode);
 	}
+	
+//	새로만듦. 0608
+	@Override
+	public QPPosition getQPPosition(int qpId) {
+		return qpPositionDao.selectQPPosition(qpId);
+	}
+	
 }

@@ -2,8 +2,8 @@ package com.nexquick.model.vo;
 
 public class QPPosition { 		
 	private int qpId;			// QP ID
-	private long qpLatitude;	// QP 위치 (위도)
-	private long qpLongitude;	// QP 위치 (경도)
+	private double qpLatitude;	// QP 위치 (위도)
+	private double qpLongitude;	// QP 위치 (경도)
 	private String bCode;		// 지역번호
 	private String hCode;
 	
@@ -11,7 +11,7 @@ public class QPPosition {
 		super();
 	}
 
-	public QPPosition(int qpId, long qpLatitude, long qpLongitude, String bCode, String hCode) {
+	public QPPosition(int qpId, double qpLatitude, double qpLongitude, String bCode, String hCode) {
 		super();
 		this.qpId = qpId;
 		this.qpLatitude = qpLatitude;
@@ -28,19 +28,19 @@ public class QPPosition {
 		this.qpId = qpId;
 	}
 
-	public long getQpLatitude() {
+	public double getQpLatitude() {
 		return qpLatitude;
 	}
 
-	public void setQpLatitude(long qpLatitude) {
+	public void setQpLatitude(double qpLatitude) {
 		this.qpLatitude = qpLatitude;
 	}
 
-	public long getQpLongitude() {
+	public double getQpLongitude() {
 		return qpLongitude;
 	}
 
-	public void setQpLongitude(long qpLongitude) {
+	public void setQpLongitude(double qpLongitude) {
 		this.qpLongitude = qpLongitude;
 	}
 

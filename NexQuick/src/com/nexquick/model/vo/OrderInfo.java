@@ -5,6 +5,7 @@ public class OrderInfo {
 	private int callNum;					// 콜 번호
 	private String receiverName;			// 받는 사람 이름
 	private String receiverAddress;			// 받는 사람 주소
+	private String receiverAddressDetail;			// 받는 사람 상세주소
 	private String receiverPhone;			// 받는 사람 전화번호
 	private String memo;					// 배송 메시지
 	private int orderPrice;					// 주문 가격
@@ -16,37 +17,51 @@ public class OrderInfo {
 		super();
 	}
 
-	public OrderInfo(int orderNum, int callNum, String receiverName, String receiverAddress, String receiverPhone,
+	public OrderInfo(int orderNum, int callNum, String receiverName, String receiverAddress, String receiverAddressDetail, String receiverPhone,
 			String memo, int orderPrice, String arrivalTime) {
 		super();
 		setOrderNum(orderNum);
 		setCallNum(callNum);
 		setReceiverName(receiverName);
 		setReceiverAddress(receiverAddress);
+		setReceiverAddressDetail(receiverAddressDetail);
 		setReceiverPhone(receiverPhone);
 		setMemo(memo);
 		setOrderPrice(orderPrice);
 		setArrivalTime(arrivalTime);
 	}
 	
-	public OrderInfo(int callNum, String receiverName, String receiverAddress, String receiverPhone, String memo) {
+	public OrderInfo(int callNum, String receiverName, String receiverAddress, String receiverAddressDetail, String receiverPhone, String memo) {
 		super();
 		setCallNum(callNum);
 		setReceiverName(receiverName);
 		setReceiverAddress(receiverAddress);
+		setReceiverAddressDetail(receiverAddressDetail);
 		setReceiverPhone(receiverPhone);
 		setMemo(memo);
 	}
 	
-	public OrderInfo(int callNum, String receiverName, String receiverAddress, String receiverPhone, String memo,
+	public OrderInfo(int callNum, String receiverName, String receiverAddress, String receiverAddressDetail, String receiverPhone, String memo,
 			int orderPrice) {
 		super();
 		setCallNum(callNum);
 		setReceiverName(receiverName);
 		setReceiverAddress(receiverAddress);
+		setReceiverAddressDetail(receiverAddressDetail);
 		setReceiverPhone(receiverPhone);
 		setMemo(memo);
 		setOrderPrice(orderPrice);
+	}
+
+	
+	
+	
+	public String getReceiverAddressDetail() {
+		return receiverAddressDetail;
+	}
+
+	public void setReceiverAddressDetail(String receiverAddressDetail) {
+		this.receiverAddressDetail = receiverAddressDetail;
 	}
 
 	public int getOrderNum() {

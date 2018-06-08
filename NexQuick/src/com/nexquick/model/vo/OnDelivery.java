@@ -5,14 +5,32 @@ public class OnDelivery {
 	private int orderNum;
 	private String callTime;
 	private String senderAddress;
+	private String senderAddressDetail;
 	private String receiverName;
 	private String receiverAddress;
+	private String receiverAddressDetail;
 	private int orderPrice;
 	private int urgent;
 	private int deliveryStatus;
 	
 	public OnDelivery() {
 		super();
+	}
+
+	public String getSenderAddressDetail() {
+		return senderAddressDetail;
+	}
+
+	public void setSenderAddressDetail(String senderAddressDetail) {
+		this.senderAddressDetail = senderAddressDetail;
+	}
+
+	public String getReceiverAddressDetail() {
+		return receiverAddressDetail;
+	}
+
+	public void setReceiverAddressDetail(String receiverAddressDetail) {
+		this.receiverAddressDetail = receiverAddressDetail;
 	}
 
 	public int getCallNum() {

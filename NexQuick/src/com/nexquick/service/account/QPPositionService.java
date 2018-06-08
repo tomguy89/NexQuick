@@ -10,4 +10,7 @@ public interface QPPositionService {
 
 	List<QPPosition> selectQPListByHCode(String hCode);
 
+	QPPosition getQPPosition(int qpId);
+
+	
 }

@@ -189,7 +189,7 @@
 							<li>
 								<a><i class="fas fa-user-lock menuIcons"></i>관리자 메뉴</a>
 								<ul class="gn-submenu">
-									<li><a href = "<%= request.getContextPath() %>/admin/admin_UserPage.jsp"><i class="far fa-user navIcons"></i>고객 관리</a></li>
+									<li><a href = "<%= request.getContextPath() %>/admin/admin_UserPageList.jsp"><i class="far fa-user navIcons"></i>고객 관리</a></li>
 									<li><a href = "<%= request.getContextPath() %>/admin/admin_QuickProListPage.jsp"><i class="fas fa-motorcycle navIcons"></i>배송기사 관리</a></li>
 									<li><a><i class="fas fa-coins navIcons"></i>매출 관리</a></li>
 									<li><a href = "<%= request.getContextPath() %>/admin/admin_CallListPage.jsp"><i class="far fa-file-alt navIcons"></i>신청 관리</a></li>
@@ -213,7 +213,7 @@
 					</div><!-- /gn-scroller -->
 				</nav>
 			</li>
-			<li><a href="#"><i class="fas fa-motorcycle"></i><span> NexQuick</span></a></li>
+			<li><a href="<%= request.getContextPath() %>/mainPage/main_index.jsp"><img src = "<%= request.getContextPath() %>/image/index_img/NexQuickLogo_Nav.png" height = "40" width = "250" style = "margin-top: 10px;"/></a></li>
 			<li><a id = "getModal_title" data-toggle="modal" data-target="#exampleModal_1"><i class="far fa-user"></i><span> <%= csInfo.getCsName() %>님 환영합니다.</span></a></li>
 		</ul>
 		<script src="<%= request.getContextPath() %>/GoogleNexusWebsiteMenu/js/classie.js"></script>

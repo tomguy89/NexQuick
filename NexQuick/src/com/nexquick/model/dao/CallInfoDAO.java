@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import com.nexquick.model.vo.CallInfo;
+import com.nexquick.model.vo.QPInfo;
 
 /**
  * 고객이 주문한 콜(Call)을 관리하는 DB를 접근하는 DAO입니다.
@@ -80,4 +81,7 @@ public interface CallInfoDAO {
 	
 	void updateCallAfterConfirm(List<Integer> list);
 	void updateAfterOrdersChecked(int callNum);
+	
+//	배송기사 이름가져오기
+	QPInfo getQPInfo(int callNum);
 }

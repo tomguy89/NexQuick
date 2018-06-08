@@ -78,7 +78,25 @@ function setCallList(JSONDocument) {
 	
 	$("#tableBody").empty();
 	var totalPrice = 0;
+	var deliveryStatus;
 	for(var i in JSONDocument) {
+		switch(JSONDocument[i].deliveryStatus) {
+		case 0:
+			deliveryStatus = "미신청";
+			break;
+		case 1:
+			deliveryStatus = "신청완료";
+			break;
+		case 2:
+			deliveryStatus = "배차완료";
+			break;
+		case 3:
+			deliveryStatus = "배송중";
+			break;
+		case 4:
+			deliveryStatus = "수령완료";
+			break;
+		}
 		$("#tableBody").append(
 			$("<tr class='row100 body'>")
 			.append(
@@ -95,7 +113,7 @@ function setCallList(JSONDocument) {
 			).append(
 				$("<td class='cell100 column5 centerBox'>").text(JSONDocument[i].totalPrice + "원")
 			).append(
-				$("<td class='cell100 column6 centerBox'>").text(JSONDocument[i].deliveryStatus)
+				$("<td class='cell100 column6 centerBox'>").text(deliveryStatus)
 			)
 		)
 		totalPrice += JSONDocument[i].totalPrice;
@@ -139,7 +157,7 @@ function orderList(JSONDocument) {
     		).append(
     			$("<td class='cell100 column2 centerBox'>").text(JSONDocument[i].receiverName)
     		).append(
-    			$("<td class='cell100 column3 centerBox'>").text(JSONDocument[i].receiverAddress)
+    			$("<td class='cell100 column3 centerBox'>").text(JSONDocument[i].receiverAddress + " " + JSONDocument[i].receiverAddressDetail)
     		).append(
     			$("<td class='cell100 column4 centerBox'>").text(JSONDocument[i].memo)
     		).append(

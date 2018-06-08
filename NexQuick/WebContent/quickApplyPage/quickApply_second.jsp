@@ -33,6 +33,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/css/bootstrap-datetimepicker.min.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
 <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/xeicon@2.3.3/xeicon.min.css">
+<%@ include file = "../navigation.jsp" %>
 <script type="text/javascript">
 var isUrgent = 1;
 	$(function() {
@@ -404,7 +405,8 @@ var isUrgent = 1;
 					url : "<%= request.getContextPath() %>/call/addOrder.do",
 	   				data : {
 	   					receiverName : $(userNameApply).val(),
-	   					receiverAddress : $(address).val() + " " + $(addressDetail).val(),
+	   					receiverAddress : $(address).val(),
+	   					receiverAddressDetail : $(addressDetail).val(),
 	   					receiverPhone : $(phone).val(),
 	   					memo : $(quickMemo).val()
 	   				},
@@ -507,6 +509,8 @@ var isUrgent = 1;
 							$("<td>").text(item)
 					).append(
 							$("<td>").text($($countId).val()+"개")
+					).append(
+							$("<td>").text(JSONDocument.freightPrice+"원")
 					).append(
 							$("<td>").append(
 								$("<img src = <%=request.getContextPath()%>/image/quickApply_img/minusBtn.png width=20 height=20 />").attr("id", "minusBtn"+trIndex).on("click", function() {
@@ -670,7 +674,8 @@ var isUrgent = 1;
    				url : "<%= request.getContextPath() %>/call/addOrder.do",
    				data : {
    					receiverName : $("#userNameApply0").val(),
-   					receiverAddress : $("#address0").val() + " " + $("#addressDetail0").val(),
+   					receiverAddress : $("#address0").val(),
+   					receiverAddressDetail : $("#addressDetail0").val(),
    					receiverPhone : $("#phone0").val(),
    					memo : $("#quickMemo0").val()
    				},
@@ -775,6 +780,8 @@ var isUrgent = 1;
 				).append(
 					$("<td>").text($($countId).val()+"개")
 				).append(
+					$("<td>").text(JSONDocument.freightPrice+"원")
+				).append(
 					$("<td>").append(
 						$("<img src = <%=request.getContextPath()%>/image/quickApply_img/minusBtn.png width=20 height=20 />").attr("id", "minusBtn"+trIndex).on("click", function() {
 							trId = $(this).attr("id").substring(8);
@@ -844,10 +851,9 @@ var isUrgent = 1;
     	});
     	/* 주소 입력 API! */
     	
+    	/* 계좌이체, 카드결제(웹) */
     	$(".goToPay").on("click", function() {
-    		
     		IMP.init('imp94690506');
-    		
     		IMP.request_pay({
     		    pg : 'inicis', // version 1.1.0부터 지원.
     		    pay_method : 'card',
@@ -867,15 +873,35 @@ var isUrgent = 1;
     		        msg += '결제 금액 : ' + rsp.paid_amount;
     		        msg += '카드 승인번호 : ' + rsp.apply_num;
 	    		    alert(msg);
-	    		   	location.href = "<%=request.getContextPath()%>/call/getOrders.do?callNum="+callNum;
+	    		   	location.href = "<%=request.getContextPath()%>/call/getOrders.do?callNum="+callNum + "&payType=0&payStatus=1";
     		    } else {
     		        var msg = '결제에 실패하였습니다.';
     		        msg += '에러내용 : ' + rsp.error_msg;
 	    		    alert(msg);
     		    }
     		});
-    		
     	});
+		
+    	$("#place_first_card").on("click", function() {
+    		location.href = "<%= request.getContextPath() %>/call/getOrders.do?callNum="+callNum + "&payType=2&payStatus=0";
+    	});
+    	$("#place_first_money").on("click", function() {
+    		location.href = "<%= request.getContextPath() %>/call/getOrders.do?callNum="+callNum + "&payType=3&payStatus=0";
+    	});
+    	$("#place_last_card").on("click", function() {
+    		location.href = "<%= request.getContextPath() %>/call/getOrders.do?callNum="+callNum + "&payType=4&payStatus=0";
+    	});
+    	$("#place_last_money").on("click", function() {
+    		location.href = "<%= request.getContextPath() %>/call/getOrders.do?callNum="+callNum + "&payType=5&payStatus=0";
+    	});
+    	
+    	<% if(csInfo.getCsType() == 1) { %>
+	    	$("#company_pay").on("click", function() {
+	    		location.href = "<%= request.getContextPath() %>/call/getOrders.do?callNum="+callNum + "&payType=6&payStatus=0";
+	    	});
+    	<% } else { %>
+    		$("#company_pay").attr("data-container", "body").attr("data-toggle", "popover").attr("data-placement", "bottom").attr("data-content", "법인회원 전용입니다.").popover('show');
+    	<% } %>
     	
     	$("#placeholderImgText").popover('show');
     	
@@ -973,8 +999,6 @@ var isUrgent = 1;
 			success : getFavList
   		});
   		
-  		
-  		
 	}
 	
 	function getFavList(JSONDocument) {
@@ -1042,7 +1066,7 @@ var isUrgent = 1;
 
 </head>
 <body>
-<%@ include file = "../navigation.jsp" %>
+
 <%@ include file = "../quickApplyPage/quickApply_going_box.jsp" %>
 
 
@@ -1173,11 +1197,11 @@ var isUrgent = 1;
 						<div class = "col-md-5" style = "display : none; overflow : auto; max-height: 350px;" id = "list0">
 							<div class = "row centerBox" style = "font-size: 1.2em;">
 								<div class = "col-md-4">
-									<div class = "text-conceptColor"> 배송 거리 : </div>
+									<div class = "text-conceptColor"> 배송 거리 </div>
 									<b class = "text-linkColor"><span id = "distance0"></span></b>
 								</div>
 								<div class = "col-md-5">
-									<div class = "text-conceptColor"> 거리 요금 : </div>
+									<div class = "text-conceptColor"> 거리 요금 </div>
 									<b class = "text-dangerColor"><div id="distancePay0"></div></b>
 								</div>
 							</div>
@@ -1338,7 +1362,7 @@ var isUrgent = 1;
 		              		<h2 class = "mt-5">신용결제(법인회원 전용)</h2>
 				            <div class = "emptyBox_s mt-3">
 				            </div>
-				           <button type = "button" id = "place_last_card" class = "borderColor payBtn"><i class="fa_s far fa-credit-card"></i> 결제목록에 추가</button>
+				           <button type = "button" id = "company_pay" class = "borderColor payBtn"><i class="fa_s far fa-credit-card"></i> 결제목록에 추가</button>
 				          </div>
 	            		</div>
           			</div>
@@ -1558,7 +1582,7 @@ var isUrgent = 1;
       <div class="modal-header">
         <h2 class="modal-title centerBox" id="exampleModalCenterTitle">즐겨찾기 목록</h2>
       </div>
-      <div class="modal-body">
+      <div class="modal-body" style = "max-height: 350px; overflow: auto;">
    
    
    

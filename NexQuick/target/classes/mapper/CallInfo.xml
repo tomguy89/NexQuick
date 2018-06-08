@@ -89,6 +89,23 @@
 		</where>
 	</select><!--condition으로 -->
 	
+	<!-- 배송기사 이름불러오기 -->
+	<select id = "getQPInfo" parameterType = "int" resultType="QPInfo">
+		select 	q.qpId as qpId,
+				q.qpPassword as qpPassword,
+				q.qpName as qpName,
+				q.qpPhone as qpPhone,
+				q.qpLicense as qpLicense,
+				q.qpVehicleType as qpVehicleType,
+				q.qpDeposit as qpDeposit,
+				q.qpProfile as qpProfile
+		from 	callInfo c, orderInfo o, qpInfo q
+		where 	c.callnum = #{callNum}
+		and 	c.callnum = o.callnum
+		and 	c.qpid = q.qpid
+	</select>
+	
+	
 	<select id="selectCallListByIdAndDate" parameterType="map" resultType="CallInfo">
 		select * from callInfo
 		<where>

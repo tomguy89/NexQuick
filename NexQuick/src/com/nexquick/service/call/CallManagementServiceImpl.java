@@ -10,6 +10,7 @@ import com.nexquick.model.vo.CallInfo;
 import com.nexquick.model.vo.FreightInfo;
 import com.nexquick.model.vo.OnDelivery;
 import com.nexquick.model.vo.OrderInfo;
+import com.nexquick.model.vo.QPInfo;
 
 public class CallManagementServiceImpl implements CallManagementService {
 
@@ -102,5 +103,12 @@ public class CallManagementServiceImpl implements CallManagementService {
 	public List<CallInfo> getAllCallsByNameAndDate(HashMap<String, Object> condition) {
 		return callInfoDao.selectCallListByNameAndDate(condition);
 	}
+	
+	@Override
+	public QPInfo getQPInfo(int callNum) {
+		return callInfoDao.getQPInfo(callNum);
+	}
+	
+	
 	
 }

@@ -84,7 +84,27 @@ function setQpListTable(JSONDocument) {
 	console.log(JSONDocument);
 	$("#tableBody").empty();
 	var count = 0;
+	var vehicleType;
 	for(var i in JSONDocument) {
+		switch(JSONDocument[i].qpVehicleType) {
+		case 0:
+			vehicleType = "오토바이";
+			break;
+		case 1:
+			vehicleType = "다마스";
+			break;
+		case 2:
+			vehicleType = "라보";
+			break;
+		case 3:
+			vehicleType = "트럭";
+			break;
+		default:
+			vehicleType = "기타";
+			break;
+		}
+		
+		
 		$("#tableBody").append(
 			$("<tr class = 'row100 body'>")
 			.append(
@@ -94,7 +114,7 @@ function setQpListTable(JSONDocument) {
 			).append(
 				$("<td class = 'cell100 column3 c3 centerBox'>").text(JSONDocument[i].qpPhone)
 			).append(
-				$("<td class = 'cell100 column4 c4 centerBox'>").text(JSONDocument[i].qpVehicleType)
+				$("<td class = 'cell100 column4 c4 centerBox'>").text(vehicleType)
 			).append(
 				$("<td class = 'cell100 column5 c5 centerBox'>").text(JSONDocument[i].qpLicense)
 			).append(
