@@ -267,6 +267,7 @@ CREATE TABLE orderInfo (
 	callNum NUMBER NOT NULL, /* callNum */
 	receiverName VARCHAR2(30) NOT NULL, /* receiverName */
 	receiverAddress VARCHAR2(500) NOT NULL, /* receiverAddress */
+    receiverAddressDetail VARCHAR2(500) NOT NULL, /* receiverAddressDetail */
 	receiverPhone VARCHAR2(15) NOT NULL, /* receiverPhone */
 	orderPrice NUMBER NOT NULL, /* orderPrice */
     isget NUMBER NOT NULL, /* deliverystatus */
@@ -283,6 +284,8 @@ COMMENT ON COLUMN orderInfo.callNum IS 'callNum';
 COMMENT ON COLUMN orderInfo.receiverName IS 'receiverName';
 
 COMMENT ON COLUMN orderInfo.receiverAddress IS 'receiverAddress';
+
+COMMENT ON COLUMN orderInfo.receiverAddressDetail IS 'receiverAddressDetail';
 
 COMMENT ON COLUMN orderInfo.receiverPhone IS 'receiverPhone';
 
@@ -539,5 +542,11 @@ INSERT INTO PRICEINFO VALUES(2, '작은상자', 3, 1000);
 INSERT INTO PRICEINFO VALUES(3, '중간상자', 2, 1500);
 INSERT INTO PRICEINFO VALUES(4, '큰 상자', 1,500);
 INSERT INTO PRICEINFO VALUES(5, '음식물',0, 2000);
+
+INSERT INTO QPINFO VALUES(1,'0001','김민규','01049408292','00000000',1,50000,'0001');
+INSERT INTO QPINFO VALUES(2,'0002','이은진','01049408292','00000012',2,50000,'0002');
+
+INSERT INTO QPPOSITION VALUES(1, 37.501225, 127.039188, '0000', '0001');
+INSERT INTO QPPOSITION VALUES(2, 37.501418, 127.039653, '0000', '0001');
 
 COMMIT;

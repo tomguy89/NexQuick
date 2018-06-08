@@ -1,6 +1,7 @@
 package com.balbadak.nexquickpro;
 
 import android.annotation.SuppressLint;
+import android.content.ContentValues;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -65,7 +66,6 @@ public class Fragment2_2 extends Fragment implements TMapGpsManager.onLocationCh
         Bitmap qpMark = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(context.getResources(), R.drawable.scooter), 100, 100, true);
         Bitmap sender = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(context.getResources(), R.drawable.location), 100, 100, true);
         Bitmap receiver = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(context.getResources(), R.drawable.location_primary), 100, 100, true);
-
 
         TMapMarkerItem qpMarker = new TMapMarkerItem();
         TMapPoint qpPoint = new TMapPoint(qpLat, qpLong); // QP 위치
@@ -181,7 +181,12 @@ public class Fragment2_2 extends Fragment implements TMapGpsManager.onLocationCh
 
             this.qpLatitude = qpLat;
             this.qpLongitude = qpLong;
-
+            ContentValues values = new ContentValues();
+            values.put("qpLatitude", qpLatitude);
+            values.put("qpLongitude", qpLongitude);
+            String url = "http://70.12.109.173:9090/NexQuick/qpAccount/qpSignIn.do";
+            RequestHttpURLConnection requestHttpURLConnection = new RequestHttpURLConnection();
+            requestHttpURLConnection.request(url, values);
         }
 
         @Override
