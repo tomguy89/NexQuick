@@ -144,9 +144,12 @@ function saveQPPosition(JSONDocument) {
 
 function findAddress(Address) {
 	var index = Address.id.substring(4);
-	console.log(senderAddressArr[i]);
-	console.log(receiverAddressArr[i]);
-	
+	console.log(senderAddressArr[index]);
+	console.log(receiverAddressArr[index]);
+	console.log(qpAddress_lat[index]);
+	console.log(qpAddress_lon[index]);
+	$("#lat").val(qpAddress_lat[index]);
+	$("#lot").val(qpAddress_lat[index]);
 }
 
 
@@ -159,8 +162,8 @@ function findAddress(Address) {
 <body>
 	<!-- 내비게이션 임포트 -->
 	<%@ include file = "../navigation.jsp" %>  
-	<input type = "text" id = "lat" value="37.501418" hidden onchange = "mapInit"/>
-	<input type = "text" id = "lot" value="127.039653" hidden/>
+	<input type = "text" id = "lat" value="0" hidden onchange = "mapInit()"/>
+	<input type = "text" id = "lot" value="0" hidden/>
 	<input type = "text" id = "lat1" value="37.491225" hidden/>
 	<input type = "text" id = "lot2" value="127.039188" hidden/>
 	

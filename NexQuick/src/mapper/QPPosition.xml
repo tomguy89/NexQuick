@@ -32,7 +32,7 @@
 			hCode=#{hCode}
 		where qpId=#{qpId}
 	</update>
-	<select id="selectQPbyId" parameterType="int">
+	<select id="selectQPbyId" parameterType="int" resultType="QPPosition">
 		select * from qpPosition
 		where qpId=#{qpId}
 	</select>

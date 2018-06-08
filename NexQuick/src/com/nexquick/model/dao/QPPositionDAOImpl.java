@@ -30,7 +30,7 @@ public class QPPositionDAOImpl implements QPPositionDAO {
 
 	@Override
 	public QPPosition selectQPPosition(int qpId) {
-		return sqlSession.selectOne("qpPosition.selectQPPosition", qpId);
+		return sqlSession.selectOne("qpPosition.selectQPbyId", qpId);
 	}
 
 	@Override
