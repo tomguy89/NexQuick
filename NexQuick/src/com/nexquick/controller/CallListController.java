@@ -41,7 +41,7 @@ public class CallListController {
 		return list;
 	}
 	
-	@RequestMapping("/userCallList.do")
+	@RequestMapping("/app/userCallList.do")
 	public @ResponseBody List<OnDelivery> onDeliveryLists(String csId) {
 		return callSelectListService.onDeliveryCallList(csId);
 	}
