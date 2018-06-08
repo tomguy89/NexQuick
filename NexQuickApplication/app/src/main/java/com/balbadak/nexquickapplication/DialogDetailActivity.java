@@ -190,14 +190,6 @@ public class DialogDetailActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
 
-<<<<<<< HEAD
-=======
-                if (callNum != 0) {
-                    Toast.makeText(getApplicationContext(), "callNum != 0", Toast.LENGTH_SHORT).show();
-                } else {
-
-                }
->>>>>>> 900b8c93aa53af6ac6117b662602650a1b10fe6a
             }
         }
     }

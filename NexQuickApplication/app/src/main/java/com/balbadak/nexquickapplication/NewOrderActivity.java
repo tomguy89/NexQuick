@@ -23,10 +23,7 @@ public class NewOrderActivity extends AppCompatActivity implements NavigationVie
 
     private TabLayout tabLayout;
     private CustomViewPager viewPager;
-<<<<<<< HEAD
     private Intent orderIntent;
-=======
->>>>>>> 900b8c93aa53af6ac6117b662602650a1b10fe6a
 
     @Override
     protected void attachBaseContext(Context newBase) {

@@ -26,7 +26,7 @@ public class PricingServiceImpl implements PricingService {
 	public int proportionalPrice(double distance) {
 		int price = 3000;
 		// 거리 비례한 가격 책정(추후 조정)
-		price += Math.pow((int)((distance-30)/10), 2) * 500;
+		price += Math.pow((int)((Math.max(0, (distance-30)))/10), 2) * 500;
 		return price;
 	}
 	

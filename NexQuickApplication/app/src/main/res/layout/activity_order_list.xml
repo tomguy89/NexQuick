@@ -16,17 +16,6 @@
         android:orientation="vertical">
         <!--Custom Toolbar-->
 
-<<<<<<< HEAD
-=======
-    <TextView
-        android:id="@+id/textView1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:textSize="20sp"
-        android:text="ooo님의 최근 주문 내역"
-        android:padding="10dp"/>
->>>>>>> 900b8c93aa53af6ac6117b662602650a1b10fe6a
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
@@ -37,7 +26,6 @@
             android:popupTheme="@style/ThemeOverlay.AppCompat.Light"
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
 
-<<<<<<< HEAD
         <TextView
             android:id="@+id/order_list_Title"
             android:layout_width="match_parent"
@@ -48,16 +36,8 @@
             android:textStyle="bold"
             android:text="최근 주문 내역"
             android:textSize="20sp" />
-=======
-    <ListView
-        android:id="@+id/order_listview"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="10dp" >
->>>>>>> 900b8c93aa53af6ac6117b662602650a1b10fe6a
 
 
-<<<<<<< HEAD
         <ListView
             android:id="@+id/order_listview"
             android:layout_width="match_parent"
@@ -72,15 +52,6 @@
             android:text="이전 주문 보기" />
 
     </LinearLayout>
-=======
-    <Button
-        android:id="@+id/orderListBeforeBtn"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="이전 주문 보기" />
-
-</LinearLayout>
->>>>>>> 900b8c93aa53af6ac6117b662602650a1b10fe6a
 
     <android.support.design.widget.NavigationView
         android:id="@+id/nav_view"
