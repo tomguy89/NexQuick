@@ -550,3 +550,11 @@ INSERT INTO QPPOSITION VALUES(1, 37.501225, 127.039188, '0000', '0001');
 INSERT INTO QPPOSITION VALUES(2, 37.501418, 127.039653, '0000', '0001');
 
 COMMIT;
+
+
+
+select q.qpName
+from callinfo c, orderinfo o, qpinfo q
+where c.callnum = 1
+and c.callnum = o.callnum
+and c.qpid = q.qpid;
