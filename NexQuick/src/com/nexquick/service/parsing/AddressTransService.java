@@ -22,6 +22,6 @@ public interface AddressTransService {
 	 * @param latitude:위도
 	 * @return Address
 	 */
-	Address getAddress(String longitude, String latitude);
+	Address getAddress(double longitude, double latitude);
 
 }

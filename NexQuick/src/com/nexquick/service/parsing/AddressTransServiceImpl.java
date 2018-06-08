@@ -46,7 +46,7 @@ public class AddressTransServiceImpl implements AddressTransService {
 	}
 	
 	@Override
-	public Address getAddress(String longitude, String latitude) {
+	public Address getAddress(double longitude, double latitude) {
 		List<Address> list;
 		Address address = null;
 		String addr = longitude+","+latitude;

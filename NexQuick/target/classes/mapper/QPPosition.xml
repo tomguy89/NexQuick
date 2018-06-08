@@ -24,11 +24,11 @@
 	<delete id="deleteQP" parameterType="int">
 		delete qpPosition where qpId=#{qpId}
 	</delete>
-	<update id="updateQP" parameterType="QPPosition">
+	<update id="updateQPPosition" parameterType="QPPosition">
 		update  qpPosition
 		set qpLatitude=#{qpLatitude},
 			qpLongitude=#{qpLongitude},
-			bCode=#{bCode}
+			bCode=#{bCode},
 			hCode=#{hCode}
 		where qpId=#{qpId}
 	</update>

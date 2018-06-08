@@ -30,4 +30,8 @@ public class QPPositionServiceImpl implements QPPositionService {
 		return qpPositionDao.selectQPPosition(qpId);
 	}
 	
+	@Override
+	public boolean updateQPPosition(QPPosition qpPosition) {
+		return qpPositionDao.updateQPPosition(qpPosition);
+	}
 }

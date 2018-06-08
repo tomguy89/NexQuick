@@ -12,5 +12,5 @@ public interface QPPositionService {
 
 	QPPosition getQPPosition(int qpId);
 
-	
+	boolean updateQPPosition(QPPosition qpPosition);
 }

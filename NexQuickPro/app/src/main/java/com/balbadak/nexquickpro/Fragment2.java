@@ -67,7 +67,6 @@ public class Fragment2 extends Fragment {
         Bitmap sender = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(context.getResources(), R.drawable.location), 100, 100, true);
         Bitmap receiver = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(context.getResources(), R.drawable.location_primary), 100, 100, true);
 
-
         TMapMarkerItem qpMarker = new TMapMarkerItem();
         TMapPoint qpPoint = new TMapPoint(37.570841, 126.985302); // QP 위치
         qpMarker.setIcon(qpMark); // 마커 아이콘 지정
