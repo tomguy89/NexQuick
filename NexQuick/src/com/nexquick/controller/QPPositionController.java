@@ -33,18 +33,12 @@ public class QPPositionController {
 	}
 	
 	
+	
+	
 	@RequestMapping("/updatePosition.do")
-	public void qpSignIn(double qpLatitude, double qpLongitude,String qpId, HttpSession session) {
-			
-		//
-		System.out.println("이클립스 updatePosition에 들어왔음");
-		System.out.println("qpId : "+qpId);
-		System.out.println("qpLongitudeqpLongitude: "+qpLongitude);
-		System.out.println("qpLatitude: "+qpLatitude);
-		//
-		
+	public void qpSignIn(double qpLatitude, double qpLongitude,int qpId, HttpSession session) {//이거 메소드 이름 바꿔야할듯??
 		QPPosition qpPosition = new QPPosition();
-		qpPosition.setQpId(Integer.parseInt(qpId));
+		qpPosition.setQpId(qpId);
 		qpPosition.setQpLatitude(qpLatitude);
 		qpPosition.setQpLongitude(qpLongitude);
 		
@@ -52,15 +46,29 @@ public class QPPositionController {
 		Address address=addressTransService.getAddress(qpLongitude, qpLatitude);
 		qpPosition.setbCode(address.getbCode());
 		qpPosition.sethCode(address.gethCode());
-		
-		//
-		System.out.println("법정코드는"+address.getbCode());
-		System.out.println("행정코드는"+address.gethCode());
-		//
-		
+
 		qpPositionService.updateQPPosition(qpPosition);
 		
 	}
+	
+	@RequestMapping("/insertPosition.do")
+	public void insertQPPosition(double qpLatitude, double qpLongitude,int qpId, HttpSession session) {
+		QPPosition qpPosition = new QPPosition();
+		qpPosition.setQpId(qpId);
+		qpPosition.setQpLatitude(qpLatitude);
+		qpPosition.setQpLongitude(qpLongitude);
+		Address address=addressTransService.getAddress(qpLongitude, qpLatitude);
+		qpPosition.setbCode(address.getbCode());
+		qpPosition.sethCode(address.gethCode());
+		qpPositionService.createQPPosition(qpPosition);
+		
+	}
+	
+	@RequestMapping("/deletePosition.do")
+	public void deleteQPPosition(String qpId) {
+		qpPositionService.deleteQPPosition(Integer.parseInt(qpId));
+	}
+	
 	
 	
 	

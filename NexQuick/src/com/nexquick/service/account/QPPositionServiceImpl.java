@@ -34,4 +34,18 @@ public class QPPositionServiceImpl implements QPPositionService {
 	public boolean updateQPPosition(QPPosition qpPosition) {
 		return qpPositionDao.updateQPPosition(qpPosition);
 	}
+
+	//0608 이은진 추가(2)
+	@Override
+	public boolean createQPPosition(QPPosition qpPosition) {
+		
+		return qpPositionDao.createQPPosition(qpPosition);
+	}
+
+
+	@Override
+	public boolean deleteQPPosition(int qpId) {
+		return qpPositionDao.deleteQPPosition(qpId);
+	}
+	
 }

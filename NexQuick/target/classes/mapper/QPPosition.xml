@@ -24,7 +24,7 @@
 	<delete id="deleteQP" parameterType="int">
 		delete qpPosition where qpId=#{qpId}
 	</delete>
-	<update id="updateQPPosition" parameterType="QPPosition">
+	<update id="updateQP" parameterType="QPPosition">
 		update  qpPosition
 		set qpLatitude=#{qpLatitude},
 			qpLongitude=#{qpLongitude},

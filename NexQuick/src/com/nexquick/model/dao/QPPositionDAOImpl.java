@@ -15,17 +15,17 @@ public class QPPositionDAOImpl implements QPPositionDAO {
 	
 	@Override
 	public boolean createQPPosition(QPPosition qpPosition) {
-		return sqlSession.insert("qpPosition.createQPPosition", qpPosition)>0;
+		return sqlSession.insert("qpPosition.createQP", qpPosition)>0;
 	}
 
 	@Override
 	public boolean updateQPPosition(QPPosition qpPosition) {
-		return sqlSession.update("qpPosition.updateQPPosition", qpPosition)>0;
+		return sqlSession.update("qpPosition.updateQP", qpPosition)>0;
 	}
 
 	@Override
 	public boolean deleteQPPosition(int qpId) {
-		return sqlSession.delete("qpPosition.deleteQPPosition", qpId)>0;
+		return sqlSession.delete("qpPosition.deleteQP", qpId)>0;
 	}
 
 	@Override
