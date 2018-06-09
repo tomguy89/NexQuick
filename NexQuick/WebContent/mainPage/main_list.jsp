@@ -69,8 +69,8 @@ function setCallList(JSONDocument) {
 
 	var count = 0;
 	for(var i in JSONDocument) {
-		senderAddressArr.push(JSONDocument[i].senderAddress + " " + JSONDocument[i].senderAddressDetail);
-		receiverAddressArr.push(JSONDocument[i].receiverAddress + " " + JSONDocument[i].receiverAddressDetail);
+		senderAddressArr.push(JSONDocument[i].senderAddress);
+		receiverAddressArr.push(JSONDocument[i].receiverAddress);
 		
 		var className = ".cNum" + JSONDocument[i].callNum;
 		switch(JSONDocument[i].deliveryStatus) {
@@ -169,6 +169,8 @@ function findAddress(Address) {
 <!-- 배송중인 배달이 있다면. -->
 <!-- 구글맵 API (기사님 위치 다 찍어야됨) -->
 
+
+
 <!-- 없다면? 그냥 -->
 </head>
 <body>
@@ -186,28 +188,44 @@ function findAddress(Address) {
 				현재 배송 중입니다.
 			</h2>
 			
-			<div id="map" style="width:500px;height:400px;"></div>
+		<div class="map_wrap">
+		    <div id="map" style="width:100%;height:100%;position:relative;overflow:hidden;"></div> 
+		    <!-- 지도타입 컨트롤 div 입니다 -->
+		    <div class="custom_typecontrol radius_border">
+		        <span id="btnStart" class="ColorBorder_map" onclick="setMapType('start')">출발지</span>
+   		        <span id="btnQP" class="ColorBorder_map" onclick="setMapType('qp')">배송기사</span>
+		        <span id="btnDepart" class="ColorBorder_map" onclick="setMapType('depart')">도착지</span>
+		    </div>
+	    </div>
+		    
 			<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=fb36d3fbdea0b0b3d5ac3c3bb1c0532d&libraries=services,clusterer,drawing"></script>
 			<script type="text/javascript">
-			
+				var mapContainer = document.getElementById('map'), // 지도를 표시할 div  
+			    mapOption = { 
+			        center: new daum.maps.LatLng(37.5014846, 127.0393984), // 지도의 중심좌표
+			        level: 8 // 지도의 확대 레벨
+			    };
+		
+				var map = new daum.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
+			 				
 				document.getElementById('lat').addEventListener('click', mapInit)
+				
+				var markers = [];
+			    var coords_Start;
+				var coords_End;
+				var coords_QP;
+
 				function mapInit() {
-					var mapContainer = document.getElementById('map'), // 지도를 표시할 div  
-				    mapOption = { 
-				        center: new daum.maps.LatLng($("#lat").val(), $("#lon").val()), // 지도의 중심좌표
-				        level: 8 // 지도의 확대 레벨
-				    };
-			
-					var map = new daum.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
-					 
+					deleteMarkers(null);
+
 					
 					
-					// 주소-좌표 변환 객체를 생성합니다
+					// 주소-좌표 변환 객체를 생성합니다(출발지)
 					var geocoder = new daum.maps.services.Geocoder();
-					var coords;
-					var imageSrc = "http://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png";
-				    var imageSize = new daum.maps.Size(24, 35);
-				    var coords_Start;
+
+					var imageSrc_start = 'http://t1.daumcdn.net/localimg/localimages/07/mapapidoc/red_b.png';
+				    var imageSize_start = new daum.maps.Size(50, 45);
+					var markerImage_start = new daum.maps.MarkerImage(imageSrc_start, imageSize_start); 
 				    console.log($("#senderAddress").val());
 					geocoder.addressSearch($("#senderAddress").val(), function(result, status) {
 					    // 정상적으로 검색이 완료됐으면 
@@ -216,71 +234,83 @@ function findAddress(Address) {
 					    	
 					        var marker = new daum.maps.Marker({
 					            map: map,
-					            position: coords_Start
+					            title : "출발 지점",
+					            position: coords_Start,
+					            image : markerImage_start
 					        });
-					    	
+					    	markers.push(marker);
 					    } 
 					});
 					
-					
-					var coords_End;
+					// 주소-좌표 변환 객체를 생성합니다(도착지)
+
 				    console.log($("#receiverAddress").val());
+					var imageSrc_end = 'http://t1.daumcdn.net/localimg/localimages/07/mapapidoc/blue_b.png';
+				    var imageSize_end = new daum.maps.Size(50, 45);
+					var markerImage_end = new daum.maps.MarkerImage(imageSrc_end, imageSize_end); 
 					geocoder.addressSearch($("#receiverAddress").val(), function(result, status) {
 					    // 정상적으로 검색이 완료됐으면 
 					     if (status === daum.maps.services.Status.OK) {
 					    	 coords_End = new daum.maps.LatLng(result[0].y, result[0].x);
 					        var marker = new daum.maps.Marker({
 					            map: map,
-					            position: coords_End
+					            title : "도착 지점",
+					            position: coords_End,
+					            image : markerImage_end
 					        });
+					    	markers.push(marker);
 					    } 
 					});    
 					
 
 				    
-				    
-					/* // 주소로 좌표를 검색합니다
-					for(var i = 0 ; i < 2 ; i++) {
-						console.log(coords[i]);
-					    var markerImage = new daum.maps.MarkerImage(imageSrc, imageSize);
-						    // 정상적으로 검색이 완료됐으면 
-					    var marker = new daum.maps.Marker({
-					        map: map, // 마커를 표시할 지도
-					        position: coords[i], // 마커를 표시할 위치
-					        image : markerImage // 마커 이미지 
-					    });
-					}					 */
-					
-					
+									
 					// 마커를 표시할 위치와 title 객체 배열입니다 
-					var positions = [
-					    {
-					        title: '퀵프로 위치', 
-					        latlng: new daum.maps.LatLng($("#lat").val(), $("#lon").val())
-					    }
-					];
-			
-					// 마커 이미지의 이미지 주소입니다
-					var imageSrc = "http://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png"; 
-					    
-					for (var i = 0; i < positions.length; i ++) {
-					    
-					    // 마커 이미지의 이미지 크기 입니다
-					    var imageSize = new daum.maps.Size(24, 35); 
-					    
-					    // 마커 이미지를 생성합니다    
-					    var markerImage = new daum.maps.MarkerImage(imageSrc, imageSize); 
-					    
-					    // 마커를 생성합니다
-					    var marker = new daum.maps.Marker({
-					        map: map, // 마커를 표시할 지도
-					        position: positions[i].latlng, // 마커를 표시할 위치
-					        title : positions[i].title, // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
-					        image : markerImage // 마커 이미지 
-					    });
+					coords_QP = new daum.maps.LatLng($("#lat").val(), $("#lon").val());
+
+					var imageSrc_qp = "<%=request.getContextPath()%>/image/index_img/place_qp.png"; 
+				    var imageSize_qp = new daum.maps.Size(48, 35);
+					var markerImage_qp = new daum.maps.MarkerImage(imageSrc_qp, imageSize_qp); 
+				    // 마커를 생성합니다
+				    var marker = new daum.maps.Marker({
+				        map: map, // 마커를 표시할 지도
+				        position: coords_QP, // 마커를 표시할 위치
+				        title : "배송기사 위치", // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
+				        image : markerImage_qp // 마커 이미지 
+				    });
+			    	markers.push(marker);
+
+					
+			        var moveLatLon = new daum.maps.LatLng($("#lat").val(), $("#lon").val());
+				    map.panTo(moveLatLon);     
+					
+				}
+				
+				function deleteMarkers(map) {
+					for (var i = 0; i < markers.length; i++) {
+						markers[i].setMap(map);
 					}
+					markers = [];
 				}
 			
+				function setMapType(maptype) { 
+				    var StartControl = document.getElementById('btnStart');
+				    var QPControl = document.getElementById('btnQP'); 
+				    var DepartControl = document.getElementById('btnDepart'); 
+				    var moveLatLon;
+				    
+				    if (maptype === 'start') {
+				    	moveLatLon = coords_Start;
+					    map.panTo(moveLatLon);            				        
+				    } else if (maptype === 'qp') {
+				        moveLatLon = new daum.maps.LatLng($("#lat").val(), $("#lon").val());
+					    map.panTo(moveLatLon);            				    	
+				    } else {
+				    	moveLatLon = coords_End;
+					    map.panTo(moveLatLon);            				    	
+				    }
+				}
+				
 				
 			</script>
 		</div>
@@ -315,7 +345,7 @@ function findAddress(Address) {
 								</table>
 							</div>
 							<div class = "centerBox text-conceptColor mt-5">
-								<h6> 콜 번호를 클릭하면 해당 콜에 대한 상세 정보를 조회할 수 있습니다. </h6>
+								<h6> 콜 번호를 클릭하면 해당 콜의 출발지, 도착지, 담당 배송기사님의 위치를 조회할 수 있습니다. </h6>
 							</div>
 						</div>
 					</div>
