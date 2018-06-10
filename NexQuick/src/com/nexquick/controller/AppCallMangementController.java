@@ -420,6 +420,11 @@ public class AppCallMangementController {
 	
 	
 	
+	@RequestMapping("/orderListByQPId")
+	public @ResponseBody List<OrderInfo> orderListByQPId(int qpId) {
+		return callSelectListService.orderListByQPId(qpId); 
+	}
+	
 	
 	
 }
