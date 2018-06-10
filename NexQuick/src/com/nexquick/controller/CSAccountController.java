@@ -133,5 +133,16 @@ public class CSAccountController {
 	
 	
 	
+	@RequestMapping("/sessionCheck.do")
+	public @ResponseBody boolean sessionCheck(HttpSession session) {
+		CSInfo csInfo = (CSInfo) session.getAttribute("csInfo");
+		if(csInfo != null) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	
 	
 }

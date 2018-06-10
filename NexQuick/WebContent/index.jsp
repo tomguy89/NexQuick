@@ -19,10 +19,14 @@
 <link rel="stylesheet" href="<%= request.getContextPath() %>/css/indexStyle.css" />
 <link rel="stylesheet" href="<%= request.getContextPath() %>/css/indexStyle_radio.css" />
 <link rel="stylesheet" href="<%= request.getContextPath() %>/css/InputBoxStyle.css" />
+<script src="https://www.playchat.ai/js/playchat-web/playchat-web.js"></script>
+<script>
+
+</script>
 
 <script type="text/javascript">
 	$(function() {
-		
+	    new PlayChatWeb('blank_user1286_1528617943506', '넥스퀴익').init();
 		setInterval(function() {
 			$.ajax({
 				url : "<%= request.getContextPath() %>/call/delPastCall.do",

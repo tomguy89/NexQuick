@@ -5,7 +5,7 @@
 <footer class = "centerBox">
 	<div class = "row">
 		<div class = "col-md-4">
-			<img src = "<%= request.getContextPath() %>/image/index_img/android.png" width = "25" height = "25" class = "mr-3"/>
+			<a href = "https://www.playchat.ai/mobile/chatbot/blank_user1286_1528617943506"><img src = "<%= request.getContextPath() %>/image/index_img/android.png" width = "25" height = "25" class = "mr-3"/></a>
 			<img src = "<%= request.getContextPath() %>/image/index_img/kakaoImg.png" width = "25" height = "25" class = "ml-3"/>
 		</div>
 		<div class = "col-md-4">

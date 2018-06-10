@@ -48,6 +48,24 @@ $(function() {
 		})
 	}, 60*60*1000);
 	
+	setInterval(function() {
+		$.ajax({
+			url : "<%= request.getContextPath() %>/account/sessionCheck.do",
+			dataType : "json",
+			method : "POST",
+			success : function(JSONDocument) {
+				if(JSONDocument) {
+					console.log("로그인 중");
+				} else if (!JSONDocument) {
+					alert("로그아웃 되었습니다. 다시 로그인 해주세요.");
+					location.replace("<%= request.getContextPath() %>/index.jsp");
+				}
+			}
+		})
+	}, 5000);
+	
+	
+	
 	$.ajax({
 		url : "<%= request.getContextPath() %>/list/userCallList.do",
 		dataType : "json",
@@ -68,11 +86,13 @@ function setCallList(JSONDocument) {
 	
 
 	var count = 0;
+	var classNameClone;
 	for(var i in JSONDocument) {
 		senderAddressArr.push(JSONDocument[i].senderAddress);
 		receiverAddressArr.push(JSONDocument[i].receiverAddress);
 		
 		var className = ".cNum" + JSONDocument[i].callNum;
+		classNameClone = className;
 		switch(JSONDocument[i].deliveryStatus) {
 		case 0:
 			deliveryStatus = "미신청";
@@ -111,16 +131,20 @@ function setCallList(JSONDocument) {
 			url : "<%= request.getContextPath() %>/call/getQPInfo.do",
 			dataType : "json",
 			method : "POST",
+			async : false,
 			data : {
 				callNum : JSONDocument[i].callNum
 			},
 			success : function(resultObj) {
 				$(className).text(resultObj.qpName);
-				
+				console.log(resultObj.qpName);
+				console.log(className);
+				console.log(JSONDocument[i].callNum);
 				$.ajax({
 					url : "<%= request.getContextPath() %>/qpAccount/getQPPosition.do",
 					dataType : "json",
 					method : "POST",
+					async : false,
 					data : {
 						qpId : resultObj.qpId
 					},
@@ -138,16 +162,15 @@ function setCallList(JSONDocument) {
 }
 
 function saveQPPosition(JSONDocument) {
+	console.log("saveqp ");
 	qpAddress_lat.push(JSONDocument.qpLatitude);
 	qpAddress_lon.push(JSONDocument.qpLongitude);
+
 }
 
 function findAddress(Address) {
 	var index = Address.id.substring(4);
-	console.log(senderAddressArr[index]);
-	console.log(receiverAddressArr[index]);
-	console.log(qpAddress_lat[index]);
-	console.log(qpAddress_lon[index]);
+
 	$("#lat").val(qpAddress_lat[index]);
 	$("#lon").val(qpAddress_lon[index]);
 	
@@ -328,7 +351,7 @@ function findAddress(Address) {
 								<table class = "table1000">
 									<thead>
 										<tr class="row100 head">
-											<th class="column100 column1 centerBox">주문번호</th>
+											<th class="column100 column1 centerBox">신청번호</th>
 											<th class="column100 column2 c2 centerBox">날짜</th>
 											<th class="column100 column3 centerBox">목적지</th>
 											<th class="column100 column4 centerBox">물품</th>
@@ -345,7 +368,7 @@ function findAddress(Address) {
 								</table>
 							</div>
 							<div class = "centerBox text-conceptColor mt-5">
-								<h6> 콜 번호를 클릭하면 해당 콜의 출발지, 도착지, 담당 배송기사님의 위치를 조회할 수 있습니다. </h6>
+								<h6> 신청 번호를 클릭하면 해당 신청 번호의 출발지, 도착지, 담당 배송기사님의 위치를 조회할 수 있습니다. </h6>
 							</div>
 						</div>
 					</div>
