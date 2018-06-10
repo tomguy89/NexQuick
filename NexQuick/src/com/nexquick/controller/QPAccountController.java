@@ -76,7 +76,7 @@ public class QPAccountController {
 	public @ResponseBody boolean qpSignUp(String qpPhone, String qpPassword, String qpName, String qpLicense,
 						   int vehicleType, String qpProfile, String qpBank, String qpAccount) {
 		
-		QPInfo qpInfo = new QPInfo(qpPhone, qpPassword, qpName, "면허", vehicleType, "사진", qpAccount, qpBank);
+		QPInfo qpInfo = new QPInfo(qpPassword, qpName, qpPhone, "면허", vehicleType, "사진", qpAccount, qpBank);
 		
 		if(qpAccountService.qpSignUp(qpInfo)) return true;
 		else return false;
