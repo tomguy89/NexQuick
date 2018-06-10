@@ -106,4 +106,9 @@ public class CallSelectListServiceImpl implements CallSelectListService {
 		callInfoDao.updateAfterOrdersChecked(callNum);
 		
 	}
+
+	@Override
+	public List<OrderInfo> orderListByQPId(int qpId) {
+		return orderInfoDao.orderListByQPId(qpId);
+	}
 }

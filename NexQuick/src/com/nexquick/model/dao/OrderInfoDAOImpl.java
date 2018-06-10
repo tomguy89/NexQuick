@@ -87,5 +87,12 @@ public class OrderInfoDAOImpl implements OrderInfoDAO {
 	public int countLinkedOrder(int callNum) {
 		return sqlSession.selectOne("orderInfo.countLinkedOrder",callNum);
 	}
+
+	@Override
+	public List<OrderInfo> orderListByQPId(int qpId) {
+		return sqlSession.selectList("orderInfo.orderListByQPId", qpId);
+	}
+	
+	
 	
 }

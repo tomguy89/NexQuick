@@ -67,5 +67,5 @@ public interface CallSelectListService {
 	int sumIsGet(int callNum);
 	int countLinkedOrder(int callNum);
 	void updateAfterOrdersChecked(int callNum);
-	
+	List<OrderInfo> orderListByQPId(int qpId);
 }
