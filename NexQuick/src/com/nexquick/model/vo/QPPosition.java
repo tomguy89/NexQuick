@@ -6,18 +6,21 @@ public class QPPosition {
 	private double qpLongitude;	// QP 위치 (경도)
 	private String bCode;		// 지역번호
 	private String hCode;
+	private String connectToken;
 	
 	public QPPosition() {
 		super();
 	}
 
-	public QPPosition(int qpId, double qpLatitude, double qpLongitude, String bCode, String hCode) {
+	public QPPosition(int qpId, double qpLatitude, double qpLongitude, String bCode, String hCode,
+			String connectToken) {
 		super();
 		this.qpId = qpId;
 		this.qpLatitude = qpLatitude;
 		this.qpLongitude = qpLongitude;
 		this.bCode = bCode;
 		this.hCode = hCode;
+		this.connectToken = connectToken;
 	}
 
 	public int getQpId() {
@@ -59,4 +62,14 @@ public class QPPosition {
 	public void sethCode(String hCode) {
 		this.hCode = hCode;
 	}
+
+	public String getConnectToken() {
+		return connectToken;
+	}
+
+	public void setConnectToken(String connectToken) {
+		this.connectToken = connectToken;
+	}
+	
+	
 }

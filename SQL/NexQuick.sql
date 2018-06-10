@@ -76,6 +76,11 @@ CREATE UNIQUE INDEX PK_qpinfo
 		qpId ASC
 	);
 
+CREATE UNIQUE INDEX unique_qpinfo
+	ON qpinfo (
+		qpPhone ASC
+	);
+
 ALTER TABLE qpinfo
 	ADD
 		CONSTRAINT PK_qpinfo
@@ -315,7 +320,8 @@ CREATE TABLE QPPosition (
 	qpLatitude NUMBER NOT NULL, /* qpLatitude */
 	qpLongitude NUMBER NOT NULL, /* qpLongitude */
 	bCode VARCHAR2(12) NOT NULL,
-    hCode VARCHAR2(12) NOT NULL
+    hCode VARCHAR2(12) NOT NULL,
+    connectToken VARCHAR2(500) NOT NULL
 );
 
 COMMENT ON TABLE QPPosition IS 'À§Ä¡';

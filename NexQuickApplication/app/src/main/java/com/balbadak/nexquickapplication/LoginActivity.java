@@ -105,8 +105,8 @@ public class  LoginActivity extends AppCompatActivity {
     }
 
     private void signIn(){
-        // URL 설정.
-        String url = "http://70.12.109.173:9090/NexQuick/account/csSignIn.do";
+        // URL 설정. 173 태진햄 / 164 승진
+        String url = "http://70.12.109.164:9090/NexQuick/account/csSignIn.do";
 
         ContentValues values = new ContentValues();
         values.put("csId", csId);

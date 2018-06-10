@@ -16,28 +16,23 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
         <activity android:name=".LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
 
         <activity android:name=".CSBeamActivity">
 
             <intent-filter>
                 <action android:name="android.nfc.action.NDEF_DISCOVERED" />
-
                 <category android:name="android.intent.category.DEFAULT" />
-
                 <data android:mimeType="text/plain" />
             </intent-filter>
 
-
         </activity>
-
 
         <activity
             android:name=".MainMenuActivity"
@@ -53,16 +48,27 @@
             android:label="이전주문"
             android:launchMode="singleTop"
             android:theme="@style/AppTheme.NoActionBar" />
+
+        <activity
+            android:name=".Order1Activity"
+            android:label="주문하기"
+            android:theme="@style/AppTheme.NoActionBar" />
+
+        <activity
+            android:name=".Order2Activity"
+            android:label="주문하기"
+            android:theme="@style/AppTheme.NoActionBar" />
+
+        <activity
+            android:name=".Order3Activity"
+            android:label="주문하기"
+            android:theme="@style/AppTheme.NoActionBar" />
+
         <activity
             android:name=".NavigationActivity"
             android:label="@string/title_activity_navigation"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".NewOrderActivity"
-            android:label="퀵 신청"
-            android:launchMode="singleTop"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:uiOptions="splitActionBarWhenNarrow" />
+
         <activity
             android:name=".SignupActivity"
             android:label="키생성"
@@ -74,7 +80,6 @@
             android:name=".DialogDetailActivity"
             android:theme="@style/DialogTheme" />
 
-        <!-- 20180606 18:00 -->
         <activity
             android:name=".DialogPayActivity"
             android:theme="@style/DialogTheme">

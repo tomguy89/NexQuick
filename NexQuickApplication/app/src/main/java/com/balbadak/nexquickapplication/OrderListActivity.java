@@ -60,21 +60,6 @@ public class OrderListActivity extends AppCompatActivity implements NavigationVi
 
         titletextView = (TextView) findViewById(R.id.order_list_Title);
 
-        // Adding Toolbar to the activity
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
-
-        // 내비게이션 서랍 관련 설정
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.addDrawerListener(toggle);
-        toggle.syncState();
-
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
-
         listView = (ListView) this.findViewById(R.id.order_listview);
         loginInfo = getSharedPreferences("setting", 0);
 
@@ -86,7 +71,7 @@ public class OrderListActivity extends AppCompatActivity implements NavigationVi
         String temp = csName + "님의 최근 주문 내역";
         titletextView.setText(temp);
 
-        String url = "http://70.12.109.173:9090/NexQuick/list/userAllCallLists.do";
+        String url = "http://70.12.109.173:9090/NexQuick/list/app/userCallList.do";
 
         ContentValues values = new ContentValues();
         values.put("csId", csId);
@@ -105,6 +90,23 @@ public class OrderListActivity extends AppCompatActivity implements NavigationVi
                 startActivity(intent);
             }
         });
+
+
+
+        // 내비게이션 서랍을 위한 툴바
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        // 내비게이션 서랍 관련 설정
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.addDrawerListener(toggle);
+        toggle.syncState();
+
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+
 
 
     }
@@ -196,7 +198,7 @@ public class OrderListActivity extends AppCompatActivity implements NavigationVi
         int id = item.getItemId();
 
         if (id == R.id.nav_new_order) {
-            Intent intent = new Intent(getApplicationContext(), NewOrderActivity.class);
+            Intent intent = new Intent(getApplicationContext(), Order1Activity.class);
             startActivity(intent);
         } else if (id == R.id.nav_order_list) {
             Intent intent = new Intent(getApplicationContext(), OrderListActivity.class);

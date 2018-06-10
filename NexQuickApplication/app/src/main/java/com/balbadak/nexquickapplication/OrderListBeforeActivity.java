@@ -92,7 +92,7 @@ public class OrderListBeforeActivity extends AppCompatActivity implements Naviga
 
 
 
-        listView = (ListView) this.findViewById(R.id.order_listview);
+        listView = (ListView) this.findViewById(R.id.order_before_listview);
         loginInfo = getSharedPreferences("setting", 0);
 
         if (loginInfo != null && loginInfo.getString("csId", "") != null && loginInfo.getString("csId", "").length() != 0) {
@@ -103,7 +103,7 @@ public class OrderListBeforeActivity extends AppCompatActivity implements Naviga
         String temp = csName + "님의 이전 주문 내역";
         titletextView.setText(temp);
 
-        String url = "http://70.12.109.173:9090/NexQuick/list/userAllCallList.do";
+        String url = "http://70.12.109.173:9090/NexQuick/list/app/userAllCallList.do";
 
         ContentValues values = new ContentValues();
         values.put("csId", csId);
@@ -230,7 +230,7 @@ public class OrderListBeforeActivity extends AppCompatActivity implements Naviga
         int id = item.getItemId();
 
         if (id == R.id.nav_new_order) {
-            Intent intent = new Intent(getApplicationContext(), NewOrderActivity.class);
+            Intent intent = new Intent(getApplicationContext(), Order1Activity.class);
             startActivity(intent);
         } else if (id == R.id.nav_order_list) {
             Intent intent = new Intent(getApplicationContext(), OrderListActivity.class);
@@ -308,7 +308,7 @@ public class OrderListBeforeActivity extends AppCompatActivity implements Naviga
                 }
 
                 if (csName != null) {
-                    OrderListBeforeActivity.CustomAdapter adapter = new OrderListBeforeActivity.CustomAdapter(context, 0, dataList);
+                    CustomAdapter adapter = new CustomAdapter(context, 0, dataList);
                     listView.setAdapter(adapter);
                 } else {
 
