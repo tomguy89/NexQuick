@@ -20,7 +20,7 @@ public class MyFirebaseMessagingService extends com.google.firebase.messaging.Fi
     public void onMessageReceived(RemoteMessage remoteMessage) {
 
         //추가한것
-        sendNotification(remoteMessage.getData().get("message"));
+        sendNotification( remoteMessage.getNotification().getBody());
     }
 
     private void sendNotification(String messageBody) {
