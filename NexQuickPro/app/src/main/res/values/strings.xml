@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">NexQuick Application</string>
+    <string name="app_name">NexQuick Pro</string>
     <string name="hintId">전화번호를 입력하세요</string>
     <string name="hintPassword">비밀번호를 입력하세요</string>
     <string name="autoLogin">자동로그인</string>
