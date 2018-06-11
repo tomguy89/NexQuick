@@ -93,7 +93,7 @@
         		                var script = document.createElement('script');
         		                script.type = 'text/javascript';
 
-        		                script.src = './js/playchat-web/playchat-web-corezzzzz.js';
+        		                script.src = './js/playchat-web/playchat-web-core.js';
 
         		                body.appendChild(style);
         		                body.appendChild(this.container);

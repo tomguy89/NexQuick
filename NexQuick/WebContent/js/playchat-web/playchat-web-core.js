@@ -153,10 +153,11 @@
 
         var script = document.createElement('script');
         script.type = 'text/javascript';
-        script.src = 'https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.1/socket.io.js';
+        script.src = './js/playchat-web/socket.io.js';
         script.onload = function()
         {
-            var socket = io(that.host);
+        	console.log("socket start ㅋㅋ");
+            var socket = io('http://localhost:9090');
             socket.on('connect', function()
             {
                 that.socket = socket;
