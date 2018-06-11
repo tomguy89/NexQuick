@@ -22,14 +22,14 @@ public class TabPagerAdapter extends FragmentStatePagerAdapter   {
         // Returning the current tabs
         switch (position) {
             case 0:
-                Fragment1 fragment1 = new Fragment1();
-                return fragment1;
+                fragment_order_list fragmentorderlist = new fragment_order_list();
+                return fragmentorderlist;
             case 1:
-                Fragment2 fragment2 = new Fragment2();
-                return fragment2;
+                fragment_route fragmentroute = new fragment_route();
+                return fragmentroute;
             case 2:
-                Fragment3 fragment3 = new Fragment3();
-                return fragment3;
+                fragment_calculate fragmentcalculate = new fragment_calculate();
+                return fragmentcalculate;
             default:
                 return null;
         }

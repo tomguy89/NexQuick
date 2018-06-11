@@ -1,14 +1,7 @@
 package com.balbadak.nexquickpro;
 
 
-import android.app.NotificationManager;
-import android.app.PendingIntent;
-import android.content.Context;
 import android.content.Intent;
-import android.media.RingtoneManager;
-import android.net.Uri;
-import android.support.v4.app.NotificationCompat;
-import android.util.Log;
 
 import com.google.firebase.messaging.RemoteMessage;
 
@@ -24,7 +17,7 @@ public class MyFirebaseMessagingService extends com.google.firebase.messaging.Fi
     }
 
     private void sendNotification(String messageBody) {
-        Intent intent = new Intent(this, DialogActivity.class);
+        Intent intent = new Intent(this, DialogDetailActivity.class);
 //        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 //        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */,intent, PendingIntent.FLAG_ONE_SHOT);
 //

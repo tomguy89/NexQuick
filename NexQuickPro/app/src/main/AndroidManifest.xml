@@ -8,6 +8,7 @@
     <uses-permission android:name="android.permission.READ_CONTACTS" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <application
         android:name=".CustomStartApp"
@@ -25,32 +26,44 @@
             </intent-filter>
         </activity>
         <activity android:name=".KeyActivity" />
-        <activity android:name=".OrderListActivity" />
-        <activity android:name=".OrderListBeforeActivity" />
         <activity
             android:name=".NavigationActivity"
             android:label="@string/title_activity_navigation"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".MainActivity"
-            android:label="@string/title_activity_new_order"
+            android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar"
             android:uiOptions="splitActionBarWhenNarrow" />
-        <activity
-            android:name=".SignupActivity"
-            android:label="@string/title_activity_signup"
-            android:theme="@style/DialogTheme" />
+
 
         <meta-data
             android:name="com.kakao.sdk.AppKey"
             android:value="aa50824339a1434072f8e7522d94aa54" />
 
+
+
+        <!-- 다이얼로그 액티비티-->
         <activity
             android:name=".KeyHashActivity"
             android:theme="@style/DialogTheme" />
         <activity
-            android:name=".DialogActivity"
+            android:name=".DialogDetailActivity"
             android:theme="@style/DialogTheme" />
+        <activity
+            android:name=".DialogCalculateEndActivity"
+            android:theme="@style/DialogTheme" />
+        <activity
+            android:name=".DialogAllocateActivity"
+            android:theme="@style/DialogTheme" />
+        <!-- // 다이얼로그 액티비티-->
+
+
+        <activity
+            android:name=".SignupActivity"
+            android:label="@string/title_activity_signup"
+            android:theme="@style/DialogTheme" />
+
 
         <!-- 2018-06-10 firebase cloud messaging -->
         <service android:name=".MyFirebaseMessagingService">
@@ -64,6 +77,7 @@
             </intent-filter>
         </service>
 
+        <activity android:name=".GoToWorkActivity"></activity>
     </application>
 
 </manifest>

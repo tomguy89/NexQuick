@@ -89,7 +89,7 @@ public class OrderInfoDAOImpl implements OrderInfoDAO {
 	}
 
 	@Override
-	public List<OrderInfo> orderListByQPId(int qpId) {
+	public List<OnDelivery> orderListByQPId(int qpId) {
 		return sqlSession.selectList("orderInfo.orderListByQPId", qpId);
 	}
 	

@@ -35,9 +35,9 @@ dependencies {
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
     implementation 'com.google.android.gms:play-services-maps:15.0.1'
-    compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile files('libs/libDaumMapAndroid.jar')
-    compile 'com.github.katoro:typekit:1.0.1'
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation files('libs/libDaumMapAndroid.jar')
+    implementation 'com.github.katoro:typekit:1.0.1'
     implementation files('libs/com.skt.Tmap_1.52.jar')
 
     //2018-06-10 TJ / firebase
@@ -51,3 +51,4 @@ dependencies {
 //2018-06-10 TJ / firebase
 apply plugin: 'com.google.gms.google-services'
 //end firebase
+

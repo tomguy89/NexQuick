@@ -84,9 +84,9 @@
 		order by callTime
 	</select>
 	
-	<select id="orderListByQPId" parameterType="int" resultType="OrderInfo">
-		select * 
-		from orderInfo
+	<select id="orderListByQPId" parameterType="int" resultType="OnDelivery">
+		select c.callNum, orderNum, callTime, senderAddress, senderAddressDetail, receiverName, receiverAddress, receiverAddressDetail, orderPrice, deliveryStatus 
+		from orderInfo o, callInfo c
 		where isGet = 0
 		and qpId = #{qpId}
 		order by callTime

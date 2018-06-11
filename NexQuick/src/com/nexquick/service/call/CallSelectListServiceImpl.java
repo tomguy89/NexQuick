@@ -108,7 +108,7 @@ public class CallSelectListServiceImpl implements CallSelectListService {
 	}
 
 	@Override
-	public List<OrderInfo> orderListByQPId(int qpId) {
+	public List<OnDelivery> orderListByQPId(int qpId) {
 		return orderInfoDao.orderListByQPId(qpId);
 	}
 }

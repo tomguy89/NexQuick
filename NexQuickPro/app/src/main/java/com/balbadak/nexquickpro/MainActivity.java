@@ -4,7 +4,9 @@ package com.balbadak.nexquickpro;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
@@ -14,12 +16,16 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.tsengvn.typekit.TypekitContextWrapper;
 
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
+
+
+    //폰트관련 설정
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(TypekitContextWrapper.wrap(newBase));
@@ -32,22 +38,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-
-
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-
-
-
 
 
         // Adding Toolbar to the activity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -58,12 +55,23 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+/*        //인수인도용 플로팅액션버튼 아직 미구현
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+            }
+        });
 
+
+        */
 
         // Initializing the TabLayout
         tabLayout = (TabLayout) findViewById(R.id.tabLayout);
-        tabLayout.addTab(tabLayout.newTab().setText("퀵리스트").setIcon(R.drawable.tab_address_detail));
-        tabLayout.addTab(tabLayout.newTab().setText("경로안내").setIcon(R.drawable.tab_apply_detail_black));
+        tabLayout.addTab(tabLayout.newTab().setText("퀵리스트").setIcon(R.drawable.tab_apply_detail_black));
+        tabLayout.addTab(tabLayout.newTab().setText("경로안내").setIcon(R.drawable.tab_address_detail));
         tabLayout.addTab(tabLayout.newTab().setText("정산하기").setIcon(R.drawable.tab_complete_black));
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
@@ -96,8 +104,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
 
-
-
+        viewPager.setCurrentItem(1); // routeActivity (경로화면)이 디폴트
     }
 
 
@@ -133,6 +140,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return super.onOptionsItemSelected(item);
     }
 
+
+
+    // 내비게이션 메뉴 관련 (인텐트 설정 - 메뉴이름을 바꾸려면 activity_navigation_drawer.xml로 가시오
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
@@ -143,8 +153,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             Intent intent = new Intent(getApplicationContext(), MainActivity.class);
             startActivity(intent);
         } else if (id == R.id.nav_order_list) {
-            Intent intent = new Intent(getApplicationContext(), OrderListActivity.class);
-            startActivity(intent);
+
         } else if (id == R.id.nav_user_info) {
 
         } else if (id == R.id.nav_customer_center) {

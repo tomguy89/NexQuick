@@ -52,11 +52,13 @@ public class QPPositionController {
 	}
 	
 	@RequestMapping("/insertPosition.do")
-	public void insertQPPosition(double qpLatitude, double qpLongitude,int qpId, HttpSession session) {
+	public void insertQPPosition(double qpLatitude, double qpLongitude,int qpId, String connectToken, HttpSession session) {
 		QPPosition qpPosition = new QPPosition();
+		System.out.println(connectToken);
 		qpPosition.setQpId(qpId);
 		qpPosition.setQpLatitude(qpLatitude);
 		qpPosition.setQpLongitude(qpLongitude);
+		qpPosition.setConnectToken(connectToken);
 		Address address=addressTransService.getAddress(qpLongitude, qpLatitude);
 		qpPosition.setbCode(address.getbCode());
 		qpPosition.sethCode(address.gethCode());
@@ -68,8 +70,6 @@ public class QPPositionController {
 	public void deleteQPPosition(String qpId) {
 		qpPositionService.deleteQPPosition(Integer.parseInt(qpId));
 	}
-	
-	
 	
 	
 }

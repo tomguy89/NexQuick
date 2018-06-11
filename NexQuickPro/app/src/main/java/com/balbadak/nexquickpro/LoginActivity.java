@@ -166,15 +166,14 @@ public class  LoginActivity extends AppCompatActivity {
                     editor.putInt("qpId", qpId);
                     editor.putString("qpName", qpName);
                     editor.putString("qpPhone", qpPhone);
+                    editor.commit();
                     Toast.makeText(context, "로그인 되었습니다.", Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                    Intent intent = new Intent(getApplicationContext(), GoToWorkActivity.class);
                     startActivity(intent);
                 } else{
                     Toast.makeText(context, "아이디와 비밀번호를 확인하세요", Toast.LENGTH_LONG).show();
                 }
             }
-
         }
     }
-
 }

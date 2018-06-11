@@ -17,6 +17,7 @@ import com.nexquick.model.vo.CSInfo;
 import com.nexquick.model.vo.CallInfo;
 import com.nexquick.model.vo.FavoriteInfo;
 import com.nexquick.model.vo.FreightInfo;
+import com.nexquick.model.vo.OnDelivery;
 import com.nexquick.model.vo.OrderInfo;
 import com.nexquick.model.vo.QPInfo;
 import com.nexquick.model.vo.QPPosition;
@@ -419,9 +420,8 @@ public class AppCallMangementController {
 	
 	
 	
-	
 	@RequestMapping("/orderListByQPId")
-	public @ResponseBody List<OrderInfo> orderListByQPId(int qpId) {
+	public @ResponseBody List<OnDelivery> orderListByQPId(int qpId) {
 		return callSelectListService.orderListByQPId(qpId); 
 	}
 	
