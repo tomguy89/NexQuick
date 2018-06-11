@@ -18,7 +18,7 @@ public class PricingServiceImpl implements PricingService {
 	@Override
 	public int setFreightPrice(int freightType, int quant) {
 		PriceInfo pi = priceDao.selectPrice(freightType);
-		int price = pi.getPrice() * (Math.max(quant - pi.getFreeCount(),0));
+		int price = pi.getPrice() * (Math.max(quant - pi.getFreeCount(),1));
 		return price;
 	}
 	

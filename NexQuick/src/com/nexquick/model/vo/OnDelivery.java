@@ -13,6 +13,7 @@ public class OnDelivery {
 	private int orderPrice;
 	private int urgent;
 	private int deliveryStatus;
+	private String freightList;
 	
 	public OnDelivery() {
 		super();
@@ -112,6 +113,14 @@ public class OnDelivery {
 
 	public void setDeliveryStatus(int deliveryStatus) {
 		this.deliveryStatus = deliveryStatus;
+	}
+
+	public String getFreightList() {
+		return freightList;
+	}
+
+	public void setFreightList(String freightList) {
+		this.freightList = freightList;
 	}
 	
 	

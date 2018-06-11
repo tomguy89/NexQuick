@@ -90,7 +90,6 @@ public class GoToWorkActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 //출근처리 메소드 넣어주세요.
-                Log.e("test", "호출됨");
 
                 Intent i = new Intent(getApplicationContext(),LocationService.class);
                 startService(i);

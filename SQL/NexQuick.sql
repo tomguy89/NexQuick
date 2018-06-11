@@ -559,9 +559,22 @@ INSERT INTO QPPOSITION VALUES(2, 37.501418, 127.039653, '0000', '0001');
 COMMIT;
 
 
-
 select q.qpName
 from callinfo c, orderinfo o, qpinfo q
 where c.callnum = 1
 and c.callnum = o.callnum
 and c.qpid = q.qpid;
+
+
+select c.callNum, o.orderNum, callTime, senderName, senderAddress, senderAddressDetail, receiverName, receiverAddress, receiverAddressDetail, orderPrice, urgent, deliveryStatus, freightList
+from orderInfo o, callInfo c, (SELECT LISTAGG(aa, ',') WITHIN GROUP (order by ordernum) AS freightList, ordernum
+FROM   (select freightName||' '|| freightQuant as aa, ordernum
+        from priceInfo p, freightInfo f
+        where p.freightType = f.freightType
+        )
+group by ordernum) x
+where isGet = 0
+and o.ordernum = x.ordernum
+and o.callNum = c.callNum
+and qpId = 4
+order by callTime;

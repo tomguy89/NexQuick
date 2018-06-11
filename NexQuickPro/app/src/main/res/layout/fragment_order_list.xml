@@ -11,60 +11,23 @@
         android:orientation="vertical"
         android:layout_margin="10dp">
 
-        <TableLayout
-            android:id="@+id/insu"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:stretchColumns="0">
 
-            <TableRow>
                 <TextView
                     android:id="@+id/insu_title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/border_udrl"
                     android:text="인수예정 리스트"
                     android:textAlignment="center"
                     android:textColor="#ffffff"
-                    android:textSize="20sp"/>
-            </TableRow>
+                    android:textSize="25sp"
+                    android:padding="10dp"/>
+
 
             <ListView
                 android:id="@+id/insu_listview"
                 android:layout_width="match_parent"
-                android:layout_height="250dp" />
+                android:layout_height="wrap_content" />
 
-
-        </TableLayout>
-
-        <TableLayout
-            android:id="@+id/indo"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:stretchColumns="0">
-
-            <TableRow>
-
-                <TextView
-                    android:id="@+id/indo_title"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/border_udrl"
-                    android:text="인도예정 리스트"
-                    android:textAlignment="center"
-                    android:textColor="#ffffff"
-                    android:textSize="20sp"/>
-
-
-            </TableRow>
-
-            <ListView
-                android:id="@+id/indo_listview"
-                android:layout_width="match_parent"
-                android:layout_height="250dp" />
-
-
-        </TableLayout>
 
 
         <LinearLayout
