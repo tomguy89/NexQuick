@@ -19,14 +19,13 @@
 <link rel="stylesheet" href="<%= request.getContextPath() %>/css/indexStyle.css" />
 <link rel="stylesheet" href="<%= request.getContextPath() %>/css/indexStyle_radio.css" />
 <link rel="stylesheet" href="<%= request.getContextPath() %>/css/InputBoxStyle.css" />
-<script src="https://www.playchat.ai/js/playchat-web/playchat-web.js"></script>
-<script>
 
-</script>
+
+
 
 <script type="text/javascript">
 	$(function() {
-	    new PlayChatWeb('blank_user1286_1528617943506', '넥스퀴익').init();
+
 		setInterval(function() {
 			$.ajax({
 				url : "<%= request.getContextPath() %>/call/delPastCall.do",
@@ -39,6 +38,7 @@
 				}
 			})
 		}, 60*60*1000);
+
 
 		
 		
@@ -238,6 +238,13 @@
 
 </head>
 <body>
+<iframe
+    width="350"
+    height="430"
+    src="http://mindmap.ai:8000/v1/webchat/5b1ccfcd65d44024762f80be">
+</iframe>
+	
+
 	<div class = "mainBox">
 		<div class = "centerBox mainFont">
 			차세대 퀵 서비스 플랫폼

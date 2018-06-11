@@ -55,7 +55,7 @@ $(function() {
 			method : "POST",
 			success : function(JSONDocument) {
 				if(JSONDocument) {
-					console.log("로그인 중");
+
 				} else if (!JSONDocument) {
 					alert("로그아웃 되었습니다. 다시 로그인 해주세요.");
 					location.replace("<%= request.getContextPath() %>/index.jsp");
