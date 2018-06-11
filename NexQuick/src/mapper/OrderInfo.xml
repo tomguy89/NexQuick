@@ -67,7 +67,7 @@
 	</delete>
 	
 	<select id="onDeliveryCallList" parameterType="String" resultType="OnDelivery">
-		select c.callNum, orderNum, callTime, senderAddress, senderAddressDetail, receiverName, receiverAddress, receiverAddressDetail, orderPrice, urgent, deliveryStatus 
+		select c.callNum, orderNum, callTime, senderName, senderAddress, senderAddressDetail, receiverName, receiverAddress, receiverAddressDetail, orderPrice, urgent, deliveryStatus 
 		from orderInfo o, callInfo c
 		where c.callNum = o.callNum
 		and csId = #{csId}
@@ -77,7 +77,7 @@
 	</select>
 	
 	<select id="allCallList" parameterType="String" resultType="OnDelivery">
-		select c.callNum, orderNum, callTime, senderAddress, senderAddressDetail, receiverName, receiverAddress, receiverAddressDetail, orderPrice, deliveryStatus 
+		select c.callNum, orderNum, callTime, senderName, senderAddress, senderAddressDetail, receiverName, receiverAddress, receiverAddressDetail, orderPrice, deliveryStatus 
 		from orderInfo o, callInfo c
 		where c.callNum = o.callNum
 		and csId = #{csId}
@@ -85,7 +85,7 @@
 	</select>
 	
 	<select id="orderListByQPId" parameterType="int" resultType="OnDelivery">
-		select c.callNum, orderNum, callTime, senderAddress, senderAddressDetail, receiverName, receiverAddress, receiverAddressDetail, orderPrice, deliveryStatus 
+		select c.callNum, orderNum, callTime, senderName, senderAddress, senderAddressDetail, receiverName, receiverAddress, receiverAddressDetail, orderPrice, deliveryStatus 
 		from orderInfo o, callInfo c
 		where isGet = 0
 		and qpId = #{qpId}
@@ -93,7 +93,7 @@
 	</select>
 	
 	<select id="allCallListByIdAndName" parameterType="String" resultType="OnDelivery">
-		select c.callNum, orderNum, callTime, senderAddress, senderAddressDetail, receiverName, receiverAddress, receiverAddressDetail, orderPrice, deliveryStatus 
+		select c.callNum, orderNum, callTime, senderName, senderAddress, senderAddressDetail, receiverName, receiverAddress, receiverAddressDetail, orderPrice, deliveryStatus 
 		from orderInfo o, callInfo c
 		where c.callNum = o.callNum
 		<where>

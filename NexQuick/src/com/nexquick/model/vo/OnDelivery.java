@@ -4,6 +4,7 @@ public class OnDelivery {
 	private int callNum;
 	private int orderNum;
 	private String callTime;
+	private String senderName;
 	private String senderAddress;
 	private String senderAddressDetail;
 	private String receiverName;
@@ -15,6 +16,14 @@ public class OnDelivery {
 	
 	public OnDelivery() {
 		super();
+	}
+
+	public String getSenderName() {
+		return senderName;
+	}
+
+	public void setSenderName(String senderName) {
+		this.senderName = senderName;
 	}
 
 	public String getSenderAddressDetail() {
