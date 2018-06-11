@@ -15,5 +15,6 @@ public interface QPPositionService {
 	boolean updateQPPosition(QPPosition qpPosition);
 	boolean createQPPosition(QPPosition qpPosition);
 	boolean deleteQPPosition(int qpId);
-
+	boolean decline(int qpId);
+	boolean accept(int qpId);
 }

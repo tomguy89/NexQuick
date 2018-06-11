@@ -22,15 +22,17 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
+import com.google.android.gms.common.api.GoogleApiClient;
+
 public class LocationService extends Service {
 
 
-  //  TextView tv;//안드로이드에서 정보 받는 거 확인용(나중에는 없앤다.)
+    //  TextView tv;//안드로이드에서 정보 받는 거 확인용(나중에는 없앤다.)
 
- //   ToggleButton tb;//출퇴근버튼
+    //   ToggleButton tb;//출퇴근버튼
     LocationManager lm;
     private SharedPreferences loginInfo;
-    String qpId;
+    int qpId;
     String connectToken;
     boolean flag;
 
@@ -39,21 +41,32 @@ public class LocationService extends Service {
     public void onCreate() {
         super.onCreate();
 
-        Log.e("INFO","서비스onCreate");
+        Log.e("INFO", "서비스onCreate");
         lm = (LocationManager) getApplicationContext().getSystemService(Context.LOCATION_SERVICE);
 
 
         //빨간줄 뜨지만 신경ㄴㄴ
         //noinspection MissingPermission
-        lm.requestLocationUpdates(LocationManager.GPS_PROVIDER,1000,0,mLocationListener);
-        lm.requestLocationUpdates(LocationManager.GPS_PROVIDER,1000,0,mLocationListener);
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            Log.e("INFO", "permission을 못받아와서 종료됨");
+            return;
+        }
+        lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 0, mLocationListener);
+        lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER,1000,0,mLocationListener);
 
 
 
         loginInfo = getSharedPreferences("setting", 0);
-        //qpId=loginInfo.getString("qpId","");
-        qpId="1";
-        connectToken="abc1";
+        qpId=loginInfo.getInt("qpId", 0);
+        connectToken=loginInfo.getString("token", "");
+        Log.e("INFO", flag+"");
 
 
 
@@ -67,15 +80,23 @@ public class LocationService extends Service {
                 1000, // 통지사이의 최소 시간간격 (miliSecond)
                 1, // 통지사이의 최소 변경거리 (m)
                 mLocationListener);*/
+
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Log.e("INFO","onDestroy호출됨");
+        lm.removeUpdates(mLocationListener);
+        deleteGPS(qpId);
+
+    }
 
     @Override
     public IBinder onBind(Intent intent) {
         // TODO: Return the communication channel to the service.
         throw new UnsupportedOperationException("Not yet implemented");
     }
-
 
 
     private final LocationListener mLocationListener = new LocationListener() {
@@ -134,7 +155,7 @@ public class LocationService extends Service {
         values.put("qpLatitude", qpLatitude);
         values.put("connectToken",connectToken);
 
-        LocationService.NetworkTask networkTask = new LocationService.NetworkTask(url,values);
+        NetworkTask networkTask = new NetworkTask(url,values);
         networkTask.execute();
     }
 
@@ -157,12 +178,11 @@ public class LocationService extends Service {
 
 
 
-        LocationService.NetworkTask networkTask = new LocationService.NetworkTask(url,values);
+        NetworkTask networkTask = new NetworkTask(url,values);
         networkTask.execute();
     }
 
-
-    private void deleteGPS(String qpId){
+    private void deleteGPS(int qpId){
 
         Log.e("INFO","deleteGPS호출됨");
 
@@ -172,7 +192,7 @@ public class LocationService extends Service {
         ContentValues values = new ContentValues();
         values.put("qpId",qpId);
 
-        LocationService.NetworkTask networkTask = new LocationService.NetworkTask(url,values);
+        NetworkTask networkTask = new NetworkTask(url,values);
         networkTask.execute();
     }
 

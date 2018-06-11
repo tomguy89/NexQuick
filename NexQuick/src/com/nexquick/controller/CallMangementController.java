@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.nexquick.System.Allocation.AllocationQueue;
 import com.nexquick.model.vo.Address;
 import com.nexquick.model.vo.CSInfo;
 import com.nexquick.model.vo.CallInfo;
@@ -172,7 +173,6 @@ public class CallMangementController {
 	public @ResponseBody FreightInfo addFreight(HttpSession session, int orderNum, int freightType, int freightQuant, String freightDetail){
 		int totalPrice = (int) session.getAttribute("totalPrice");
 		//빈칸 처리
-		if(freightDetail == null || freightDetail.trim().length()==0) freightDetail = null;
 		int price = pricingService.setFreightPrice(freightType, freightQuant);
 		totalPrice += price;
 		FreightInfo freightInfo = new FreightInfo(orderNum, freightType, freightQuant, price, freightDetail);
@@ -260,6 +260,7 @@ public class CallMangementController {
 		callInfo.setPayType(payType);
 		callInfo.setPayStatus(payStatus);
 		callManagementService.updateCall(callInfo);
+		AllocationQueue.getInstance().offer(callInfo);
 		return true;
 	}
 	
@@ -278,20 +279,6 @@ public class CallMangementController {
 		callInfo.setSeries(series);
 		callManagementService.updateCall(callInfo);
 		return true;
-	}
-	
-	
-	
-	public void allocate() {
-		String addr = null;
-		List<QPPosition> qpList = null;
-		Address address = addressTransService.getAddress(addr);
-		if(address.gethCode()!=null || address.gethCode().length() != 0) {
-			qpList = qpPositionService.selectQPListByHCode(address.gethCode());
-		}else if(address.getbCode()!=null || address.getbCode().length() != 0) {
-			qpList = qpPositionService.selectQPListByBCode(address.getbCode());
-		}
-		
 	}
 	
 	

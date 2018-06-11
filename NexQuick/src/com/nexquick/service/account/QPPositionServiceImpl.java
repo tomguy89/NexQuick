@@ -47,5 +47,17 @@ public class QPPositionServiceImpl implements QPPositionService {
 	public boolean deleteQPPosition(int qpId) {
 		return qpPositionDao.deleteQPPosition(qpId);
 	}
+
+
+	@Override
+	public boolean decline(int qpId) {
+		return qpPositionDao.decline(qpId);
+	}
+
+
+	@Override
+	public boolean accept(int qpId) {
+		return qpPositionDao.accept(qpId);
+	}
 	
 }

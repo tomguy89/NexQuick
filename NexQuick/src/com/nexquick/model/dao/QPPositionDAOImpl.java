@@ -48,4 +48,14 @@ public class QPPositionDAOImpl implements QPPositionDAO {
 		return sqlSession.selectList("qpPosition.selectQPbyhCode", hCode);
 	}
 
+	@Override
+	public boolean decline(int qpId) {
+		return sqlSession.update("qpPosition.decline", qpId)>0;
+	}
+
+	@Override
+	public boolean accept(int qpId) {
+		return sqlSession.update("qpPosition.accept", qpId)>0;
+	}
+
 }
