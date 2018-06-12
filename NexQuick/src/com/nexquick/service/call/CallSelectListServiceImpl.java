@@ -128,6 +128,7 @@ public class CallSelectListServiceImpl implements CallSelectListService {
 	@Override
 	public void updatePayStatus(List<Integer> list) {
 		callInfoDao.updatePayStatus(list);
-		
 	}
+	
+	
 }

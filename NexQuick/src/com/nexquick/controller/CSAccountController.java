@@ -42,8 +42,8 @@ public class CSAccountController {
 	 * @return JSON ([비동기 통신] 로그인 성공:true / 로그인 실패:false) 
 	 */
 	@RequestMapping("/csSignIn.do")
-	public @ResponseBody CSInfo csSignIn(String csId, String csPassword, HttpSession session) {
-		CSInfo csInfo = csAccountService.csSignIn(csId, csPassword);
+	public @ResponseBody CSInfo csSignIn(String csId, String csPassword, String token, HttpSession session) {
+		CSInfo csInfo = csAccountService.csSignIn(csId, csPassword, token);
 		if(csInfo != null) {
 			session.setAttribute("csInfo", csInfo);
 			CallInfo inComplCall = callSelectListService.selectCallInfo(csInfo.getCsId());
@@ -131,8 +131,6 @@ public class CSAccountController {
 		else return false;
 	}
 	
-	
-	
 	@RequestMapping("/sessionCheck.do")
 	public @ResponseBody boolean sessionCheck(HttpSession session) {
 		CSInfo csInfo = (CSInfo) session.getAttribute("csInfo");
@@ -142,7 +140,5 @@ public class CSAccountController {
 			return false;
 		}
 	}
-	
-	
 	
 }

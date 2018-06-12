@@ -1,5 +1,6 @@
 DROP TABLE CHATINFO;
 DROP TABLE FAVORITEINFO;
+DROP TABLE CSDEVICE;
 DROP TABLE QPACCOUNT;
 DROP TABLE QPSCORE;
 DROP TABLE QPPOSITION;
@@ -154,7 +155,9 @@ CREATE TABLE callinfo (
 	reservationTime DATE, /* reservationTime */
 	deliverystatus NUMBER NOT NULL, /* deliverystatus */
 	paystatus NUMBER NOT NULL, /* paystatus */
-	callTime DATE NOT NULL /* callTime */
+	callTime DATE NOT NULL, /* callTime */
+    latitude NUMBER,
+    longitude NUMBER
 );
 
 COMMENT ON TABLE callinfo IS '콜';
@@ -229,6 +232,28 @@ ALTER TABLE chatinfo
 			csId
 		);
 
+/*고객 기기(푸시알림용) */        
+CREATE TABLE CSDEVICE(
+    csId VARCHAR2(30) NOT NULL,
+    csToken VARCHAR2(500)
+);
+
+ALTER TABLE csdevice
+	ADD
+		CONSTRAINT PK_csdevice
+		PRIMARY KEY (
+			csId
+		);
+ALTER TABLE csdevice
+	ADD
+		CONSTRAINT FK_CSINFO_TO_CSDEVICE
+		FOREIGN KEY (
+			csId
+		)
+		REFERENCES csinfo (
+			csId
+		);
+
 /* 주소리스트 */
 CREATE TABLE FavoriteInfo (
 	favoriteId NUMBER NOT NULL, /* addId */
@@ -277,7 +302,10 @@ CREATE TABLE orderInfo (
 	orderPrice NUMBER NOT NULL, /* orderPrice */
     isget NUMBER NOT NULL, /* deliverystatus */
 	arrivalTime DATE, /* arrivalTime */
-	memo VARCHAR2(300) /* memo */
+	memo VARCHAR2(300), /* memo */
+    distance number,
+    latitude NUMBER,
+    longitude NUMBER
 );
 
 COMMENT ON TABLE orderInfo IS '주문';
@@ -545,36 +573,54 @@ ALTER TABLE freightInfo
         
 INSERT INTO CSINFO VALUES('admin', 'admin', '관리자', '000-0000-0000', 0, null, null, null, 99999999, -1);
 INSERT INTO PRICEINFO VALUES(1, '서류', 5, 500);
-INSERT INTO PRICEINFO VALUES(2, '작은상자', 3, 1000);
-INSERT INTO PRICEINFO VALUES(3, '중간상자', 2, 1500);
-INSERT INTO PRICEINFO VALUES(4, '큰 상자', 1,500);
+INSERT INTO PRICEINFO VALUES(2, '소박스', 3, 2000);
+INSERT INTO PRICEINFO VALUES(3, '중박스', 2, 4000);
+INSERT INTO PRICEINFO VALUES(4, '대박스', 1, 6000);
 INSERT INTO PRICEINFO VALUES(5, '음식물',0, 2000);
+INSERT INTO PRICEINFO VALUES(6, '꽃',0, 3000);
 
-INSERT INTO QPINFO VALUES(1,'0001','김민규','01049408292','00000000',1,50000,'0001');
-INSERT INTO QPINFO VALUES(2,'0002','이은진','01049408292','00000012',2,50000,'0002');
+INSERT INTO CSINFO VALUES('lvlup33','1111','이승진','01091146322',3,null,null,null,100000,1);
+INSERT INTO CSINFO VALUES('lej','1111','이은진','01043771376',1,'삼성SDS','123-456','꿀부서',100000,1);
+INSERT INTO CSINFO VALUES('test','test','김민규','01049408292',2,'와칸다','포에버',null,1000000,1);
+INSERT INTO CSINFO VALUES('1111','1111','황태진','01026475054',3,null,null,null,10000000,1);
 
-INSERT INTO QPPOSITION VALUES(1, 37.501225, 127.039188, '0000', '0001');
-INSERT INTO QPPOSITION VALUES(2, 37.501418, 127.039653, '0000', '0001');
+INSERT INTO CSDEVICE VALUES('lvlup33', null);
+INSERT INTO CSDEVICE VALUES('lej', null);
+INSERT INTO CSDEVICE VALUES('test', null);
+INSERT INTO CSDEVICE VALUES('1111', null);
+
+INSERT INTO QPINFO VALUES(qpidseq.nextval,'1111','김민규','1111','00000000',1,50000,'0001');
+INSERT INTO QPINFO VALUES(qpidseq.nextval,'1111','이은진','2222','00000012',2,50000,'0002');
+INSERT INTO QPINFO VALUES(qpidseq.nextval,'1111','황태진','3333','01231242',3,99999,'0042');
+INSERT INTO QPINFO VALUES(qpidseq.nextval,'1111','이승진','4444','00321012',1,50000,'0022');
 
 COMMIT;
 
 
-select q.qpName
-from callinfo c, orderinfo o, qpinfo q
-where c.callnum = 1
-and c.callnum = o.callnum
-and c.qpid = q.qpid;
+--
+--select c.callNum, o.orderNum, callTime, senderName, senderAddress, senderAddressDetail, receiverName, receiverAddress, receiverAddressDetail, orderPrice, urgent, deliveryStatus, freightList
+--from orderInfo o, callInfo c, (SELECT LISTAGG(aa, ',') WITHIN GROUP (order by ordernum) AS freightList, ordernum
+--                                FROM   (select freightName||' '|| freightQuant as aa, ordernum
+--                                        from priceInfo p, freightInfo f
+--                                        where p.freightType = f.freightType
+--                                        )
+--                                group by ordernum) x
+--where isGet = 0
+--and o.ordernum = x.ordernum(+)
+--and o.callNum = c.callNum
+--and qpId = 4
+--order by callTime;
+--
+--
+--select p.qpId, qpstatus, nvl(now, 0) now
+--from qpPosition p, (select count(*) as now, qpId
+--                    from orderInfo o, callInfo c
+--                    where c.callNum = o.callNum
+--                    and isget = 0
+--                    group by qpId) n
+--where p.qpId = n.qpId(+)
+--order by abs(to_number('116806400')-to_number(bCode)),
+--abs(power(qplatitude-37.5014981, 2)+power(qplongitude-127.0393299, 2)),
+--n.now;
 
 
-select c.callNum, o.orderNum, callTime, senderName, senderAddress, senderAddressDetail, receiverName, receiverAddress, receiverAddressDetail, orderPrice, urgent, deliveryStatus, freightList
-from orderInfo o, callInfo c, (SELECT LISTAGG(aa, ',') WITHIN GROUP (order by ordernum) AS freightList, ordernum
-FROM   (select freightName||' '|| freightQuant as aa, ordernum
-        from priceInfo p, freightInfo f
-        where p.freightType = f.freightType
-        )
-group by ordernum) x
-where isGet = 0
-and o.ordernum = x.ordernum
-and o.callNum = c.callNum
-and qpId = 4
-order by callTime;

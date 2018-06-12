@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import com.nexquick.model.dao.CSInfoDAO;
+import com.nexquick.model.vo.CSDevice;
 import com.nexquick.model.vo.CSInfo;
 
 public class CSAccountServiceImpl implements CSAccountService {
@@ -14,10 +15,15 @@ public class CSAccountServiceImpl implements CSAccountService {
 	}
 
 	@Override
-	public CSInfo csSignIn(String csId, String csPassword) {
+	public CSInfo csSignIn(String csId, String csPassword, String token) {
 		CSInfo csInfo = csInfoDao.selectCS(csId);
 		if(csInfo!=null) {
-			if(csInfo.getCsPassword().equals(csPassword)) return csInfo;
+			if(csInfo.getCsPassword().equals(csPassword)) {
+				if(token!=null) {
+					csInfoDao.lastSignedInDevice(new CSDevice(csId, token));
+				}
+				return csInfo;
+			}
 		}
 		return null;
 	}
@@ -46,8 +52,6 @@ public class CSAccountServiceImpl implements CSAccountService {
 	public List<CSInfo> csAllListByName(HashMap<String, Object> condition) {
 		return csInfoDao.selectCSListByName(condition);
 	}
-	
-	
 	
 	
 }

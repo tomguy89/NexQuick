@@ -30,7 +30,7 @@ public class FavoriteManagementServiceImpl implements FavoriteManagementService 
 	
 	@Override
 	public List<FavoriteInfo> getDepartureList(String csId){
-		return addressInfoDao.selectAddressList(csId, 2);
+		return addressInfoDao.selectAddressList(csId, 1);
 	}
 	
 	@Override
@@ -38,9 +38,20 @@ public class FavoriteManagementServiceImpl implements FavoriteManagementService 
 		return addressInfoDao.selectAddressList(csId, 3);
 	}
 	
+	@Override
 	public boolean saveDestination(FavoriteInfo favInfo) {
 		return addressInfoDao.createAddress(favInfo);
 	}
+
+	@Override
+    public boolean saveDeparture(FavoriteInfo favInfo) {
+        return addressInfoDao.createAddress(favInfo);
+    }
+    
+    @Override
+    public boolean updateAddress(FavoriteInfo favInfo) {
+        return addressInfoDao.updateAddress(favInfo);
+    }
 	
 	
 }

@@ -85,5 +85,11 @@
 			</if>
 		</where>
 	</select>
+	
+	<update id="lastSignedInDevice" parameterType="CSDevice">
+		update csdevice
+		set csToken=#{csToken},
+		where csId=#{csId}
+	</update>
 
 </mapper>

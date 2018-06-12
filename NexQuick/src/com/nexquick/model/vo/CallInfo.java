@@ -18,22 +18,26 @@ public class CallInfo {
 	private int deliveryStatus;			// 배송 상태
 	private int payStatus;				// 결제 상태
 	private String callTime;			// 콜 들어온 시간
-	
+	private double latitude;
+	private double longitude;
 
 
 	public CallInfo() {
 		super();
 	}
 
-	public CallInfo(int callNum, String csId, int qpId, String senderName, String senderAddress, String senderPhone,
-			int vehicleType, int totalPrice, int payType, int urgent, int series, int reserved,
-			String reservationTime, int deliveryStatus, int payStatus, String callTime) {
+	
+	public CallInfo(int callNum, String csId, int qpId, String senderName, String senderAddress,
+			String senderAddressDetail, String senderPhone, int vehicleType, int totalPrice, int payType, int urgent,
+			int series, int reserved, String reservationTime, int deliveryStatus, int payStatus, String callTime,
+			double latitude, double longitude) {
 		super();
 		setCallNum(callNum);
 		setCsId(csId);
 		setQpId(qpId);
 		setSenderName(senderName);
 		setSenderAddress(senderAddress);
+		setSenderAddressDetail(senderAddressDetail);
 		setSenderPhone(senderPhone);
 		setVehicleType(vehicleType);
 		setTotalPrice(totalPrice);
@@ -45,23 +49,13 @@ public class CallInfo {
 		setDeliveryStatus(deliveryStatus);
 		setPayStatus(payStatus);
 		setCallTime(callTime);
+		setLatitude(latitude);
+		setLongitude(longitude);
 	}
-	
-	public CallInfo(String csId, String senderName, String senderAddress, String senderPhone, int vehicleType,
-			int urgent, int reserved, String reservationTime) {
-		super();
-		setCsId(csId);
-		setSenderName(senderName);
-		setSenderAddress(senderAddress);
-		setSenderPhone(senderPhone);
-		setVehicleType(vehicleType);
-		setUrgent(urgent);
-		setReserved(reserved);
-		setReservationTime(reservationTime);
-	}
-	
-	public CallInfo(String csId, String senderName, String senderAddress, String senderAddressDetail , String senderPhone, int vehicleType,
-			int urgent, int reserved, int series, String reservationTime) {
+
+	// newCall 시
+	public CallInfo(String csId, String senderName, String senderAddress, String senderAddressDetail, String senderPhone, int vehicleType,
+			int urgent, int series, int reserved, String reservationTime, double latitude, double longitude) {
 		super();
 		setCsId(csId);
 		setSenderName(senderName);
@@ -70,30 +64,11 @@ public class CallInfo {
 		setSenderPhone(senderPhone);
 		setVehicleType(vehicleType);
 		setUrgent(urgent);
-		setReserved(reserved);
-		setSeries(series);
-		setReservationTime(reservationTime);
-	}
-	
-	
-	public CallInfo(String csId, String senderName, String senderAddress, String senderPhone, int vehicleType,
-			int totalPrice, int payType, int urgent, int series, int reserved, String reservationTime,
-			int deliveryStatus, int payStatus, String callTime) {
-		super();
-		setCsId(csId);
-		setSenderName(senderName);
-		setSenderAddress(senderAddress);
-		setSenderPhone(senderPhone);
-		setVehicleType(vehicleType);
-		setTotalPrice(totalPrice);
-		setPayType(payType);
-		setUrgent(urgent);
 		setSeries(series);
 		setReserved(reserved);
 		setReservationTime(reservationTime);
-		setDeliveryStatus(deliveryStatus);
-		setPayStatus(payStatus);
-		setCallTime(callTime);
+		setLatitude(latitude);
+		setLongitude(longitude);
 	}
 
 
@@ -231,6 +206,22 @@ public class CallInfo {
 
 	public void setSenderAddressDetail(String senderAddressDetail) {
 		this.senderAddressDetail = senderAddressDetail;
+	}
+
+	public double getLatitude() {
+		return latitude;
+	}
+
+	public void setLatitude(double latitude) {
+		this.latitude = latitude;
+	}
+
+	public double getLongitude() {
+		return longitude;
+	}
+
+	public void setLongitude(double longitude) {
+		this.longitude = longitude;
 	}
 	
 }

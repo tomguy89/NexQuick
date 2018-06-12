@@ -13,7 +13,7 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
-    <ImageView
+      <ImageView
         android:id="@+id/imageView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -21,28 +21,58 @@
         android:paddingTop="@dimen/nav_header_vertical_spacing"
         app:srcCompat="@mipmap/ic_launcher_round" />
 
-    <TextView
-        android:id="@+id/nav_header_title"
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="@dimen/nav_header_vertical_spacing"
-        android:text="@string/nav_header_title"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
-
-    <TextView
-        android:id="@+id/nav_header_contents"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/nav_header_subtitle" />
+        android:orientation="horizontal">
 
 
-    <android.support.v7.widget.SwitchCompat
-        android:id="@+id/onWorkSwitch"
-        android:layout_width="wrap_content"
-        android:layout_height="80dp"
-        android:checked="true"
-        android:scaleX="2"
-        android:scaleY="2"
-        android:theme="@style/MySwitch" />
+            <TextView
+                android:id="@+id/nav_header_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_gravity="center_vertical"
+                android:gravity="center_vertical"
+                android:paddingTop="@dimen/nav_header_vertical_spacing"
+                android:text="@string/nav_header_title"
+                android:textSize="20dp"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/nav_header_contents"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="10dp"
+                android:gravity="center"
+                android:textSize="15dp"
+                android:text="출근중" />
+
+            <Switch
+                android:id="@+id/onWorkSwitch"
+                android:layout_gravity="end"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:track="@drawable/switch_track_selector"
+                android:thumb="@drawable/switch_thumb_selector"
+                android:checked="true"
+                android:text=""
+                android:textOn="On"
+                android:textOff="Off"
+                />
+        </LinearLayout>
+
+    </LinearLayout>
+
+
 
 </LinearLayout>

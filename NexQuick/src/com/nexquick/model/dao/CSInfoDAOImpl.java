@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
 
+import com.nexquick.model.vo.CSDevice;
 import com.nexquick.model.vo.CSInfo;
 
 public class CSInfoDAOImpl implements CSInfoDAO {
@@ -47,6 +48,11 @@ public class CSInfoDAOImpl implements CSInfoDAO {
 	@Override
 	public List<CSInfo> selectCSList(String csBusinessNumber) {
 		return sqlSession.selectList("csInfo.selectCSListByBnum", csBusinessNumber);
+	}
+
+	@Override
+	public boolean lastSignedInDevice(CSDevice csDevice) {
+		return sqlSession.update("csInfo.lastSignedInDevice", csDevice)>0;
 	}
 
 

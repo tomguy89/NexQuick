@@ -1,9 +1,9 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
+<%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="EUC-KR"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<script src="<%=request.getContextPath() %>/Table_Highlight_Vertical_Horizontal/vendor/jquery/jquery-3.2.1.min.js"></script>
 <!--===============================================================================================-->	
 	<link rel="icon" type="image/png" href="images/icons/favicon.ico"/>
@@ -90,12 +90,12 @@ $(function() {
 		objData.param_id = param_id;
 		objData.session_id = session_id;
 		$("#tableBody").append(
-			$("<tr style = 'background-color: rgba(0,0,0,0.1)!important;'>")
+			$("<tr style = 'background-color: rgba(0,0,0,0.2)!important;'>")
 			.append($("<td style = 'width: 50%;'>").text(""))
 			.append(
 				$("<td style='text-align: right; font-size: 16px;'>")
 				.append(
-					$("<span style = 'background-color: #55B296; color: white; margin-right: 35px; padding: 10px 20px; border-radius: 20px;'>").text($("#chatbot").val())
+					$("<span style = 'background-color: #DAA520; color: #003358; margin-right: 35px; padding: 10px 20px; border-radius: 20px;'>").text($("#chatbot").val())
 				)
 				
 			)
@@ -139,11 +139,11 @@ function setChatting(JSONDocument) {
 	
 	console.log(JSONDocument);
 	$("#tableBody").append(
-		$("<tr style = 'background-color: rgba(0,0,0,0.1)!important;'>")
+		$("<tr style = 'background-color: rgba(0,0,0,0.2)!important;'>")
 		.append(
 				$("<td style = 'width: 50%; text-align: left; font-size: 16px;'>")
 				.append(
-					$("<span style = 'background-color: #DAA520; color: white; margin-left: 35px; padding: 10px 20px; border-radius: 20px;'>").text(JSONDocument.responseSet.result.result[0].message)
+					$("<span style = 'background-color: white; color: #003358; margin-left: 35px; padding: 10px 20px; border-radius: 20px;'>").text(JSONDocument.responseSet.result.result[0].message)
 				)
 		)
 		.append(

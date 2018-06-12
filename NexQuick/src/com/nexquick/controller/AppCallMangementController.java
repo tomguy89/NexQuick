@@ -101,7 +101,8 @@ public class AppCallMangementController {
 						  int vehicleType, int urgent, int reserved, int series, String reservationTime) {
 		System.out.println(reservationTime);
 		//퀵 신청하기에서 주문자 정보 입력
-		CallInfo callInfo = new CallInfo(csId, senderName, senderAddress, senderAddressDetail, senderPhone, vehicleType, urgent, reserved, series, reservationTime);
+		Address addr = addressTransService.getAddress(senderAddress);
+		CallInfo callInfo = new CallInfo(csId, senderName, senderAddress, senderAddressDetail, senderPhone, vehicleType, urgent, series, reserved, reservationTime, Double.parseDouble(addr.getLatitude()), Double.parseDouble(addr.getLongitude()));
 		if(reserved == 0) {
 			reservationTime = "";
 			callInfo.setReservationTime(reservationTime);
@@ -140,8 +141,7 @@ public class AppCallMangementController {
 		point.put("endY", recvAddr.getLatitude());
 		double distance = distanceCheckService.singleDistanceCheck(point);
 		int price = pricingService.proportionalPrice(distance);
-		OrderInfo orderInfo = new OrderInfo(callNum, receiverName, receiverAddress, receiverAddressDetail, receiverPhone, memo, price);
-		orderInfo.setDistance(distance+"");
+		OrderInfo orderInfo = new OrderInfo(callNum, receiverName, receiverAddress, receiverAddressDetail, receiverPhone, memo, price, distance, Double.parseDouble(recvAddr.getLatitude()), Double.parseDouble(recvAddr.getLongitude()));
 		callManagementService.addOrder(orderInfo);
 		return orderInfo;
 	}

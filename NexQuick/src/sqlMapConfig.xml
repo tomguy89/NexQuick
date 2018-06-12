@@ -10,6 +10,7 @@
 		<typeAlias type="com.nexquick.model.vo.Address" alias="Address"/>
 		<typeAlias type="com.nexquick.model.vo.FavoriteInfo" alias="FavoriteInfo"/>
 		<typeAlias type="com.nexquick.model.vo.CallInfo" alias="CallInfo" />
+		<typeAlias type="com.nexquick.model.vo.CSDevice" alias="CSDevice" />
 		<typeAlias type="com.nexquick.model.vo.CSInfo" alias="CSInfo" />
 		<typeAlias type="com.nexquick.model.vo.FreightInfo" alias="FreightInfo" />
 		<typeAlias type="com.nexquick.model.vo.OnDelivery" alias="OnDelivery" />

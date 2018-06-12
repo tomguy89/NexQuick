@@ -103,7 +103,8 @@ public class CallMangementController {
 		String csId = ((CSInfo)session.getAttribute("csInfo")).getCsId();
 		System.out.println(reservationTime);
 		//퀵 신청하기에서 주문자 정보 입력
-		CallInfo callInfo = new CallInfo(csId, senderName, senderAddress, senderAddressDetail, senderPhone, vehicleType, urgent, reserved, series, reservationTime);
+		Address addr = addressTransService.getAddress(senderAddress);
+		CallInfo callInfo = new CallInfo(csId, senderName, senderAddress, senderAddressDetail, senderPhone, vehicleType, urgent, series, reserved, reservationTime, Double.parseDouble(addr.getLatitude()), Double.parseDouble(addr.getLongitude()));
 		if(reserved == 0) {
 			reservationTime = "";
 			callInfo.setReservationTime(reservationTime);
@@ -150,8 +151,7 @@ public class CallMangementController {
 		point.put("endY", recvAddr.getLatitude());
 		double distance = distanceCheckService.singleDistanceCheck(point);
 		int price = pricingService.proportionalPrice(distance);
-		OrderInfo orderInfo = new OrderInfo(callNum, receiverName, receiverAddress, receiverAddressDetail, receiverPhone, memo, price);
-		orderInfo.setDistance(distance+"");
+		OrderInfo orderInfo = new OrderInfo(callNum, receiverName, receiverAddress, receiverAddressDetail, receiverPhone, memo, price, distance, Double.parseDouble(recvAddr.getLatitude()), Double.parseDouble(recvAddr.getLongitude()));
 		totalPrice += price;
 		session.setAttribute("totalPrice", totalPrice);
 		callManagementService.addOrder(orderInfo);
@@ -439,6 +439,50 @@ public class CallMangementController {
 	}
 	
 	
+	// 0612 추가
+	@RequestMapping("/saveFavoriteDeparture.do")
+	public @ResponseBody boolean saveFavInfo(HttpSession session, int addressType, String address, String addrDetail,
+			String receiverName, String receiverPhone) {
+		CSInfo csInfo = (CSInfo) session.getAttribute("csInfo");
+		String csId = csInfo.getCsId();
+		List<FavoriteInfo> favList = favoriteManagementService.getDepartureList(csId); // addressType가 1인 주소 가져오기
+		if (favList.size() == 0) { // 없으면 생성
+			FavoriteInfo favInfo = new FavoriteInfo(csId, addressType, address, addrDetail, receiverName,
+					receiverPhone);
+			favoriteManagementService.saveDeparture(favInfo);
+			return true;
+		} else { // 있으면 업데이트
+			int favId = favList.get(0).getFavoriteId();
+			System.out.println(favId);
+			FavoriteInfo favInfo = new FavoriteInfo(favId, csId, addressType, address, addrDetail, receiverName,
+					receiverPhone);
+			favoriteManagementService.updateAddress(favInfo);
+			return false;
+		}
+	}
+
+	// 0612 추가
+	@RequestMapping("/getFavoriteDeparture.do")
+	public @ResponseBody List<FavoriteInfo> DepartFavInfo(HttpSession session) {
+		CSInfo csInfo = (CSInfo) session.getAttribute("csInfo");
+		String csId = csInfo.getCsId();
+		List<FavoriteInfo> favList = favoriteManagementService.getDepartureList(csId); // addressType 1인 주소 가져오기
+		if (favList.size() == 0) { // 없으면 생성
+			return null;
+		} else { // 있으면 업데이트
+			return favList;
+		}
+	}
+
+	// 0612 새로추가!
+	@RequestMapping("/cancelOrders.do")
+	public @ResponseBody boolean cancelOrdersByCallNum(HttpSession session, int callNum) {
+		List<OrderInfo> orderInfoList = callSelectListService.orderInfoList(callNum);
+		for (OrderInfo oi : orderInfoList) {
+			delOrderProcess(session, oi.getOrderNum());
+		}
+		return true;
+	}
 	
 	
 	

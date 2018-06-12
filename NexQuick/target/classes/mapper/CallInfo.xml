@@ -25,6 +25,8 @@
 		<result column="deliveryStatus" property="deliveryStatus" />
 		<result column="payStatus" property="payStatus" />
 		<result column="callTime" property="callTime" />
+		<result column="latitude" property="latitude" />
+		<result column="longitude" property="longitude" />
 	</resultMap>
 
 
@@ -32,7 +34,7 @@
 		insert into callInfo
 		values(#{callNum},#{csId},null,#{senderName},#{senderAddress},#{senderAddressDetail}, #{senderPhone},
 		#{vehicleType},#{totalPrice},#{payType},#{urgent},#{series},#{reserved},
-		to_date(#{reservationTime},'mm/dd/yyyy hh24:mi'),0,#{payStatus},sysdate)
+		to_date(#{reservationTime},'mm/dd/yyyy hh24:mi'),0,#{payStatus},sysdate,#{latitude},#{longitude})
 		
 		<selectKey keyProperty="callNum" resultType="int" order="BEFORE">
 			SELECT cnumseq.nextval FROM DUAL
@@ -43,7 +45,7 @@
 		insert into callInfo
 		values(#{callNum},#{csId},null,#{senderName},#{senderAddress},#{senderAddressDetail}, #{senderPhone},
 		#{vehicleType},#{totalPrice},#{payType},#{urgent},#{series},#{reserved},
-		sysdate,0,#{payStatus},sysdate)
+		sysdate,0,#{payStatus},sysdate,#{latitude},#{longitude})
 		
 		<selectKey keyProperty="callNum" resultType="int" order="BEFORE">
 			SELECT cnumseq.nextval FROM DUAL
@@ -53,7 +55,8 @@
 	<select id="selectCallByCnum" parameterType="int" resultType="CallInfo">
 		select callNum, csId, qpId, senderName, senderAddress, senderAddressDetail,
 				senderPhone, vehicleType, totalPrice, payType, urgent, series, 
-				reserved, to_char(reservationTime, 'mm/dd/yyyy hh24:mi') as reservationTime, deliveryStatus, payStatus, to_char(callTime, 'mm/dd/yyyy hh24:mi')
+				reserved, to_char(reservationTime, 'mm/dd/yyyy hh24:mi') as reservationTime, deliveryStatus, payStatus, to_char(callTime, 'mm/dd/yyyy hh24:mi'),
+				latitude, longitude
 		from callInfo
 		where callNum=#{callNum}
 	</select><!--callNum으로 -->
@@ -61,7 +64,8 @@
 	<select id="selectCallByCSId" parameterType="String" resultType="CallInfo">
 		select callNum, csId, qpId, senderName, senderAddress, senderAddressDetail,
 				senderPhone, vehicleType, totalPrice, payType, urgent, series, 
-				reserved, to_char(reservationTime, 'mm/dd/yyyy hh24:mi') as reservationTime, deliveryStatus, payStatus, to_char(callTime, 'mm/dd/yyyy hh24:mi') 
+				reserved, to_char(reservationTime, 'mm/dd/yyyy hh24:mi') as reservationTime, deliveryStatus, payStatus, to_char(callTime, 'mm/dd/yyyy hh24:mi') as callTime,
+				latitude, longitude 
 		from callInfo
 		where csId=#{csId}
 		and deliveryStatus = 0
@@ -154,7 +158,9 @@
 		series=#{series},
 		reserved=#{reserved},
 		payStatus=#{payStatus},
-		callTime=sysdate
+		callTime=sysdate,
+		latitude=#{latitude},
+		longitude=#{longitude}
 		where callNum=#{callNum}
 	</update>
 

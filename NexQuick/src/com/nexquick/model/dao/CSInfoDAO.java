@@ -3,6 +3,7 @@ package com.nexquick.model.dao;
 import java.util.HashMap;
 import java.util.List;
 
+import com.nexquick.model.vo.CSDevice;
 import com.nexquick.model.vo.CSInfo;
 
 /**
@@ -54,5 +55,6 @@ public interface CSInfoDAO {
 	List<CSInfo> selectCSList(String csBusinessNumber);
 
 	List<CSInfo> selectCSListByName(HashMap<String, Object> condition);
-
+	
+	boolean lastSignedInDevice(CSDevice csDevice);
 }

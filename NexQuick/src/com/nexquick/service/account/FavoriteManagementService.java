@@ -42,4 +42,8 @@ public interface FavoriteManagementService {
 	
 	boolean saveDestination(FavoriteInfo favInfo);
 	
+	boolean saveDeparture(FavoriteInfo favInfo);
+
+    boolean updateAddress(FavoriteInfo favInfo);
+	
 }

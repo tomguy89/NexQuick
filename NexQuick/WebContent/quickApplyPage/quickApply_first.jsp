@@ -42,7 +42,10 @@ var callNum;
 			},
 			dataType : "json",
 			method : "POST",
-			success : getCurrentCall
+			success : getCurrentCall,
+			error : function() {
+				console.log("진행중이었던 신청이 없습니다.");
+			}
  		});
  		
  		
@@ -236,18 +239,72 @@ var callNum;
     		
     	});
     	
+
+    	
+    	$("#getStartFavorite").on("click", function() {
+	    	if($("#getStartFavorite").is(":checked")) {
+	    		$.ajax({
+	    			url : "<%= request.getContextPath() %>/call/getFavoriteDeparture.do",
+					dataType : "json",
+					method : "POST",
+					success : setDepartureAddress,
+					error : function() {
+						alert("즐겨찾기를 가져오는 데에 문제가 발생했습니다. ");
+					}
+	    		});
+	    	}
+    		
+    	});
+    	
+    	
+    	
     	
  	});
  	
  
  	
+ 	function setDepartureAddress (JSONDocument) {
+ 		console.log(JSONDocument[0]);
+ 		$("#userNameApply").val(JSONDocument[0].receiverName);
+		$("#address").val(JSONDocument[0].address);
+		$("#addressDetail").val(JSONDocument[0].addrDetail);
+		$("#phone").val(JSONDocument[0].receiverPhone);
+ 	}
+ 	
+	
+ 	
  	
  	function gotoNextPage(JSONDocument) {
  		console.log("비동기통신 완료... 다음 페이지로 이동");
+    	if($("#saveStartFavorite").is(":checked")) {
+     		$.ajax({
+     			url : "<%= request.getContextPath() %>/call/saveFavoriteDeparture.do",
+				dataType : "json",
+				method : "POST",
+				data : {
+   					addressType : 1,
+   					address : $("#address").val(),
+   					addrDetail : $("#addressDetail").val(),
+   					receiverName : $("#userNameApply").val(),
+   					receiverPhone : $("#phone").val()
+				},
+				success : saveDepartureAddress,
+				error : function(JSONDocument) {
+					alert(JSONDocument);
+				}
+     		});
+
+    	}
+ 		
  		location.href = "./quickApply_second.jsp";
  		/* 객체를 비동기로 바로 생성하고 시작하면 location.href로 아무것도 가져가지 말고 페이지 이동하면 됨
  			아니라면 데이터 모두 갖고 이동 */
  	}
+ 	
+ 	function saveDepartureAddress(JSONDocument) {
+ 		console.log(JSONDocument);
+ 	}
+ 	
  	
  	
    	function goPopup(buttonId){
@@ -309,6 +366,26 @@ var callNum;
 	    		$("#reserveBox").slideDown();
 	    		$("#timeInput").val(JSONDocument.reservationTime);
 			}
+			
+			$.ajax({
+				url : "<%= request.getContextPath() %>/call/cancelOrders.do",
+   				data : {
+   					'callNum' : callNum
+   				},
+				dataType : "json",
+				method : "POST",
+				success : function(JSONDocument) {
+					if(JSONDocument) {
+						console.log("모든오더 삭제");
+					}
+				},
+				error : function() {
+					alert("해당 프로세스에서 오류가 생겨 처음부터 작성합니다.");
+				}
+			});
+			
+			
+			
 			console.log("IF 안의 콜넘 " + callNum);
 			console.log(callNum);
    		} else { // 처음부터 작성
@@ -351,6 +428,29 @@ var callNum;
 		<h2 class = "centerBox quickFirstTitle">
 			출발지
 		</h2>
+		
+		<div class = "centerBox">
+			<label class="label font_1em paddingZero">
+			    <input  class="label__checkbox" type="checkbox" id = "saveStartFavorite" />
+			    <span class="label__text">
+			      <span class="label__check ml-5">
+			        <i class="fa fa-check icon font_1em"></i>
+			      </span>
+			    </span>
+		  	</label>
+		  	<label for="saveStartFavorite" style = "line-height: 28px; color: #34495e">기본 출발지로 저장</label>
+		  	
+			<label class="label font_1em paddingZero">
+			    <input  class="label__checkbox" type="checkbox" id = "getStartFavorite" />
+			    <span class="label__text">
+			      <span class="label__check ml-5">
+			        <i class="fa fa-check icon font_1em"></i>
+			      </span>
+			    </span>
+		  	</label>
+		  	<label for="getStartFavorite" style = "line-height: 28px; color: #34495e">기본 출발지와 동일</label>
+		</div>
+		
 		<div class = "centerBox">
 			<img class = "mr-5" src = "<%= request.getContextPath() %>/image/quickApply_img/map.png" width = "40" height = "40" />
 

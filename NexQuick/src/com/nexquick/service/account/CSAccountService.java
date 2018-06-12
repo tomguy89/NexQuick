@@ -19,7 +19,7 @@ public interface CSAccountService {
 	 * @see com.nexquick.model.dao.CSInfoDAO#selectCS(String)
 	 * @return 로그인 성공 시:CSInfo / 로그인 실패 시:null
 	 */
-	CSInfo csSignIn(String csId, String csPassword);
+	CSInfo csSignIn(String csId, String csPassword, String token);
 	
 	/**
 	 * 고객 신규 가입

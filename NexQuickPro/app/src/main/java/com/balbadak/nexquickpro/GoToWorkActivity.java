@@ -21,6 +21,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -39,7 +40,7 @@ public class GoToWorkActivity extends AppCompatActivity implements NavigationVie
 
     TextView nav_header_title;
     TextView nav_header_contents;
-    android.support.v7.widget.SwitchCompat onWorkSwitch;
+    Switch onWorkSwitch;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -126,7 +127,7 @@ public class GoToWorkActivity extends AppCompatActivity implements NavigationVie
         }
 
 
-        onWorkSwitch = (android.support.v7.widget.SwitchCompat) nav_header_view.findViewById(R.id.onWorkSwitch);
+        onWorkSwitch = (Switch) nav_header_view.findViewById(R.id.onWorkSwitch);
 
         onWorkSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 
@@ -231,10 +232,6 @@ public class GoToWorkActivity extends AppCompatActivity implements NavigationVie
 
                 //출근처리 메소드 넣어주세요.
 
-                Intent i = new Intent(getApplicationContext(),LocationService.class);
-//                startService(i);
-
-
                 Intent intent = new Intent(context, MainActivity.class);
                 startActivity(intent);
             }
@@ -247,9 +244,9 @@ public class GoToWorkActivity extends AppCompatActivity implements NavigationVie
     }
 
     private boolean runtime_permissions() {
-        if(Build.VERSION.SDK_INT >= 23 && ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED){
+        if(Build.VERSION.SDK_INT >= 23 && ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED){
 
-            requestPermissions(new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION},100);
+            requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION},100);
 
             return true;
         }

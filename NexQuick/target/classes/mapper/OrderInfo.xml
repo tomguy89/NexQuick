@@ -14,14 +14,19 @@
 		<result column="receiverAddressDetail" property="receiverAddressDetail" />
 		<result column="receiverPhone" property="receiverPhone" />
 		<result column="orderPrice" property="orderPrice" />
+		<result column="isGet" property="isGet" />
 		<result column="arrivalTime" property="arrivalTime" />
+		<result column="memo" property="memo" />
+		<result column="distance" property="distance" />
+		<result column="latitude" property="latitude" />
+		<result column="longitude" property="longitude" />
 	</resultMap>
 
 
 	<insert id="createOrder" parameterType="OrderInfo">
 		insert into orderInfo values(
 			#{orderNum},#{callNum},#{receiverName},#{receiverAddress},#{receiverAddressDetail},#{receiverPhone},
-			#{orderPrice},#{isGet},null, #{memo})
+			#{orderPrice},#{isGet},null,#{memo},#{distance},#{latitude},#{longitude})
 		
 		<selectKey keyProperty="orderNum" resultType="int" order="BEFORE">
 			SELECT onumseq.nextval FROM DUAL
@@ -49,7 +54,11 @@
 		receiverAddressDetail=#{receiverAddressDetail},
 		receiverPhone=#{receiverPhone},
 		orderPrice=#{orderPrice},
-		isget=#{isGet}
+		isget=#{isGet},
+		memo=#{memo},
+		distance=#{distance},
+		latitude=#{latitude},
+		longitude=#{longitude}
 		where orderNum=#{orderNum}
 	</update>
 	<!-- arrivalTime만 바뀌는 거 / 사용자가 call 수정하면서 정보 바꾸는 거 둘 다 하나 메소드로 동시 처리? -->
