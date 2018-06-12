@@ -16,7 +16,7 @@
 .gn-menu-main ul {
 		margin: 0;
 		padding: 0;
-		background: #003358;
+		background: #2f4050;
 		color: white;
 		list-style: none;
 		text-transform: none;
@@ -45,8 +45,12 @@
 .no-touch .gn-menu-main a:hover,
 .no-touch .gn-menu li.gn-search-item:hover,
 .no-touch .gn-menu li.gn-search-item:hover a {
-		background: #5f6f81;
+		background: #DAA520;
 		color: white;
+}
+
+#logo:hover, #getModal_title:hover {
+	background: none;
 }
 
 .gn-menu-main > li {
@@ -108,7 +112,7 @@
 		overflow-y: scroll;
 		width: 210px;
 		height: 100%;
-		background-color: #003358;
+		background-color: #2f4050;
 }
 
 .gn-menu {

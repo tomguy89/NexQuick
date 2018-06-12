@@ -423,7 +423,7 @@ public class CallMangementController {
 	
 	
 //	객체로 리턴
-	@RequestMapping("/getCallsByCsIds")
+	@RequestMapping("/getCallsByCsIds.do")
 	public @ResponseBody List<CallInfo> getCallLists(HttpSession session) {
 		CSInfo csInfo = (CSInfo) session.getAttribute("csInfo"); 
 		String csId = csInfo.getCsId();

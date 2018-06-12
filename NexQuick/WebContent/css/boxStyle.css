@@ -8,7 +8,7 @@
   position: relative;
   max-width: 300px;
   height: auto;
-  background: #34495e;
+  background: #2f4050;
   border-radius: 15px;
   margin: 0 auto;
   padding: 40px 20px;
@@ -20,7 +20,7 @@
 .card:hover {
   -webkit-transform: scale(1.1);
   transform: scale(1.1);
-  
+  background : #55B296;
 }
 
 .title .fa {

@@ -38,7 +38,8 @@
 		<spring-framework.version>4.2.5.RELEASE</spring-framework.version>
 
 	</properties>
-
+	
+	
 	<dependencies>
 		<!-- Spring and Transactions -->
 		<dependency>

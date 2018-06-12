@@ -1,9 +1,9 @@
 (function()
 {
-	console.log("zz");
     var Socket = function()
     {
         this.host = document.host;
+        console.log(document.host);
         this.userId = new Date().getTime();
         this.botId = document.body.getAttribute('data-id');
         this.botName = document.body.getAttribute('data-name');
@@ -156,8 +156,8 @@
         script.src = './js/playchat-web/socket.io.js';
         script.onload = function()
         {
-        	console.log("socket start ㅋㅋ");
-            var socket = io('http://localhost:9090');
+        	console.log("socket start.....");
+            var socket = io('http://localhost:9090/NexQuick');
             socket.on('connect', function()
             {
                 that.socket = socket;

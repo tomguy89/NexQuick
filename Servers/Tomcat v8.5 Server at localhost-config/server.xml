@@ -28,7 +28,11 @@
   <Listener className="org.apache.catalina.core.JreMemoryLeakPreventionListener"/>
   <Listener className="org.apache.catalina.mbeans.GlobalResourcesLifecycleListener"/>
   <Listener className="org.apache.catalina.core.ThreadLocalLeakPreventionListener"/>
-
+	
+	<headers>
+		<frame-options policy="SAMEORIGIN" />
+		<hsts disable="true"/>
+	</headers>
   <!-- Global JNDI resources
        Documentation at /docs/jndi-resources-howto.html
   -->

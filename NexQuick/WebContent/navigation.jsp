@@ -213,7 +213,7 @@
 					</div><!-- /gn-scroller -->
 				</nav>
 			</li>
-			<li><a href="<%= request.getContextPath() %>/mainPage/main_index.jsp"><img src = "<%= request.getContextPath() %>/image/index_img/NexQuickLogo_Nav.png" height = "40" width = "250" style = "margin-top: 10px;"/></a></li>
+			<li><a id = "logo" href="<%= request.getContextPath() %>/mainPage/main_index.jsp"><img src = "<%= request.getContextPath() %>/image/index_img/NexQuickLogo_Nav.png" height = "40" width = "250" style = "margin-top: 10px;"/></a></li>
 			<li><a id = "getModal_title" data-toggle="modal" data-target="#exampleModal_1"><i class="far fa-user"></i><span> <%= csInfo.getCsName() %>님 환영합니다.</span></a></li>
 		</ul>
 		<script src="<%= request.getContextPath() %>/GoogleNexusWebsiteMenu/js/classie.js"></script>

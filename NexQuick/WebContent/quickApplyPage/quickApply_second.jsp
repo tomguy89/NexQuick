@@ -647,7 +647,7 @@ var isUrgent = 1;
     	
     	$(".select").css("display", "flex").css("margin-left", "auto").css("margin-right", "auto");
   		
-  		$("#addressDetail0").keyup(function() {
+  		$("#addressDetail0").change(function() {
   			console.log("ad");
   			if(/* $("#address0").val().trim().length != 0 && */ $("#addressDetail0").val() != ""
 				&& $("#userNameApply0").val() != "" && $("#phone0").val() != "") {
@@ -658,7 +658,7 @@ var isUrgent = 1;
 				$("#saveOrder0").attr("disabled", "disabled");
 			 }
   		});
-  		$("#userNameApply0").keyup(function() {
+  		$("#userNameApply0").change(function() {
   			if(/* $("#address0").val().trim().length != 0 && */ $("#addressDetail0").val() != ""
 				&& $("#userNameApply0").val() != "" && $("#phone0").val() != "") {
 		  			$("#saveOrder0").removeAttr("disabled");
@@ -668,7 +668,7 @@ var isUrgent = 1;
 				$("#saveOrder0").attr("disabled", "disabled");
 			 }
   		});
-  		$("#phone0").keyup(function() {
+  		$("#phone0").change(function() {
   			if(/* $("#address0").val().trim().length != 0 && */ $("#addressDetail0").val() != ""
 				&& $("#userNameApply0").val() != "" && $("#phone0").val() != "") {
 		  			$("#saveOrder0").removeAttr("disabled");
