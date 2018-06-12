@@ -19,7 +19,7 @@
 <!--insert, delete, update, select(지역코드로, qpId로) -->
 	<insert id="createQP" parameterType="QPPosition">
 		insert into qpPosition
-		values(#{qpId},#{qpLatitude},#{qpLongitude},#{bCode}, #{hCode}, #{connectToken})
+		values(#{qpId},#{qpLatitude},#{qpLongitude},#{bCode}, #{hCode}, #{connectToken}, 0)
 	</insert>
 	<delete id="deleteQP" parameterType="int">
 		delete qpPosition where qpId=#{qpId}
@@ -30,6 +30,16 @@
 			qpLongitude=#{qpLongitude},
 			bCode=#{bCode},
 			hCode=#{hCode}
+		where qpId=#{qpId}
+	</update>
+	<update id="decline" parameterType="QPPosition">
+		update  qpPosition
+		set qpStatus = 1
+		where qpId=#{qpId}
+	</update>
+	<update id="accept" parameterType="QPPosition">
+		update  qpPosition
+		set qpStatus = 0
 		where qpId=#{qpId}
 	</update>
 	<select id="selectQPbyId" parameterType="int" resultType="QPPosition">

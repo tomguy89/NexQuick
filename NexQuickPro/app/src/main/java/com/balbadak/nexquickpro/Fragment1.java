@@ -35,7 +35,6 @@ public class Fragment1 extends Fragment {
         viewPager = getActivity().findViewById(R.id.pager);
 
         insuListView = (ListView) view.findViewById(R.id.insu_listview);
-        indoListView = (ListView) view.findViewById(R.id.indo_listview);
 
         ArrayList<String> insuList = new ArrayList<>();
         insuList.add("5/28");

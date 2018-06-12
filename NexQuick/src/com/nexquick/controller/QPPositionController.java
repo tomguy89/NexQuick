@@ -71,5 +71,14 @@ public class QPPositionController {
 		qpPositionService.deleteQPPosition(Integer.parseInt(qpId));
 	}
 	
+	@RequestMapping("/decline.do")
+	public void decline(int qpId) {
+		qpPositionService.decline(qpId);
+	}
+	
+	@RequestMapping("/accept.do")
+	public void accept(int qpId) {
+		qpPositionService.accept(qpId);
+	}
 	
 }

@@ -4,6 +4,7 @@ public class OnDelivery {
 	private int callNum;
 	private int orderNum;
 	private String callTime;
+	private String senderName;
 	private String senderAddress;
 	private String senderAddressDetail;
 	private String receiverName;
@@ -12,9 +13,18 @@ public class OnDelivery {
 	private int orderPrice;
 	private int urgent;
 	private int deliveryStatus;
+	private String freightList;
 	
 	public OnDelivery() {
 		super();
+	}
+
+	public String getSenderName() {
+		return senderName;
+	}
+
+	public void setSenderName(String senderName) {
+		this.senderName = senderName;
 	}
 
 	public String getSenderAddressDetail() {
@@ -103,6 +113,14 @@ public class OnDelivery {
 
 	public void setDeliveryStatus(int deliveryStatus) {
 		this.deliveryStatus = deliveryStatus;
+	}
+
+	public String getFreightList() {
+		return freightList;
+	}
+
+	public void setFreightList(String freightList) {
+		this.freightList = freightList;
 	}
 	
 	

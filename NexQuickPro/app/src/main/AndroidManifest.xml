@@ -76,6 +76,7 @@
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
         </service>
+        <service android:name=".LocationService" android:exported="true" android:enabled="true"/>
 
         <activity android:name=".GoToWorkActivity"></activity>
     </application>

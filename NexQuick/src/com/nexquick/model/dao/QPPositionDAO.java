@@ -50,4 +50,7 @@ public interface QPPositionDAO {
 
 	List<QPPosition> selectQPbyhCode(String hCode);
 	
+	boolean decline(int qpId);
+	
+	boolean accept(int qpId);
 }

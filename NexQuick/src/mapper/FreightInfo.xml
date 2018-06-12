@@ -62,4 +62,11 @@
                                              where sysdate-callTime > 1)
                            )
 	</delete>
+	
+	<select id="freightsInOrder" parameterType="int" resultType="freightInfo">
+		select freightName, freightQuant
+		from priceInfo p, freightInfo f
+		where orderNum = #{orderNum}
+		and p.freightNum = f.freightNum
+	</select>
 </mapper>

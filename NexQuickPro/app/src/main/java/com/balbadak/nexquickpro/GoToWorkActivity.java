@@ -10,6 +10,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -90,8 +91,7 @@ public class GoToWorkActivity extends AppCompatActivity {
 
                 //출근처리 메소드 넣어주세요.
 
-
-                Intent i = new Intent(getApplicationContext(), LocationService.class);
+                Intent i = new Intent(getApplicationContext(),LocationService.class);
                 startService(i);
 
 
