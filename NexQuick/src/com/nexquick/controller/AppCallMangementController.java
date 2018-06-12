@@ -260,22 +260,6 @@ public class AppCallMangementController {
 		return true;
 	}
 	
-	
-	
-	public void allocate() {
-		String addr = null;
-		List<QPPosition> qpList = null;
-		Address address = addressTransService.getAddress(addr);
-		if(address.gethCode()!=null || address.gethCode().length() != 0) {
-			qpList = qpPositionService.selectQPListByHCode(address.gethCode());
-		}else if(address.getbCode()!=null || address.getbCode().length() != 0) {
-			qpList = qpPositionService.selectQPListByBCode(address.getbCode());
-		}
-		
-	}
-	
-	
-	
 	@RequestMapping("/handover.do")
 	public void handOver(int callNum) {
 		CallInfo callInfo = callSelectListService.selectCallInfo(callNum);

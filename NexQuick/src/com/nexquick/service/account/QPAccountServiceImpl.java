@@ -48,4 +48,12 @@ public class QPAccountServiceImpl implements QPAccountService {
 		return qpInfoDao.selectQPListByName(condition);
 	}
 	
+	//0612 이은진 추가.
+
+	@Override
+	public QPInfo selectQPAccountById(int qpId) {
+		// TODO Auto-generated method stub
+		return qpInfoDao.selectQPAccountById(qpId);
+	}
+	
 }

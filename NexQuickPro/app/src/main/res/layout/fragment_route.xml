@@ -54,10 +54,11 @@
             android:id="@+id/quick_finish"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:backgroundTint="@color/colorAccent"
+            android:backgroundTint="@color/colorGold"
             android:layout_gravity="start"
-            android:textColor="#ffffff"
+            android:textColor="@color/colorPrimary"
             android:textSize="25sp"
+            android:textStyle="bold"
             android:text="인수 완료" />
     </LinearLayout>
 

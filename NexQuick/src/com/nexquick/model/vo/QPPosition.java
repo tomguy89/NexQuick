@@ -7,6 +7,8 @@ public class QPPosition {
 	private String bCode;		// 지역번호
 	private String hCode;
 	private String connectToken;
+	private int qpStatus;
+	private int now;
 	
 	public QPPosition() {
 		super();
@@ -70,6 +72,21 @@ public class QPPosition {
 	public void setConnectToken(String connectToken) {
 		this.connectToken = connectToken;
 	}
-	
+
+	public int getQpStatus() {
+		return qpStatus;
+	}
+
+	public void setQpStatus(int qpStatus) {
+		this.qpStatus = qpStatus;
+	}
+
+	public int getNow() {
+		return now;
+	}
+
+	public void setNow(int now) {
+		this.now = now;
+	}
 	
 }

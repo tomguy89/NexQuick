@@ -10,18 +10,22 @@ import java.util.List;
 import java.util.Queue;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.nexquick.model.vo.Address;
 import com.nexquick.model.vo.CallInfo;
 import com.nexquick.model.vo.QPPosition;
 import com.nexquick.service.account.QPPositionService;
+import com.nexquick.service.call.CallManagementService;
 import com.nexquick.service.parsing.AddressTransService;
 
+@Service
 public class AllocationThread {
 	
 	private List<QPPosition> qpList;
-	private AddressTransService addressTransService;
+	AllocationQueue allocationQueue = AllocationQueue.getInstance();
 
+	private AddressTransService addressTransService;
 	@Autowired
 	public void setAddressTransService(AddressTransService addressTransService) {
 		this.addressTransService = addressTransService;
@@ -29,9 +33,16 @@ public class AllocationThread {
 	
 	private QPPositionService qpPositionService;
 	@Autowired
-	public AddressTransService getAddressTransService() {
-		return addressTransService;
+	public void setQpPositionService(QPPositionService qpPositionService) {
+		this.qpPositionService = qpPositionService;
 	}
+	
+	private CallManagementService callManagementService;
+	@Autowired
+	public void setCallManagementService(CallManagementService callManagementService) {
+		this.callManagementService = callManagementService;
+	}
+
 
 	public AllocationThread() {
 		Runnable r = new allocateCall();
@@ -41,10 +52,11 @@ public class AllocationThread {
 	
 	
 	class allocateCall implements Runnable{
-		AllocationQueue allocationQueue = AllocationQueue.getInstance();
+		
 		
 		@Override
 		public void run() {
+			System.out.println("스레드가 생성되었음");
 			while(!Thread.currentThread().isInterrupted()) {
 				allocate(allocationQueue.poll());
 			}
@@ -53,15 +65,28 @@ public class AllocationThread {
 
 
 	private void allocate(CallInfo callInfo) {
+		System.out.println("하나 뽑아옴");
 		String addrStr = callInfo.getSenderAddress()+" "+callInfo.getSenderAddressDetail();
 		Address addr = addressTransService.getAddress(addrStr);
 		String hCode = addr.gethCode();
+		System.out.println(hCode);
 		if (hCode!=null) {
-			qpList = qpPositionService.selectQPListByHCode(hCode);
+			if(qpPositionService==null) System.out.println("이게 널");
+			qpList = qpPositionService.selectQPListByHCode(addr);
 		}else {
 			String bCode = addr.getbCode();
-			qpList = qpPositionService.selectQPListByBCode(bCode);
+			qpList = qpPositionService.selectQPListByBCode(addr);
 		}
+		
+		for(QPPosition qp : qpList) {
+			callInfo.setQpId(qp.getQpId());
+			callManagementService.updateCall(callInfo);
+			break;
+		}
+		if (callInfo.getQpId()==0) {
+			allocationQueue.offer(callInfo);
+		}
+		
 		//구현중
 		
 	}

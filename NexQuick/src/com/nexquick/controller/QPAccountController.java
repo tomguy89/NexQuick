@@ -1,5 +1,8 @@
 package com.nexquick.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,10 +11,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.nexquick.model.vo.CSInfo;
+import com.nexquick.model.vo.CallInfo;
 import com.nexquick.model.vo.QPInfo;
+import com.nexquick.model.vo.QPPay;
 import com.nexquick.model.vo.QPPosition;
 import com.nexquick.service.account.QPAccountService;
 import com.nexquick.service.account.QPPositionService;
+import com.nexquick.service.call.CallSelectListService;
 
 @RequestMapping("/qpAccount")
 @Controller
@@ -28,6 +34,13 @@ public class QPAccountController {
 	public void setQpPositionService(QPPositionService qpPositionService) {
 		this.qpPositionService = qpPositionService;
 	}
+	
+	private CallSelectListService callSelectListService;
+	@Autowired
+	public void setCallSelectListService(CallSelectListService callSelectListService) {
+		this.callSelectListService = callSelectListService;
+	}
+
 
 	/**
 	 * QP의 로그인을 처리
@@ -88,5 +101,52 @@ public class QPAccountController {
 		return qpPositionService.getQPPosition(qpId);
 	}
 	
+	
+	//0612 이은진 추가.
+/*	1. qpId로 bank찾아오기
+	2. qpId로 unpayedcall갖고오기
+	3. unpayedcall의 콜넘으로 총액 갖고오기
+	4. unpyedcall의 콜넘으로 결제상태 업데이트하기*/
+	
+	@RequestMapping("processPayment.do")
+	public @ResponseBody QPPay processPayment(int qpId) {
+		
+		System.out.println("processPayment 컨트롤러에 들어옴");
+		
+		QPInfo qpInfo = qpAccountService.selectQPAccountById(qpId);
+		
+		System.out.println(qpInfo.toString());
+		
+		QPPay qpPay = new QPPay();
+		qpPay.setQpBank(qpInfo.getQpBank());
+		qpPay.setQpAccount(qpInfo.getQpAccount());
+		
+		
+		
+		List<CallInfo> callList = callSelectListService.selectUnpayedCall(qpId);
+		int callListSize = callList.size();
+		
+		if(callListSize>0) {
+			List<Integer> list=  new ArrayList<>();
+			
+			for(int i=0;i<callListSize;i++) {
+			list.add(callList.get(i).getCallNum());
+			}
+		
+			int money = callSelectListService.selectUnpayedSum(list);
+			qpPay.setMoney(money);
+		
+			updatePaystatus(list);
+		}
+		
+		
+		return qpPay;
+		
+	}
+	
+	public void updatePaystatus(List <Integer> list) {
+		System.out.println("updatePayStatus 컨트롤러에 들어옴");
+		callSelectListService.updatePayStatus(list);
+	}
 	
 }

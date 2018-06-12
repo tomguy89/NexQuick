@@ -68,4 +68,9 @@ public interface CallSelectListService {
 	int countLinkedOrder(int callNum);
 	void updateAfterOrdersChecked(int callNum);
 	List<OnDelivery> orderListByQPId(int qpId);
+	
+	//0612 이은진 추가
+	List<CallInfo> selectUnpayedCall(int qpId);
+	int selectUnpayedSum(List<Integer> list);
+	void updatePayStatus(List<Integer> list);
 }

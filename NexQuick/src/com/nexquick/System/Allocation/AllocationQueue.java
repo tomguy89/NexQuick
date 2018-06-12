@@ -29,18 +29,22 @@ public class AllocationQueue {
 			calls.clear();
 	}
 	
-	public void offer(CallInfo callInfo) {
-		synchronized(AllocationQueue.class) {
-			calls.offer(callInfo);
-			this.notify();
-		}
+	public synchronized void offer(CallInfo callInfo) {
+		calls.offer(callInfo);
+		this.notify();
 	}
 	
-	public CallInfo poll() {
+	public synchronized CallInfo poll() {
 		CallInfo callInfo = null;
-		synchronized(AllocationQueue.class) {
-			callInfo = calls.poll();
-		}
+			try {
+				if(calls.size()==0) {
+					System.out.println("대기중");
+					this.wait();
+				}
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		callInfo = calls.poll();
 		return callInfo;
 	}
 	

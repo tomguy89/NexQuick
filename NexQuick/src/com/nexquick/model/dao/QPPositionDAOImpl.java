@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
 
+import com.nexquick.model.vo.Address;
 import com.nexquick.model.vo.QPPosition;
 
 public class QPPositionDAOImpl implements QPPositionDAO {
@@ -39,13 +40,13 @@ public class QPPositionDAOImpl implements QPPositionDAO {
 	}
 
 	@Override
-	public List<QPPosition> selectQPbybCode(String bCode) {
-		return sqlSession.selectList("qpPosition.selectQPbybCode", bCode);
+	public List<QPPosition> selectQPByBCode(Address addr) {
+		return sqlSession.selectList("qpPosition.selectQPByBCode", addr);
 	}
 	
 	@Override
-	public List<QPPosition> selectQPbyhCode(String hCode) {
-		return sqlSession.selectList("qpPosition.selectQPbyhCode", hCode);
+	public List<QPPosition> selectQPByHCode(Address addr) {
+		return sqlSession.selectList("qpPosition.selectQPByHCode", addr);
 	}
 
 	@Override

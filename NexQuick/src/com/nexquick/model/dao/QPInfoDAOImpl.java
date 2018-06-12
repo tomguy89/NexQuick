@@ -54,4 +54,9 @@ public class QPInfoDAOImpl implements QPInfoDAO {
 		return sqlSession.selectList("qpInfo.selectQPListByVehicle", qpVehicleType);
 	}
 
+	@Override
+	public QPInfo selectQPAccountById(int qpId) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("qpInfo.selectQPAccountById", qpId);
+	}
 }

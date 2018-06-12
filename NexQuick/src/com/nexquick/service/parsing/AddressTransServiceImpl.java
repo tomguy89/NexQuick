@@ -38,7 +38,6 @@ public class AddressTransServiceImpl implements AddressTransService {
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
-		System.out.println(address.getLongitude() + " / " + address.getLatitude());
 		Map<String, String> localCode = getCode(address.getLongitude(), address.getLatitude());
 		address.setbCode(localCode.get("bCode"));
 		address.sethCode(localCode.get("hCode"));

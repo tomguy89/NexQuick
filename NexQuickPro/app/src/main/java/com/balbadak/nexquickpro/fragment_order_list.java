@@ -33,6 +33,7 @@ public class fragment_order_list extends Fragment {
 
     ViewPager viewPager;
     ListView insuListView;
+    TextView insuTitle;
     Context context;
 
     ArrayList<ListViewItem> insuList;
@@ -53,6 +54,8 @@ public class fragment_order_list extends Fragment {
         viewPager = getActivity().findViewById(R.id.pager);
 
         context = getActivity();
+
+        insuTitle = (TextView) view.findViewById(R.id.insu_title);
         insuListView = (ListView) view.findViewById(R.id.insu_listview);
 
         insuList = new ArrayList<>();
@@ -263,6 +266,8 @@ public class fragment_order_list extends Fragment {
 
 
             } else {
+
+                insuTitle.setText("현재 받은 퀵이 없습니다");
 
             }
 

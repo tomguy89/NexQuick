@@ -2,13 +2,14 @@ package com.nexquick.service.account;
 
 import java.util.List;
 
+import com.nexquick.model.vo.Address;
 import com.nexquick.model.vo.QPPosition;
 
 public interface QPPositionService {
 
-	List<QPPosition> selectQPListByBCode(String bCode);
+	List<QPPosition> selectQPListByBCode(Address addr);
 
-	List<QPPosition> selectQPListByHCode(String hCode);
+	List<QPPosition> selectQPListByHCode(Address addr);
 
 	QPPosition getQPPosition(int qpId);
 

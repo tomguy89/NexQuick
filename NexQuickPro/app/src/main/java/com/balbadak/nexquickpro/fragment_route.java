@@ -94,7 +94,7 @@ public class fragment_route extends Fragment {
         }
 
         NetworkTask networkTask = new NetworkTask(qpPoint, passList.get(passList.size()-1), passList);
-        networkTask.execute();
+        //        networkTask.execute();
 
 
         cancelBtn.setOnClickListener(new View.OnClickListener() {

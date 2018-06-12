@@ -57,6 +57,7 @@ public interface QPInfoDAO {
 //	관리자용. 이름으로검색
 	List<QPInfo> selectQPListByName(HashMap<String, Object> condition);
 
-
+	//0612 이은진 추가
+	QPInfo selectQPAccountById(int qpId);
 	
 }

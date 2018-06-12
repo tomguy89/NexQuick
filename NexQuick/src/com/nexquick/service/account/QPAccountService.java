@@ -49,4 +49,7 @@ public interface QPAccountService {
 
 	List<QPInfo> qpAllListByName(HashMap<String, Object> condition);
 	
+	//0612 이은진 추가
+	
+	QPInfo selectQPAccountById(int qpId);
 }

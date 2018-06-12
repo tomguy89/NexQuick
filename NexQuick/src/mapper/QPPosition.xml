@@ -46,16 +46,28 @@
 		select * from qpPosition
 		where qpId=#{qpId}
 	</select>
-	<select id="selectQPbybCode" parameterType="int">
-		select * from qpPosition
-		where substr(bCode, 0, 3)=substr(#{bCode}, 0, 3)
+	<select id="selectQPByBCode" parameterType="Address" resultType="QPPosition">
+		SELECT p.*, nvl(now, 0) now
+		FROM qpPosition p, (select count(*) as now, qpId
+        		            from orderInfo o, callInfo c
+                		    where c.callNum = o.callNum
+                   		    and isget = 0
+              			    group by qpId) n
+		WHERE p.qpId = n.qpId(+)
 		order by abs(to_number(#{bCode})-to_number(bCode)),
-		abs(power(qplatitude-#{qpLatitude}, 2)+power(qplongitude-#{qpLongitude}, 2));
+		abs(power(qplatitude-to_number(#{latitude}), 2)+power(qplongitude-to_number(#{longitude}), 2)),
+		n.now
 	</select>
-		<select id="selectQPbyhCode" parameterType="int">
-		select * from qpPosition
-		where substr(hCode, 0, 3)=substr(#{hCode}, 0, 3)
+	<select id="selectQPByHCode" parameterType="Address" resultType="QPPosition">
+		SELECT p.*, nvl(now, 0) now
+		FROM qpPosition p, (select count(*) as now, qpId
+        		            from orderInfo o, callInfo c
+                		    where c.callNum = o.callNum
+                   		    and isget = 0
+              			    group by qpId) n
+		WHERE p.qpId = n.qpId(+)
 		order by abs(to_number(#{hCode})-to_number(hCode)),
-		abs(power(qplatitude-#{qpLatitude}, 2)+power(qplongitude-#{qpLongitude}, 2));
+		abs(power(qplatitude-to_number(#{latitude}), 2)+power(qplongitude-to_number(#{longitude}), 2)),
+		n.now
 	</select>
  </mapper>

@@ -111,4 +111,23 @@ public class CallSelectListServiceImpl implements CallSelectListService {
 	public List<OnDelivery> orderListByQPId(int qpId) {
 		return orderInfoDao.orderListByQPId(qpId);
 	}
+	
+	//0612 이은진 추가.
+	@Override
+	public List<CallInfo> selectUnpayedCall(int qpId) {
+		// TODO Auto-generated method stub
+		return callInfoDao.selectUnpayedCall(qpId);
+	}
+
+	@Override
+	public int selectUnpayedSum(List<Integer> list) {
+		// TODO Auto-generated method stub
+		return callInfoDao.selectUnpayedSum(list);
+	}
+
+	@Override
+	public void updatePayStatus(List<Integer> list) {
+		callInfoDao.updatePayStatus(list);
+		
+	}
 }

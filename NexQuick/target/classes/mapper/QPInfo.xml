@@ -71,4 +71,10 @@
 	</update>
 	<!-- update할 때 얘네만 업데이트하면 되나? where 조건절에 id가 적합할까 phone이 더 적합할까? -->
 	
+		
+	<!--0612 이은진 추가  -->
+     <select id="selectQPAccountById" parameterType="int" resultType="QPInfo">
+        select * from qpAccount
+        where qpId=#{qpId}
+    </select><!-- id로 -->
  </mapper>
