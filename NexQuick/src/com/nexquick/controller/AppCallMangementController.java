@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.nexquick.System.Allocation.AllocationQueue;
 import com.nexquick.model.vo.Address;
 import com.nexquick.model.vo.CSInfo;
 import com.nexquick.model.vo.CallInfo;
@@ -402,13 +403,60 @@ public class AppCallMangementController {
 		return qpInfo;
 	}
 	
-	
-	
 	@RequestMapping("/orderListByQPId")
 	public @ResponseBody List<OnDelivery> orderListByQPId(int qpId) {
 		return callSelectListService.orderListByQPId(qpId); 
 	}
 	
+	// 0612 추가
+	@RequestMapping("/saveFavoriteDeparture.do")
+	public @ResponseBody boolean saveFavInfo(String csId, int addressType, String address, String addrDetail,
+			String receiverName, String receiverPhone) {
+		List<FavoriteInfo> favList = favoriteManagementService.getDepartureList(csId); // addressType가 1인 주소 가져오기
+		if (favList.size() == 0) { // 없으면 생성
+			FavoriteInfo favInfo = new FavoriteInfo(csId, addressType, address, addrDetail, receiverName,
+					receiverPhone);
+			favoriteManagementService.saveDeparture(favInfo);
+			return true;
+		} else { // 있으면 업데이트
+			int favId = favList.get(0).getFavoriteId();
+			System.out.println(favId);
+			FavoriteInfo favInfo = new FavoriteInfo(favId, csId, addressType, address, addrDetail, receiverName,
+					receiverPhone);
+			favoriteManagementService.updateAddress(favInfo);
+			return false;
+		}
+	}
+
+	// 0612 추가
+	@RequestMapping("/getFavoriteDeparture.do")
+	public @ResponseBody List<FavoriteInfo> DepartFavInfo(String csId) {
+		List<FavoriteInfo> favList = favoriteManagementService.getDepartureList(csId); // addressType 1인 주소 가져오기
+		if (favList.size() == 0) { // 없으면 생성
+			return null;
+		} else { // 있으면 업데이트
+			return favList;
+		}
+	}
+
+	// 0612 새로추가!
+	@RequestMapping("/cancelOrders.do")
+	public @ResponseBody boolean cancelOrdersByCallNum(HttpSession session, int callNum) {
+		List<OrderInfo> orderInfoList = callSelectListService.orderInfoList(callNum);
+		for (OrderInfo oi : orderInfoList) {
+			delOrderProcess(oi.getOrderNum());
+		}
+		return true;
+	}
 	
+	
+	@RequestMapping("/reRegistCall.do")
+	public @ResponseBody boolean reRegistCall(int callNum) {
+		CallInfo callInfo = callSelectListService.selectCallInfo(callNum);
+		callInfo.setDeliveryStatus(1);
+		callManagementService.updateCall(callInfo);
+		AllocationQueue.getInstance().offer(callInfo, 0);
+		return true;
+	}
 	
 }

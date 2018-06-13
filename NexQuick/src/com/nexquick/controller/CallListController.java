@@ -7,6 +7,7 @@ import javax.servlet.http.HttpSession;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import org.json.simple.JSONValue;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -138,5 +139,51 @@ public class CallListController {
 			}
 		}
 	}
+	
+	
+	//0612 이은진 추가2222
+	@RequestMapping("/afterBeamforQPS.do")
+	public @ResponseBody List<CallInfo> afterBeamforQPS(int qpId, int callNum){//선불현장결제 콜목록
+		
+		System.out.println(qpId);
+		System.out.println(callNum);
+		
+		String csId = callSelectListService.findCSIdbyCallNum(callNum); //손님 아이디 찾고
+		List<CallInfo> callList = callSelectListService.selectCallList(csId, qpId, 2);//qp와 cs 사이 인수 전인 콜 목록들 뽑고
+		List<CallInfo> advancedOnSpotList = callSelectListService.onSpotAdvancePayCall(callList);//그 중 선불현장결제의 콜 목록을 뽑는다.
+		
+		return advancedOnSpotList;//선불현장결제 콜 리스트를 리턴한다. (그러면 앱에서 n건의 콜에 대해 결제 받았냐는 안내메시지가 뜨고 예를 누르면 밑의 payComlete로...)
+	}
+	
+	@RequestMapping("/afterBeamforQPR.do")
+	public @ResponseBody List<CallInfo> afterBeamforQPR(int qpId, int orderNum){//후불현장결제 콜목록
+		
+		System.out.println(qpId);
+		System.out.println(orderNum);
+		
+		return callSelectListService.onSpotDefferedPayCall(qpId, orderNum);//퀵기사와 수령인 사이의 배송중인, 결제가 완료되지 않은 후불결제건을 리턴한다...
+	}
+	
+	
+	@RequestMapping("/payComplete.do")
+	public void payComplete(String result) {//결제가 완료된 콜의 리스트가 json 형태로 온다.
+		
+		List <Integer> list = new ArrayList<>();
+	
+		JSONArray jsonArray = (JSONArray)JSONValue.parse(result);
+		JSONObject object;
+		for (int i = 0; i < jsonArray.size(); i++){
+			object = (JSONObject) jsonArray.get(i);
+			System.out.println("object:"+object);
+			list.add(Integer.parseInt(object.get("callNum").toString()));
+		}
+		
+		callSelectListService.payComplete(list);
+	}
+	
+	
+	
+	
+	
 
 }

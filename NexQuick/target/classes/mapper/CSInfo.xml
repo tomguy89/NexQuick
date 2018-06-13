@@ -91,5 +91,10 @@
 		set csToken=#{csToken},
 		where csId=#{csId}
 	</update>
+	
+	<select id="selectCSDevice" parameterType = "String" resultType="String">
+		select cstoken from csdevice
+		where csId=#{csId}
+	</select>
 
 </mapper>

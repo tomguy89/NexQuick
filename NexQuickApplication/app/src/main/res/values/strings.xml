@@ -56,4 +56,5 @@
     <string name="next">다음</string>
     <string name="quick_detail_title">상세보기</string>
     <string name="blank_string" />
+    <string name="favorite">즐겨찾기</string>
 </resources>

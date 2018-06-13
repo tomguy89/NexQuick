@@ -73,4 +73,17 @@ public interface CallSelectListService {
 	List<CallInfo> selectUnpayedCall(int qpId);
 	int selectUnpayedSum(List<Integer> list);
 	void updatePayStatus(List<Integer> list);
+	
+	
+	//0612 이은진 추가222
+	List<CallInfo> onSpotAdvancePayCall(List<CallInfo> list);
+
+	void payComplete(List <Integer> list);
+	String findCSIdbyCallNum(int callNum);
+	
+	
+	List<CallInfo> onSpotDefferedPayCall(int qpId, int orderNum);
+	
+	
+	
 }

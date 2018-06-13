@@ -1,12 +1,14 @@
 package com.nexquick.System.Allocation;
 
+import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.Map;
 import java.util.Queue;
 
 import com.nexquick.model.vo.CallInfo;
 
 public class AllocationQueue {
-	private Queue<CallInfo> calls = new LinkedList();
+	private Queue<Map<String, Object>> calls = new LinkedList();
 	
 	private static AllocationQueue instance = new AllocationQueue();
 	private AllocationQueue() {}
@@ -21,7 +23,7 @@ public class AllocationQueue {
 	}
 	
 	
-	public Queue<CallInfo> getLinkedList() {
+	public Queue<Map<String, Object>> getLinkedList() {
 		return calls;
 	}
 	
@@ -29,13 +31,16 @@ public class AllocationQueue {
 			calls.clear();
 	}
 	
-	public synchronized void offer(CallInfo callInfo) {
-		calls.offer(callInfo);
+	public synchronized void offer(CallInfo callInfo, int repeat) {
+		Map<String, Object> map = new HashMap<>();
+		map.put("repeat", repeat);
+		map.put("callInfo", callInfo);
+		calls.offer(map);
 		this.notify();
 	}
 	
-	public synchronized CallInfo poll() {
-		CallInfo callInfo = null;
+	public synchronized Map<String, Object> poll() {
+		Map<String, Object> map = null;
 			try {
 				if(calls.size()==0) {
 					System.out.println("대기중");
@@ -44,8 +49,8 @@ public class AllocationQueue {
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-		callInfo = calls.poll();
-		return callInfo;
+		map = calls.poll();
+		return map;
 	}
 	
 	public int size() {

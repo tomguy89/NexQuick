@@ -46,21 +46,33 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <EditText
-                    android:id="@+id/senderName"
+                <android.support.design.widget.TextInputLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="0.5"
-                    android:hint="이름" />
+                    android:layout_weight="1">
 
-                <EditText
-                    android:id="@+id/senderPhone"
+                    <EditText
+                        android:id="@+id/senderName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:ems="7"
+                        android:hint="이름" />
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="0.5"
-                    android:ems="10"
-                    android:hint="연락처"
-                    android:inputType="phone" />
+                    android:layout_weight="1">
+
+                    <EditText
+                        android:id="@+id/senderPhone"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:ems="12"
+                        android:hint="연락처"
+                        android:inputType="phone" />
+
+                </android.support.design.widget.TextInputLayout>
 
             </LinearLayout>
 
@@ -69,12 +81,18 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <EditText
-                    android:id="@+id/senderAddress"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:ems="10"
-                    android:inputType="textPostalAddress" />
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <EditText
+                        android:id="@+id/senderAddress"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:hint="주소"
+                        android:ems="12"
+                        android:inputType="textPostalAddress" />
+                </android.support.design.widget.TextInputLayout>
 
                 <Button
                     android:id="@+id/senderAddressBtn"
@@ -83,12 +101,18 @@
                     android:text="주소찾기" />
             </LinearLayout>
 
-            <EditText
-                android:id="@+id/senderAddressDetail"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:inputType="textPostalAddress" />
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/senderAddressDetail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:hint="상세주소"
+                    android:ems="12"
+                    android:inputType="textPostalAddress" />
+            </android.support.design.widget.TextInputLayout>
 
             <CheckBox
                 android:id="@+id/senderSaveCbx"
@@ -148,23 +172,33 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <EditText
-                    android:id="@+id/date_picker"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:ems="10"
-                    android:hint="@string/date"
-                    android:inputType="date" />
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
 
-                <EditText
-                    android:id="@+id/time_picker"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:ems="10"
-                    android:hint="@string/time"
-                    android:inputType="time" />
+                    <EditText
+                        android:id="@+id/date_picker"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:ems="10"
+                        android:hint="@string/date"
+                        android:inputType="date" />
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <EditText
+                        android:id="@+id/time_picker"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:ems="10"
+                        android:hint="@string/time"
+                        android:inputType="time" />
+                </android.support.design.widget.TextInputLayout>
 
             </LinearLayout>
         </LinearLayout>
@@ -174,6 +208,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:orientation="vertical">
+
 
             <TextView
                 android:id="@+id/VehicleType"
@@ -271,7 +306,6 @@
         android:fitsSystemWindows="true"
         app:headerLayout="@layout/nav_header_navigation"
         app:menu="@menu/activity_navigation_drawer" />
-
 
 
 </android.support.v4.widget.DrawerLayout>

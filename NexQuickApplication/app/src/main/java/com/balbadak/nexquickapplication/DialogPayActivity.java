@@ -19,6 +19,9 @@ import com.balbadak.nexquickapplication.payment.InicisWebViewClient;
 
 public class DialogPayActivity extends AppCompatActivity {
 
+    //.173 태진, .164 승진
+    private String mainUrl = "http://70.12.109.164:9090/NexQuick/";
+
     private WebView mainWebView;
     private static final String APP_SCHEME = "iamporttest://";
 
@@ -37,9 +40,6 @@ public class DialogPayActivity extends AppCompatActivity {
         getWindow().getAttributes().height = height;
 
 
-
-
-
         mainWebView = (WebView) findViewById(R.id.mainWebView);
         mainWebView.setWebViewClient(new InicisWebViewClient(this));
         WebSettings settings = mainWebView.getSettings();
@@ -56,7 +56,7 @@ public class DialogPayActivity extends AppCompatActivity {
         Uri intentData = intent.getData();
 
         if (intentData == null) {
-            mainWebView.loadUrl("http://70.12.109.164:9090/paytest/pay_test.jsp");
+            mainWebView.loadUrl(mainUrl+"pay_test.jsp");
         } else {
             //isp 인증 후 복귀했을 때 결제 후속조치
             String url = intentData.toString();

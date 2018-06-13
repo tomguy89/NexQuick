@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
 
+import com.nexquick.model.vo.CallInfo;
 import com.nexquick.model.vo.OnDelivery;
 import com.nexquick.model.vo.OrderInfo;
 
@@ -94,5 +95,13 @@ public class OrderInfoDAOImpl implements OrderInfoDAO {
 	}
 	
 	
+	//0612이은진 추가2222
+	@Override
+	public List<CallInfo> onSpotDefferedPayCall(int qpId, int orderNum) {
+		HashMap<String, Object> condition = new HashMap<>();
+		condition.put("qpId", qpId);
+		condition.put("orderNum", orderNum);
+		return sqlSession.selectList("orderInfo.onSpotDefferedPayCall", condition);
+	}
 	
 }

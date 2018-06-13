@@ -262,7 +262,6 @@ public class Fragment1 extends Fragment {
             String date = etDatePicker + " " + etTimePicker;
             bundle.putString("reservationTime",date );
         }
-
         return true;
 
     }

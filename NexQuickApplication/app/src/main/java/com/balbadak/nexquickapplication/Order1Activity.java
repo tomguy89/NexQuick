@@ -38,6 +38,7 @@ import android.widget.Spinner;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.balbadak.nexquickapplication.vo.FavoriteInfo;
 import com.tsengvn.typekit.TypekitContextWrapper;
 
 import org.json.JSONArray;
@@ -49,7 +50,6 @@ import java.util.Calendar;
 import java.util.Date;
 
 
-
 public class Order1Activity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
 
@@ -59,6 +59,10 @@ public class Order1Activity extends AppCompatActivity implements NavigationView.
     private SharedPreferences loginInfo;
     private String csId;
     private String csName;
+    private int callNum;
+
+    //.173 태진, .164 승진
+    private String mainUrl = "http://70.12.109.164:9090/NexQuick/";
 
     private EditText etSenderName;
     private EditText etSenderPhone;
@@ -68,6 +72,7 @@ public class Order1Activity extends AppCompatActivity implements NavigationView.
     private CheckBox cbxSeries; // 아직 미구현
     private CheckBox cbxUrgent;
     private CheckBox cbxReserve;
+    private Button addressBtn;
 
     private RadioGroup vehicleType;
 
@@ -78,6 +83,9 @@ public class Order1Activity extends AppCompatActivity implements NavigationView.
 
     private Spinner spinner;
     private ContentValues values;
+
+    private ArrayList<FavoriteInfo> favoriteInfos;
+    ArrayAdapter spinnerAdapter;
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -102,6 +110,7 @@ public class Order1Activity extends AppCompatActivity implements NavigationView.
 
         spinner = (Spinner) findViewById(R.id.senderAddressSpinner);
 
+
         etSenderName = (EditText) findViewById(R.id.senderName);
         etSenderPhone = (EditText) findViewById(R.id.senderPhone);
         etSenderAddress = (EditText) findViewById(R.id.senderAddress);
@@ -114,31 +123,18 @@ public class Order1Activity extends AppCompatActivity implements NavigationView.
 
         timeInit();
 
-        vehicleType = (RadioGroup) findViewById(R.id.vehicleType);
+        favoriteInit();
 
-        final ArrayList<String> spinnerList = new ArrayList<>();
-        spinnerList.add("즐겨찾기");
-        spinnerList.add("봉천동");
-        spinnerList.add("역삼동");
-        spinnerList.add("신림동");
-
-        //스피너용 어댑터
-        ArrayAdapter spinnerAdapter;
-        spinnerAdapter = new ArrayAdapter(context, R.layout.support_simple_spinner_dropdown_item, spinnerList);
-        spinner.setAdapter(spinnerAdapter);
-
-        //스피너 이벤트리스너
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        addressBtn = (Button) findViewById(R.id.senderAddressBtn);
+        addressBtn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(context, "선택된 아이템 : " + spinner.getItemAtPosition(position), Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
+            public void onClick(View v) {
+                Intent i = new Intent(Order1Activity.this, DialogAddressActivity.class);
+                startActivityForResult(i, 1010);
             }
         });
+
+        vehicleType = (RadioGroup) findViewById(R.id.vehicleType);
 
         cbxUrgent = (CheckBox) findViewById(R.id.urgentCbx);
         cbxReserve = (CheckBox) findViewById(R.id.reserveCbx);
@@ -167,16 +163,17 @@ public class Order1Activity extends AppCompatActivity implements NavigationView.
             public void onClick(View v) {
 
                 // URL 설정. 173 태진햄 / 164 승진
-                String url = "http://70.12.109.164:9090/NexQuick/appCall/newCall.do";
+                String url = mainUrl + "appCall/newCall.do";
                 values = new ContentValues();
                 boolean result = setCallInfo(values);
 
-                if(result) {
+                if (result) {
 
                     SetCallTask setCallTask = new SetCallTask(url, values);
                     setCallTask.execute();
                     Intent intent = new Intent(context, Order2Activity.class);
                     startActivity(intent);
+                    finish();
 
                 } else {
                     values.clear();
@@ -200,6 +197,21 @@ public class Order1Activity extends AppCompatActivity implements NavigationView.
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+    }
+
+    private void favoriteInit() {
+
+        //스피너 어댑터
+        favoriteInfos = new ArrayList<>();
+        favoriteInfos.add(0, new FavoriteInfo(-1, "", 0, "주소를 선택하세요", "", "즐겨찾기", ""));
+        String url = mainUrl+"appCall/getFavorite.do";
+
+        values = new ContentValues();
+        values.put("csId", csId);
+
+        GetFavorite getFavorite = new GetFavorite(url, values);
+        getFavorite.execute();
 
     }
 
@@ -261,7 +273,39 @@ public class Order1Activity extends AppCompatActivity implements NavigationView.
         });
     }
 
-    // 프래그먼트간 내용 전달
+    private void setFavoriteInfos() {
+
+        Log.i("즐겨찾기 세팅 in 태스크", favoriteInfos.toString());
+
+        FavoriteInfo nullInfo;
+
+        spinnerAdapter = new ArrayAdapter(context, R.layout.support_simple_spinner_dropdown_item, favoriteInfos);
+        spinner.setAdapter(spinnerAdapter);
+
+
+        //스피너 이벤트리스너
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                FavoriteInfo fi = (FavoriteInfo) spinner.getItemAtPosition(position);
+
+                if(fi.getFavoriteId() != -1) {
+                    etSenderName.setText(fi.getReceiverName());
+                    etSenderPhone.setText(fi.getReceiverPhone());
+                    etSenderAddress.setText(fi.getAddress());
+                    etSenderAddressDetail.setText(fi.getAddrDetail());
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+
+    }
+
     private boolean setCallInfo(ContentValues values) {
 
         if (csId != null) {
@@ -339,8 +383,30 @@ public class Order1Activity extends AppCompatActivity implements NavigationView.
 
     }
 
+    public void onActivityResult(int requestCode, int resultCode, Intent intent){
 
-    // ----------------------여기부터 AsyncTask 영역
+        super.onActivityResult(requestCode, resultCode, intent);
+
+        switch(requestCode){
+
+            case 1010:
+
+                if(resultCode == RESULT_OK){
+
+                    String data = intent.getExtras().getString("data").substring(7);
+                    if (data != null)
+                        etSenderAddress.setText(data);
+                }
+                break;
+
+        }
+
+    }
+
+
+    // ----------------------여기부터 AsyncTask 영역 -------------------------------
+
+    //새로운 콜을 보내는 태스크
     public class SetCallTask extends AsyncTask<Void, Void, String> {
 
         private String url;
@@ -364,7 +430,56 @@ public class Order1Activity extends AppCompatActivity implements NavigationView.
         @Override
         protected void onPostExecute(String s) {
 
-        Toast.makeText(context,"퀵 발송 정보가 저장 되었음",Toast.LENGTH_SHORT ).show();
+            Toast.makeText(context, "퀵 발송 정보가 저장 되었음", Toast.LENGTH_SHORT).show();
+
+            if (s != null) {
+                Log.e("퀵 발송 정보 받아온 것", s);
+                try {
+                    JSONObject data = new JSONObject(s);
+                        int callNum = data.getInt("callNum");
+                        SharedPreferences.Editor ed = loginInfo.edit();
+                        ed.putInt("callNum", callNum);
+                        ed.commit();
+                        Log.e("callNum", callNum + "!");
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            } else {
+                Log.e("콜넘버", "없음");
+
+            }
+
+        }
+    }
+
+    //즐겨찾기를 불러오는 태스크
+    public class GetFavorite extends AsyncTask<Void, Void, String> {
+
+        private String url;
+        private ContentValues values;
+
+        public GetFavorite(String url, ContentValues values) {
+
+            this.url = url;
+            this.values = values;
+        }
+
+        @Override
+        protected String doInBackground(Void... params) {
+
+            String result; // 요청 결과를 저장할 변수.
+            RequestHttpURLConnection requestHttpURLConnection = new RequestHttpURLConnection();
+            result = requestHttpURLConnection.request(url, values); // 해당 URL로 부터 결과물을 얻어온다.
+            return result;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+
+            Toast.makeText(context, "즐겨찾기를 부른다", Toast.LENGTH_SHORT).show();
 
             if (s != null) {
                 Log.e("받아온 것", s);
@@ -373,13 +488,70 @@ public class Order1Activity extends AppCompatActivity implements NavigationView.
                     JSONObject data;
                     for (int i = 0; i < ja.length(); i++) {
                         data = ja.getJSONObject(i);
-                        int callNum = Integer.parseInt(data.getString("callNum"));
+                        if (data.getInt("addressType") != 0) { // 추후에 배송지 타입 바뀔예정
 
-                        SharedPreferences.Editor ed = loginInfo.edit();
+                            FavoriteInfo fi = new FavoriteInfo();
+                            fi.setFavoriteId(data.getInt("favoriteId"));
+                            fi.setAddressType(data.getInt("addressType"));
+                            fi.setCsId(data.getString("csId"));
+                            fi.setAddress(data.getString("address"));
+                            fi.setAddrDetail(data.getString("addrDetail"));
+                            fi.setReceiverName(data.getString("receiverName"));
+                            fi.setReceiverPhone(data.getString("receiverPhone"));
+                            favoriteInfos.add(fi);
+                        }
 
-                        ed.putInt("callNum", callNum);
-                        ed.commit();
-                        Log.e("callNum", callNum+"!");
+                    }
+                    setFavoriteInfos();
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            } else {
+                Log.e("콜넘버", "없음");
+
+            }
+
+        }
+    }
+
+
+    //미주문 콜을 불러오는 태스크
+    public class SetCurrentCallTask extends AsyncTask<Void, Void, String> {
+
+        private String url;
+        private ContentValues values;
+
+        public SetCurrentCallTask(String url, ContentValues values) {
+
+            this.url = url;
+            this.values = values;
+        }
+
+        @Override
+        protected String doInBackground(Void... params) {
+
+            String result; // 요청 결과를 저장할 변수.
+            RequestHttpURLConnection requestHttpURLConnection = new RequestHttpURLConnection();
+            result = requestHttpURLConnection.request(url, values); // 해당 URL로 부터 결과물을 얻어온다.
+            return result;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+
+            Toast.makeText(context, "퀵 발송 정보가 저장 되었음", Toast.LENGTH_SHORT).show();
+
+            if (s != null) {
+                Log.e("받아온 것", s);
+                try {
+                    JSONArray ja = new JSONArray(s);
+                    JSONObject data;
+                    for (int i = 0; i < ja.length(); i++) {
+                        data = ja.getJSONObject(i);
+                        callNum = data.getInt("callNum");
+                        //셋텍스트 기기
 
                     }
 
@@ -394,7 +566,6 @@ public class Order1Activity extends AppCompatActivity implements NavigationView.
 
         }
     }
-
 
 
     //------------------------------여기부터 내비 영역 -----------------------------

@@ -7,22 +7,26 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.List;
+import java.util.Map;
 import java.util.Queue;
+
+import javax.swing.plaf.SliderUI;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.nexquick.model.dao.CSInfoDAO;
 import com.nexquick.model.vo.Address;
 import com.nexquick.model.vo.CallInfo;
 import com.nexquick.model.vo.QPPosition;
 import com.nexquick.service.account.QPPositionService;
 import com.nexquick.service.call.CallManagementService;
+import com.nexquick.service.call.CallSelectListService;
 import com.nexquick.service.parsing.AddressTransService;
 
 @Service
 public class AllocationThread {
 	
-	private List<QPPosition> qpList;
 	AllocationQueue allocationQueue = AllocationQueue.getInstance();
 
 	private AddressTransService addressTransService;
@@ -41,6 +45,18 @@ public class AllocationThread {
 	@Autowired
 	public void setCallManagementService(CallManagementService callManagementService) {
 		this.callManagementService = callManagementService;
+	}
+	
+	private CallSelectListService callSelectService;
+	@Autowired
+	public void setCallSelectService(CallSelectListService callSelectService) {
+		this.callSelectService = callSelectService;
+	}
+
+	private CSInfoDAO csInfoDao;
+	@Autowired
+	public void setCsInfoDao(CSInfoDAO csInfoDao) {
+		this.csInfoDao = csInfoDao;
 	}
 
 
@@ -64,35 +80,61 @@ public class AllocationThread {
 	}
 
 
-	private void allocate(CallInfo callInfo) {
+	private void allocate(Map<String, Object> map) {
+		List<QPPosition> qpList = null;
 		System.out.println("하나 뽑아옴");
+		int repeat = (int) map.get("repeat");
+		CallInfo callInfo = (CallInfo) map.get("callInfo");
+		String token = csInfoDao.selectCSDevice(callInfo.getCsId());
+		if(repeat==5) {
+			sendMessage(token, "배차에 실패하였습니다.");
+			callInfo.setDeliveryStatus(-1);
+			callManagementService.updateCall(callInfo);
+			return;
+		}
 		String addrStr = callInfo.getSenderAddress()+" "+callInfo.getSenderAddressDetail();
 		Address addr = addressTransService.getAddress(addrStr);
 		String hCode = addr.gethCode();
 		System.out.println(hCode);
 		if (hCode!=null) {
-			if(qpPositionService==null) System.out.println("이게 널");
 			qpList = qpPositionService.selectQPListByHCode(addr);
 		}else {
 			String bCode = addr.getbCode();
 			qpList = qpPositionService.selectQPListByBCode(addr);
 		}
 		
-		for(QPPosition qp : qpList) {
-			callInfo.setQpId(qp.getQpId());
+		if (qpList.size()!=0) {
+			for(QPPosition qp : qpList) {
+				//callInfo.setQpId(qp.getQpId());
+				//callManagementService.updateCall(callInfo);
+				sendMessage(qp.getConnectToken(), "배차를 받으시겠습니까");
+				
+				try {
+					Thread.sleep(15000);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+				if (callSelectService.selectCallInfo(callInfo.getCallNum()).getQpId()==0) {
+					allocationQueue.offer(callInfo, repeat+1);
+					System.out.println("다시 넣기");
+				}else {
+					sendMessage(token, "배차가 완료되었습니다.");
+					callInfo.setDeliveryStatus(2);
+					callManagementService.updateCall(callInfo);
+					break;
+				}
+			}
+		}else {
+			sendMessage(token, "죄송합니다. 현재는 배차가 불가능합니다.");
+			callInfo.setDeliveryStatus(-1);
 			callManagementService.updateCall(callInfo);
-			break;
-		}
-		if (callInfo.getQpId()==0) {
-			allocationQueue.offer(callInfo);
 		}
 		
 		//구현중
-		
 	}
 	
 	
-	public boolean sendMessage(String token) {
+	public boolean sendMessage(String token, String msg) {
 		 final String apiKey = "AAAAgb88Mhk:APA91bELrdask0S2rSfezDKhemJ7UCcA85f4ZzmiUA-sZfHVPG9QHsuMJJToBFHANZhF1_lqsKDrBtgr4Qx08bXUZHmxn3BqCgzcYaDOevVvOHKYzr1C_Ha7J5DFKq5puwq_PyrJCeCg";
          URL url;
 		try {
@@ -106,7 +148,8 @@ public class AllocationThread {
 			conn.setDoOutput(true);
 			
 			// 이걸로 보내면 특정 토큰을 가지고있는 어플에만 알림을 날려준다  위에 둘중에 한개 골라서 날려주자
-			String input = "{\"notification\" : {\"title\" : \" 콜 알림 \", \"body\" : \""+"string"+"\"}, \"to\":\""+token+"\"}";
+			String input = "{\"notification\" : {\"title\" : \" NexQuick \", \"body\" : \""+""+msg+""+"\"}, \"to\":\""+token+"\"}";
+			System.out.println(input);
 			
 			OutputStream os = conn.getOutputStream();
 			
@@ -129,10 +172,8 @@ public class AllocationThread {
 			}
 			in.close();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-         // print result
 		return true;
 	}
 	

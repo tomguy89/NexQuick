@@ -224,4 +224,24 @@
 		</if>
 	</update>
 	
+
+<!--0612 이은진 추가 2222 -->
+
+
+<select id="findCSIdbyCallNum" parameterType="int" resultType="String"> select csId from callInfo where callNum=#{callNum} </select>
+
+
+<select id="onSpotAdvancePayCall" parameterType="map" resultType="CallInfo">
+select* from callInfo where callNum in 
+<foreach collection="list" item="item" open="(" close=")" separator=","> #{item.callNum} </foreach>
+and payType in (2,3) 
+</select>
+
+
+<update id="payComplete" parameterType="map">
+update callInfo set payStatus=2 where callNum in 
+<foreach collection="list" item="item" open="(" close=")" separator=","> #{item} </foreach>
+
+</update>
+	
 </mapper>

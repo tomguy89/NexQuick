@@ -23,6 +23,10 @@ import org.json.JSONObject;
 public class  LoginActivity extends AppCompatActivity {
 
     private Context context = this;
+
+    //.173 태진, .164 승진
+    private String mainUrl = "http://70.12.109.164:9090/NexQuick/";
+
     String csId;
     String csPassword;
     EditText etLogin;
@@ -106,7 +110,7 @@ public class  LoginActivity extends AppCompatActivity {
 
     private void signIn(){
         // URL 설정. 173 태진햄 / 164 승진
-        String url = "http://70.12.109.164:9090/NexQuick/account/csSignIn.do";
+        String url = mainUrl+"account/csSignIn.do";
 
         ContentValues values = new ContentValues();
         values.put("csId", csId);

@@ -55,5 +55,9 @@ public class CSInfoDAOImpl implements CSInfoDAO {
 		return sqlSession.update("csInfo.lastSignedInDevice", csDevice)>0;
 	}
 
+	@Override
+	public String selectCSDevice(String csId) {
+		return sqlSession.selectOne("csInfo.selectCSDevice", csId);
+	}
 
 }

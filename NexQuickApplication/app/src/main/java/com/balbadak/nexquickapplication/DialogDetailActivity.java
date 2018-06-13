@@ -25,9 +25,11 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 public class DialogDetailActivity extends AppCompatActivity {
+
+    //.173 태진, .164 승진
+    private String mainUrl = "http://70.12.109.164:9090/NexQuick/";
+
     int callNum;
-
-
     int deliveryStatus;
     TextView contents;
     ArrayList<OrderInfo> orderList;
@@ -47,7 +49,7 @@ public class DialogDetailActivity extends AppCompatActivity {
         callNum = intent.getExtras().getInt("callNum");
         deliveryStatus = intent.getExtras().getInt("deliveryStatus");
 
-        String url = "http://70.12.109.173:9090/NexQuick/call/getOrderList.do";
+        String url = mainUrl + "call/getOrderList.do";
 
         ContentValues values = new ContentValues();
         values.put("callNum", callNum);

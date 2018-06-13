@@ -69,15 +69,22 @@
             android:label="@string/title_activity_navigation"
             android:theme="@style/AppTheme.NoActionBar" />
 
+        <activity android:name=".OrderCompleteActivity" />
+
         <activity
             android:name=".SignupActivity"
-            android:label="키생성"
             android:launchMode="singleTop"
             android:theme="@style/DialogTheme" />
         <activity android:name=".KeyHashActivity" />
 
+
+
         <activity
             android:name=".DialogDetailActivity"
+            android:theme="@style/DialogTheme" />
+
+        <activity
+            android:name=".DialogAddressActivity"
             android:theme="@style/DialogTheme" />
 
         <activity

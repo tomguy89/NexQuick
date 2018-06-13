@@ -223,5 +223,22 @@ public class CallInfo {
 	public void setLongitude(double longitude) {
 		this.longitude = longitude;
 	}
+
+
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("CallInfo [callNum=").append(callNum).append(", csId=").append(csId).append(", qpId=")
+				.append(qpId).append(", senderName=").append(senderName).append(", senderAddress=")
+				.append(senderAddress).append(", senderAddressDetail=").append(senderAddressDetail)
+				.append(", senderPhone=").append(senderPhone).append(", vehicleType=").append(vehicleType)
+				.append(", totalPrice=").append(totalPrice).append(", payType=").append(payType).append(", urgent=")
+				.append(urgent).append(", series=").append(series).append(", reserved=").append(reserved)
+				.append(", reservationTime=").append(reservationTime).append(", deliveryStatus=").append(deliveryStatus)
+				.append(", payStatus=").append(payStatus).append(", callTime=").append(callTime).append(", latitude=")
+				.append(latitude).append(", longitude=").append(longitude).append("]");
+		return builder.toString();
+	}
+	
 	
 }

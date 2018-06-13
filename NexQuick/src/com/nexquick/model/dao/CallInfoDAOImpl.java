@@ -115,4 +115,31 @@ public class CallInfoDAOImpl implements CallInfoDAO {
 		sqlSession.update("callInfo.updatePayStatus", list);
 	}
 	
+	
+	
+	
+	//0612 이은진 추가 2222
+	
+	@Override
+	public List<CallInfo> onSpotAdvancePayCall(List<CallInfo> list) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList("callInfo.onSpotAdvancePayCall", list);
+	}
+
+
+
+	@Override
+	public void payComplete(List<Integer> list) {
+		// TODO Auto-generated method stub
+		sqlSession.update("callInfo.payComplete", list);
+	}
+
+	@Override
+	public String findCSIdbyCallNum(int callNum) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("callInfo.findCSIdbyCallNum", callNum);
+	}
+	
+	
+	
 }

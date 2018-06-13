@@ -86,32 +86,71 @@
 
 
                 <Button
-                    android:id="@+id/pay1"
+                    android:id="@+id/payAppCard"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:text="앱에서&#10;지금결제"
+                    android:text="앱에서&#10;카드결제"
                     android:backgroundTint="@color/colorPrimary"
                     android:textColor="#ffffff"
                     android:textSize="25sp"/>
 
                 <Button
-                    android:id="@+id/pay2"
+                    android:id="@+id/paySenderCard"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="발송자&#10;현장결제"
+                    android:text="발송자&#10;현장결제&#10;(카드)"
                     android:backgroundTint="@color/colorPrimary"
 
                     android:textColor="#ffffff"
                     android:textSize="25sp"/>
 
                 <Button
-                    android:id="@+id/pay3"
+                    android:id="@+id/payReceiverCard"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="수령자&#10;현장결제"
+                    android:text="수령자&#10;현장결제&#10;(카드)"
+                    android:backgroundTint="@color/colorPrimary"
+                    android:textColor="#ffffff"
+                    android:textSize="25sp"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+
+                <Button
+                    android:id="@+id/payAppDeposit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="앱에서&#10;입금"
+                    android:backgroundTint="@color/colorPrimary"
+                    android:textColor="#ffffff"
+                    android:textSize="25sp"/>
+
+                <Button
+                    android:id="@+id/paySenderMoney"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="발송자&#10;현장결제&#10;(현금)"
+                    android:backgroundTint="@color/colorPrimary"
+
+                    android:textColor="#ffffff"
+                    android:textSize="25sp"/>
+
+                <Button
+                    android:id="@+id/payReceiverMoney"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="수령자&#10;현장결제&#10;(현금)"
                     android:backgroundTint="@color/colorPrimary"
                     android:textColor="#ffffff"
                     android:textSize="25sp"/>
@@ -120,7 +159,7 @@
 
 
             <Button
-                android:id="@+id/pay4"
+                android:id="@+id/payCredit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="신용결제"

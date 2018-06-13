@@ -3,6 +3,7 @@ package com.nexquick.model.dao;
 import java.util.HashMap;
 import java.util.List;
 
+import com.nexquick.model.vo.CallInfo;
 import com.nexquick.model.vo.OnDelivery;
 import com.nexquick.model.vo.OrderInfo;
 
@@ -68,5 +69,8 @@ public interface OrderInfoDAO {
 	int sumIsGet(int callNum);
 	int countLinkedOrder(int callNum);
 	List<OnDelivery> orderListByQPId(int qpId);
+	
+	//0612이은진 추가222
+	List<CallInfo> onSpotDefferedPayCall(int qpId, int orderNum);
 	
 }

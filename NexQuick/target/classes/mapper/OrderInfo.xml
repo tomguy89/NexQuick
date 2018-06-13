@@ -74,7 +74,7 @@
                           from callInfo
                           where sysdate-callTime > 1)
 	</delete>
-	<!-- 김민규수정 -->
+	
 	<select id="onDeliveryCallList" parameterType="String" resultType="OnDelivery">
 		select c.callNum, orderNum, callTime, senderName, senderAddress, senderAddressDetail, receiverName, receiverAddress, receiverAddressDetail, orderPrice, urgent, deliveryStatus 
 		from orderInfo o, callInfo c
@@ -161,6 +161,12 @@
 		where callNum=#{callNum}
 	</select>
 	
+
+<select id="onSpotDefferedPayCall" parameterType="map" resultType="CallInfo"> 
+select C.callNum,C.csId,C.qpId,c.senderName,c.senderAddress,c.senderAddressDetail,c.senderPhone,c.vehicleType,c.totalPrice,c.payType,c.urgent,c.series,c.reserved,c.reservationTime,c.deliveryStatus,c.payStatus,c.callTime,c.latitude,c.longitude from qpInfo Q, callInfo C, orderInfo O where Q.qpId=C.qpId and C.callNum=O.callNum and O.receiverPhone=( select receiverPhone from orderInfo where orderNum=#{orderNum} ) and Q.qpId=#{qpId} and C.deliveryStatus=3 and payType in (4,5)
+</select>
+
+
 
 </mapper>
 

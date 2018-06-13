@@ -1,4 +1,3 @@
-DROP TABLE CHATINFO;
 DROP TABLE FAVORITEINFO;
 DROP TABLE CSDEVICE;
 DROP TABLE QPACCOUNT;
@@ -206,30 +205,6 @@ ALTER TABLE callinfo
 		CONSTRAINT PK_callinfo
 		PRIMARY KEY (
 			callNum
-		);
-
-/* 채팅 */
-CREATE TABLE chatinfo (
-	csId VARCHAR2(30) NOT NULL, /* csId */
-	chattingFile VARCHAR2(500) /* chattingFile */
-);
-
-COMMENT ON TABLE chatinfo IS '채팅';
-
-COMMENT ON COLUMN chatinfo.csId IS 'csId';
-
-COMMENT ON COLUMN chatinfo.chattingFile IS '이건여쭤보기...';
-
-CREATE UNIQUE INDEX PK_chatinfo
-	ON chatinfo (
-		csId ASC
-	);
-
-ALTER TABLE chatinfo
-	ADD
-		CONSTRAINT PK_chatinfo
-		PRIMARY KEY (
-			csId
 		);
 
 /*고객 기기(푸시알림용) */        
@@ -490,16 +465,6 @@ ALTER TABLE callinfo
 			csId
 		);
 
-ALTER TABLE chatinfo
-	ADD
-		CONSTRAINT FK_csinfo_TO_chatinfo
-		FOREIGN KEY (
-			csId
-		)
-		REFERENCES csinfo (
-			csId
-		);
-
 ALTER TABLE favoriteInfo
 	ADD
 		CONSTRAINT FK_csinfo_TO_FavoriteInfo
@@ -590,9 +555,9 @@ INSERT INTO CSDEVICE VALUES('test', null);
 INSERT INTO CSDEVICE VALUES('1111', null);
 
 INSERT INTO QPINFO VALUES(qpidseq.nextval,'1111','김민규','1111','00000000',1,50000,'0001');
-INSERT INTO QPINFO VALUES(qpidseq.nextval,'1111','이은진','2222','00000012',2,50000,'0002');
-INSERT INTO QPINFO VALUES(qpidseq.nextval,'1111','황태진','3333','01231242',3,99999,'0042');
-INSERT INTO QPINFO VALUES(qpidseq.nextval,'1111','이승진','4444','00321012',1,50000,'0022');
+INSERT INTO QPINFO VALUES(qpidseq.nextval,'2222','이은진','2222','00000012',2,50000,'0002');
+INSERT INTO QPINFO VALUES(qpidseq.nextval,'3333','황태진','3333','01231242',3,99999,'0042');
+INSERT INTO QPINFO VALUES(qpidseq.nextval,'4444','이승진','4444','00321012',1,50000,'0022');
 
 COMMIT;
 

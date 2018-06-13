@@ -130,5 +130,30 @@ public class CallSelectListServiceImpl implements CallSelectListService {
 		callInfoDao.updatePayStatus(list);
 	}
 	
+	//0612 이은진 추가2222
+	@Override
+	public List<CallInfo> onSpotAdvancePayCall(List<CallInfo> list) {
+		// TODO Auto-generated method stub
+		return callInfoDao.onSpotAdvancePayCall(list);
+	}
+
+
+	@Override
+	public void payComplete(List<Integer> list) {
+		callInfoDao.payComplete(list);
+		
+	}
+
+	@Override
+	public String findCSIdbyCallNum(int callNum) {
+		return callInfoDao.findCSIdbyCallNum(callNum);
+	}
+
+	@Override
+	public List<CallInfo> onSpotDefferedPayCall(int qpId, int orderNum) {
+		// TODO Auto-generated method stub
+		return orderInfoDao.onSpotDefferedPayCall(qpId, orderNum);
+	}
+	
 	
 }

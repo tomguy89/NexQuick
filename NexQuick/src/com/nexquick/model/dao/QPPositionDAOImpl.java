@@ -46,6 +46,7 @@ public class QPPositionDAOImpl implements QPPositionDAO {
 	
 	@Override
 	public List<QPPosition> selectQPByHCode(Address addr) {
+		System.out.println(addr.toString());
 		return sqlSession.selectList("qpPosition.selectQPByHCode", addr);
 	}
 

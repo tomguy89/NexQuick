@@ -90,4 +90,13 @@ public interface CallInfoDAO {
 	int selectUnpayedSum(List<Integer> list);
 	void updatePayStatus(List<Integer> list);
 	
+	
+
+	
+	//0612 이은진 추가222
+	List<CallInfo> onSpotAdvancePayCall(List<CallInfo> list);
+
+	void payComplete(List <Integer> list);
+	String findCSIdbyCallNum(int callNum);
+	
 }

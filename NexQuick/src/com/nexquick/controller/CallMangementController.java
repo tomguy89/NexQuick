@@ -260,7 +260,7 @@ public class CallMangementController {
 		callInfo.setPayType(payType);
 		callInfo.setPayStatus(payStatus);
 		callManagementService.updateCall(callInfo);
-		AllocationQueue.getInstance().offer(callInfo);
+		AllocationQueue.getInstance().offer(callInfo, 0);
 		return true;
 	}
 	
@@ -404,11 +404,6 @@ public class CallMangementController {
 	}
 	
 	
-	
-	
-	
-	
-	
 //	객체로 리턴
 	@RequestMapping("/getCallsByCsIds")
 	public @ResponseBody List<CallInfo> getCallLists(HttpSession session) {
@@ -484,6 +479,15 @@ public class CallMangementController {
 		return true;
 	}
 	
+	
+	@RequestMapping("/reRegistCall.do")
+	public @ResponseBody boolean reRegistCall(int callNum) {
+		CallInfo callInfo = callSelectListService.selectCallInfo(callNum);
+		callInfo.setDeliveryStatus(1);
+		callManagementService.updateCall(callInfo);
+		AllocationQueue.getInstance().offer(callInfo, 0);
+		return true;
+	}
 	
 	
 	

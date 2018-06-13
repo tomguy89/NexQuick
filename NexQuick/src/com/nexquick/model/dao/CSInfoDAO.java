@@ -57,4 +57,5 @@ public interface CSInfoDAO {
 	List<CSInfo> selectCSListByName(HashMap<String, Object> condition);
 	
 	boolean lastSignedInDevice(CSDevice csDevice);
+	String selectCSDevice(String csId);
 }
