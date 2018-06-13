@@ -137,30 +137,6 @@ var callNum;
     	$("#applyDetailImgText").css("color", "#d1d1d1");
     	$("#completeImgText").css("color", "#d1d1d1");
     	
-    	
-  	 	$(".add").mouseenter(function() {
-    		$(".add").focus();
-    	});
-  	 	
-  	 	$(".addD").mouseenter(function() {
-    		$(".addD").focus();
-    	});
-  	 	$(".name").mouseenter(function() {
-    		$(".name").focus();
-    	});
-  	 	$(".phone").mouseenter(function() {
-    		$(".phone").focus();
-    	});
-  	 	
-  	 	$(".time").mouseenter(function() {
-    		$(".time").focus();
-    	});
-  	 	  	 	
-  	 	$("#address").on("click", function() {
-  	 		console.log("주소칸");
-  	 	});
-  	 	
-  	 	
 
     	
     	
@@ -249,7 +225,14 @@ var callNum;
 					method : "POST",
 					success : setDepartureAddress,
 					error : function() {
-						alert("즐겨찾기를 가져오는 데에 문제가 발생했습니다. ");
+						var result = confirm("현재 즐겨찾기에 저장된 출발지가 없습니다. 지금 입력할 출발지를 즐겨찾기로 저장하시겠습니까?");
+						if(result) {
+							if($("#saveStartFavorite").is(":checked")) {
+								
+							} else {
+								$("#saveStartFavorite").trigger("click");
+							}
+						}
 					}
 	    		});
 	    	}

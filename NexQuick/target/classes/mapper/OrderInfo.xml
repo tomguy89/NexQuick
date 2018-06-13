@@ -74,13 +74,13 @@
                           from callInfo
                           where sysdate-callTime > 1)
 	</delete>
-	
+	<!-- 김민규수정 -->
 	<select id="onDeliveryCallList" parameterType="String" resultType="OnDelivery">
 		select c.callNum, orderNum, callTime, senderName, senderAddress, senderAddressDetail, receiverName, receiverAddress, receiverAddressDetail, orderPrice, urgent, deliveryStatus 
 		from orderInfo o, callInfo c
 		where c.callNum = o.callNum
 		and csId = #{csId}
-		and deliveryStatus between 1 and 3
+		and deliveryStatus in (-1, 1, 2, 3)
 		and isGet = 0
 		order by callTime
 	</select>

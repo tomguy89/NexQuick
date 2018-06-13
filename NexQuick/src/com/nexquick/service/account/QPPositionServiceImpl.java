@@ -60,5 +60,11 @@ public class QPPositionServiceImpl implements QPPositionService {
 	public boolean accept(int qpId) {
 		return qpPositionDao.accept(qpId);
 	}
+
+//  0613 김민규추가
+	@Override
+	public QPPosition selectQPPositionByCallNum(int qpId) {
+		return qpPositionDao.selectQPPosition(qpId);
+	}
 	
 }

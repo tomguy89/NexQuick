@@ -70,6 +70,7 @@ $(function() {
 		url : "<%= request.getContextPath() %>/list/userCallList.do",
 		dataType : "json",
 		method : "POST",
+		async : false,
 		success : setCallList
 	});
 	
@@ -80,7 +81,6 @@ $(function() {
 });
 
 function setCallList(JSONDocument) {
-	console.log(JSONDocument);
 	$("#tableBody").empty();
 	var deliveryStatus;
 	
@@ -90,7 +90,6 @@ function setCallList(JSONDocument) {
 	for(var i in JSONDocument) {
 		senderAddressArr.push(JSONDocument[i].senderAddress);
 		receiverAddressArr.push(JSONDocument[i].receiverAddress);
-		
 		var className = ".cNum" + JSONDocument[i].callNum;
 		classNameClone = className;
 		switch(JSONDocument[i].deliveryStatus) {
@@ -109,9 +108,12 @@ function setCallList(JSONDocument) {
 		case 4:
 			deliveryStatus = "수령완료";
 			break;
+		default:
+			deliveryStatus = "배차실패";
+			break;
 		}
 		$("#tableBody").append(
-			$("<tr class='row100 body'>")
+			$("<tr class='row100 body callListTr'>")
 			.append(
 				$("<td class='cell100 column1 centerBox makeMarker'>").addClass("callNum" + JSONDocument[i].callNum).attr("id", "tdId"+count).text(JSONDocument[i].orderNum).attr("onclick", "findAddress(this)")
 			).append(
@@ -121,7 +123,7 @@ function setCallList(JSONDocument) {
 			).append(
 				$("<td class='cell100 column4 centerBox'>").text("물품들")
 			).append(
-				$("<td class='cell100 column5 centerBox'>").text(deliveryStatus)
+				$("<td class='cell100 column5 centerBox deliveryStatus'>").text(deliveryStatus).attr("id", "deliveryStatus"+JSONDocument[i].callNum)
 			).append(
 				$("<td class='cell100 column6 centerBox'>").addClass("cNum" + JSONDocument[i].callNum)
 			)
@@ -137,9 +139,6 @@ function setCallList(JSONDocument) {
 			},
 			success : function(resultObj) {
 				$(className).text(resultObj.qpName);
-				console.log(resultObj.qpName);
-				console.log(className);
-				console.log(JSONDocument[i].callNum);
 				$.ajax({
 					url : "<%= request.getContextPath() %>/qpAccount/getQPPosition.do",
 					dataType : "json",
@@ -150,8 +149,7 @@ function setCallList(JSONDocument) {
 					},
 					success : saveQPPosition
 				});
-				
-			}
+			}, error : saveQPPosition
 		});
 		
 		
@@ -162,18 +160,27 @@ function setCallList(JSONDocument) {
 }
 
 function saveQPPosition(JSONDocument) {
-	console.log("saveqp ");
-	qpAddress_lat.push(JSONDocument.qpLatitude);
-	qpAddress_lon.push(JSONDocument.qpLongitude);
-
+	
+	if(typeof(JSONDocument.qpLatitude) == 'undefined') {
+		qpAddress_lat.push(0);
+		qpAddress_lon.push(0);
+	} else {
+		qpAddress_lat.push(JSONDocument.qpLatitude);
+		qpAddress_lon.push(JSONDocument.qpLongitude);
+	}
+	
+	$(".callListTr > td").each(function() {
+		if($(this).text() == '배차실패') {
+			$(this).css("color", "#F43F22");
+			/* 온클릭걸어서 다시신청 or 삭제(리로드하기) */
+		}
+	});
 }
 
 function findAddress(Address) {
 	var index = Address.id.substring(4);
-
 	$("#lat").val(qpAddress_lat[index]);
 	$("#lon").val(qpAddress_lon[index]);
-	
 	$("#senderAddress").val(senderAddressArr[index]);
 	$("#receiverAddress").val(receiverAddressArr[index]);
 	
@@ -361,7 +368,7 @@ function findAddress(Address) {
 									</thead>
 								</table>
 							</div>
-							<div class="table100-body js-pscroll">
+							<div class="table100-body js-pscroll" style = "max-height: 400px!important;">
 								<table class = "table1000">
 									<tbody id = "tableBody">
 									</tbody>

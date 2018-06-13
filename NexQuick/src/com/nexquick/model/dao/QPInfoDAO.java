@@ -60,4 +60,7 @@ public interface QPInfoDAO {
 	//0612 이은진 추가
 	QPInfo selectQPAccountById(int qpId);
 	
+//	0613 김민규 추가
+	QPInfo selectQPByCallNum(int callNum);
+	
 }

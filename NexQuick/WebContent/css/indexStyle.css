@@ -10,6 +10,36 @@
   src: url('../fonts/basicFont_M.otf');
 }
 
+.tdClassBot {
+	width: 50%;
+	text-align: left; 
+	font-size: 8px;
+}
+
+.spanClassBot {
+	background-color: white; 
+	color: #003358; 
+	margin-left: 5px; 
+	margin-right: 5px; 
+	padding: 5px 10px; 
+	border-radius: 20px;
+}
+
+.tdClassUser {
+	width: 50%;
+	text-align: left; 
+	font-size: 8px;
+}
+
+.spanClassUser {
+	background-color: #DAA520; 
+	color: #2f4050; 
+	margin-left: 5px; 
+	margin-right: 5px; 
+	padding: 5px 10px; 
+	border-radius: 20px;
+}
+
 .carousel-item {
 	height: 450px;
 }

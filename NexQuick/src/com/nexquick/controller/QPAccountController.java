@@ -149,4 +149,18 @@ public class QPAccountController {
 		callSelectListService.updatePayStatus(list);
 	}
 	
+	
+	
+//	0613 새로추가
+	@RequestMapping("/getQPByCallNum.do")
+	public @ResponseBody QPPosition qpPositionByCallNum(int callNum) {
+		QPInfo qpInfo = qpAccountService.getQPByCallNum(callNum);
+		int qpId = qpInfo.getQpId();
+		return qpPositionService.selectQPPositionByCallNum(qpId);
+	}
+	
+	
+	
+	
+	
 }

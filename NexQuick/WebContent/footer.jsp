@@ -2,6 +2,28 @@
     pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <!-- footer -->
+
+<iframe style="
+				position: fixed;
+				border-radius: 20px;
+				right: 25px; 
+				bottom: 50px; 
+				width: 350px; 
+				height: 520px; 
+				max-height: 720px; 
+				min-height: 520px; 
+				border: none; 
+				overflow: auto; 
+				z-index: 1000;
+				display : none;" 
+		src = "<%=request.getContextPath()%>/payTest.jsp" id = "iframeChatBot">
+	
+</iframe>
+
+<div style = "position: fixed; right: 25px; bottom: 25px; width: 80px; height: 80px; background-color: #55B296; border-radius: 50%; z-index: 3000" id = "chatBotBox">
+	<img id = "chatBotImg" src = "<%= request.getContextPath() %>/image/index_img/chatting.png" width = "40" height = '40' style = "display : block; margin-top: 20px; margin-left: auto; margin-right: auto;"/>
+</div>
+
 <footer class = "centerBox">
 	<div class = "row">
 		<div class = "col-md-4">

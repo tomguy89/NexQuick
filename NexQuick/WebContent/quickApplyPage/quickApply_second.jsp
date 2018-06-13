@@ -587,23 +587,6 @@ var isUrgent = 1;
 	  			
 	  		});
 	  		
-	  		/* 입력란 마우스오버 이벤트 */
-	  	 	$(".add").mouseenter(function() {
-	    		$(".add").focus();
-	    	});
-	  	 	
-	  	 	$(".addD").mouseenter(function() {
-	    		$(".addD").focus();
-	    	});
-	  	 	$(".name").mouseenter(function() {
-	    		$(".name").focus();
-	    	});
-	  	 	$(".phone").mouseenter(function() {
-	    		$(".phone").focus();
-	    	});
-	  	 	$(".call").mouseenter(function() {
-	    		$(".call").focus();
-	    	});
 	  		
 	  	 	var id;
 	  	 	var real_id;
@@ -621,26 +604,6 @@ var isUrgent = 1;
 	  	 	
 			dataIndex++;
     	}); /* 추가 이벤트처리 끝 */
-    	
-    	
-    	/* 입력란 마우스오버 이벤트 */
-  	 	$(".add").mouseenter(function() {
-    		$(".add").focus();
-    	});
-  	 	
-  	 	$(".addD").mouseenter(function() {
-    		$(".addD").focus();
-    	});
-  	 	$(".name").mouseenter(function() {
-    		$(".name").focus();
-    	});
-  	 	$(".phone").mouseenter(function() {
-    		$(".phone").focus();
-    	});
-  	 	$(".call").mouseenter(function() {
-    		$(".call").focus();
-    	});
-  		
     	
     	
     	

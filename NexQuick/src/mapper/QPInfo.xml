@@ -77,4 +77,20 @@
         select * from qpAccount
         where qpId=#{qpId}
     </select><!-- id로 -->
+    
+	<!--0612 이은진 추가  -->
+     <select id="selectQPInfoByCallNum" parameterType="int" resultType="QPInfo">
+        select 	q.qpId as qpId,
+        		q.qpPassword as qpPassword,
+        		q.qpName as qpName,
+        		q.qpLicense as qpLicense,
+        		q.qpVehicleType as qpVehicleType,
+        		q.qpDeposit as qpDeposit,
+        		q.qpProfile as qpProfile,
+        		q.qpAccount as qpAccount,
+        		q.qpBank as qpBank
+        from 	qpInfo q, callInfo c
+        where 	q.qpId = c.qpId
+        and		c.callNum = #{callNum}
+    </select><!-- id로 -->
  </mapper>

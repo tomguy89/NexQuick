@@ -115,6 +115,9 @@ function setCallList(JSONDocument) {
 		case 4:
 			deliveryStatus = "수령완료";
 			break;
+		default:
+			deliveryStatus = "배차실패";
+			break;
 		}
 
 		$("#tableBody").append(

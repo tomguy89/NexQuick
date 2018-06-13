@@ -52,4 +52,6 @@ public interface QPAccountService {
 	//0612 이은진 추가
 	
 	QPInfo selectQPAccountById(int qpId);
+
+	QPInfo getQPByCallNum(int callNum);
 }

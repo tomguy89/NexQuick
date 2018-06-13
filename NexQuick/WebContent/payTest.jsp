@@ -28,7 +28,6 @@
 	<script src="<%=request.getContextPath() %>/js/datepicker.en.js"></script>
 
 	
-<title>NexQuick :: 관리자 페이지 :: 사용자 관리</title>
 <script type="text/javascript" src = "./js/jquery-3.3.1.min.js"></script>
 <script type="text/javascript">
 var parameters = '';
@@ -90,17 +89,18 @@ $(function() {
 		objData.param_id = param_id;
 		objData.session_id = session_id;
 		$("#tableBody").append(
-			$("<tr style = 'background-color: rgba(0,0,0,0.1)!important;'>")
+			$("<tr style = 'background: transparent!important;'>")
 			.append($("<td style = 'width: 50%;'>").text(""))
 			.append(
-				$("<td style='text-align: right; font-size: 16px;'>")
+				$("<td class = 'tdClassUser'>")
 				.append(
-					$("<span style = 'background-color: #55B296; color: white; margin-right: 35px; padding: 10px 20px; border-radius: 20px;'>").text($("#chatbot").val())
+					$("<div class = 'spanClassUser'>").text($("#chatbot").val())
 				)
 				
 			)
 		);
-		
+		$("#tableBodyDiv").scrollTop($("#tableBodyDiv")[0].scrollHeight);
+
 		
 		$("#chatbot").val("");
 		$("#chatbot").focus();
@@ -139,18 +139,18 @@ function setChatting(JSONDocument) {
 	
 	console.log(JSONDocument);
 	$("#tableBody").append(
-		$("<tr style = 'background-color: rgba(0,0,0,0.1)!important;'>")
+		$("<tr>")
 		.append(
-				$("<td style = 'width: 50%; text-align: left; font-size: 16px;'>")
+				$("<td class = 'tdClassBot'>")
 				.append(
-					$("<span style = 'background-color: #DAA520; color: white; margin-left: 35px; padding: 10px 20px; border-radius: 20px;'>").text(JSONDocument.responseSet.result.result[0].message)
+					$("<div class = 'spanClassBot'>").text(JSONDocument.responseSet.result.result[0].message)
 				)
 		)
 		.append(
 			$("<td style = 'width: 50%;'>")
 		)
 	);
-	
+	$("#tableBodyDiv").scrollTop($("#tableBodyDiv")[0].scrollHeight);
 	
 	console.log(JSONDocument.responseSet.result.result[0].message);
 }
@@ -158,46 +158,27 @@ function setChatting(JSONDocument) {
 
 </script>
 </head>
-<body>
-
-	<h2 class = "centerBox quickFirstTitle mb-5 text-conceptColor">
-		사용자 관리
-	</h2>
+<body style = "background-color: transparent;">
 	
-	
-<!-- 	<div class = "row">
-		<div class = "col-md-6">
-			<div class="group centerBox" style = "width: 20%; float : right;">      
-			    <input class = "inputDesignForDay" type="text" id = "csName"  data-language='en' placeholder = "이름을 입력하세요">
-			    <span class="highlight"></span>
-			    <span class="bar"></span>
-			    <label class = "labelDesignForDay"><i class = "fas fa-street-view"></i>사용자 이름검색</label>
-			</div>
-		</div>
-		<div class = "col-md-6">
-			<button class = "ColorBorder" style = "height: 47px!important ; line-height: 47px!important;" id = "searchBtn">검색하기</button>
-		</div>
-	</div> -->
-	
-	
-	<div class="limiter">
+	<div class="limiter" style = "height: 430px!important;">
 		<div class="container-table100" style = "top:0em!important;">
 			<div class = "table1000">
-				<div class="table100 ver1">
+				<div class="table100 ver1" style = "width:100%!important;">
 					<div class="table100-head">
 				
 						<table class = "table1000">
 							<thead>
 								<tr class="row100 head">
-									<th class="column100 column1 centerBox" style = "width: 50%">NexQuick 챗봇</th>
-									<th class="column100 column2 centerBox" style = "width: 50%">사용자</th>
+									<th class="column100 column1 centerBox" style = "padding-top: 12px; padding-bottom: 12px;" colspan="2">
+										<img src = "<%= request.getContextPath() %>/image/index_img/NexQuickLogo_Nav.png" height = "40" width = "250"/>
+									</th>
 								</tr>
 							</thead>
 						</table>
 					</div>
-					<div class="table100-body js-pscroll">
+					<div id = "tableBodyDiv" class="table100-body js-pscroll"  style = "max-height: 370px!important; height: 370px!important; background-color: rgba(0,0,0,0.2)!important;" >
 						<table class = "table1000">
-							<tbody id = "tableBody" >
+							<tbody id = "tableBody">
 							
 							
 							</tbody>
@@ -207,9 +188,13 @@ function setChatting(JSONDocument) {
 			</div>
 		</div>
 	</div>
-	<div class = "centerBox text-conceptColor mt-5">
-		<input id = "chatbot" type = "text" style = "border : 1px solid black!important;"/>
-		<button id = "sendMessage" type = "button" class = "ColorBorder">전송</button>
+	<div class = "centerBox text-conceptColor row">
+		<div style = "padding: 0px!important; width: 80%;">
+			<textarea placeholder = "챗봇과 대화해보세요." id = "chatbot" type = "text" style = "border : none; width: 100%; resize: none; font-size: 14px; height: 32px;"></textarea>
+		</div>
+		<div style = "padding: 0px!important; width: 20%;">
+			<button id = "sendMessage" type = "button" class = "ColorBorder" style = "width: 100%;height: 32px; line-height:32px;">전송</button>
+		</div>
 	</div>
 <!-- javascript가 여기에 들어가야 작동됨 -->
 <!--===============================================================================================-->

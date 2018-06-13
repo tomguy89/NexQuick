@@ -31,6 +31,17 @@
 					});
 				});
 				
+				
+				$("#chatBotBox").on("click", function() {
+					if($("#iframeChatBot").css("display") == 'none') {
+						$("#chatBotImg").attr("src", "<%= request.getContextPath() %>/image/index_img/close.png");
+						$("#iframeChatBot").slideDown();
+					} else {
+						$("#chatBotImg").attr("src", "<%= request.getContextPath() %>/image/index_img/chatting.png");
+						$("#iframeChatBot").slideUp();
+					}
+				});
+				
 				$("#getModal").on("click", function() {
 					$('#exampleModal_1').modal('toggle');
 				});

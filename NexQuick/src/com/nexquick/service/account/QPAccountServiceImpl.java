@@ -55,5 +55,11 @@ public class QPAccountServiceImpl implements QPAccountService {
 		// TODO Auto-generated method stub
 		return qpInfoDao.selectQPAccountById(qpId);
 	}
+
+//	0613 김민규추가
+	@Override
+	public QPInfo getQPByCallNum(int callNum) {
+		return qpInfoDao.selectQPByCallNum(callNum);
+	}
 	
 }

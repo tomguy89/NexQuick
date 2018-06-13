@@ -21,17 +21,17 @@ public class FavoriteInfoDAOImpl implements FavoriteInfoDAO {
 
 	@Override
 	public boolean updateAddress(FavoriteInfo addressInfo) {
-		return sqlSession.update("favoriteInfo.updateAddress", addressInfo)>0;
+		return sqlSession.update("favoriteInfo.updateFavorite", addressInfo)>0;
 	}
 
 	@Override
 	public boolean deleteAddress(int addId) {
-		return sqlSession.delete("favoriteInfo.updateAddress", addId)>0;
+		return sqlSession.delete("favoriteInfo.deleteFavorite", addId)>0;
 	}
 
 	@Override
 	public FavoriteInfo selectAddress(int addId) {
-		return sqlSession.selectOne("favoriteInfo.selectAddress", addId);
+		return sqlSession.selectOne("favoriteInfo.selectFavorite", addId);
 	}
 
 	@Override

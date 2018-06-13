@@ -18,4 +18,7 @@ public interface QPPositionService {
 	boolean deleteQPPosition(int qpId);
 	boolean decline(int qpId);
 	boolean accept(int qpId);
+
+//	0613 김민규 추가
+	QPPosition selectQPPositionByCallNum(int qpId);
 }

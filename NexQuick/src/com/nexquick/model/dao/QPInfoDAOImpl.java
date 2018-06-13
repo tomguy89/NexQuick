@@ -59,4 +59,10 @@ public class QPInfoDAOImpl implements QPInfoDAO {
 		// TODO Auto-generated method stub
 		return sqlSession.selectOne("qpInfo.selectQPAccountById", qpId);
 	}
+
+//	0613 김민규추가
+	@Override
+	public QPInfo selectQPByCallNum(int callNum) {
+		return sqlSession.selectOne("qpInfo.selectQPInfoByCallNum", callNum);
+	}
 }
