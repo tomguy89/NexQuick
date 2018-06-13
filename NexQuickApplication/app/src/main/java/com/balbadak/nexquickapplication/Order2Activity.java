@@ -359,8 +359,6 @@ public class Order2Activity extends AppCompatActivity implements NavigationView.
                         fValues.put("orderNum", orderNum);
                         SetFreightTask setFreightTask = new SetFreightTask(url, fValues);
                         setFreightTask.execute();
-                        Intent intent = new Intent(context, Order3Activity.class);
-                        startActivity(intent);
                     } else {
                         Log.e("화물 미선택", "화물정보가 없쑝");
                     }
@@ -401,6 +399,9 @@ public class Order2Activity extends AppCompatActivity implements NavigationView.
                 Log.e("SetFreightTask 받아온 것", s);
             }
             Toast.makeText(context, "SetFreightTask", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(context, Order3Activity.class);
+            startActivity(intent);
+
         }
     }
 

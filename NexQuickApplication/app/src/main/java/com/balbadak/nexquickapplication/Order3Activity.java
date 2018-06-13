@@ -37,6 +37,7 @@ public class Order3Activity extends AppCompatActivity implements NavigationView.
 
     //.173 태진, .164 승진
     private String mainUrl = "http://70.12.109.164:9090/NexQuick/";
+    private String payUrl;
     private int totalPrice;
     private ContentValues values;
 
@@ -64,7 +65,7 @@ public class Order3Activity extends AppCompatActivity implements NavigationView.
         });
 
 
-        String url = mainUrl + "appCall/registCall.do";
+        payUrl = mainUrl + "appCall/registCall.do";
         values = new ContentValues();
 
         Button payAppCard = (Button) findViewById(R.id.payAppCard);
@@ -100,6 +101,8 @@ public class Order3Activity extends AppCompatActivity implements NavigationView.
                 values.put("payType", 2);
                 values.put("payStatus", 0);
                 values.put("totalPrice", totalPrice);
+                MainTask mainTask = new MainTask(payUrl, values);
+                mainTask.execute();
                 Intent intent = new Intent(context, OrderCompleteActivity.class);
                 startActivity(intent);
             }
@@ -112,6 +115,8 @@ public class Order3Activity extends AppCompatActivity implements NavigationView.
                 values.put("payType", 3);
                 values.put("payStatus", 0);
                 values.put("totalPrice", totalPrice);
+                MainTask mainTask = new MainTask(payUrl, values);
+                mainTask.execute();
                 Intent intent = new Intent(context, OrderCompleteActivity.class);
                 startActivity(intent);
             }
@@ -124,6 +129,8 @@ public class Order3Activity extends AppCompatActivity implements NavigationView.
                 values.put("payType", 4);
                 values.put("payStatus", 0);
                 values.put("totalPrice", totalPrice);
+                MainTask mainTask = new MainTask(payUrl, values);
+                mainTask.execute();
                 Intent intent = new Intent(context, OrderCompleteActivity.class);
                 startActivity(intent);
             }
@@ -136,6 +143,8 @@ public class Order3Activity extends AppCompatActivity implements NavigationView.
                 values.put("payType", 5);
                 values.put("payStatus", 0);
                 values.put("totalPrice", totalPrice);
+                MainTask mainTask = new MainTask(payUrl, values);
+                mainTask.execute();
                 Intent intent = new Intent(context, OrderCompleteActivity.class);
                 startActivity(intent);
             }
@@ -148,6 +157,8 @@ public class Order3Activity extends AppCompatActivity implements NavigationView.
                 values.put("payType", 6);
                 values.put("payStatus", 0);
                 values.put("totalPrice", totalPrice);
+                MainTask mainTask = new MainTask(payUrl, values);
+                mainTask.execute();
                 Intent intent = new Intent(context, OrderCompleteActivity.class);
                 startActivity(intent);
             }
