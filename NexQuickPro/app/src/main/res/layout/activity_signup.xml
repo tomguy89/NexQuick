@@ -119,7 +119,7 @@
                 android:textStyle="bold" />
 
             <Button
-                android:id="@+id/lisence_button"
+                android:id="@+id/license_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"

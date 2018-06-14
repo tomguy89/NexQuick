@@ -63,4 +63,9 @@ public interface QPInfoDAO {
 //	0613 김민규 추가
 	QPInfo selectQPByCallNum(int callNum);
 	
+	//0614이은진 추가
+	void updateProfile(String qpProfile, String qpPhone);
+
+	void updateLicense(String qpLicense, String qpPhone);
+	
 }

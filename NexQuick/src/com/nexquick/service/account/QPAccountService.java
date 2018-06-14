@@ -54,4 +54,9 @@ public interface QPAccountService {
 	QPInfo selectQPAccountById(int qpId);
 
 	QPInfo getQPByCallNum(int callNum);
+	
+	//0614이은진 추가
+	void updateProfile(String qpProfile, String qpPhone);
+	
+	void updateLicense(String qpLicense, String qpPhone);
 }

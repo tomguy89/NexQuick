@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="457dp"
+        android:text="퀵프로님 인수 화면입니다. 고객님의 휴대폰과 태깅하시면 인수가 확인됩니다.태깅을 할 수 없는 상황에서는 아래의 버튼을 눌러 고객님의 사인을 받아주세요."
+        android:textSize="12dp"
+        />
+
+    <Button
+        android:id="@+id/signBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Button" />
+
+
+</LinearLayout>

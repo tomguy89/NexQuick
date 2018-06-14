@@ -62,4 +62,17 @@ public class QPAccountServiceImpl implements QPAccountService {
 		return qpInfoDao.selectQPByCallNum(callNum);
 	}
 	
+	//0614 이은진 추가
+	@Override
+	public void updateProfile(String qpProfile, String qpPhone) {
+		qpInfoDao.updateProfile(qpProfile, qpPhone);
+		
+	}
+
+	@Override
+	public void updateLicense(String qpLicense, String qpPhone) {
+		// TODO Auto-generated method stub
+		qpInfoDao.updateLicense(qpLicense, qpPhone);
+	}
+	
 }

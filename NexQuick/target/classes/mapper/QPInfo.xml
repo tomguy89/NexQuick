@@ -93,4 +93,19 @@
         where 	q.qpId = c.qpId
         and		c.callNum = #{callNum}
     </select><!-- id로 -->
+    
+      <!-- 0614 이은진 추가 -->
+
+	<update id="updateProfile" parameterType="map">
+		update qpInfo
+		set qpProfile = #{qpProfile}
+		where qpPhone=#{qpPhone}
+	</update>
+
+	<update id="updateLicense" parameterType="String">
+		update qpInfo
+		set qpLicense=#{qpLicense}
+		where qpPhone=#{qpPhone}
+	</update>
+     
  </mapper>

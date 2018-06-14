@@ -65,4 +65,22 @@ public class QPInfoDAOImpl implements QPInfoDAO {
 	public QPInfo selectQPByCallNum(int callNum) {
 		return sqlSession.selectOne("qpInfo.selectQPInfoByCallNum", callNum);
 	}
+	
+	//0614 이은진 추가
+	@Override
+	public void updateProfile(String qpProfile, String qpPhone) {
+		HashMap<String, String> condition = new HashMap<>();
+		condition.put("qpProfile",qpProfile);
+		condition.put("qpPhone", qpPhone);
+		sqlSession.update("qpInfo.updateProfile", condition);
+		
+	}
+
+	@Override
+	public void updateLicense(String qpLicense, String qpPhone) {
+		HashMap<String, String> condition = new HashMap<>();
+		condition.put("qpLicense",qpLicense);
+		condition.put("qpPhone", qpPhone);
+		sqlSession.update("qpInfo.updateLicense", condition);
+	}
 }

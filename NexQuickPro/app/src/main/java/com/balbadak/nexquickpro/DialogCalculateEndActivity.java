@@ -14,7 +14,7 @@ import com.tsengvn.typekit.TypekitContextWrapper;
 
 public class DialogCalculateEndActivity extends AppCompatActivity {
 
-
+    TextView tv;
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(TypekitContextWrapper.wrap(newBase));
@@ -29,6 +29,11 @@ public class DialogCalculateEndActivity extends AppCompatActivity {
         Button continueBtn = findViewById(R.id.continueBtn);
         Button leaveWorkBtn = findViewById(R.id.leaveWorkBtn);
 
+        Intent gotIntent = getIntent();
+
+
+        tv = findViewById(R.id.quick_allocate_contents);
+        tv.setText(gotIntent.getStringExtra("qpBank")+" "+ gotIntent.getStringExtra("qpAccount")+"로 "+  gotIntent.getIntExtra("money",0)+"원이 입금되었습니다.");
 
         cancelBtn.setOnClickListener(new View.OnClickListener() {
                                          @Override

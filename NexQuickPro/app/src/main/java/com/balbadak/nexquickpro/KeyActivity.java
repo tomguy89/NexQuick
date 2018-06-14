@@ -13,12 +13,15 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TableLayout;
+import android.widget.Toast;
 
 import com.tsengvn.typekit.TypekitContextWrapper;
 
 public class KeyActivity extends AppCompatActivity {
 
     Context ctx = this;
+    LinearLayout ll1;
+    MyView m;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,7 +30,7 @@ public class KeyActivity extends AppCompatActivity {
         LinearLayout ll = new LinearLayout(this);// 메인 컨테이너
         ll.setOrientation(LinearLayout.VERTICAL);
 
-        LinearLayout ll1 = new LinearLayout(this);// 캔버스가 담길 레이아웃
+        ll1 = new LinearLayout(this);// 캔버스가 담길 레이아웃
         ll1.setOrientation(LinearLayout.VERTICAL);
 
         LinearLayout ll2 = new LinearLayout(this); // 버튼이 담길 레이아웃
@@ -35,7 +38,7 @@ public class KeyActivity extends AppCompatActivity {
 
         ll1.setBackgroundColor(Color.WHITE); // 캔버스 바탕
 
-        MyView m = new MyView(ctx); // 커스텀 캔버스
+        m = new MyView(ctx); // 커스텀 캔버스
 
         ll1.addView(m); // 리니어레이아웃에 포함시킴
 
@@ -60,7 +63,8 @@ public class KeyActivity extends AppCompatActivity {
         submitBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Toast.makeText(getApplicationContext(),"저장되었습니다.",Toast.LENGTH_SHORT).show();
+                //이거 하고 어느 액티비티로 이동해야할까....? 다시 그 상세보기 있는 그 액티비티로?
             }
         });
 
@@ -68,7 +72,10 @@ public class KeyActivity extends AppCompatActivity {
         clearBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                ll1.removeAllViews();
+                m = new MyView(ctx); // 커스텀 캔버스
+                m.setDrawingCacheEnabled(true);
+                ll1.addView(m);
             }
         });
 

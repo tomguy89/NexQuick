@@ -1,15 +1,22 @@
 package com.nexquick.controller;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.nexquick.System.UploadPath;
 import com.nexquick.model.vo.CSInfo;
 import com.nexquick.model.vo.CallInfo;
 import com.nexquick.model.vo.QPInfo;
@@ -159,8 +166,122 @@ public class QPAccountController {
 		return qpPositionService.selectQPPositionByCallNum(qpId);
 	}
 	
+	//0614 이은진 추가 (사진 업로드 부분) 위에 signup 부분도.. 수정했음!
 	
 	
+	
+	
+	@RequestMapping(value="/uploadPicture.do", method=RequestMethod.POST)
+	public ResponseEntity<String> uploadP(HttpServletRequest request, MultipartFile file1,String StringParameter1){
+		
+		ResponseEntity<String> entity=null;
+		
+	
+		String UPLOAD_PATH="uploadPicture/picture/";
+		
+		System.out.println("uploadPicture.do에 들어왔다.");
+		
+		
+		System.out.println("스트링 파라매터가 들어왔다 : "+StringParameter1);
+		
+		try{
+		
+	//		UploadPath.attach_path=UPLOAD_PATH;
+			String path =UploadPath.path(request);
+			String fileName="driverPicture"+StringParameter1+".jpg";
+			
+			System.out.println("path는"+path);
+			System.out.println("fileName은"+fileName);
+			
+			
+			//photoNum++;  //이 photoNum은 signup.do에서 업로드되게하쟈....
+			
+			if(!file1.isEmpty()){ //첨부파일이 존재하면
+				//첨부파일의 이름
+			//	fileName=file1.getOriginalFilename();
+				try{
+					//디렉토리 생성
+					new File(path).mkdir();
+					
+					//지정된 업로드 경로로 저장됨
+					file1.transferTo(new File(path+fileName));
+					
+					System.out.println("최종 : "+path+fileName);
+					
+					
+					entity=new ResponseEntity<String>("success", HttpStatus.OK);
+					
+					qpAccountService.updateProfile(fileName, StringParameter1);
+					
+					
+				}catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+			
+			
+		}catch(Exception e){
+			e.printStackTrace();
+			entity=new ResponseEntity<String>("fail", HttpStatus.BAD_REQUEST);
+		}
+
+		
+		return entity;
+	}
+	
+	
+	
+	@RequestMapping(value="/uploadLicense.do", method=RequestMethod.POST)
+	public ResponseEntity<String> uploadL(HttpServletRequest request, MultipartFile file1,String StringParameter1){
+		
+		ResponseEntity<String> entity=null;
+		
+		System.out.println("uploadLicense.do에 들어왔다.");
+		
+		String UPLOAD_PATH="uploadPicture/license/";
+		
+		System.out.println("스트링 파라매터가 들어왔다 : "+StringParameter1);
+		
+		try{
+		
+	//		UploadPath.attach_path=UPLOAD_PATH;
+			String path =UploadPath.path(request);
+			String fileName="driverLicense"+StringParameter1+".jpg";
+			
+			System.out.println("path는"+path);
+			System.out.println("fileName은"+fileName);
+			
+			
+			//photoNum++;  //이 photoNum은 signup.do에서 업로드되게하쟈....
+			
+			if(!file1.isEmpty()){ //첨부파일이 존재하면
+				//첨부파일의 이름
+			//	fileName=file1.getOriginalFilename();
+				try{
+					//디렉토리 생성
+					new File(path).mkdir();
+					
+					//지정된 업로드 경로로 저장됨
+					file1.transferTo(new File(path+fileName));
+					System.out.println("최종 : "+path+fileName);
+					
+					entity=new ResponseEntity<String>("success", HttpStatus.OK);
+					qpAccountService.updateLicense(fileName, StringParameter1);
+					
+					
+				}catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+			
+			
+		}catch(Exception e){
+			e.printStackTrace();
+			entity=new ResponseEntity<String>("fail", HttpStatus.BAD_REQUEST);
+		}
+		return entity;
+	}
+		
 	
 	
 }

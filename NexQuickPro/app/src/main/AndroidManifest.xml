@@ -9,6 +9,12 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.NFC" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-feature android:name="android.hardware.camera" />
+    <uses-feature android:name="android.hardware.camera.autofocus" />
 
     <application
         android:name=".CustomStartApp"
@@ -61,11 +67,21 @@
             android:theme="@style/DialogTheme" />
         <!-- // 다이얼로그 액티비티-->
 
-
         <activity
             android:name=".SignupActivity"
             android:label="@string/title_activity_signup"
             android:theme="@style/DialogTheme" />
+
+        <activity
+            android:name=".SPayCheckActivity"
+            android:theme="@style/DialogTheme" />
+        <activity
+            android:name=".RPayCheckActivity"
+            android:theme="@style/DialogTheme" />
+        <!-- // 다이얼로그 액티비티 -->
+        <activity android:name=".QPBeamSActivity"></activity>
+        <activity android:name=".QPBeamRActivity"></activity>
+
 
 
         <!-- 2018-06-10 firebase cloud messaging -->
@@ -80,6 +96,7 @@
             </intent-filter>
         </service>
         <service android:name=".LocationService" android:exported="true" android:enabled="true"/>
+
 
 
     </application>

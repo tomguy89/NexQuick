@@ -562,10 +562,10 @@ INSERT INTO QPINFO VALUES(qpidseq.nextval,'4444','ÀÌ½ÂÁø','4444','00321012',1,50
 COMMIT;
 
 
---
+
 --select c.callNum, o.orderNum, callTime, senderName, senderAddress, senderAddressDetail, receiverName, receiverAddress, receiverAddressDetail, orderPrice, urgent, deliveryStatus, freightList
 --from orderInfo o, callInfo c, (SELECT LISTAGG(aa, ',') WITHIN GROUP (order by ordernum) AS freightList, ordernum
---                                FROM   (select freightName||' '|| freightQuant as aa, ordernum
+--                               FROM   (select freightName||' '|| freightQuant as aa, ordernum
 --                                        from priceInfo p, freightInfo f
 --                                        where p.freightType = f.freightType
 --                                        )
@@ -573,10 +573,10 @@ COMMIT;
 --where isGet = 0
 --and o.ordernum = x.ordernum(+)
 --and o.callNum = c.callNum
---and qpId = 4
+--and c.callNum = 4
 --order by callTime;
---
---
+
+
 --select p.qpId, qpstatus, nvl(now, 0) now
 --from qpPosition p, (select count(*) as now, qpId
 --                    from orderInfo o, callInfo c
