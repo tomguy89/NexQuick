@@ -496,5 +496,62 @@ public class CallMangementController {
 	}
 	
 	
+	// 0614 김민규 추가. 웹 전용 오더 추가.(현재 오더가 있으면 업데이트로 보내는 것)
+    @RequestMapping("/addOrderAndUpdate.do")
+    public @ResponseBody OrderInfo addOrder(HttpSession session,
+            String receiverName, String receiverAddress, String receiverAddressDetail, String receiverPhone, String memo, int dataIndex) {
+        
+        //세션에서 현재 받고있는 콜 넘버 가져오기
+        int callNum = (int)session.getAttribute("callNum");
+        int totalPrice = (int)session.getAttribute("totalPrice");
+        //입력 받은 주문 정보 생성
+        CallInfo callInfo = callSelectListService.selectCallInfo(callNum);
+        Address sendAddr = addressTransService.getAddress(callInfo.getSenderAddress());
+        Address recvAddr = addressTransService.getAddress(receiverAddress);
+        Map<String, Object> point = new LinkedHashMap<>();
+        point.put("startX", sendAddr.getLongitude());
+        point.put("startY", sendAddr.getLatitude());
+        point.put("endX", recvAddr.getLongitude());
+        point.put("endY", recvAddr.getLatitude());
+        double distance = distanceCheckService.singleDistanceCheck(point);
+        int price = pricingService.proportionalPrice(distance);
+        OrderInfo orderInfo = new OrderInfo(callNum, receiverName, receiverAddress, receiverAddressDetail, receiverPhone, memo, price, distance, Double.parseDouble(recvAddr.getLatitude()), Double.parseDouble(recvAddr.getLongitude()));
+        totalPrice += price;
+        session.setAttribute("totalPrice", totalPrice);
+        
+
+        HashMap<Integer, Integer> map = (HashMap<Integer, Integer>) session.getAttribute("orderMap");
+        if(map == null) { // 널일때 = 오더가 저장된 것이 없음 = 새로만듬
+            callManagementService.addOrder(orderInfo);    
+        } else {
+            if(map.get(dataIndex) == null) { // 널은 아니지만 현재 저장된 키에 오더번호가 없을 경우 = 새로만듬
+                callManagementService.addOrder(orderInfo);
+            } else { // 키도 있고 오더번호도 있을 때 = 업데이트
+                orderInfo.setOrderNum(map.get(dataIndex));
+                callManagementService.updateOrder(orderInfo);
+            }
+        }
+        return orderInfo;
+    }
+    
+    @RequestMapping("/saveMap.do")
+    public @ResponseBody boolean saveMap(HttpSession session, int dataIndex, int orderNum) {
+        HashMap<Integer, Integer> map = (HashMap<Integer, Integer>) session.getAttribute("orderMap");
+        if(map == null) {
+            map = new HashMap<>();
+        } 
+        map.put(dataIndex, orderNum);
+        session.setAttribute("orderMap", map);
+        return true;
+    }
+    
+    
+	// 0614추가
+	@RequestMapping("/orderMapCheck.do")
+	public @ResponseBody boolean deleteOrderMap(HttpSession session) {
+		session.removeAttribute("orderMap");
+		return true;
+	}
+    
 	
 }

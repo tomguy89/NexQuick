@@ -68,6 +68,13 @@ public class CSAccountController {
 		return true;
 	}
 	
+	@RequestMapping("/signAppOut.do")
+	public @ResponseBody boolean signOut(String csId, String token) {
+		if(token!=null && token.trim().length() != 0) csAccountService.deleteDeviceInfo(csId);
+		return true;
+	}
+	
+	
 	/**
 	 * 신규 고객 가입 처리
 	 * contextPath/account/csSignUp.do

@@ -60,4 +60,9 @@ public class CSInfoDAOImpl implements CSInfoDAO {
 		return sqlSession.selectOne("csInfo.selectCSDevice", csId);
 	}
 
+	@Override
+	public void deleteDeviceInfo(String csId) {
+		sqlSession.update("csInfo.deleteDeviceInfo", csId);
+	}
+
 }

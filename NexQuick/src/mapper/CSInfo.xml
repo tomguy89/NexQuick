@@ -88,7 +88,7 @@
 	
 	<update id="lastSignedInDevice" parameterType="CSDevice">
 		update csdevice
-		set csToken=#{csToken},
+		set csToken=#{csToken}
 		where csId=#{csId}
 	</update>
 	
@@ -96,5 +96,11 @@
 		select cstoken from csdevice
 		where csId=#{csId}
 	</select>
+	
+	<update id="deleteDeviceInfo" parameterType="String">
+ 		update csdevice
+ 		set csToken = null
+ 		where csId=#{csId}
+ 	</update>
 
 </mapper>

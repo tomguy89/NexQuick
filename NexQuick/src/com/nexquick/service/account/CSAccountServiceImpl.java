@@ -19,7 +19,7 @@ public class CSAccountServiceImpl implements CSAccountService {
 		CSInfo csInfo = csInfoDao.selectCS(csId);
 		if(csInfo!=null) {
 			if(csInfo.getCsPassword().equals(csPassword)) {
-				if(token!=null) {
+				if(token!=null && token.trim().length() != 0) {
 					csInfoDao.lastSignedInDevice(new CSDevice(csId, token));
 				}
 				return csInfo;
@@ -51,6 +51,11 @@ public class CSAccountServiceImpl implements CSAccountService {
 	@Override
 	public List<CSInfo> csAllListByName(HashMap<String, Object> condition) {
 		return csInfoDao.selectCSListByName(condition);
+	}
+
+	@Override
+	public void deleteDeviceInfo(String csId) {
+		csInfoDao.deleteDeviceInfo(csId);
 	}
 	
 	

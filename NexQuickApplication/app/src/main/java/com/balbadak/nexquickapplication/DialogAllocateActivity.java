@@ -26,11 +26,11 @@ import java.util.ArrayList;
 public class DialogAllocateActivity extends AppCompatActivity {
 
     //.173 태진, .164 승진
-    private String mainUrl = "http://70.12.109.164:9090/NexQuick/";
+    private String mainUrl = "http://70.12.109.173:9090/NexQuick/";
     Context context;
 
     int callNum;
-    String status;
+    String req;
 
     Button alloCancelBtn;
     Button alloRetryBtn;
@@ -58,26 +58,23 @@ public class DialogAllocateActivity extends AppCompatActivity {
         Intent intent = getIntent();
 
         String message = intent.getStringExtra("message");
-        for (int i = message.length() - 1; i >= 0; i--) {
-            if (message.charAt(i) == '@') {
-                status = message.charAt(0) +""; // 배차 성공인지 실패인지 보내주는 스트링
-                callNum = Integer.parseInt(message.substring(i + 1)); //콜넘을 보내주는 스트링
-                message = message.substring(1, i); // 주요 메시지를 보내는 스트링
+        for (int i = 0; i < message.length(); i++) {
+            if (message.charAt(i) == '번') {
+                callNum = Integer.parseInt(message.substring(0, i));
                 break;
             }
         }
 
-        if (status.equals("S")) {
+        if (message.contains("완료")) {
             alloStatusTv.setText("배차 완료");
             alloContentsTv.setText(message); // 배차 알림 관련 설명 넣기
             alloMapBtn.setVisibility(View.VISIBLE); // 기사님 위치 맵 띄움
 
 
-        } else if (status.equals("F")) {
+        } else {
             alloStatusTv.setText("배차 실패");
             alloContentsTv.setText(message); // 배차 알림 관련 설명 넣기
             alloRetryBtn.setVisibility(View.VISIBLE); // 재배차 요청 버튼 띄움
-
         }
 
 
@@ -85,14 +82,14 @@ public class DialogAllocateActivity extends AppCompatActivity {
         alloCancelBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String url = mainUrl + "appCall/reRegistCall.do";
+                String url = mainUrl + "appCall/cancelCall.do";
                 ContentValues values = new ContentValues();
                 values.put("callNum", callNum);
+                req = "cancelCall";
                 // AsyncTask를 통해 HttpURLConnection 수행.
                 MainTask mainTask = new MainTask(url, values);
                 mainTask.execute();
-                Toast.makeText(context, "퀵 취소요청을 보냈습니다", Toast.LENGTH_SHORT).show();
-
+                finish();
             }
         });
 
@@ -102,15 +99,14 @@ public class DialogAllocateActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                String url = mainUrl + "appCall/cancelCall.do";
-
+                String url = mainUrl + "appCall/reRegistCall.do";
                 ContentValues values = new ContentValues();
                 values.put("callNum", callNum);
                 // AsyncTask를 통해 HttpURLConnection 수행.
+                req = "reRegistCall";
                 MainTask mainTask = new MainTask(url, values);
                 mainTask.execute();
-                Toast.makeText(context, "재배차 요청을 보냈습니다", Toast.LENGTH_SHORT).show();
-
+                finish();
             }
         });
 
@@ -122,16 +118,13 @@ public class DialogAllocateActivity extends AppCompatActivity {
 
             }
         });
-
         ImageButton cancelBtn = (ImageButton) findViewById(R.id.dialogCancelBtn);
-
         cancelBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
             }
         });
-
 
     }
 
@@ -167,11 +160,13 @@ public class DialogAllocateActivity extends AppCompatActivity {
             super.onPostExecute(s);
 
             Log.e("받아온 것", s);
-            if (s != null) {
-
-
+            if (s.equals("true")) {
+                if(req.equals("cancelCall")) {
+                    Toast.makeText(context, "콜 요청이 취소됐습니다.", Toast.LENGTH_SHORT).show();
+                }else if(req.equals("reRegistCall")){
+                    Toast.makeText(context, "배차를 재요청 했습니다.", Toast.LENGTH_SHORT).show();
+                }
             }
-
         }
     }
 

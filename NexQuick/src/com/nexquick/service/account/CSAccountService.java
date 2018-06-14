@@ -49,5 +49,7 @@ public interface CSAccountService {
 	List<CSInfo> csAllList();
 
 	List<CSInfo> csAllListByName(HashMap<String, Object> condition);
+
+	void deleteDeviceInfo(String csId);
 	
 }

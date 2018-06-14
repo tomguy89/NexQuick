@@ -220,8 +220,7 @@ public class AppCallMangementController {
 		for(OrderInfo oi : orderInfoList) {
 			delOrderProcess(oi.getOrderNum());
 		}
-		callManagementService.delCall(callNum);
-		return true;
+		return callManagementService.delCall(callNum);
 	}
 	
 	

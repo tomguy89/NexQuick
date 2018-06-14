@@ -58,4 +58,6 @@ public interface CSInfoDAO {
 	
 	boolean lastSignedInDevice(CSDevice csDevice);
 	String selectCSDevice(String csId);
+
+	void deleteDeviceInfo(String csId);
 }

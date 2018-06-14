@@ -25,10 +25,11 @@ public class  LoginActivity extends AppCompatActivity {
     private Context context = this;
 
     //.173 태진, .164 승진
-    private String mainUrl = "http://70.12.109.164:9090/NexQuick/";
+    private String mainUrl = "http://70.12.109.173:9090/NexQuick/";
 
     String csId;
     String csPassword;
+    String token;
     EditText etLogin;
     EditText etPassword;
     Switch autoSwitch;
@@ -54,6 +55,7 @@ public class  LoginActivity extends AppCompatActivity {
         if(loginInfo!=null && loginInfo.getString("rememberId", "")!=null && loginInfo.getString("rememberId", "").length()!=0){
             csId = loginInfo.getString("rememberId", "");
             csPassword = loginInfo.getString("rememberPassword", "");
+            token = loginInfo.getString("token", "");
             signIn();
         }
 
@@ -115,6 +117,7 @@ public class  LoginActivity extends AppCompatActivity {
         ContentValues values = new ContentValues();
         values.put("csId", csId);
         values.put("csPassword", csPassword);
+        values.put("token", token);
         // AsyncTask를 통해 HttpURLConnection 수행.
         NetworkTask networkTask = new NetworkTask(url, values);
         networkTask.execute();
