@@ -151,8 +151,12 @@ public class CallSelectListServiceImpl implements CallSelectListService {
 
 	@Override
 	public List<CallInfo> onSpotDefferedPayCall(int qpId, int orderNum) {
-		// TODO Auto-generated method stub
 		return orderInfoDao.onSpotDefferedPayCall(qpId, orderNum);
+	}
+
+	@Override
+	public List<OnDelivery> orderListByCallNum(int callNum) {
+		return orderInfoDao.orderListByCallNum(callNum);
 	}
 	
 	

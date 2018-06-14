@@ -75,7 +75,6 @@ public class DialogDetailActivity extends AppCompatActivity {
         chatBotBtn = (Button) findViewById(R.id.quickCancelBtn);
         mapBtn = (Button) findViewById(R.id.mapBtn);
 
-
         switch (deliveryStatus) {
 
             case 1:

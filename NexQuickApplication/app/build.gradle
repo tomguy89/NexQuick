@@ -39,4 +39,14 @@ dependencies {
     api 'com.github.katoro:typekit:1.0.1'
     api 'com.mcxiaoke.volley:library:1.0.18'
 
+    //2018-06-14 TJ / firebase
+    implementation 'com.google.firebase:firebase-core:15.0.2'
+    implementation 'com.google.firebase:firebase-messaging:15.0.2'
+    implementation 'com.squareup.okhttp3:okhttp:3.2.0'
+
+    //end firebase
+
 }
+//2018-06-14 TJ / firebase
+apply plugin: 'com.google.gms.google-services'
+//end firebase

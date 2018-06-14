@@ -59,7 +59,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private int onWork;
     TextView nav_header_title;
     TextView nav_header_contents;
-    android.support.v7.widget.SwitchCompat onWorkSwitch;
+    Switch onWorkSwitch;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -175,6 +175,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         nav_header_title.setText(qpName+" 퀵프로님");
 
 
+        onWorkSwitch = (Switch) nav_header_view.findViewById(R.id.onWorkSwitch);
 
         if(onWork == 0) {
             //퇴근상태이면 들어갈 각종 디폴트 상황들, oncreat에서만 로딩됨
@@ -189,7 +190,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
 
 
-        onWorkSwitch = (android.support.v7.widget.SwitchCompat) nav_header_view.findViewById(R.id.onWorkSwitch);
 
         onWorkSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 

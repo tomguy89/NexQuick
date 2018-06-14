@@ -22,6 +22,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.annotation.SuppressLint;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.tsengvn.typekit.TypekitContextWrapper;
@@ -39,6 +41,7 @@ public class Order3Activity extends AppCompatActivity implements NavigationView.
     private String mainUrl = "http://70.12.109.164:9090/NexQuick/";
     private String payUrl;
     private int totalPrice;
+    private int callNum;
     private ContentValues values;
 
     @Override
@@ -51,16 +54,19 @@ public class Order3Activity extends AppCompatActivity implements NavigationView.
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_neworder3);
-        quickInfo = getSharedPreferences("quickInfo", 0);
+        quickInfo = getSharedPreferences("setting", 0);
         totalPrice = quickInfo.getInt("totalPrice", 0);
+        callNum = quickInfo.getInt("callNum", 0);
 
+        TextView tvTotalPrice = (TextView) findViewById(R.id.totalPrice);
         Button prevBtn = (Button) findViewById(R.id.prev2p);
+
+        tvTotalPrice.setText(totalPrice +"원");
 
         prevBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, Order2Activity.class);
-                startActivity(intent);
+                finish();
             }
         });
 
@@ -97,10 +103,11 @@ public class Order3Activity extends AppCompatActivity implements NavigationView.
         paySenderCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                values.put("deliveryStatus", 1);
+
                 values.put("payType", 2);
                 values.put("payStatus", 0);
                 values.put("totalPrice", totalPrice);
+                values.put("callNum", callNum);
                 MainTask mainTask = new MainTask(payUrl, values);
                 mainTask.execute();
                 Intent intent = new Intent(context, OrderCompleteActivity.class);
@@ -111,10 +118,11 @@ public class Order3Activity extends AppCompatActivity implements NavigationView.
         paySenderMoney.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                values.put("deliveryStatus", 1);
+
                 values.put("payType", 3);
                 values.put("payStatus", 0);
                 values.put("totalPrice", totalPrice);
+                values.put("callNum", callNum);
                 MainTask mainTask = new MainTask(payUrl, values);
                 mainTask.execute();
                 Intent intent = new Intent(context, OrderCompleteActivity.class);
@@ -125,10 +133,11 @@ public class Order3Activity extends AppCompatActivity implements NavigationView.
         payReceiverCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                values.put("deliveryStatus", 1);
+
                 values.put("payType", 4);
                 values.put("payStatus", 0);
                 values.put("totalPrice", totalPrice);
+                values.put("callNum", callNum);
                 MainTask mainTask = new MainTask(payUrl, values);
                 mainTask.execute();
                 Intent intent = new Intent(context, OrderCompleteActivity.class);
@@ -139,10 +148,11 @@ public class Order3Activity extends AppCompatActivity implements NavigationView.
         payReceiverMoney.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                values.put("deliveryStatus", 1);
+
                 values.put("payType", 5);
                 values.put("payStatus", 0);
                 values.put("totalPrice", totalPrice);
+                values.put("callNum", callNum);
                 MainTask mainTask = new MainTask(payUrl, values);
                 mainTask.execute();
                 Intent intent = new Intent(context, OrderCompleteActivity.class);
@@ -153,10 +163,11 @@ public class Order3Activity extends AppCompatActivity implements NavigationView.
         payCredit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                values.put("deliveryStatus", 1);
+
                 values.put("payType", 6);
                 values.put("payStatus", 0);
                 values.put("totalPrice", totalPrice);
+                values.put("callNum", callNum);
                 MainTask mainTask = new MainTask(payUrl, values);
                 mainTask.execute();
                 Intent intent = new Intent(context, OrderCompleteActivity.class);

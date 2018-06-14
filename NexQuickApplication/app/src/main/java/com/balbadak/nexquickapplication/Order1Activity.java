@@ -173,7 +173,7 @@ public class Order1Activity extends AppCompatActivity implements NavigationView.
                     setCallTask.execute();
                     Intent intent = new Intent(context, Order2Activity.class);
                     startActivity(intent);
-                    finish();
+
 
                 } else {
                     values.clear();
@@ -439,6 +439,7 @@ public class Order1Activity extends AppCompatActivity implements NavigationView.
                         int callNum = data.getInt("callNum");
                         SharedPreferences.Editor ed = loginInfo.edit();
                         ed.putInt("callNum", callNum);
+                        ed.putInt("totalPrice", 0);
                         ed.commit();
                         Log.e("callNum", callNum + "!");
 

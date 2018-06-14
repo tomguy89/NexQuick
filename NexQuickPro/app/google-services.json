@@ -1,31 +1,31 @@
 {
   "project_info": {
-    "project_number": "557259174425",
-    "firebase_url": "https://nexquick-12685.firebaseio.com",
-    "project_id": "nexquick-12685",
-    "storage_bucket": "nexquick-12685.appspot.com"
+    "project_number": "724975441592",
+    "firebase_url": "https://nexquick-cdbf9.firebaseio.com",
+    "project_id": "nexquick-cdbf9",
+    "storage_bucket": "nexquick-cdbf9.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:557259174425:android:8dce3d4ad52ffcc4",
+        "mobilesdk_app_id": "1:724975441592:android:8dce3d4ad52ffcc4",
         "android_client_info": {
           "package_name": "com.balbadak.nexquickpro"
         }
       },
       "oauth_client": [
         {
-          "client_id": "557259174425-ilfv4m4muctfdg5vgt9blr6li56jbina.apps.googleusercontent.com",
+          "client_id": "724975441592-qtad8prtrlj0umjtt0hb87eo4fgkg1eh.apps.googleusercontent.com",
           "client_type": 3
         },
         {
-          "client_id": "557259174425-ilfv4m4muctfdg5vgt9blr6li56jbina.apps.googleusercontent.com",
+          "client_id": "724975441592-qtad8prtrlj0umjtt0hb87eo4fgkg1eh.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBziiGtFn_gfkhfF60C6bNB13527N7FBU0"
+          "current_key": "AIzaSyDxktFL1DyAixX9AuquavRIfg4jrDbkM_g"
         }
       ],
       "services": {

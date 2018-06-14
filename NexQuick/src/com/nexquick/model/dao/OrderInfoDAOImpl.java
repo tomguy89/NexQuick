@@ -103,5 +103,10 @@ public class OrderInfoDAOImpl implements OrderInfoDAO {
 		condition.put("orderNum", orderNum);
 		return sqlSession.selectList("orderInfo.onSpotDefferedPayCall", condition);
 	}
+
+	@Override
+	public List<OnDelivery> orderListByCallNum(int callNum) {
+		return sqlSession.selectList("orderInfo.orderListByCallNum", callNum);
+	}
 	
 }

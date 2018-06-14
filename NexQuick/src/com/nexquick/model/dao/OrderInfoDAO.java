@@ -72,5 +72,6 @@ public interface OrderInfoDAO {
 	
 	//0612이은진 추가222
 	List<CallInfo> onSpotDefferedPayCall(int qpId, int orderNum);
+	List<OnDelivery> orderListByCallNum(int callNum);
 	
 }
