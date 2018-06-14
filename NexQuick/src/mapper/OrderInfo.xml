@@ -181,6 +181,29 @@
 select C.callNum,C.csId,C.qpId,c.senderName,c.senderAddress,c.senderAddressDetail,c.senderPhone,c.vehicleType,c.totalPrice,c.payType,c.urgent,c.series,c.reserved,c.reservationTime,c.deliveryStatus,c.payStatus,c.callTime,c.latitude,c.longitude from qpInfo Q, callInfo C, orderInfo O where Q.qpId=C.qpId and C.callNum=O.callNum and O.receiverPhone=( select receiverPhone from orderInfo where orderNum=#{orderNum} ) and Q.qpId=#{qpId} and C.deliveryStatus=3 and payType in (4,5)
 </select>
 
+<!-- 0614 김민규 추가 - 리스트로 불러오기 -->
+<select id="getFreightListByOrderNum" parameterType="int" resultType="OnDelivery"> 
+	select 	o.orderNum as orderNum,
+			o.callNum as callNum,
+			c.callTime as callTime,
+			o.receiverName as receiverName,
+			o.receiverAddress as receiverAddress,
+			o.receiverAddressDetail as receiverAddressDetail,
+			c.senderName as senderName,
+			c.senderAddress as senderAddress,
+			c.senderAddressDetail as senderAddressDetail,
+			o.orderPrice as orderPrice,
+			c.urgent as urgent,
+			c.deliveryStatus as deliveryStatus,
+			f.freightType as freightType, 
+			f.freightQuant as freightQuant,
+			f.freightPrice as freightPrice
+	from 	orderinfo o, freightInfo f, callinfo c
+	where 	o.ORDERNUM = f.ORDERNUM
+	and 	o.orderNum = #{orderNum}
+	and 	o.callNum = c.callNum
+</select>
+
 
 
 </mapper>

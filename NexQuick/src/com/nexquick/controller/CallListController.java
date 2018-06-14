@@ -14,6 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.nexquick.System.Allocation.AllocationQueue;
 import com.nexquick.model.vo.CSInfo;
 import com.nexquick.model.vo.CallInfo;
 import com.nexquick.model.vo.OnDelivery;
@@ -181,6 +183,14 @@ public class CallListController {
 		callSelectListService.payComplete(list);
 	}
 	
+	
+	
+//	오더넘버로 온딜리버리 가져오기(0614 추가, 물품목록도 추가됨)
+	@RequestMapping("/getOrderByOrderNumber.do")
+	public @ResponseBody List<OnDelivery> getOrderByOrderNumber(int orderNum) {
+		List<OnDelivery> onDeliveryList = callSelectListService.getAllOrderByOrderNumber(orderNum);;
+		return onDeliveryList;
+	}
 	
 	
 	

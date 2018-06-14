@@ -40,6 +40,16 @@
 var isUrgent = 1;
 	$(function() {
 		
+		$.ajax({
+			url : "<%= request.getContextPath() %>/call/orderMapCheck.do",
+			dataType : "json",
+			method : "POST",
+			success : function() {
+				console.log("맵 제거");
+			}
+		})
+		
+		
 		setInterval(function() {
 			$.ajax({
 				url : "<%= request.getContextPath() %>/account/sessionCheck.do",
@@ -421,19 +431,22 @@ var isUrgent = 1;
 	    		
 	  			realId = $(this).attr("id").substring(9);
 				/* 비동기통신. 오더 저장 */
-				$.ajax({
-					url : "<%= request.getContextPath() %>/call/addOrder.do",
+				
+	    		$.ajax({
+	   				url : "<%= request.getContextPath() %>/call/addOrderAndUpdate.do",
 	   				data : {
-	   					receiverName : $(userNameApply).val(),
-	   					receiverAddress : $(address).val(),
-	   					receiverAddressDetail : $(addressDetail).val(),
-	   					receiverPhone : $(phone).val(),
-	   					memo : $(quickMemo).val()
+	   					receiverName : $("#userNameApply0").val(),
+	   					receiverAddress : $("#address0").val(),
+	   					receiverAddressDetail : $("#addressDetail0").val(),
+	   					receiverPhone : $("#phone0").val(),
+	   					memo : $("#quickMemo0").val(),
+	   					dataIndex : dataIndex
 	   				},
 	   				dataType : "json",
 	   				method : "POST",
 	   				success : addOrders
-				});
+	    		});	
+				
 		
 				
 	  		});
@@ -444,6 +457,27 @@ var isUrgent = 1;
 			var freightType;
 			var item;
 	  		function addOrders(JSONDocument) {
+	  			
+	  			$.ajax({
+	   				url : "<%= request.getContextPath() %>/call/saveMap.do",
+	   				data : {
+	   					dataIndex : dataIndex,
+	   					orderNum : JSONDocument.orderNum
+	   				},
+	   				dataType : "json",
+	   				method : "POST",
+	   				async : false,
+	   				success : function() {
+	   					console.log("오더넘버 맵 저장완료");
+	   					$(saveFreight).off("click");
+	   				}, error : function() {
+	   					console.log("오더넘버 맵 저장실패");
+	   				}
+	  				
+	  			});
+	  			
+	  			
+	  			
 	  			
 	  			$.confirm({
 				    title: '도착지 저장 완료',
@@ -687,13 +721,14 @@ var isUrgent = 1;
     		
 			/* 오더 저장 비동기통신 */
     		$.ajax({
-   				url : "<%= request.getContextPath() %>/call/addOrder.do",
+   				url : "<%= request.getContextPath() %>/call/addOrderAndUpdate.do",
    				data : {
    					receiverName : $("#userNameApply0").val(),
    					receiverAddress : $("#address0").val(),
    					receiverAddressDetail : $("#addressDetail0").val(),
    					receiverPhone : $("#phone0").val(),
-   					memo : $("#quickMemo0").val()
+   					memo : $("#quickMemo0").val(),
+   					dataIndex : 0
    				},
    				dataType : "json",
    				method : "POST",
@@ -713,6 +748,26 @@ var isUrgent = 1;
   		var trId;
   		var trRemove;
   		function addOrder(JSONDocument) {
+  			console.log(JSONDocument);
+  			$.ajax({
+   				url : "<%= request.getContextPath() %>/call/saveMap.do",
+   				data : {
+   					dataIndex : 0,
+   					orderNum : JSONDocument.orderNum
+   				},
+   				dataType : "json",
+   				method : "POST",
+   				async : false,
+   				success : function() {
+   					console.log("오더넘버 맵 저장완료");
+   					$("#saveFreight0").off("click");
+   				}, error : function() {
+   					console.log("오더넘버 맵 저장실패");
+   				}
+  				
+  			});
+  			
+  			
   			
 			$.confirm({
 			    title: '도착지 저장 완료',
@@ -1384,10 +1439,10 @@ var isUrgent = 1;
             </div>
             <div class = "row">
             	<div class = "col-md-6">
-		            <button type = "button" id = "web_card" class = "borderColor payBtn goToPay"><i class="fa_s far fa-credit-card"></i> 카드</button>
+		            <button type = "button" id = "web_card" class = "ColorBorder payBtn goToPay"><i class="fa_s far fa-credit-card"></i> 카드</button>
             	</div>
             	<div class = "col-md-6">
-		            <button type = "button" id = "web_sendMoney" class = "borderColor payBtn goToPay"><i class="fa_s xi-bank"></i> 입금</button>
+		            <button type = "button" id = "web_sendMoney" class = "ColorBorder payBtn goToPay"><i class="fa_s xi-bank"></i> 입금</button>
             	</div>
             </div>
           </div>
@@ -1403,10 +1458,10 @@ var isUrgent = 1;
             </div>
             <div class = "row">
             	<div class = "col-md-6">
-		            <button type = "button" id = "place_first_card" class = "borderColor payBtn"><i class="fa_s far fa-credit-card"></i> 카드</button>
+		            <button type = "button" id = "place_first_card" class = "ColorBorder payBtn"><i class="fa_s far fa-credit-card"></i> 카드</button>
             	</div>
             	<div class = "col-md-6">
-		            <button type = "button" id = "place_first_money" class = "borderColor payBtn"><i class="fa_s fas fa-hand-holding-usd"></i> 현금</button>
+		            <button type = "button" id = "place_first_money" class = "ColorBorder payBtn"><i class="fa_s fas fa-hand-holding-usd"></i> 현금</button>
             	</div>
             </div>
           </div>
@@ -1423,10 +1478,10 @@ var isUrgent = 1;
             </div>
             <div class = "row">
             	<div class = "col-md-6">
-		            <button type = "button" id = "place_last_card" class = "borderColor payBtn"><i class="fa_s far fa-credit-card"></i> 카드</button>
+		            <button type = "button" id = "place_last_card" class = "ColorBorder payBtn"><i class="fa_s far fa-credit-card"></i> 카드</button>
             	</div>
             	<div class = "col-md-6">
-		            <button type = "button" id = "place_last_money" class = "borderColor payBtn"><i class="fa_s fas fa-hand-holding-usd"></i> 현금</button>
+		            <button type = "button" id = "place_last_money" class = "ColorBorder payBtn"><i class="fa_s fas fa-hand-holding-usd"></i> 현금</button>
             	</div>
             </div>
           </div>
@@ -1449,7 +1504,7 @@ var isUrgent = 1;
 		              		<h2 class = "mt-5">신용결제(법인회원 전용)</h2>
 				            <div class = "emptyBox_s mt-3">
 				            </div>
-				           <button type = "button" id = "company_pay" class = "borderColor payBtn"><i class="fa_s far fa-credit-card"></i> 결제목록에 추가</button>
+				           <button type = "button" id = "company_pay" class = "ColorBorder payBtn"><i class="fa_s far fa-credit-card"></i> 결제목록에 추가</button>
 				          </div>
 	            		</div>
           			</div>

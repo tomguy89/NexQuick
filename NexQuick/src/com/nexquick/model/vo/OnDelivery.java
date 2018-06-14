@@ -13,10 +13,37 @@ public class OnDelivery {
 	private int orderPrice;
 	private int urgent;
 	private int deliveryStatus;
+	private int freightType;
+	private int freightQuant;
+	private int freightPrice;
 	private String freightList;
-	
+
 	public OnDelivery() {
 		super();
+	}
+
+	public int getFreightPrice() {
+		return freightPrice;
+	}
+
+	public void setFreightPrice(int freightPrice) {
+		this.freightPrice = freightPrice;
+	}
+
+	public int getFreightType() {
+		return freightType;
+	}
+
+	public void setFreightType(int freightType) {
+		this.freightType = freightType;
+	}
+
+	public int getFreightQuant() {
+		return freightQuant;
+	}
+
+	public void setFreightQuant(int freightQuant) {
+		this.freightQuant = freightQuant;
 	}
 
 	public String getSenderName() {
@@ -98,7 +125,7 @@ public class OnDelivery {
 	public void setOrderPrice(int orderPrice) {
 		this.orderPrice = orderPrice;
 	}
-	
+
 	public int getUrgent() {
 		return urgent;
 	}
@@ -122,6 +149,5 @@ public class OnDelivery {
 	public void setFreightList(String freightList) {
 		this.freightList = freightList;
 	}
-	
-	
+
 }

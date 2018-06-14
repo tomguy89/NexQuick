@@ -8,29 +8,31 @@
   position: relative;
   max-width: 300px;
   height: auto;
-  background: #2f4050;
+  background: white;
   border-radius: 15px;
   margin: 0 auto;
   padding: 40px 20px;
-  -webkit-box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
-  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+  -webkit-box-shadow: 10px 10px 15px rgba(0, 0, 0, 0.2);
+  box-shadow: 10px 10px 15px rgba(0, 0, 0, 0.2);
   -webkit-transition: 0.5s;
   transition: 0.5s;
+  border : 2px solid #2f4050;
 }
 .card:hover {
-  -webkit-transform: scale(1.1);
-  transform: scale(1.1);
-  background : #55B296;
+  -webkit-transform: scale(1.05);
+  transform: scale(1.05);
+  background : rgba(85, 178, 150,0.4);
 }
 
 .title .fa {
-  color: #fff;
+  color: #2f4050;
   font-size: 60px;
   width: 100px;
   height: 100px;
   border-radius: 50%;
   text-align: center;
   line-height: 100px;
+  background: white;
   -webkit-box-shadow: 0 10px 10px rgba(0, 0, 0, 0.1);
   box-shadow: 0 10px 10px rgba(0, 0, 0, 0.1);
 }
@@ -38,7 +40,7 @@
   position: relative;
   margin: 20px 0 0;
   padding: 0;
-  color: #fff;
+  color: #2f4050;
   font-size: 28px;
   z-index: 2;
 }
@@ -54,7 +56,7 @@
   margin: 0 0 10px;
   padding: 0;
   list-style: none;
-  color: #fff;
+  color: #2f4050;
   font-size: 16px;
 }
 .card a {
@@ -96,7 +98,7 @@
   position: relative;
   max-width: 1000px;
   height: auto;
-  background: #34495e;
+  background: white;
   border-radius: 15px;
   margin: 0 auto;
   padding: 40px 20px;
@@ -104,19 +106,23 @@
   box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
   -webkit-transition: 0.5s;
   transition: 0.5s;
+  border : 2px solid #2f4050;
+  
 }
 .card_s:hover {
-  -webkit-transform: scale(1.1);
-  transform: scale(1.1);
+  -webkit-transform: scale(1.05);
+  transform: scale(1.05);
+  background : rgba(85, 178, 150,0.4);
   
 }
 
 .title_s .fa_s {
-  color: #fff;
+  color: #2f4050;
   font-size: 20px;
   width: 50px;
   height: 50px;
   border-radius: 50%;
+  background: white;
   text-align: center;
   line-height: 50px;
   -webkit-box-shadow: 0 10px 10px rgba(0, 0, 0, 0.1);
@@ -124,16 +130,18 @@
 }
 
 #payMethod_4 > div > div:nth-child(2) > h2 {
-	color: #fff;
+  color: #2f4050;
+
 }
 
 .title_s .fa_ss {
-  color: #fff;
+  color: #2f4050;
   font-size: 50px;
   width: 100px;
   height: 100px;
   border-radius: 50%;
   text-align: center;
+  background: white;
   line-height: 100px;
   -webkit-box-shadow: 0 10px 10px rgba(0, 0, 0, 0.1);
   box-shadow: 0 10px 10px rgba(0, 0, 0, 0.1);
@@ -143,7 +151,7 @@
   position: relative;
   margin: 20px 0 0;
   padding: 0;
-  color: #fff;
+  color: #2f4050;
   font-size: 18px;
   z-index: 2;
 }
@@ -159,7 +167,7 @@
   margin: 0 0 10px;
   padding: 0;
   list-style: none;
-  color: #fff;
+  color: #2f4050;
   font-size: 10px;
 }
 .card_s a {

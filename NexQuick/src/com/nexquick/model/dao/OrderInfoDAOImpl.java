@@ -108,5 +108,11 @@ public class OrderInfoDAOImpl implements OrderInfoDAO {
 	public List<OnDelivery> orderListByCallNum(int callNum) {
 		return sqlSession.selectList("orderInfo.orderListByCallNum", callNum);
 	}
+
+//	0614 김민규 추가
+	@Override
+	public List<OnDelivery> getAllOrderByOrderNumber(int orderNum) {
+		return sqlSession.selectList("orderInfo.getFreightListByOrderNum", orderNum);
+	}
 	
 }

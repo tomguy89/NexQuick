@@ -158,6 +158,12 @@ public class CallSelectListServiceImpl implements CallSelectListService {
 	public List<OnDelivery> orderListByCallNum(int callNum) {
 		return orderInfoDao.orderListByCallNum(callNum);
 	}
+
+//	0614 김민규 추가
+	@Override
+	public List<OnDelivery> getAllOrderByOrderNumber(int orderNum) {
+		return orderInfoDao.getAllOrderByOrderNumber(orderNum);
+	}
 	
 	
 }

@@ -123,7 +123,7 @@ function setCallList(JSONDocument) {
 			).append(
 				$("<td class='cell100 column3 centerBox'>").text(JSONDocument[i].receiverAddress + " " + JSONDocument[i].receiverAddressDetail)
 			).append(
-				$("<td class='cell100 column4 centerBox'>").text("물품들")
+				$("<td class='cell100 column4 centerBox'>").text("상세보기").attr("id", "orderNum"+JSONDocument[i].orderNum)
 			).append(
 				$("<td class='cell100 column5 centerBox deliveryStatus'>").text(deliveryStatus).attr("id", "deliveryStatus"+JSONDocument[i].callNum)
 			).append(
@@ -237,9 +237,79 @@ function saveQPPosition(JSONDocument) {
 				console.log($(this).attr("id"));
 			});
 			return;
+		} else if($(this).text() == '상세보기') {
+			$(this).css("color", "#55B296").css("text-decoration", "underline");
+			$(this).off("click");
+			$(this).on("click", function() {
+				var id = $(this).attr("id").substring(8);
+				$.ajax({
+					url : "<%= request.getContextPath() %>/list/getOrderByOrderNumber.do",
+					dataType : "json",
+					method : "POST",
+					async : false,
+					data : {
+						orderNum : id
+					},
+					success : setFreightList,
+					error : function() {
+						console.log(" 에러임 실패");
+					}
+					
+				});
+				
+			});
 		}
 	});
 }
+
+function setFreightList(JSONDocument) {
+	console.log(JSONDocument);
+	$("#freightInfoBox").empty();
+	for(var i in JSONDocument) {
+	  	var freightType;
+		switch(JSONDocument[i].freightType) {
+		case 1:
+			freightType = "서류";
+			break;
+		case 2:
+			freightType = "소박스";
+			break;
+		case 3:
+			freightType = "중박스";
+			break;
+		case 4:
+			freightType = "대박스";
+			break;
+		case 5:
+			freightType = "음식물";
+			break;
+		case 6:
+			freightType = "꽃";
+			break;
+		default:
+			freightType = "기타";
+			break;
+		}
+		
+		$("#freightInfoBox").append(
+			$("<tr>")
+			.append($("<td class = 'centerBox'>").text(JSONDocument[i].orderNum))
+			.append($("<td class = 'centerBox'>").text(freightType))
+			.append($("<td class = 'centerBox'>").text(JSONDocument[i].freightQuant + "개"))
+			.append($("<td class = 'centerBox'>").text(JSONDocument[i].freightPrice + "원"))
+		)
+		
+	}
+
+	
+	 $("#freightInfoList").modal("show"); 
+	
+	
+	
+	
+	
+}
+
 
 function findAddress(Address) {
 	var index = Address.id.substring(4);
@@ -436,7 +506,7 @@ function findAddress(Address) {
 			<div class="limiter">
 				<div class="container-table100" style = "top:0em!important;">
 					<div class = "table1000">
-						<div class="table100 ver1" style = "max-height: 400px; width: 100%!important;">
+						<div class="table100 ver1" style = "max-height: 550px!important; width: 100%!important;">
 							<div class="table100-head">
 						
 								<table class = "table1000">
@@ -452,21 +522,18 @@ function findAddress(Address) {
 									</thead>
 								</table>
 							</div>
-							<div class="table100-body js-pscroll" style = "max-height: 400px!important;">
+							<div class="table100-body js-pscroll" style = "max-height: 550px!important;">
 								<table class = "table1000">
 									<tbody id = "tableBody">
 									</tbody>
 								</table>
-							</div>
-							<div class = "centerBox text-conceptColor mt-5">
-								<h6> 신청 번호를 클릭하면 해당 신청 번호의 출발지, 도착지, 담당 배송기사님의 위치를 조회할 수 있습니다. </h6>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
 			
-			
+
 			
 			
 			
@@ -490,7 +557,55 @@ function findAddress(Address) {
 			
 		</div>
 	</div>
-
+	<div class = "centerBox text-conceptColor mt-5">
+		<h6> <b>신청 번호</b>를 클릭하면 해당 신청 번호의 <b>출발지, 도착지, 담당 배송기사님의 위치를 조회</b>할 수 있습니다. </h6>
+		<h6 class = "mt-3"> <b class = "text-dangerColor">배차 실패된 배송</b>은 <b>재배송을 요청할 수 있습니다.</b> </h6>
+	</div>
+			
 	<%@ include file = "../footer.jsp" %>
+	
+	
+	
+	
+
+<!-- 즐겨찾기 목록 보여줄 모달 -->
+<div class="modal fade bd-example-modal-lg" id = "freightInfoList" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title centerBox" id="exampleModalCenterTitle">발송 물품 목록</h2>
+      </div>
+      <div class="modal-body" style = "max-height: 350px; overflow: auto;">
+   
+   
+   
+		         
+		<table class="table table1000 table-bordered">
+		  <thead class="thead-light">
+		    <tr>
+		      <th class = "centerBox" scope="col">퀵 신청번호</th>
+		      <th class = "centerBox" scope="col">물품 유형</th>
+		      <th class = "centerBox" scope="col">갯수</th>
+		      <th class = "centerBox" scope="col">물품 가격</th>
+		    </tr>
+		  </thead>
+		  <tbody class = "centerBox" id = "freightInfoBox">
+		   
+		  </tbody>
+		</table>
+      
+      	
+      	
+	
+      </div>
+      <div class="modal-footer centerBox">
+        <button type="button" class="ColorBorder" data-dismiss="modal">확인</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
 </body>
 </html>
