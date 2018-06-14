@@ -54,7 +54,7 @@ public class DialogDetailActivity extends AppCompatActivity {
         ContentValues values = new ContentValues();
         values.put("callNum", callNum);
         // AsyncTask를 통해 HttpURLConnection 수행.
-        DialogDetailActivity.GetDetailTask getDetailTask = new DialogDetailActivity.GetDetailTask(url, values);
+        GetDetailTask getDetailTask = new GetDetailTask(url, values);
         getDetailTask.execute();
 
 

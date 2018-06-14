@@ -16,7 +16,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 import android.widget.ToggleButton;
 
 public class LocationActivity extends AppCompatActivity {
@@ -152,10 +151,6 @@ public class LocationActivity extends AppCompatActivity {
         values.put("qpId",qpId);
         values.put("qpLongitude", qpLongitude);
         values.put("qpLatitude", qpLatitude);
-
-        Toast.makeText(this,"longtitude는 "+qpLongitude+" latitude는 "+qpLatitude,Toast.LENGTH_SHORT).show();
-
-
 
         NetworkTask networkTask = new NetworkTask(url,values);
         networkTask.execute();

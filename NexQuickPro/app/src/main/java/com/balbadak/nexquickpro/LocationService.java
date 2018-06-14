@@ -12,17 +12,11 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.util.Log;
-import android.widget.TextView;
-import android.widget.Toast;
-import android.widget.ToggleButton;
 
-import com.google.android.gms.common.api.GoogleApiClient;
 
 public class LocationService extends Service {
 
@@ -173,9 +167,6 @@ public class LocationService extends Service {
         values.put("qpLongitude", qpLongitude);
         values.put("qpLatitude", qpLatitude);
         values.put("connectToken",connectToken);
-
-        Toast.makeText(this,"longtitude는 "+qpLongitude+" latitude는 "+qpLatitude,Toast.LENGTH_SHORT).show();
-
 
 
         NetworkTask networkTask = new NetworkTask(url,values);

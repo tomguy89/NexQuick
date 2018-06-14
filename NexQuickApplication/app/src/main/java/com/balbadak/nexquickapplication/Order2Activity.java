@@ -20,10 +20,13 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.balbadak.nexquickapplication.vo.FavoriteInfo;
+import com.balbadak.nexquickapplication.vo.FreightInfo;
 import com.tsengvn.typekit.TypekitContextWrapper;
 
 import org.json.JSONArray;
@@ -42,16 +45,39 @@ public class Order2Activity extends AppCompatActivity implements NavigationView.
     private String mainUrl = "http://70.12.109.164:9090/NexQuick/";
     private String csId;
     private String freight;
+
     private int callNum;
     private int orderNum;
     private int totalPrice;
 
     private ArrayList<FavoriteInfo> favoriteInfos;
+    private ArrayList<FreightInfo> freightInfos;
     private ArrayAdapter favspinnerAdapter;
     private ArrayAdapter frspinnerAdapter;
 
     private Spinner favSpinner;
     private Spinner frSpinner;
+    private Spinner smallBundleSpinner;
+    private Spinner middleBundleSpinner;
+    private Spinner bigBundleSpinner;
+    private Spinner smallBoxSpinner;
+    private Spinner middleBoxSpinner;
+    private Spinner bigBoxSpinner;
+
+    private TextView smallBundleContents;
+    private TextView middleBundleContents;
+    private TextView bigBundleContents;
+    private TextView smallBoxContents;
+    private TextView middleBoxContents;
+    private TextView bigBoxContents;
+
+    private int smallBundleCount;
+    private int middleBundleCount;
+    private int bigBundleCount;
+    private int smallBoxCount;
+    private int middleBoxCount;
+    private int bigBoxCount;
+
     private Button addressBtn;
 
     private EditText etReceiverName;
@@ -59,6 +85,13 @@ public class Order2Activity extends AppCompatActivity implements NavigationView.
     private EditText etReceiverAddress;
     private EditText etReceiverAddressDetail;
     private EditText etMemo;
+
+    private LinearLayout smallBundleLayout;
+    private LinearLayout middleBundleLayout;
+    private LinearLayout bigBundleLayout;
+    private LinearLayout smallBoxLayout;
+    private LinearLayout middleBoxLayout;
+    private LinearLayout bigBoxLayout;
 
     private ContentValues oValues;
     private ContentValues fValues;
@@ -87,6 +120,21 @@ public class Order2Activity extends AppCompatActivity implements NavigationView.
         etReceiverAddressDetail = (EditText) findViewById(R.id.receiverAddressDetail);
         etMemo = (EditText) findViewById(R.id.memo);
 
+        smallBundleLayout = (LinearLayout) findViewById(R.id.smallBundleLayout);
+        middleBundleLayout = (LinearLayout) findViewById(R.id.middleBundleLayout);
+        bigBundleLayout = (LinearLayout) findViewById(R.id.bigBundleLayout);
+        smallBoxLayout = (LinearLayout) findViewById(R.id.smallBoxLayout);
+        middleBoxLayout = (LinearLayout) findViewById(R.id.middleBoxLayout);
+        bigBoxLayout = (LinearLayout) findViewById(R.id.bigBoxLayout);
+
+        smallBundleSpinner = (Spinner) findViewById(R.id.smallBundleSpinner);
+        middleBundleSpinner = (Spinner) findViewById(R.id.middleBundleSpinner);
+        bigBundleSpinner = (Spinner) findViewById(R.id.bigBundleSpinner);
+        smallBoxSpinner = (Spinner) findViewById(R.id.smallBoxSpinner);
+        middleBoxSpinner = (Spinner) findViewById(R.id.middleBoxSpinner);
+        bigBoxSpinner = (Spinner) findViewById(R.id.bigBoxSpinner);
+
+
         favoriteInit();
         addressBtn = (Button) findViewById(R.id.receiverAddressBtn);
 
@@ -102,12 +150,15 @@ public class Order2Activity extends AppCompatActivity implements NavigationView.
         frSpinner = (Spinner) findViewById(R.id.freightSpinner);
 
         final ArrayList<String> frSpinnerList = new ArrayList<>();
-        frSpinnerList.add("물품정보");
-        frSpinnerList.add("서류");
-        frSpinnerList.add("박스 소");
-        frSpinnerList.add("박스 중");
-        frSpinnerList.add("박스 대");
 
+        frSpinnerList.add("화물 종류를 선택하세요");
+        frSpinnerList.add("서류");
+        frSpinnerList.add("박스(소)");
+        frSpinnerList.add("박스(중)");
+        frSpinnerList.add("박스(대)");
+
+
+        freightInfos = new ArrayList<>();
         //스피너용 어댑터
         ArrayAdapter spinnerAdapter2;
         spinnerAdapter2 = new ArrayAdapter(context, R.layout.support_simple_spinner_dropdown_item, frSpinnerList);
@@ -117,8 +168,23 @@ public class Order2Activity extends AppCompatActivity implements NavigationView.
         frSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                freight = frSpinner.getItemAtPosition(position) + "";
-                Toast.makeText(context, "선택된 아이템 : " + frSpinner.getItemAtPosition(position), Toast.LENGTH_SHORT).show();
+                switch (position) {
+                    case 1:
+                        smallBundleLayout.setVisibility(View.VISIBLE);
+                        break;
+                    case 2:
+                        smallBoxLayout.setVisibility(View.VISIBLE);
+                        break;
+                    case 3:
+                        middleBoxLayout.setVisibility(View.VISIBLE);
+                        break;
+                    case 4:
+                        bigBoxLayout.setVisibility(View.VISIBLE);
+                        break;
+                    default:
+                        //중번들 대번들은 안쓸거임 쓰게되면 다들 순서 바꿔야함
+                        break;
+                }
             }
 
             @Override
@@ -127,6 +193,134 @@ public class Order2Activity extends AppCompatActivity implements NavigationView.
             }
         });
 
+        oValues = new ContentValues();
+        fValues = new ContentValues();
+
+        ArrayAdapter numberSpinnerAdapter1;
+        ArrayAdapter numberSpinnerAdapter2;
+        ArrayAdapter numberSpinnerAdapter3;
+        ArrayAdapter numberSpinnerAdapter4;
+        ArrayAdapter numberSpinnerAdapter5;
+        ArrayAdapter numberSpinnerAdapter6;
+
+        ArrayList<String> countSpinnerList1 = new ArrayList<>();
+        ArrayList<String> countSpinnerList2 = new ArrayList<>();
+        ArrayList<String> countSpinnerList3 = new ArrayList<>();
+        ArrayList<String> countSpinnerList4 = new ArrayList<>();
+        ArrayList<String> countSpinnerList5 = new ArrayList<>();
+        ArrayList<String> countSpinnerList6 = new ArrayList<>();
+
+        for (int i = 0; i <= 20; i++) {
+            countSpinnerList1.add(i + "");
+            countSpinnerList2.add(i + "");
+            countSpinnerList3.add(i + "");
+            countSpinnerList4.add(i + "");
+            countSpinnerList5.add(i + "");
+            countSpinnerList6.add(i + "");
+        }
+
+        numberSpinnerAdapter1 = new ArrayAdapter(context, R.layout.support_simple_spinner_dropdown_item, countSpinnerList1);
+        numberSpinnerAdapter2 = new ArrayAdapter(context, R.layout.support_simple_spinner_dropdown_item, countSpinnerList1);
+        numberSpinnerAdapter3 = new ArrayAdapter(context, R.layout.support_simple_spinner_dropdown_item, countSpinnerList1);
+        numberSpinnerAdapter4 = new ArrayAdapter(context, R.layout.support_simple_spinner_dropdown_item, countSpinnerList1);
+        numberSpinnerAdapter5 = new ArrayAdapter(context, R.layout.support_simple_spinner_dropdown_item, countSpinnerList1);
+        numberSpinnerAdapter6 = new ArrayAdapter(context, R.layout.support_simple_spinner_dropdown_item, countSpinnerList1);
+
+        smallBundleSpinner.setAdapter(numberSpinnerAdapter1);
+        middleBundleSpinner.setAdapter(numberSpinnerAdapter2);
+        bigBundleSpinner.setAdapter(numberSpinnerAdapter3);
+        smallBoxSpinner.setAdapter(numberSpinnerAdapter4);
+        middleBoxSpinner.setAdapter(numberSpinnerAdapter5);
+        bigBoxSpinner.setAdapter(numberSpinnerAdapter6);
+
+        smallBundleContents = (TextView) findViewById(R.id.smallBundleContents);
+        middleBundleContents = (TextView) findViewById(R.id.middleBundleContents);
+        bigBundleContents = (TextView) findViewById(R.id.bigBundleContents);
+        smallBoxContents = (TextView) findViewById(R.id.smallBoxContents);
+        middleBoxContents = (TextView) findViewById(R.id.middleBoxContents);
+        bigBoxContents = (TextView) findViewById(R.id.bigBoxContents);
+
+
+
+        smallBundleSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                smallBundleContents.setText(position + " 개");
+                smallBoxCount = position;
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+
+        middleBundleSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                middleBundleContents.setText(position + " 개");
+                middleBundleCount = position;
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        bigBundleSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                bigBundleContents.setText(position + " 개");
+                bigBundleCount = position;
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+
+        smallBoxSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                smallBoxContents.setText(position + " 개");
+                smallBoxCount = position;
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        middleBoxSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                middleBoxContents.setText(position + " 개");
+                middleBoxCount = position;
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        bigBoxSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                bigBoxContents.setText(position + " 개");
+                bigBoxCount = position;
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
 
         Button nextBtn = (Button) findViewById(R.id.next3p);
         Button prevBtn = (Button) findViewById(R.id.prev1p);
@@ -138,8 +332,7 @@ public class Order2Activity extends AppCompatActivity implements NavigationView.
 
                 //173 태진햄, 164 승진
                 String url = mainUrl + "appCall/addOrder.do";
-                oValues = new ContentValues();
-                fValues = new ContentValues();
+
                 boolean orderResult = setOrderInfo(oValues);
 
 
@@ -159,7 +352,7 @@ public class Order2Activity extends AppCompatActivity implements NavigationView.
         prevBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-             finish();
+                finish();
             }
         });
 
@@ -256,6 +449,18 @@ public class Order2Activity extends AppCompatActivity implements NavigationView.
             return false;
         }
 
+        int[] freightCounts = {smallBundleCount, /*middleBundleCount, bigBundleCount,*/smallBoxCount, middleBoxCount, bigBoxCount};
+        int check = 0;
+
+        for (int i : freightCounts) {
+            check += i;
+        }
+
+        if (check == 0) {
+            Toast.makeText(context, "화물정보 입력요망", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
         if (etMemo != null && etMemo.getText().toString().trim().length() != 0) {
             values.put("memo", etMemo.getText().toString().trim());
             Log.i("memo", etMemo.getText().toString().trim());
@@ -267,36 +472,6 @@ public class Order2Activity extends AppCompatActivity implements NavigationView.
         return true;
     }
 
-    private boolean setFreightInfo(ContentValues values) {
-
-        values.put("freightDetail", "없음");
-        if (frSpinner != null) {
-            switch (freight) {  // 일단 화물 종류 복수 선택 안되고,  화물 1개 고정
-                case "서류":
-                    values.put("freightType", 1);
-                    values.put("freightQuant", 1);
-                    break;
-                case "박스 소":
-                    values.put("freightType", 2);
-                    values.put("freightQuant", 1);
-                    break;
-                case "박스 중":
-                    values.put("freightType", 3);
-                    values.put("freightQuant", 1);
-                    break;
-                case "박스 대":
-                    values.put("freightType", 4);
-                    values.put("freightQuant", 1);
-                    break;
-                default:
-                    return false;
-            }
-        } else {
-            return false;
-        }
-
-        return true;
-    }
 
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
 
@@ -355,16 +530,21 @@ public class Order2Activity extends AppCompatActivity implements NavigationView.
                     ed.commit();
                     Log.e("orderNum", orderNum + "!");
 
-                    boolean freightResult = setFreightInfo(fValues);
-                    if (freightResult) {
-                        url = mainUrl + "appCall/addFreight.do";
-                        fValues.put("callNum", callNum);
-                        fValues.put("orderNum", orderNum);
-                        SetFreightTask setFreightTask = new SetFreightTask(url, fValues);
-                        setFreightTask.execute();
-                    } else {
-                        Log.e("화물 미선택", "화물정보가 없쑝");
+                    int[] freightCounts = {smallBundleCount, /*middleBundleCount, bigBundleCount,*/smallBoxCount, middleBoxCount, bigBoxCount};
+                    url = mainUrl + "appCall/addFreight.do";
+                    fValues.put("callNum", callNum);
+                    fValues.put("orderNum", orderNum);
+
+                    for (int i = 0; i < freightCounts.length; i++) {
+                        if (freightCounts[i] != 0) {
+                            fValues.put("freightType", i + 1);
+                            fValues.put("freightQuant", freightCounts[i]);
+                            fValues.put("freightDetail","없음");
+                            SetFreightTask setFreightTask = new SetFreightTask(url, fValues);
+                            setFreightTask.execute();
+                        }
                     }
+
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -399,9 +579,9 @@ public class Order2Activity extends AppCompatActivity implements NavigationView.
         @Override
         protected void onPostExecute(String s) {
             if (s != null) {
-            try {
-                JSONObject data = null;
-                Log.e("SetFreightTask 받아온 것", s);
+                try {
+                    JSONObject data = null;
+                    Log.e("SetFreightTask 받아온 것", s);
 
                     data = new JSONObject(s);
                     int freightPrice = data.getInt("freightPrice");
@@ -412,9 +592,9 @@ public class Order2Activity extends AppCompatActivity implements NavigationView.
                     Log.e("totalPrice", totalPrice + "!");
 
 
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
 
             }
             Toast.makeText(context, "SetFreightTask", Toast.LENGTH_SHORT).show();
@@ -462,7 +642,6 @@ public class Order2Activity extends AppCompatActivity implements NavigationView.
                         if (data.getInt("addressType") != 0) {
 
                             FavoriteInfo fi = new FavoriteInfo();
-
                             fi.setFavoriteId(data.getInt("favoriteId"));
                             fi.setAddressType(data.getInt("addressType"));
                             fi.setCsId(data.getString("csId"));

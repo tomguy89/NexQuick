@@ -450,6 +450,15 @@ public class AppCallMangementController {
 	}
 	
 	
+	@RequestMapping("/completeAllocate.do")
+	public @ResponseBody boolean completeAllocate(int callNum, int qpId) {
+		CallInfo callInfo = callSelectListService.selectCallInfo(callNum);
+		callInfo.setDeliveryStatus(2);
+		callInfo.setQpId(qpId);
+		return callManagementService.updateCall(callInfo);
+	}
+	
+	
 	@RequestMapping("/reRegistCall.do")
 	public @ResponseBody boolean reRegistCall(int callNum) {
 		CallInfo callInfo = callSelectListService.selectCallInfo(callNum);

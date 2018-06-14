@@ -97,8 +97,9 @@ public class AllocationThread {
 				msgBd.append(" ").append(i+1);
 			}
 			msgBd.append("/").append(orders.get(i).getReceiverAddress());
-			msgBd.append("/").append(orders.get(i).getFreightList());
+			msgBd.append(orders.get(i).getFreightList());
 		}
+		msgBd.append("/");
 		msgBd.append(callInfo.getTotalPrice()).append("원@");
 		msgBd.append(callInfo.getCallNum());
 		String token = csInfoDao.selectCSDevice(callInfo.getCsId());

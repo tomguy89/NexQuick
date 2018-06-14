@@ -89,8 +89,8 @@
                         android:id="@+id/senderAddress"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:hint="주소"
                         android:ems="12"
+                        android:hint="주소"
                         android:inputType="textPostalAddress" />
                 </android.support.design.widget.TextInputLayout>
 
@@ -109,8 +109,8 @@
                     android:id="@+id/senderAddressDetail"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:hint="상세주소"
                     android:ems="12"
+                    android:hint="상세주소"
                     android:inputType="textPostalAddress" />
             </android.support.design.widget.TextInputLayout>
 
@@ -136,17 +136,32 @@
                 android:textColor="@color/colorPrimary"
                 android:textStyle="bold" />
 
-            <CheckBox
-                android:id="@+id/urgentCbx"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="긴급배송여부" />
+                android:orientation="horizontal">
 
-            <CheckBox
-                android:id="@+id/reserveCbx"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="예약배송여부" />
+                <CheckBox
+                    android:id="@+id/urgentCbx"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="긴급배송여부" />
+
+                <CheckBox
+                    android:id="@+id/reserveCbx"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="예약배송여부" />
+
+                <CheckBox
+                    android:id="@+id/seriesCbx"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="일괄배송여부" />
+            </LinearLayout>
 
         </LinearLayout>
 
@@ -201,6 +216,34 @@
                 </android.support.design.widget.TextInputLayout>
 
             </LinearLayout>
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/seriesSpinnerView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/seriesTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="일괄배송 개수"
+                android:textColor="@color/colorPrimary"
+                android:textStyle="bold" />
+
+            <Spinner
+                android:id="@+id/seriesSpinner"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+
+            </Spinner>
+
+
         </LinearLayout>
 
         <LinearLayout
