@@ -6,16 +6,18 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.tsengvn.typekit.TypekitContextWrapper;
 
 public class DialogAllocateActivity extends AppCompatActivity {
 
-
+    private int callNum;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,8 +26,8 @@ public class DialogAllocateActivity extends AppCompatActivity {
 
         TextView tv = (TextView)findViewById(R.id.quick_allocate_contents);
         Intent intent = getIntent();
-        int callNum = 0;
         String message = intent.getStringExtra("message");
+        Log.e("tqtq", "tqtq");
         for(int i=message.length()-1; i>=0; i--){
             if(message.charAt(i) == '@'){
                 callNum = Integer.parseInt(message.substring(i+1));
@@ -48,8 +50,11 @@ public class DialogAllocateActivity extends AppCompatActivity {
         acceptBtn.setOnClickListener((new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /*NetworkTask networkTask = new NetworkTask(url, values);
-                networkTask.execute();*/
+                String url = "http://70.12.109.173:9090/NexQuick/appCall/reRegistCall.do";
+                ContentValues values = new ContentValues();
+                values.put("callNum", callNum);
+                NetworkTask networkTask = new NetworkTask(url, values);
+                networkTask.execute();
             }
         }));
 
@@ -63,8 +68,8 @@ public class DialogAllocateActivity extends AppCompatActivity {
 
     public class NetworkTask extends AsyncTask<Void, Void, String> {
 
-        private String url;
-        private ContentValues values;
+            private String url;
+            private ContentValues values;
 
         public NetworkTask(String url, ContentValues values) {
 
@@ -86,12 +91,10 @@ public class DialogAllocateActivity extends AppCompatActivity {
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
             //doInBackground()로 부터 리턴된 값이 onPostExecute()의 매개변수로 넘어오므로 s를 출력한다.
-            int qpId = 0;
-            String qpName = null;
-            String qpPhone = null;
-
-            if(s!=null){
-
+            Log.e("asdf", s);
+            if(s.equals("true")){
+                Toast.makeText(getApplicationContext(), "배차가 완료되었습니다.", Toast.LENGTH_SHORT).show();
+                finish();
             }
         }
     }

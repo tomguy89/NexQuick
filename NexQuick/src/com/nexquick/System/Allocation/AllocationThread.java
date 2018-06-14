@@ -102,7 +102,7 @@ public class AllocationThread {
 		msgBd.append(callInfo.getTotalPrice()).append("원@");
 		msgBd.append(callInfo.getCallNum());
 		String token = csInfoDao.selectCSDevice(callInfo.getCsId());
-		if(repeat==5) {
+		if(repeat==3) {
 			sendMessage(token, "배차에 실패하였습니다.");
 			callInfo.setDeliveryStatus(-1);
 			callManagementService.updateCall(callInfo);
@@ -120,7 +120,9 @@ public class AllocationThread {
 		}
 		
 		if (qpList.size()!=0) {
+			System.out.println("repeat : "+repeat);
 			for(QPPosition qp : qpList) {
+				System.out.println(qp.getQpId());
 				//callInfo.setQpId(qp.getQpId());
 				//callManagementService.updateCall(callInfo);
 				sendMessage(qp.getConnectToken(), msgBd.toString());
@@ -130,15 +132,16 @@ public class AllocationThread {
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
-				if (callSelectService.selectCallInfo(callInfo.getCallNum()).getQpId()==0) {
-					allocationQueue.offer(callInfo, repeat+1);
-					System.out.println("다시 넣기");
-				}else {
+				if (callSelectService.selectCallInfo(callInfo.getCallNum()).getQpId()!=0) {
 					sendMessage(token, "배차가 완료되었습니다.");
 					callInfo.setDeliveryStatus(2);
 					callManagementService.updateCall(callInfo);
 					break;
 				}
+			}
+			if (callSelectService.selectCallInfo(callInfo.getCallNum()).getQpId()==0) {
+				allocationQueue.offer(callInfo, repeat+1);
+				System.out.println("다시 넣기");
 			}
 		}else {
 			sendMessage(token, "죄송합니다. 현재는 배차가 불가능합니다.");
@@ -151,7 +154,7 @@ public class AllocationThread {
 	
 	
 	public boolean sendMessage(String token, String msg) {
-		 final String apiKey = "AAAAgb88Mhk:APA91bELrdask0S2rSfezDKhemJ7UCcA85f4ZzmiUA-sZfHVPG9QHsuMJJToBFHANZhF1_lqsKDrBtgr4Qx08bXUZHmxn3BqCgzcYaDOevVvOHKYzr1C_Ha7J5DFKq5puwq_PyrJCeCg";
+		 final String apiKey = "AAAAqMvnVrg:APA91bE3yZF2YLilNUtx2AzvAJy_q2EXrgQR-_7tRYwCIQzFwAyV88BcFeeJa3fZZy_-eOBUZ7W6N1LNUmgTV2g8dvjpCx-QW7jtel6blFP1cKG3CWtPtxV-yUI4dmsz_l4IHWE_KueC";
          URL url;
 		try {
 			url = new URL("https://fcm.googleapis.com/fcm/send");

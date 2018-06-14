@@ -138,7 +138,7 @@ public class CallMangementController {
 	@RequestMapping("/addOrder.do")
 	public @ResponseBody OrderInfo addOrder(HttpSession session,
 				String receiverName, String receiverAddress, String receiverAddressDetail, String receiverPhone, String memo) {
-		
+		double distance = 0;
 		//세션에서 현재 받고있는 콜 넘버 가져오기
 		int callNum = (int)session.getAttribute("callNum");
 		int totalPrice = (int)session.getAttribute("totalPrice");
@@ -151,7 +151,9 @@ public class CallMangementController {
 		point.put("startY", sendAddr.getLatitude());
 		point.put("endX", recvAddr.getLongitude());
 		point.put("endY", recvAddr.getLatitude());
-		double distance = distanceCheckService.singleDistanceCheck(point);
+		if(!sendAddr.getLatitude().equals(recvAddr.getLatitude()) && !sendAddr.getLongitude().equals(recvAddr.getLongitude())) {
+			distance = distanceCheckService.singleDistanceCheck(point);
+		}
 		int price = pricingService.proportionalPrice(distance);
 		OrderInfo orderInfo = new OrderInfo(callNum, receiverName, receiverAddress, receiverAddressDetail, receiverPhone, memo, price, distance, Double.parseDouble(recvAddr.getLatitude()), Double.parseDouble(recvAddr.getLongitude()));
 		totalPrice += price;
