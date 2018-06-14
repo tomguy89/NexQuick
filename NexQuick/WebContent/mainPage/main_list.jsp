@@ -183,6 +183,8 @@ function saveQPPosition(JSONDocument) {
 				    closeIcon: true,
 				    theme: 'modern',
 				    type: 'red',
+				    columnClass: 'centerBox',
+
 				    buttons: {
 				        "배차 요청": {
 				        	btnClass: 'btn-blue',

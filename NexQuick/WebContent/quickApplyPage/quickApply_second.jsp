@@ -405,6 +405,7 @@ var isUrgent = 1;
 					|| $(userNameApply).val() == "" || $(phone).val() == "") {
 	    			$.confirm({
 					    title: '신청 오류',
+					    columnClass: 'centerBox',
 					    content: '작성이 안된 항목이 있습니다. 마저 작성해주세요.',
 					    type: 'red',
 					    closeIcon: true,
@@ -448,6 +449,7 @@ var isUrgent = 1;
 				    title: '도착지 저장 완료',
 				    content: '도착지 정보가 저장되었습니다. 즐겨찾기에 저장할까요?',
 				    type: 'green',
+				    columnClass: 'centerBox',
 				    closeIcon: true,
 				    typeAnimated: true,
 				    theme: 'modern',
@@ -510,6 +512,7 @@ var isUrgent = 1;
 						break;
 					}
 					
+					console.log("오더넘버 : " + JSONDocument.orderNum);
 					/* 화물 추가 비동기통신 */
 					$.ajax({
 						url : "<%= request.getContextPath() %>/call/addFreight.do",
@@ -541,6 +544,7 @@ var isUrgent = 1;
 				    content: '물품이 추가되었습니다. 이제 결제하실 수 있습니다.',
 				    type: 'green',
 				    closeIcon: true,
+				    columnClass: 'centerBox',
 				    typeAnimated: true,
 				    theme: 'modern',
 				    buttons: {
@@ -590,6 +594,7 @@ var isUrgent = 1;
 				    title: '물품 삭제 확인',
 				    content: '해당 물품을 삭제하시겠습니까?',
 				    type: 'yellow',
+				    columnClass: 'centerBox',
 				    closeIcon: true,
 				    typeAnimated: true,
 				    theme: 'modern',
@@ -668,6 +673,7 @@ var isUrgent = 1;
 				    content: '작성이 안된 항목이 있습니다. 마저 작성해주세요.',
 				    type: 'red',
 				    closeIcon: true,
+				    columnClass: 'centerBox',
 				    typeAnimated: true,
 				    theme: 'modern',
 				    buttons: {
@@ -713,6 +719,7 @@ var isUrgent = 1;
 			    content: '도착지 정보가 저장되었습니다. 즐겨찾기에 저장할까요?',
 			    type: 'green',
 			    closeIcon: true,
+			    columnClass: 'centerBox',
 			    typeAnimated: true,
 			    theme: 'modern',
 			    buttons: {
@@ -778,7 +785,7 @@ var isUrgent = 1;
 					freightType = 4;
 					break;
 				}
-				
+				console.log("오더넘버 : " + JSONDocument.orderNum);
 				/* 화물 추가 비동기통신 */
 				$.ajax({
 	   				url : "<%= request.getContextPath() %>/call/addFreight.do",
@@ -802,6 +809,7 @@ var isUrgent = 1;
 			    title: '물품 추가 완료',
 			    content: '물품이 추가되었습니다. 이제 결제하실 수 있습니다.',
 			    type: 'green',
+			    columnClass: 'centerBox',
 			    closeIcon: true,
 			    typeAnimated: true,
 			    theme: 'modern',
@@ -850,6 +858,7 @@ var isUrgent = 1;
 			    title: '물품 삭제 확인',
 			    content: '해당 물품을 삭제하시겠습니까?',
 			    type: 'yellow',
+			    columnClass: 'centerBox',
 			    closeIcon: true,
 			    typeAnimated: true,
 			    theme: 'modern',
@@ -930,6 +939,7 @@ var isUrgent = 1;
     				    title: '결제 완료',
     				    content: '결제가 완료되었습니다. \n' + msg,
     				    type: 'green',
+    				    columnClass: 'centerBox',
     				    closeIcon: true,
     				    typeAnimated: true,
     				    theme: 'modern',
@@ -946,6 +956,7 @@ var isUrgent = 1;
     				    title: '결제 실패',
     				    content: '결제에 실패하였습니다. \n' + msg,
     				    type: 'red',
+    				    columnClass: 'centerBox',
     				    closeIcon: true,
     				    typeAnimated: true,
     				    theme: 'modern',

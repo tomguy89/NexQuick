@@ -64,7 +64,8 @@ var callNum;
  						    title: '로그인 세션 만료',
  						    content: '로그아웃 되었습니다. 다시 로그인 해주세요.',
  						    type: 'red',
- 						   closeIcon: true,
+ 							closeIcon: true,
+ 						  	columnClass: 'centerBox',
  						    theme: 'modern',
  						    typeAnimated: true,
  						    buttons: {
@@ -181,6 +182,7 @@ var callNum;
 					    type: 'red',
 					    closeIcon: true,
 					    typeAnimated: true,
+					    columnClass: 'centerBox',
 					    theme: 'modern',
 					    buttons: {
 					        '확인': {
@@ -216,6 +218,7 @@ var callNum;
 					error : function() {
 						$.confirm({
 						    title: '퀵 신청 오류',
+						    columnClass: 'centerBox',
 						    content: '퀵 신청에 오류가 발생했습니다. 다시 작성해주세요.',
 						    type: 'red',
 						    closeIcon: true,
@@ -252,6 +255,7 @@ var callNum;
 					error : function() {
 						$.confirm({
 						    title: '퀵 신청 오류',
+						    columnClass: 'centerBox',
 						    content: '퀵 신청에 오류가 발생했습니다. 다시 작성해주세요.',
 						    type: 'red',
 						    closeIcon: true,
@@ -283,6 +287,7 @@ var callNum;
 						    title: '즐겨찾기 불러오기 오류',
 						    content: '즐겨찾기에 저장된 출발지가 없습니다. 지금 입력할 출발지를 즐겨찾기로 저장하시겠습니까?',
 						    type: 'red',
+						    columnClass: 'centerBox',
 						    closeIcon: true,
 						    typeAnimated: true,
 						    theme: 'modern',
@@ -390,6 +395,7 @@ var callNum;
 		    title: '작성중인 신청 불러오기',
 		    content: '현재 작성중인 퀵이 있습니다. 이어서 작성하시겠습니까?',
 		    type: 'red',
+		    columnClass: 'centerBox',
 		    closeIcon: true,
 		    typeAnimated: true,
 		    theme: 'modern',
@@ -445,6 +451,7 @@ var callNum;
 		    				error : function() {
 		    					$.confirm({
 		    					    title: '신청 삭제 오류',
+		    					    columnClass: 'centerBox',
 		    					    content: '신청 삭제에 실패하였습니다. 처음부터 작성합니다.',
 		    					    type: 'red',
 		    					    closeIcon: true,
@@ -480,6 +487,7 @@ var callNum;
 						error : function() {
 							$.confirm({
 							    title: '신청 삭제 오류',
+							    columnClass: 'centerBox',
 							    content: '신청 삭제에 실패하였습니다. 처음부터 작성합니다.',
 							    type: 'red',
 							    closeIcon: true,

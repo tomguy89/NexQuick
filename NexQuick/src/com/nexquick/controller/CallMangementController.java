@@ -182,6 +182,9 @@ public class CallMangementController {
 			session.setAttribute("totalPrice", totalPrice);
 			OrderInfo orderInfo = callSelectListService.selectOrder(orderNum);
 			orderInfo.setOrderPrice(orderInfo.getOrderPrice()+price);
+			if(orderInfo.getMemo() == null) {
+				orderInfo.setMemo("");
+			}
 			callManagementService.updateOrder(orderInfo);
 			return freightInfo;
 		}else {
