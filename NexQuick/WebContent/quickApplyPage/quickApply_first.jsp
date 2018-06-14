@@ -28,6 +28,8 @@
 <link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/css/datepicker.min.css">
 <script src="<%=request.getContextPath() %>/js/datepicker.min.js"></script>
 <script src="<%=request.getContextPath() %>/js/datepicker.en.js"></script>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.0/jquery-confirm.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.0/jquery-confirm.min.js"></script>
 <%@ include file = "../navigation.jsp" %>
 
 <script>
@@ -58,14 +60,28 @@ var callNum;
  					if(JSONDocument) {
  						console.log("로그인 중");
  					} else if (!JSONDocument) {
- 						alert("로그아웃 되었습니다. 다시 로그인 해주세요.");
- 						location.replace("<%= request.getContextPath() %>/index.jsp");
+ 						$.confirm({
+ 						    title: '로그인 세션 만료',
+ 						    content: '로그아웃 되었습니다. 다시 로그인 해주세요.',
+ 						    type: 'red',
+ 						   closeIcon: true,
+ 						    theme: 'modern',
+ 						    typeAnimated: true,
+ 						    buttons: {
+ 						        '확인': {
+ 						            action: function(){
+ 				 						location.replace("<%= request.getContextPath() %>/index.jsp");
+ 						            }
+ 						        }
+ 						    }
+ 						});
+
  					}
  				}
  			})
  		}, 5000);
  		
- 		
+ 		$(".jconfirm-box-container").css("margin-left", "auto").css("margin-right", "auto");
  		
  		
     	$('#datetimepicker1').datetimepicker();
@@ -159,7 +175,19 @@ var callNum;
     		if($('input:checkbox[id=reserveDelivery]').is(":checked")) {
     			reserve_value = 1;
     			if($("#timeInput").val() == "" || $("#timeInput").val().length == 0) {
-    				alert("시간을 설정해주세요.");
+					$.confirm({
+					    title: '시간설정 오류',
+					    content: '시간을 설정해주세요.',
+					    type: 'red',
+					    closeIcon: true,
+					    typeAnimated: true,
+					    theme: 'modern',
+					    buttons: {
+					        '확인': {
+					            
+					        }
+					    }
+					});
     				return;
     			}
     		} else {
@@ -186,7 +214,21 @@ var callNum;
 					method : "POST",
 					success : gotoNextPage,
 					error : function() {
-						alert("퀵 신청에 오류가 발생했습니다. 다시 작성해주세요.");
+						$.confirm({
+						    title: '퀵 신청 오류',
+						    content: '퀵 신청에 오류가 발생했습니다. 다시 작성해주세요.',
+						    type: 'red',
+						    closeIcon: true,
+						    typeAnimated: true,
+						    theme: 'modern',
+						    buttons: {
+						        '확인': {
+						            
+						        }
+						    }
+						});
+						
+						
 					}
 	    		}); 
     		} else if (currentCall == 1) {
@@ -208,7 +250,19 @@ var callNum;
 					method : "POST",
 					success : gotoNextPage,
 					error : function() {
-						alert("퀵 신청에 오류가 발생했습니다. 다시 작성해주세요.");
+						$.confirm({
+						    title: '퀵 신청 오류',
+						    content: '퀵 신청에 오류가 발생했습니다. 다시 작성해주세요.',
+						    type: 'red',
+						    closeIcon: true,
+						    typeAnimated: true,
+						    theme: 'modern',
+						    buttons: {
+						        '확인': {
+						            
+						        }
+						    }
+						});
 					}
 	    		});     			
     		} /* if문 끝 */
@@ -225,14 +279,30 @@ var callNum;
 					method : "POST",
 					success : setDepartureAddress,
 					error : function() {
-						var result = confirm("현재 즐겨찾기에 저장된 출발지가 없습니다. 지금 입력할 출발지를 즐겨찾기로 저장하시겠습니까?");
-						if(result) {
-							if($("#saveStartFavorite").is(":checked")) {
-								
-							} else {
-								$("#saveStartFavorite").trigger("click");
-							}
-						}
+						$.confirm({
+						    title: '즐겨찾기 불러오기 오류',
+						    content: '즐겨찾기에 저장된 출발지가 없습니다. 지금 입력할 출발지를 즐겨찾기로 저장하시겠습니까?',
+						    type: 'red',
+						    closeIcon: true,
+						    typeAnimated: true,
+						    theme: 'modern',
+						    buttons: {
+						        '즐겨찾기로 저장': {
+						            btnClass: 'btn-green',
+						        	action : function() {
+						        		if($("#saveStartFavorite").is(":checked")) {
+										
+										} else {
+											$("#saveStartFavorite").trigger("click");
+										}
+						        	}
+						        },
+						        '취소': {
+						            
+						        }
+						    }
+						});
+						
 					}
 	    		});
 	    	}
@@ -273,7 +343,7 @@ var callNum;
 				},
 				success : saveDepartureAddress,
 				error : function(JSONDocument) {
-					alert(JSONDocument);
+					console.log(JSONDocument);
 				}
      		});
 
@@ -315,82 +385,118 @@ var callNum;
    		console.log(JSONDocument);
    		callNum = JSONDocument.callNum;
    		console.log("IF 전의 콜넘 " + callNum);
-   		var result = confirm("현재 신청중인 퀵이 있습니다. 이어서 작성하시겠습니까?");
-   		if(result) { // 이어서 작성
-   			currentCall = 1;
-			$("#userNameApply").val(JSONDocument.senderName);
-			$("#address").val(JSONDocument.senderAddress);
-			$("#addressDetail").val(JSONDocument.senderAddressDetail);
-			$("#phone").val(JSONDocument.senderPhone);
-			switch(JSONDocument.vehicleType) {
-			case 1:
-				$("#motorcycle").attr("checked", "checked");
-				break;
-			case 2:
-				$("#damas").attr("checked", "checked");
-				break;
-			case 3:
-				$("#labo").attr("checked", "checked");
-				break;
-			case 4:
-				$("#truck").attr("checked", "checked");
-				break;
-			}
-			if(JSONDocument.urgent == 1) {
-				$('input:checkbox[id=urgentBox]').attr("checked", "checked");
-			}
-			
-			if(JSONDocument.series == 1) {
-				$("#groupDelivery").attr("checked", "checked");
-			}
-			
-			if(JSONDocument.reserved == 1) {
-				$("#reserveDelivery").attr("checked", "checked");
-	    		$("#reserveBox").slideDown();
-	    		$("#timeInput").val(JSONDocument.reservationTime);
-			}
-			
-			$.ajax({
-				url : "<%= request.getContextPath() %>/call/cancelOrders.do",
-   				data : {
-   					'callNum' : callNum
-   				},
-				dataType : "json",
-				method : "POST",
-				success : function(JSONDocument) {
-					if(JSONDocument) {
-						console.log("모든오더 삭제");
-					}
-				},
-				error : function() {
-					alert("해당 프로세스에서 오류가 생겨 처음부터 작성합니다.");
-				}
-			});
-			
-			
-			
-			console.log("IF 안의 콜넘 " + callNum);
-			console.log(callNum);
-   		} else { // 처음부터 작성
-   			console.log("else IF 안의 콜넘 " + callNum);
-   			$.ajax({
-   				url : "<%= request.getContextPath() %>/call/cancelCall.do",
-   				data : {
-   					'callNum' : callNum
-   				},
-				dataType : "json",
-				method : "POST",
-				success : function(JSONDocument) {
-					if(JSONDocument) {
-						console.log("처음부터 작성");
-					}
-				},
-				error : function() {
-					alert("해당 프로세스에서 오류가 생겨 처음부터 작성합니다.");
-				}
-   			});
-   			
-   		}
+   		
+   		$.confirm({
+		    title: '작성중인 신청 불러오기',
+		    content: '현재 작성중인 퀵이 있습니다. 이어서 작성하시겠습니까?',
+		    type: 'red',
+		    closeIcon: true,
+		    typeAnimated: true,
+		    theme: 'modern',
+		    buttons: {
+		        '이어서 작성': {
+		            btnClass: 'btn-green',
+		        	action : function() {
+		       			currentCall = 1;
+		    			$("#userNameApply").val(JSONDocument.senderName);
+		    			$("#address").val(JSONDocument.senderAddress);
+		    			$("#addressDetail").val(JSONDocument.senderAddressDetail);
+		    			$("#phone").val(JSONDocument.senderPhone);
+		    			switch(JSONDocument.vehicleType) {
+		    			case 1:
+		    				$("#motorcycle").attr("checked", "checked");
+		    				break;
+		    			case 2:
+		    				$("#damas").attr("checked", "checked");
+		    				break;
+		    			case 3:
+		    				$("#labo").attr("checked", "checked");
+		    				break;
+		    			case 4:
+		    				$("#truck").attr("checked", "checked");
+		    				break;
+		    			}
+		    			if(JSONDocument.urgent == 1) {
+		    				$('input:checkbox[id=urgentBox]').attr("checked", "checked");
+		    			}
+		    			
+		    			if(JSONDocument.series == 1) {
+		    				$("#groupDelivery").attr("checked", "checked");
+		    			}
+		    			
+		    			if(JSONDocument.reserved == 1) {
+		    				$("#reserveDelivery").attr("checked", "checked");
+		    	    		$("#reserveBox").slideDown();
+		    	    		$("#timeInput").val(JSONDocument.reservationTime);
+		    			}
+		    			
+		    			$.ajax({
+		    				url : "<%= request.getContextPath() %>/call/cancelOrders.do",
+		       				data : {
+		       					'callNum' : callNum
+		       				},
+		    				dataType : "json",
+		    				method : "POST",
+		    				success : function(JSONDocument) {
+		    					if(JSONDocument) {
+		    						console.log("모든오더 삭제");
+		    					}
+		    				},
+		    				error : function() {
+		    					$.confirm({
+		    					    title: '신청 삭제 오류',
+		    					    content: '신청 삭제에 실패하였습니다. 처음부터 작성합니다.',
+		    					    type: 'red',
+		    					    closeIcon: true,
+		    					    typeAnimated: true,
+		    					    theme: 'modern',
+		    					    buttons: {
+		    					        '확인': {
+		    					        }
+		    					    }
+		    					});
+		    					
+		    				}
+		    			});
+		    			
+		    			console.log("IF 안의 콜넘 " + callNum);
+		    			console.log(callNum);
+		        	}
+		        },
+		        '처음부터 작성': function () {
+		  			console.log("else IF 안의 콜넘 " + callNum);
+		   			$.ajax({
+		   				url : "<%= request.getContextPath() %>/call/cancelCall.do",
+		   				data : {
+		   					'callNum' : callNum
+		   				},
+						dataType : "json",
+						method : "POST",
+						success : function(JSONDocument) {
+							if(JSONDocument) {
+								console.log("처음부터 작성");
+							}
+						},
+						error : function() {
+							$.confirm({
+							    title: '신청 삭제 오류',
+							    content: '신청 삭제에 실패하였습니다. 처음부터 작성합니다.',
+							    type: 'red',
+							    closeIcon: true,
+							    typeAnimated: true,
+							    theme: 'modern',
+							    buttons: {
+							        '확인': {
+							        }
+							    }
+							});
+						}
+		   			});
+		        }
+		    }
+		});
+   		
+   		
    	}
  	
 </script>

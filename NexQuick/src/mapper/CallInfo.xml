@@ -107,6 +107,7 @@
 		where 	c.callnum = #{callNum}
 		and 	c.callnum = o.callnum
 		and 	c.qpid = q.qpid
+		and		rownum = 1
 	</select>
 	
 	

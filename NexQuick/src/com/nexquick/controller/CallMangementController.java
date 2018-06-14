@@ -133,6 +133,8 @@ public class CallMangementController {
 	 * @param memo:배송메시지
 	 * @return JSON (비동기 OrderInfo)
 	 */
+	
+//	바뀐것없지만 바꿈
 	@RequestMapping("/addOrder.do")
 	public @ResponseBody OrderInfo addOrder(HttpSession session,
 				String receiverName, String receiverAddress, String receiverAddressDetail, String receiverPhone, String memo) {
@@ -143,7 +145,7 @@ public class CallMangementController {
 		//입력 받은 주문 정보 생성
 		CallInfo callInfo = callSelectListService.selectCallInfo(callNum);
 		Address sendAddr = addressTransService.getAddress(callInfo.getSenderAddress());
-		Address recvAddr = addressTransService.getAddress(receiverAddress+" " + receiverAddressDetail);
+		Address recvAddr = addressTransService.getAddress(receiverAddress);
 		Map<String, Object> point = new LinkedHashMap<>();
 		point.put("startX", sendAddr.getLongitude());
 		point.put("startY", sendAddr.getLatitude());
@@ -317,14 +319,13 @@ public class CallMangementController {
 	 * @param orderNum
 	 * @return 정상처리:true / 비정상처리:false
 	 */
+//	0614 수정
 	public boolean delOrderProcess(HttpSession session, int orderNum) {
 		if(callManagementService.delFreights(orderNum)) {
 			session.setAttribute("totalPrice", ((int)session.getAttribute("totalPrice"))
 							-callSelectListService.selectOrder(orderNum).getOrderPrice());
-			return callManagementService.delOrder(orderNum);
-		}else {
-			return false;
 		}
+		return callManagementService.delOrder(orderNum);
 	}
 	
 //	콜번호로 오더들 조회(마지막페이지)

@@ -26,6 +26,8 @@
 	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/css/indexStyle.css">
 	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/css/InputBoxStyle.css">
 	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/css/datepicker.min.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.0/jquery-confirm.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.0/jquery-confirm.min.js"></script>
 <title>NexQuick :: 진행중인 퀵</title>
 
 <script type="text/javascript">
@@ -75,7 +77,7 @@ $(function() {
 	});
 	
 
-
+	$(".jconfirm-box-container").css("margin-left", "auto").css("margin-right", "auto");
 	
 	
 });
@@ -115,7 +117,7 @@ function setCallList(JSONDocument) {
 		$("#tableBody").append(
 			$("<tr class='row100 body callListTr'>")
 			.append(
-				$("<td class='cell100 column1 centerBox makeMarker'>").addClass("callNum" + JSONDocument[i].callNum).attr("id", "tdId"+count).text(JSONDocument[i].orderNum).attr("onclick", "findAddress(this)")
+				$("<td class='cell100 column1 centerBox makeMarker'>").addClass("callNum" + JSONDocument[i].callNum).attr("id", "tdId"+count).text(JSONDocument[i].orderNum).attr("onclick", "findAddress(this)").css("cursor", "pointer").css("color", "#55B296").css("text-decoration", "underline")
 			).append(
 				$("<td class='cell100 column2 c2 centerBox'>").text(JSONDocument[i].callTime)
 			).append(
@@ -171,21 +173,87 @@ function saveQPPosition(JSONDocument) {
 	
 	$(".callListTr > td").each(function() {
 		if($(this).text() == '배차실패') {
-			$(this).css("color", "#F43F22");
-			/* 온클릭걸어서 다시신청 or 삭제(리로드하기) */
+		var id = $(this).attr("id").substring(14);
+			$(this).css("color", "#F43F22").css("text-decoration", "underline");
+			$(this).off("click");
+			$(this).on("click", function() {
+				var result = $.confirm({
+				    title: '신청번호 ' + id +'번 배차 실패',
+				    content: '다시 배차 요청하시겠습니까?',
+				    closeIcon: true,
+				    theme: 'modern',
+				    type: 'red',
+				    buttons: {
+				        "배차 요청": {
+				        	btnClass: 'btn-blue',
+				        	action : function () {
+					        	$.ajax({
+					        		url : "<%= request.getContextPath() %>/call/reRegistCall.do",
+									dataType : "json",
+									method : "POST",
+									async : false,
+									data : {
+										callNum : id
+									},
+									success : function() {
+										console.log(id + " 재신청 완료");
+										location.reload();
+									},
+									error : function() {
+										console.log(id + " 재신청에 실패");
+									}
+					        	});
+				      		}
+				        },
+				        "신청 삭제": {
+				        	
+				        	btnClass: 'btn-red',
+					        action: function () {
+					        	$.ajax({
+					        		url : "<%= request.getContextPath() %>/call/cancelCall.do",
+									dataType : "json",
+									method : "POST",
+									async : false,
+									data : {
+										callNum : id
+									},
+									success : function() {
+										console.log(id + " 삭제 완료");
+										location.reload();
+									},
+									error : function() {
+										console.log(id + " 삭제에 실패");
+									}
+					        	});
+					        }
+				        } ,
+				        "취소": {
+				        	
+				        }
+				    }
+				});
+				console.log($(this).attr("id"));
+			});
+			return;
 		}
 	});
 }
 
 function findAddress(Address) {
 	var index = Address.id.substring(4);
+	
+	if(qpAddress_lat[index] != 0) {
+		$("#mapTitle").text("현재 배송 중입니다.");
+	} else {
+		$("#mapTitle").text("배송기사를 배정 중입니다.");
+	}
+	
 	$("#lat").val(qpAddress_lat[index]);
 	$("#lon").val(qpAddress_lon[index]);
 	$("#senderAddress").val(senderAddressArr[index]);
 	$("#receiverAddress").val(receiverAddressArr[index]);
 	
 	setTimeout(function(){
-		console.log("타임아웃들어옴");
 		$("#lat").trigger("click");
 	}, 500);
 	
@@ -214,14 +282,15 @@ function findAddress(Address) {
 	
 	<div class = "row">
 		<div class = "col-md-5">
-			<h2 class = "centerBox mainListTitle text-conceptColor mb-3">
-				현재 배송 중입니다.
+			<h2 class = "centerBox mainListTitle text-conceptColor mb-3" id = "mapTitle">
+				배송기사 위치를 확인해보세요.
 			</h2>
 			
 		<div class="map_wrap">
 		    <div id="map" style="width:100%;height:100%;position:relative;overflow:hidden;"></div> 
 		    <!-- 지도타입 컨트롤 div 입니다 -->
 		    <div class="custom_typecontrol radius_border">
+		        <span id="btnTraffic" class="ColorBorder_map" onclick="setMapType('traffic')">교통정보</span>
 		        <span id="btnStart" class="ColorBorder_map" onclick="setMapType('start')">출발지</span>
    		        <span id="btnQP" class="ColorBorder_map" onclick="setMapType('qp')">배송기사</span>
 		        <span id="btnDepart" class="ColorBorder_map" onclick="setMapType('depart')">도착지</span>
@@ -230,6 +299,7 @@ function findAddress(Address) {
 		    
 			<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=fb36d3fbdea0b0b3d5ac3c3bb1c0532d&libraries=services,clusterer,drawing"></script>
 			<script type="text/javascript">
+				var status = 0;
 				var mapContainer = document.getElementById('map'), // 지도를 표시할 div  
 			    mapOption = { 
 			        center: new daum.maps.LatLng(37.5014846, 127.0393984), // 지도의 중심좌표
@@ -237,7 +307,8 @@ function findAddress(Address) {
 			    };
 		
 				var map = new daum.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
-			 				
+    
+
 				document.getElementById('lat').addEventListener('click', mapInit)
 				
 				var markers = [];
@@ -247,7 +318,7 @@ function findAddress(Address) {
 
 				function mapInit() {
 					deleteMarkers(null);
-
+					map.setLevel('5');
 					
 					
 					// 주소-좌표 변환 객체를 생성합니다(출발지)
@@ -331,13 +402,24 @@ function findAddress(Address) {
 				    
 				    if (maptype === 'start') {
 				    	moveLatLon = coords_Start;
-					    map.panTo(moveLatLon);            				        
+					    map.panTo(moveLatLon);     
+					    
 				    } else if (maptype === 'qp') {
 				        moveLatLon = new daum.maps.LatLng($("#lat").val(), $("#lon").val());
-					    map.panTo(moveLatLon);            				    	
-				    } else {
+					    map.panTo(moveLatLon);
+					    
+				    } else if (maptype === 'depart') {
 				    	moveLatLon = coords_End;
-					    map.panTo(moveLatLon);            				    	
+					    map.panTo(moveLatLon);
+					    
+				    } else {
+				    	if(status == 0) {
+							map.addOverlayMapTypeId(daum.maps.MapTypeId.TRAFFIC);
+							status = 1;
+				    	} else {
+				    		map.removeOverlayMapTypeId(daum.maps.MapTypeId.TRAFFIC);
+				    		status = 0;
+				    	}
 				    }
 				}
 				

@@ -33,6 +33,8 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/css/bootstrap-datetimepicker.min.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
 <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/xeicon@2.3.3/xeicon.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.0/jquery-confirm.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.0/jquery-confirm.min.js"></script>
 <%@ include file = "../navigation.jsp" %>
 <script type="text/javascript">
 var isUrgent = 1;
@@ -47,14 +49,27 @@ var isUrgent = 1;
 					if(JSONDocument) {
 						console.log("로그인 중");
 					} else if (!JSONDocument) {
-						alert("로그아웃 되었습니다. 다시 로그인 해주세요.");
-						location.replace("<%= request.getContextPath() %>/index.jsp");
+ 						$.confirm({
+ 						    title: '로그인 세션 만료',
+ 						    content: '로그아웃 되었습니다. 다시 로그인 해주세요.',
+ 						    type: 'red',
+ 						   closeIcon: true,
+ 						    theme: 'modern',
+ 						    typeAnimated: true,
+ 						    buttons: {
+ 						        '확인': {
+ 						            action: function(){
+ 				 						location.replace("<%= request.getContextPath() %>/index.jsp");
+ 						            }
+ 						        }
+ 						    }
+ 						});
 					}
 				}
 			})
 		}, 5000);
 		
-		
+		$(".jconfirm-box-container").css("margin-left", "auto").css("margin-right", "auto");
 		
     	setTimeout(function(){
 	        $('.trans--grow').addClass('grow');
@@ -382,39 +397,27 @@ var isUrgent = 1;
 			var distancePay = "#distancePay"+dataIndex;
 			var saveFreight;
 			var freightPrice = "#freightPrice" + dataIndex;
-	 		$(addressDetail).keyup(function() {
-	  			if(/* $("#address0").val().trim().length != 0 && */ $(addressDetail).val() != ""
-						&& $(userNameApply).val() != "" && $(phone).val() != "") {
-		  				$(saveOrder).removeAttr("disabled");
-			  			$(saveText).text(" 도착지 저장하기");
-			  			$(saveIcon).removeClass("fas").addClass("far");
-	  			 } else {
-	  				$(saveOrder).attr("disabled", "disabled");
-	  			 }
-	  		});
-	  		$(userNameApply).keyup(function() {
-	  			if(/* $("#address0").val().trim().length != 0 && */ $(addressDetail).val() != ""
-					&& $(userNameApply).val() != "" && $(phone).val() != "") {
-	  				$(saveOrder).removeAttr("disabled");
-		  			$(saveText).text(" 도착지 저장하기");
-		  			$(saveIcon).removeClass("fas").addClass("far");
-  			 } else {
-  				$(saveOrder).attr("disabled", "disabled");
-  			 }
-	  		});
-	  		$(phone).keyup(function() {
-	  			if(/* $("#address0").val().trim().length != 0 && */ $(addressDetail).val() != ""
-					&& $(userNameApply).val() != "" && $(phone).val() != "") {
-	  				$(saveOrder).removeAttr("disabled");
-		  			$(saveText).text(" 도착지 저장하기");
-		  			$(saveIcon).removeClass("fas").addClass("far");
-	  			 } else {
-	  				$(saveOrder).attr("disabled", "disabled");
-	  			 }
-	  		});
 			
 	  		var realId;
 	  		$(saveOrder).on("click", function() {
+	    		
+	    		if($(address).val() == '' ||  $(addressDetail).val() == ""
+					|| $(userNameApply).val() == "" || $(phone).val() == "") {
+	    			$.confirm({
+					    title: '신청 오류',
+					    content: '작성이 안된 항목이 있습니다. 마저 작성해주세요.',
+					    type: 'red',
+					    closeIcon: true,
+					    typeAnimated: true,
+					    theme: 'modern',
+					    buttons: {
+					        '확인': {
+					        }
+					    }
+					});
+			  		return;
+				 } 
+	    		
 	  			realId = $(this).attr("id").substring(9);
 				/* 비동기통신. 오더 저장 */
 				$.ajax({
@@ -440,27 +443,44 @@ var isUrgent = 1;
 			var freightType;
 			var item;
 	  		function addOrders(JSONDocument) {
-	  			var result = confirm("도착지 정보가 저장되었습니다. 즐겨찾기에 저장할까요?");
-	  			if (result) {
-	  				$.ajax({
-		  				url : "<%= request.getContextPath() %>/call/saveFavorite.do",
-		   				data : {
-		   					addressType : 3,
-		   					address : $(address).val(),
-		   					addrDetail : $(addressDetail).val(),
-		   					receiverName : $(userNameApply).val(),
-		   					receiverPhone : $(phone).val()
-		   				},
-		   				dataType : "json",
-		   				method : "POST",
-		   				success : addFavorites
-	  				});
-	  			}
+	  			
+	  			$.confirm({
+				    title: '도착지 저장 완료',
+				    content: '도착지 정보가 저장되었습니다. 즐겨찾기에 저장할까요?',
+				    type: 'green',
+				    closeIcon: true,
+				    typeAnimated: true,
+				    theme: 'modern',
+				    buttons: {
+				        '즐겨찾기에 저장하고 계속': {
+				            btnClass: 'btn-green',
+				        	action: function() {
+				  				$.ajax({
+					  				url : "<%= request.getContextPath() %>/call/saveFavorite.do",
+					   				data : {
+					   					addressType : 3,
+					   					address : $(address).val(),
+					   					addrDetail : $(addressDetail).val(),
+					   					receiverName : $(userNameApply).val(),
+					   					receiverPhone : $(phone).val()
+					   				},
+					   				dataType : "json",
+					   				method : "POST",
+					   				success : addFavorites
+				  				});
+				        	}
+				        },
+				        '저장하지 않고 계속' : {
+				        	
+				        }
+				    }
+				});
+	  			
 	  			callNum = JSONDocument.callNum;
 	  			console.log(callNum);
 				$(list).slideDown(2000);
 				$(distance).text(JSONDocument.distance + "KM");
-				$(saveOrder).attr("disabled", "disabled");
+				/* $(saveOrder).attr("disabled", "disabled"); */
 				$(saveText).text(" 도착지 정보 저장됨");
 				$(saveIcon).removeClass("far").addClass("fas");
 				saveFreight = "#saveFreight"+realId;
@@ -516,7 +536,19 @@ var isUrgent = 1;
   			var trRemove;
 	  		function addFreights (JSONDocument) {
 	  			/* 옆에 리스트에 추가 */
-	  			alert("물품이 추가되었습니다. 이제 결제하실 수 있습니다. ");
+				$.confirm({
+				    title: '물품 추가 완료',
+				    content: '물품이 추가되었습니다. 이제 결제하실 수 있습니다.',
+				    type: 'green',
+				    closeIcon: true,
+				    typeAnimated: true,
+				    theme: 'modern',
+				    buttons: {
+				        '확인': {
+				        }
+				    }
+				});
+  			
 	  			totalPrice += JSONDocument.freightPrice;
 	  			$(freightPrice).text(Number($(freightPrice).text())+Number(JSONDocument.freightPrice));
 				$(tableIndex).append(
@@ -553,21 +585,35 @@ var isUrgent = 1;
 	  		function getFreight(JSONDocument) {
 	  			totalPrice -= JSONDocument.freightPrice;
 	  			$(freightPrice).text(Number($(freightPrice).text())-Number(JSONDocument.freightPrice));
-	  			var result = confirm("해당 화물을 삭제하시겠습니까?");
-	  			if(result) {
-	  				$.ajax({
-	  					url : "<%= request.getContextPath() %>/call/delFreight.do",
-		   				data : {
-		   					freightNum : JSONDocument.freightNum
-		   				},
-		   				dataType : "json",
-		   				method : "POST",
-		   				success : delFreights
-	  				});
-					$(trRemove).remove();
-	  			} else {
-	  				console.log("삭제 취소");
-	  			}
+	  			
+				$.confirm({
+				    title: '물품 삭제 확인',
+				    content: '해당 물품을 삭제하시겠습니까?',
+				    type: 'yellow',
+				    closeIcon: true,
+				    typeAnimated: true,
+				    theme: 'modern',
+				    buttons: {
+				        '삭제하기': {
+				            btnClass: 'btn-red',
+							action: function() {
+				  				$.ajax({
+				  					url : "<%= request.getContextPath() %>/call/delFreight.do",
+					   				data : {
+					   					freightNum : JSONDocument.freightNum
+					   				},
+					   				dataType : "json",
+					   				method : "POST",
+					   				success : delFreights
+				  				});
+								$(trRemove).remove();
+							}
+				        },
+				        "삭제 취소" : {
+				        	
+				        }
+				    }
+				});
 	  			
 	  		}
 	  		
@@ -609,45 +655,30 @@ var isUrgent = 1;
     	
     	
     	$(".select").css("display", "flex").css("margin-left", "auto").css("margin-right", "auto");
-  		
-  		$("#addressDetail0").change(function() {
-  			console.log("ad");
-  			if(/* $("#address0").val().trim().length != 0 && */ $("#addressDetail0").val() != ""
-				&& $("#userNameApply0").val() != "" && $("#phone0").val() != "") {
-		  			$("#saveOrder0").removeAttr("disabled");
-		  			$("#saveText0").text(" 도착지 저장하기");
-		  			$("#saveIcon0").removeClass("fas").addClass("far");
-			 } else {
-				$("#saveOrder0").attr("disabled", "disabled");
-			 }
-  		});
-  		$("#userNameApply0").change(function() {
-  			if(/* $("#address0").val().trim().length != 0 && */ $("#addressDetail0").val() != ""
-				&& $("#userNameApply0").val() != "" && $("#phone0").val() != "") {
-		  			$("#saveOrder0").removeAttr("disabled");
-		  			$("#saveText0").text(" 도착지 저장하기");
-		  			$("#saveIcon0").removeClass("fas").addClass("far");
-			 } else {
-				$("#saveOrder0").attr("disabled", "disabled");
-			 }
-  		});
-  		$("#phone0").change(function() {
-  			if(/* $("#address0").val().trim().length != 0 && */ $("#addressDetail0").val() != ""
-				&& $("#userNameApply0").val() != "" && $("#phone0").val() != "") {
-		  			$("#saveOrder0").removeAttr("disabled");
-		  			$("#saveText0").text(" 도착지 저장하기");
-		  			$("#saveIcon0").removeClass("fas").addClass("far");
-			 } else {
-				$("#saveOrder0").attr("disabled", "disabled");
-			 }
-  		});
-  		
 
   		
   		
   		/* 첫번째 오더의 주문 저장. */
     	$("#saveOrder0").on("click", function() {
-
+    		
+    		if($("#address0").val() == '' ||  $("#addressDetail0").val() == ""
+				|| $("#userNameApply0").val() == "" || $("#phone0").val() == "") {
+    			$.confirm({
+				    title: '신청 오류',
+				    content: '작성이 안된 항목이 있습니다. 마저 작성해주세요.',
+				    type: 'red',
+				    closeIcon: true,
+				    typeAnimated: true,
+				    theme: 'modern',
+				    buttons: {
+				        '확인': {
+				        }
+				    }
+				});
+		  		return;
+			 } 
+    		
+    		
 			/* 오더 저장 비동기통신 */
     		$.ajax({
    				url : "<%= request.getContextPath() %>/call/addOrder.do",
@@ -676,27 +707,44 @@ var isUrgent = 1;
   		var trId;
   		var trRemove;
   		function addOrder(JSONDocument) {
-  			var result = confirm("도착지 정보가 저장되었습니다. 즐겨찾기에 저장할까요?");
-  			if (result) {
-  				$.ajax({
-	  				url : "<%= request.getContextPath() %>/call/saveFavorite.do",
-	   				data : {
-	   					addressType : 3,
-	   					address : $("#address0").val(),
-	   					addrDetail : $("#addressDetail0").val(),
-	   					receiverName : $("#userNameApply0").val(),
-	   					receiverPhone : $("#phone0").val()
-	   				},
-	   				dataType : "json",
-	   				method : "POST",
-	   				success : addFavorite
-  				});
-  			}
+  			
+			$.confirm({
+			    title: '도착지 저장 완료',
+			    content: '도착지 정보가 저장되었습니다. 즐겨찾기에 저장할까요?',
+			    type: 'green',
+			    closeIcon: true,
+			    typeAnimated: true,
+			    theme: 'modern',
+			    buttons: {
+			        '즐겨찾기에 저장하고 계속': {
+			            btnClass: 'btn-green',
+			        	action: function() {
+			  				$.ajax({
+				  				url : "<%= request.getContextPath() %>/call/saveFavorite.do",
+				   				data : {
+				   					addressType : 3,
+				   					address : $("#address0").val(),
+				   					addrDetail : $("#addressDetail0").val(),
+				   					receiverName : $("#userNameApply0").val(),
+				   					receiverPhone : $("#phone0").val()
+				   				},
+				   				dataType : "json",
+				   				method : "POST",
+				   				success : addFavorite
+			  				});
+			        	}
+			        },
+			        '저장하지 않고 계속' : {
+			        	
+			        }
+			    }
+			});
+			
   			callNum = JSONDocument.callNum;
   			console.log(callNum);
   			$("#distance0").text(JSONDocument.distance + "KM");
 			$("#list0").slideDown(2000);
-			$("#saveOrder0").attr("disabled", "disabled");
+			/* $("#saveOrder0").attr("disabled", "disabled"); */
 			$("#saveIcon0").removeClass("far").addClass("fas");
 			$("#saveText0").text(" 도착지 정보 저장됨");
 			
@@ -705,6 +753,7 @@ var isUrgent = 1;
 			$("#distancePay0").text(JSONDocument.orderPrice + "원");
 			
 			/* 첫 버튼 기능등록 */
+			console.log(JSONDocument);
 	    	$("#saveFreight0").on("click", function() {
 				btnId = $(this).attr("id").substring(11);
 				$selectId = "#item0";
@@ -749,7 +798,19 @@ var isUrgent = 1;
   		
   		function addFreight(JSONDocument) {
   			$("#orderNow").attr("data-toggle", "modal").attr("data-target", "#payBox");
-  			alert("물품이 추가되었습니다. 이제 결제하실 수 있습니다. ");
+			$.confirm({
+			    title: '물품 추가 완료',
+			    content: '물품이 추가되었습니다. 이제 결제하실 수 있습니다.',
+			    type: 'green',
+			    closeIcon: true,
+			    typeAnimated: true,
+			    theme: 'modern',
+			    buttons: {
+			        '확인': {
+			        }
+			    }
+			});
+  			
   			totalPrice += JSONDocument.freightPrice;
   			$("#freightPrice0").text(Number($("#freightPrice0").text())+Number(JSONDocument.freightPrice));
 			$(tableIndex).append(
@@ -785,21 +846,35 @@ var isUrgent = 1;
   		function getFreight(JSONDocument) {
   			totalPrice -= JSONDocument.freightPrice;
   			$("#freightPrice0").text(Number($("#freightPrice0").text())-Number(JSONDocument.freightPrice));
-  			var result = confirm("해당 화물을 삭제하시겠습니까?");
-  			if(result) {
-  				$.ajax({
-  					url : "<%= request.getContextPath() %>/call/delFreight.do",
-	   				data : {
-	   					freightNum : JSONDocument.freightNum
-	   				},
-	   				dataType : "json",
-	   				method : "POST",
-	   				success : delFreight
-  				});
-				$(trRemove).remove();
-  			} else {
-  				console.log("삭제 취소");
-  			}
+			$.confirm({
+			    title: '물품 삭제 확인',
+			    content: '해당 물품을 삭제하시겠습니까?',
+			    type: 'yellow',
+			    closeIcon: true,
+			    typeAnimated: true,
+			    theme: 'modern',
+			    buttons: {
+			        '삭제하기': {
+			            btnClass: 'btn-red',
+						action: function() {
+							$.ajax({
+			  					url : "<%= request.getContextPath() %>/call/delFreight.do",
+				   				data : {
+				   					freightNum : JSONDocument.freightNum
+				   				},
+				   				dataType : "json",
+				   				method : "POST",
+				   				success : delFreight
+			  				});
+							$(trRemove).remove();
+						}
+			        },
+			        "삭제 취소" : {
+			        	
+			        }
+			    }
+			});
+  			
   		}
   		
   		function delFreight(JSONDocument) {
@@ -851,12 +926,34 @@ var isUrgent = 1;
     		        msg += '상점 거래ID : ' + rsp.merchant_uid;
     		        msg += '결제 금액 : ' + rsp.paid_amount;
     		        msg += '카드 승인번호 : ' + rsp.apply_num;
-	    		    alert(msg);
+        			$.confirm({
+    				    title: '결제 완료',
+    				    content: '결제가 완료되었습니다. \n' + msg,
+    				    type: 'green',
+    				    closeIcon: true,
+    				    typeAnimated: true,
+    				    theme: 'modern',
+    				    buttons: {
+    				        '확인': {
+    				        }
+    				    }
+    				});
 	    		   	location.href = "<%=request.getContextPath()%>/call/getOrders.do?callNum="+callNum + "&payType=0&payStatus=1";
     		    } else {
     		        var msg = '결제에 실패하였습니다.';
     		        msg += '에러내용 : ' + rsp.error_msg;
-	    		    alert(msg);
+        			$.confirm({
+    				    title: '결제 실패',
+    				    content: '결제에 실패하였습니다. \n' + msg,
+    				    type: 'red',
+    				    closeIcon: true,
+    				    typeAnimated: true,
+    				    theme: 'modern',
+    				    buttons: {
+    				        '확인': {
+    				        }
+    				    }
+    				});
     		    }
     		});
     	});
@@ -1168,7 +1265,7 @@ var isUrgent = 1;
 						
 						<div class = "centerBox" style = "width: 100%; height: 100px;">
 							<button class = "dangerBorder mt-5" id = "deleteOrder0" type = "button" data-container="body" data-toggle="popover" data-placement="bottom" data-content="첫번째 주문 정보는 삭제가 불가합니다." readonly><i class="far fa-times-circle"></i>&nbsp;도착지 삭제하기</button>
-							<button class = "ColorBorder mt-5" id = "saveOrder0" type = "button" disabled = "disabled"><i class="far fa-save" id = "saveIcon0"></i><span id = "saveText0">&nbsp;도착지 저장하기</span></button>
+							<button class = "ColorBorder mt-5" id = "saveOrder0" type = "button"><i class="far fa-save" id = "saveIcon0"></i><span id = "saveText0">&nbsp;도착지 저장하기</span></button>
 						</div>
 					</div>
 					
