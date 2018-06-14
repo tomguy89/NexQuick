@@ -6,9 +6,11 @@
     <color name="colorYellow">#FFF078</color>
     <color name="colorOrange">#F8AC59</color>
     <color name="colorGold">#DAA520</color>
+    <color name="colorGoldTP">#40DAA520</color>
     <color name="colorEmerald">#55B296</color>
     <color name="colorTomato">#F43F22</color>
     <color name="colorGrey">#555555</color>
+    <color name="colorGreyTP">#40555555</color>
 
 
 </resources>

@@ -44,6 +44,7 @@ public class Order2Activity extends AppCompatActivity implements NavigationView.
     private String freight;
     private int callNum;
     private int orderNum;
+    private int totalPrice;
 
     private ArrayList<FavoriteInfo> favoriteInfos;
     private ArrayAdapter favspinnerAdapter;
@@ -75,6 +76,7 @@ public class Order2Activity extends AppCompatActivity implements NavigationView.
         loginInfo = getSharedPreferences("setting", 0);
         csId = loginInfo.getString("csId", "");
         callNum = loginInfo.getInt("callNum", callNum);
+        totalPrice = loginInfo.getInt("totalPrice", totalPrice);
 
         Log.e("callNum", callNum + "");
 
@@ -157,8 +159,7 @@ public class Order2Activity extends AppCompatActivity implements NavigationView.
         prevBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, Order1Activity.class);
-                startActivity(intent);
+             finish();
             }
         });
 
@@ -347,6 +348,8 @@ public class Order2Activity extends AppCompatActivity implements NavigationView.
                 try {
                     data = new JSONObject(s);
                     orderNum = data.getInt("orderNum");
+                    int orderPrice = data.getInt("orderPrice");
+                    totalPrice = totalPrice + orderPrice;
                     SharedPreferences.Editor ed = loginInfo.edit();
                     ed.putInt("orderNum", orderNum);
                     ed.commit();
@@ -396,11 +399,28 @@ public class Order2Activity extends AppCompatActivity implements NavigationView.
         @Override
         protected void onPostExecute(String s) {
             if (s != null) {
+            try {
+                JSONObject data = null;
                 Log.e("SetFreightTask 받아온 것", s);
+
+                    data = new JSONObject(s);
+                    int freightPrice = data.getInt("freightPrice");
+                    totalPrice = totalPrice + freightPrice;
+                    SharedPreferences.Editor ed = loginInfo.edit();
+                    ed.putInt("totalPrice", totalPrice);
+                    ed.commit();
+                    Log.e("totalPrice", totalPrice + "!");
+
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
             }
             Toast.makeText(context, "SetFreightTask", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(context, Order3Activity.class);
             startActivity(intent);
+
 
         }
     }

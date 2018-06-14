@@ -84,6 +84,8 @@ public interface CallSelectListService {
 	
 	List<CallInfo> onSpotDefferedPayCall(int qpId, int orderNum);
 	
+	List<OnDelivery> orderListByCallNum(int callNum);
+	
 	
 	
 }

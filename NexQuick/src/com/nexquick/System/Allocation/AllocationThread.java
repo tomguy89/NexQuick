@@ -8,9 +8,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.List;
 import java.util.Map;
-import java.util.Queue;
 
-import javax.swing.plaf.SliderUI;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,6 +16,7 @@ import org.springframework.stereotype.Service;
 import com.nexquick.model.dao.CSInfoDAO;
 import com.nexquick.model.vo.Address;
 import com.nexquick.model.vo.CallInfo;
+import com.nexquick.model.vo.OnDelivery;
 import com.nexquick.model.vo.QPPosition;
 import com.nexquick.service.account.QPPositionService;
 import com.nexquick.service.call.CallManagementService;
@@ -85,6 +84,23 @@ public class AllocationThread {
 		System.out.println("하나 뽑아옴");
 		int repeat = (int) map.get("repeat");
 		CallInfo callInfo = (CallInfo) map.get("callInfo");
+		List<OnDelivery> orders = callSelectService.orderListByCallNum(callInfo.getCallNum());
+		StringBuilder msgBd = new StringBuilder();
+		if(orders.get(0).getUrgent()==1) {
+			msgBd.append("급/");
+		}
+		msgBd.append("픽/").append(orders.get(0).getSenderAddress());
+		
+		for(int i=0; i<orders.size(); i++) {
+			msgBd.append("/착");
+			if(orders.size()!=1) {
+				msgBd.append(" ").append(i+1);
+			}
+			msgBd.append("/").append(orders.get(i).getReceiverAddress());
+			msgBd.append("/").append(orders.get(i).getFreightList());
+		}
+		msgBd.append(callInfo.getTotalPrice()).append("원@");
+		msgBd.append(callInfo.getCallNum());
 		String token = csInfoDao.selectCSDevice(callInfo.getCsId());
 		if(repeat==5) {
 			sendMessage(token, "배차에 실패하였습니다.");
@@ -107,7 +123,7 @@ public class AllocationThread {
 			for(QPPosition qp : qpList) {
 				//callInfo.setQpId(qp.getQpId());
 				//callManagementService.updateCall(callInfo);
-				sendMessage(qp.getConnectToken(), "배차를 받으시겠습니까");
+				sendMessage(qp.getConnectToken(), msgBd.toString());
 				
 				try {
 					Thread.sleep(15000);

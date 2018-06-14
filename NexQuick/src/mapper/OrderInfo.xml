@@ -108,6 +108,21 @@
 		ORDER BY callTime
 	</select>
 	
+	<select id="orderListByCallNum" parameterType="int" resultType="OnDelivery">
+		select c.callNum, o.orderNum, callTime, senderName, senderAddress, senderAddressDetail, receiverName, receiverAddress, receiverAddressDetail, orderPrice, urgent, deliveryStatus, freightList
+		from orderInfo o, callInfo c, (SELECT LISTAGG(aa, ',') WITHIN GROUP (order by ordernum) AS freightList, ordernum
+										FROM   (SELECT freightName||' '|| freightQuant as aa, ordernum
+        										FROM priceInfo p, freightInfo f
+        										WHERE p.freightType = f.freightType
+        										)
+        								GROUP BY ordernum) x
+		WHERE isGet = 0
+		AND o.ordernum = x.ordernum(+)
+		AND o.callNum = c.callNum
+		AND c.callNum = #{callNum}
+		ORDER BY callTime
+	</select>
+	
 	<select id="allCallListByIdAndName" parameterType="String" resultType="OnDelivery">
 		select c.callNum, orderNum, callTime, senderName, senderAddress, senderAddressDetail, receiverName, receiverAddress, receiverAddressDetail, orderPrice, urgent, deliveryStatus 
 		from orderInfo o, callInfo c
