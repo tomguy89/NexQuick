@@ -86,14 +86,31 @@ public class AllocationThread {
 		if(orders.get(0).getUrgent()==1) {
 			msgBd.append("급/");
 		}
-		msgBd.append("픽/").append(orders.get(0).getSenderAddress());
+		msgBd.append("픽/");
+		String temp = orders.get(0).getSenderAddress();
+		int t = 0, k = 0;
+		for(int i=temp.length()-1; i>=0; i--) {
+			if(temp.charAt(i)=='(') t = i;
+			if(temp.charAt(i)==')') k = i;
+			if(t!=0 && k!=0) break;
+		}
+		msgBd.append(temp.substring(t+1, k));
 		
 		for(int i=0; i<orders.size(); i++) {
 			msgBd.append("/착");
 			if(orders.size()!=1) {
 				msgBd.append(" ").append(i+1);
 			}
-			msgBd.append("/").append(orders.get(i).getReceiverAddress());
+			msgBd.append("/");
+			
+			temp = orders.get(i).getReceiverAddress();
+			t = 0; k = 0;
+			for(int j=temp.length()-1; j>=0; j--) {
+				if(temp.charAt(j)=='(') t = j;
+				if(temp.charAt(j)==')') k = j;
+				if(t!=0 && k!=0) break;
+			}
+			msgBd.append(temp.substring(t+1, k)).append("/");
 			msgBd.append(orders.get(i).getFreightList());
 		}
 		msgBd.append("/");
@@ -137,10 +154,10 @@ public class AllocationThread {
 					break;
 				}
 			}
-			if (callSelectService.selectCallInfo(callInfo.getCallNum()).getQpId()==0) {
-				allocationQueue.offer(callInfo, repeat+1);
-				System.out.println("다시 넣기");
-			}
+		}
+		if (callSelectService.selectCallInfo(callInfo.getCallNum()).getQpId()==0) {
+			allocationQueue.offer(callInfo, repeat+1);
+			System.out.println("다시 넣기");
 		}
 		/*else {
 			sendMessage(token, "죄송합니다. 현재는 배차가 불가능합니다.");

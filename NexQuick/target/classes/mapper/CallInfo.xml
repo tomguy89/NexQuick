@@ -173,6 +173,7 @@
 	<delete id="deletePastCalls">
 		delete from callInfo
 		where sysdate-callTime > 1
+		and deliveryStatus = 0
 	</delete>
 
 	<update parameterType="map" id="updateCallAfterConfirm">
