@@ -71,7 +71,7 @@ public interface CallSelectListService {
 	List<OnDelivery> orderListByQPId(int qpId);
 	
 	//0612 이은진 추가
-	List<CallInfo> selectUnpayedCall(int qpId);
+	List<OnDelivery> selectUnpayedCall(int qpId);
 	int selectUnpayedSum(List<Integer> list);
 	void updatePayStatus(List<Integer> list);
 	

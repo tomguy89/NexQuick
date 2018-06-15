@@ -277,6 +277,40 @@
 	</select>
 
 
+<!-- 0612 이은진 추가 -->
+	
+	<select id="selectUnpayedCall" parameterType="int"
+		resultType="OnDelivery">
+		select *
+		from orderInfo o, callInfo c
+		where o.callnum = c.callnum 
+		and qpId=#{qpId}
+		and deliveryStatus=4
+		and payStatus=2
+		and payType not in (2,3,4,5)
+	</select>
 
+	<select id="selectUnpayedSum" parameterType="map"
+		resultType="int">
+		select trunc(sum(orderPrice)*0.95)
+		from orderInfo
+		<if test="list != null and list.size() >= 1">
+			where orderNum in
+			<foreach separator="," close=")" open="(" item="orderNum"
+				collection="list"> #{orderNum} </foreach>
+		</if>
+	</select>
+
+
+	<update id="updatePayStatus" parameterType="map">
+		update orderInfo
+		set payStatus=3
+		<if test="list != null and list.size() >= 1">
+			where orderNum in
+			<foreach separator="," close=")" open="(" item="orderNum"
+				collection="list"> #{orderNum} </foreach>
+		</if>
+	</update>
+	
 </mapper>
 

@@ -120,20 +120,18 @@ public class CallSelectListServiceImpl implements CallSelectListService {
 	
 	//0612 이은진 추가.
 	@Override
-	public List<CallInfo> selectUnpayedCall(int qpId) {
-		// TODO Auto-generated method stub
-		return callInfoDao.selectUnpayedCall(qpId);
+	public List<OnDelivery> selectUnpayedCall(int qpId) {
+		return orderInfoDao.selectUnpayedCall(qpId);
 	}
 
 	@Override
 	public int selectUnpayedSum(List<Integer> list) {
-		// TODO Auto-generated method stub
-		return callInfoDao.selectUnpayedSum(list);
+		return orderInfoDao.selectUnpayedSum(list);
 	}
 
 	@Override
 	public void updatePayStatus(List<Integer> list) {
-		callInfoDao.updatePayStatus(list);
+		orderInfoDao.updatePayStatus(list);
 	}
 	
 	//0612 이은진 추가2222

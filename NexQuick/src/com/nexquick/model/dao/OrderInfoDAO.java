@@ -84,4 +84,9 @@ public interface OrderInfoDAO {
 
 	List<BusinessOrderInfo> getBusinessOrderList(HashMap<String, Object> condition);
 	
+	
+	List<OnDelivery> selectUnpayedCall(int qpId);
+	int selectUnpayedSum(List<Integer> list);
+	void updatePayStatus(List<Integer> list);
+	
 }

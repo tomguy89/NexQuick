@@ -134,6 +134,8 @@ public class AllocationThread {
 			qpList = qpPositionService.selectQPListByBCode(addr);
 		}
 		
+		
+		
 		if (qpList.size()!=0) {
 			System.out.println("repeat : "+repeat);
 			for(QPPosition qp : qpList) {
@@ -167,6 +169,10 @@ public class AllocationThread {
 	
 	}
 	
+	public List<QPPosition> priorityQP(List<QPPosition> qpList){
+		
+		return qpList;
+	}
 	
 }
 

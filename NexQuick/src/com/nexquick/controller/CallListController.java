@@ -228,5 +228,11 @@ public class CallListController {
 		condition.put("payType", payType);
 		return callSelectListService.getBusinessOrderList(condition);
 	}
+	
+	@RequestMapping("/calculationList.do")
+	public @ResponseBody List<OnDelivery> calculationList(int qpId){
+		return callSelectListService.selectUnpayedCall(qpId);
+	}
+	
 
 }

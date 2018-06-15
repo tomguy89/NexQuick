@@ -96,27 +96,6 @@ public class CallInfoDAOImpl implements CallInfoDAO {
 	}
 	
 	
-	//0612 이은진 추가.
-	@Override
-	public List<CallInfo> selectUnpayedCall(int qpId) {
-
-		return sqlSession.selectList("callInfo.selectUnpayedCall", qpId);
-	}
-
-	@Override
-	public int selectUnpayedSum(List<Integer> list) {
-		// TODO Auto-generated method stub
-		return sqlSession.selectOne("callInfo.selectUnpayedSum", list);
-	}
-
-	@Override
-	public void updatePayStatus(List<Integer> list) {
-		// TODO Auto-generated method stub
-		sqlSession.update("callInfo.updatePayStatus", list);
-	}
-	
-	
-	
 	
 	//0612 이은진 추가 2222
 	

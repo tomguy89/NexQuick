@@ -192,39 +192,7 @@
 		where callNum = #{callNum}
 	</update>
 	
-	<!-- 0612 이은진 추가 -->
-	<select id="selectUnpayedCall" parameterType="int"
-		resultType="CallInfo">
-		select *
-		from callInfo
-		where qpId=#{qpId}
-		and deliveryStatus=4
-		and payStatus=2
-		and payType not in (2,3,4,5)
-	</select>
-
-
-	<select id="selectUnpayedSum" parameterType="map"
-		resultType="int">
-		select trunc(sum(totalPrice)*0.95)
-		from callInfo
-		<if test="list != null and list.size() >= 1">
-			where callNum in
-			<foreach separator="," close=")" open="(" item="callNum"
-				collection="list"> #{callNum} </foreach>
-		</if>
-	</select>
-
-
-	<update id="updatePayStatus" parameterType="map">
-		update callInfo
-		set payStatus=3
-		<if test="list != null and list.size() >= 1">
-			where callNum in
-			<foreach separator="," close=")" open="(" item="callNum"
-				collection="list"> #{callNum} </foreach>
-		</if>
-	</update>
+	
 	
 
 <!--0612 이은진 추가 2222 -->

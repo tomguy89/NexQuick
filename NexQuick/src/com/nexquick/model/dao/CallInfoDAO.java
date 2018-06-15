@@ -86,11 +86,8 @@ public interface CallInfoDAO {
 	QPInfo getQPInfo(int callNum);
 	
 	//0612 이은진 추가
-	List<CallInfo> selectUnpayedCall(int qpId);
-	int selectUnpayedSum(List<Integer> list);
-	void updatePayStatus(List<Integer> list);
-	
-	
+
+
 
 	
 	//0612 이은진 추가222

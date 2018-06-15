@@ -132,4 +132,25 @@ public class OrderInfoDAOImpl implements OrderInfoDAO {
 		return sqlSession.selectList("orderInfo.getBusinessOrderList", condition);
 	}
 	
+	//0612 이은진 추가.
+
+	@Override
+	public List<OnDelivery> selectUnpayedCall(int qpId) {
+		
+		return sqlSession.selectList("orderInfo.selectUnpayedCall", qpId);
+	}
+	
+	@Override
+	public int selectUnpayedSum(List<Integer> list) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("orderInfo.selectUnpayedSum", list);
+	}
+
+	@Override
+	public void updatePayStatus(List<Integer> list) {
+		// TODO Auto-generated method stub
+		sqlSession.update("orderInfo.updatePayStatus", list);
+	}
+	
+	
 }

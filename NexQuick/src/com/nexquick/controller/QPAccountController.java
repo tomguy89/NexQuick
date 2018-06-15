@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.nexquick.system.UploadPath;
-import com.nexquick.model.vo.CallInfo;
+import com.nexquick.model.vo.OnDelivery;
 import com.nexquick.model.vo.QPInfo;
 import com.nexquick.model.vo.QPPay;
 import com.nexquick.model.vo.QPPosition;
@@ -129,14 +129,14 @@ public class QPAccountController {
 		
 		
 		
-		List<CallInfo> callList = callSelectListService.selectUnpayedCall(qpId);
-		int callListSize = callList.size();
+		List<OnDelivery> orderList = callSelectListService.selectUnpayedCall(qpId);
+		int orderListSize = orderList.size();
 		
-		if(callListSize>0) {
+		if(orderListSize>0) {
 			List<Integer> list=  new ArrayList<>();
 			
-			for(int i=0;i<callListSize;i++) {
-			list.add(callList.get(i).getCallNum());
+			for(int i=0;i<orderListSize;i++) {
+			list.add(orderList.get(i).getOrderNum());
 			}
 		
 			int money = callSelectListService.selectUnpayedSum(list);
@@ -223,7 +223,6 @@ public class QPAccountController {
 			e.printStackTrace();
 			entity=new ResponseEntity<String>("fail", HttpStatus.BAD_REQUEST);
 		}
-
 		
 		return entity;
 	}
@@ -281,6 +280,4 @@ public class QPAccountController {
 		return entity;
 	}
 		
-	
-	
 }
