@@ -29,6 +29,7 @@
 	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/css/datepicker.min.css">
 	<script src="<%=request.getContextPath() %>/js/datepicker.min.js"></script>
 	<script src="<%=request.getContextPath() %>/js/datepicker.en.js"></script>
+	<%@ include file = "../navigation.jsp" %>
 <script type="text/javascript">
 var callPrice;
 $(function() {
@@ -132,7 +133,7 @@ function setCallList(JSONDocument) {
 			).append(
 				$("<td class='cell100 column3 centerBox'>").css("width", "12.5%").text(JSONDocument[i].csBusinessName)
 			).append(
-				$("<td class='cell100 column4 centerBox'>").css("width", "12.5%").text(JSONDocument[i].csDepartment)
+				$("<td class='cell100 column4 centerBox' onclick='getDepartmentPeople(this)'>").css("width", "12.5%").text(JSONDocument[i].csDepartment).css("color", "#55B296").css("text-decoration", "underline").css("cursor","pointer")
 			).append(
 				$("<td class='cell100 column5 centerBox'>").css("width", "12.5%").text(JSONDocument[i].senderName)
 			).append(
@@ -140,14 +141,29 @@ function setCallList(JSONDocument) {
 			).append(
 				$("<td class='cell100 column7 centerBox'>").css("width", "12.5%").text(payType)
 			).append(
-				$("<td class='cell100 column7 centerBox'>").css("width", "12.5%").text(JSONDocument[i].callTime)
+				$("<td class='cell100 column8 centerBox'>").css("width", "12.5%").text(JSONDocument[i].callTime)
 			)
 		)
 	}
-	
-	console.log(JSONDocument);
 }
 
+function getDepartmentPeople(department) {
+	$.ajax({
+		url : "<%=request.getContextPath()%>/call/getOrder.do",
+		data : {
+			"csBusinessName" : <%= csInfo.getCsBusinessName() %>,
+			"csDepartment" : $(department).text()
+		},
+		dataType : "json",
+		method : "POST",
+		success : setDepartmentPeople
+	})	
+	
+}
+
+function setDepartmentPeople(JSONDocument) {
+	
+}
 
 
 function getOrders(orderNum) {
@@ -199,12 +215,61 @@ function orderList(JSONDocument) {
     	);
     	
     	$.ajax({
-    		
-    		
+    		url : "<%= request.getContextPath() %>/list/getOrderByOrderNumber.do",
+			dataType : "json",
+			method : "POST",
+			async : false,
+			data : {
+				orderNum : JSONDocument.orderNum
+			},
+			success : setFreightList,
+			error : function() {
+				console.log(" 에러임 실패");
+			}
     	});
     	
     	
+}
+
+function setFreightList(JSONDocument) {
+	$("#FreightTable").empty();
+	for(var i in JSONDocument) {
+	  	var freightType;
+		switch(JSONDocument[i].freightType) {
+		case 1:
+			freightType = "서류";
+			break;
+		case 2:
+			freightType = "소박스";
+			break;
+		case 3:
+			freightType = "중박스";
+			break;
+		case 4:
+			freightType = "대박스";
+			break;
+		case 5:
+			freightType = "음식물";
+			break;
+		case 6:
+			freightType = "꽃";
+			break;
+		default:
+			freightType = "기타";
+			break;
+		}
+		
+		$("#FreightTable").append(
+			$("<tr>")
+			.append($("<td class = 'centerBox'>").css("width", "25%").text(JSONDocument[i].orderNum))
+			.append($("<td class = 'centerBox'>").css("width", "25%").text(freightType))
+			.append($("<td class = 'centerBox'>").css("width", "25%").text(JSONDocument[i].freightQuant + "개"))
+			.append($("<td class = 'centerBox'>").css("width", "25%").text(JSONDocument[i].freightPrice + "원"))
+		)
+		
+	}
 	$("#orderList").modal("show");
+	
 }
 
 
@@ -214,7 +279,7 @@ function orderList(JSONDocument) {
 <title>NexQuick :: 법인 관리</title>
 </head>
 <body>
-<%@ include file = "../navigation.jsp" %>
+
 	
 	<h2 class = "centerBox quickFirstTitle mb-5 text-conceptColor">
 		전체 신청목록 조회
@@ -339,7 +404,7 @@ function orderList(JSONDocument) {
 
 
 
-			<div class="limiter">
+			<div class="limiter" style = "margin-bottom: 30px;">
 				<div class="container-table100" style = "top:0em!important;">
 					<div class = "table1000">
 						<div class="table100 ver1">
@@ -348,7 +413,7 @@ function orderList(JSONDocument) {
 								<table class = "table1000">
 									<thead>
 										<tr class="row100 head">
-											<th class="column100 column1 centerBox">오더 번호</th>
+											<th class="column100 column1 centerBox">주문 번호</th>
 											<th class="column100 column2 centerBox">수령인</th>
 											<th class="column100 column3 centerBox">수령지</th>
 											<th class="column100 column4 centerBox">배송메모</th>
@@ -370,7 +435,7 @@ function orderList(JSONDocument) {
 			</div>
 			
 			<!-- 화물리스트 -->
-			<div class="limiter">
+			<div class="limiter" style = "margin-top: 100px;">
 				<div class="container-table100" style = "top:0em!important;">
 					<div class = "table1000">
 						<div class="table100 ver1">
@@ -379,9 +444,10 @@ function orderList(JSONDocument) {
 								<table class = "table1000">
 									<thead>
 										<tr class="row100 head">
-											<th class="column100 column1 centerBox">물품 유형</th>
-											<th class="column100 column2 centerBox">갯수</th>
-											<th class="column100 column3 centerBox">물품 가격</th>
+											<th class="column100 column1 centerBox" style = "width: 25%;">주문 번호</th>
+											<th class="column100 column2 centerBox" style = "width: 25%;">물품 유형</th>
+											<th class="column100 column3 centerBox" style = "width: 25%;">갯수</th>
+											<th class="column100 column4 centerBox" style = "width: 25%;">물품 가격</th>
 										</tr>
 									</thead>
 								</table>
@@ -389,6 +455,62 @@ function orderList(JSONDocument) {
 							<div class="table100-body js-pscroll modalTable" >
 								<table class = "table1000">
 									<tbody id = "FreightTable">
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+	      
+	      
+	      </div>
+          <div class="modal-footer centerBox">
+	        <button type="button" class="ColorBorder" id = "submitBtn" data-dismiss="modal"> 창 닫기 </button>
+	      </div>
+		      
+	    </div>
+	  </div>
+	</div>
+
+	
+
+
+			
+	<div class="modal fade bd-example-modal-lg" id="orderList" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	  <div class="modal-dialog modal-dialog-centered modal-lg modal_resize" role="document">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <h5 class="modal-title" id="exampleModalLabel">신청 정보</h5>
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	          <span aria-hidden="true">&times;</span>
+	        </button>
+	      </div>
+	      <div class="modal-body">
+
+
+			
+			<!-- 화물리스트 -->
+			<div class="limiter" style = "margin-top: 100px;">
+				<div class="container-table100" style = "top:0em!important;">
+					<div class = "table1000">
+						<div class="table100 ver1">
+							<div class="table100-head">
+						
+								<table class = "table1000">
+									<thead>
+										<tr class="row100 head">
+											<th class="column100 column1 centerBox" style = "width: 25%;">사용자ID</th>
+											<th class="column100 column2 centerBox" style = "width: 25%;">이름</th>
+											<th class="column100 column3 centerBox" style = "width: 25%;">법인명</th>
+											<th class="column100 column4 centerBox" style = "width: 25%;">부서명</th>
+										</tr>
+									</thead>
+								</table>
+							</div>
+							<div class="table100-body js-pscroll modalTable" >
+								<table class = "table1000">
+									<tbody id = "departmentPeople">
 									</tbody>
 								</table>
 							</div>

@@ -68,4 +68,7 @@ public interface CSInfoDAO {
 	List<String> getDepartments(HashMap<String, Object> condition);
 //	0615 김민규추가
 	boolean updateCSGrade(CSInfo csInfo);
+
+//	0615 김민규추가(20:00)
+	List<CSInfo> getCSByCorporate(HashMap<String, Object> condition);
 }

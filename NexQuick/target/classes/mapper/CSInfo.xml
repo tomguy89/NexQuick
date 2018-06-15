@@ -139,6 +139,13 @@
  		where csId=#{csId}
  	</update>
 
+	<!-- 0615 김민규 추가(20:00) -->
+	<select id="selectCSByCorporate" parameterType = "map" resultType="CSInfo">
+		select * 
+		from csInfo
+		where csBusinessName = #{csBusinessName}
+		and csDepartment #{csDepartment}
+	</select>
 
 
 </mapper>

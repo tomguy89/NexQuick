@@ -61,5 +61,8 @@ public interface CSAccountService {
 	CSInfo getCSInfo(String csId);
 //  0615 김민규추가
 	boolean csGradeModify(CSInfo csInfo);
+
+//	0615 김민규추가(20:00)
+	List<CSInfo> getCSByCorporate(HashMap<String, Object> condition);
 	
 }

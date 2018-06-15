@@ -170,6 +170,15 @@ public class CSAccountController {
 		return list;
 	}
 	
+//	0615 김민규 추가(20:00)
+	@RequestMapping("/selectCSByCorporate.do")
+	public @ResponseBody List<CSInfo> getCSByCorporate(String csBusinessName, String csDepartment) {
+		HashMap<String, Object> condition = new HashMap<>();
+		condition.put("csBusinessName", csBusinessName);
+		condition.put("csDepartment", csDepartment);
+		List<CSInfo> list = csAccountService.getCSByCorporate(condition);
+		return list;
+	}
 	
 	
 }

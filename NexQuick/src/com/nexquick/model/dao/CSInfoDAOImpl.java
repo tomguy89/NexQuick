@@ -82,5 +82,11 @@ public class CSInfoDAOImpl implements CSInfoDAO {
 	public boolean updateCSGrade(CSInfo csInfo) {
 		return sqlSession.update("csInfo.updateCSGrade", csInfo) > 0;
 	}
-
+	
+//	0615 김민규추가(20:00)
+	@Override
+	public List<CSInfo> getCSByCorporate(HashMap<String, Object> condition) {
+		return sqlSession.selectList("csInfo.selectCSByCorporate", condition);
+	}
+	
 }

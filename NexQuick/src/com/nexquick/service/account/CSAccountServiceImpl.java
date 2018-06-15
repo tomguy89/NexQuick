@@ -84,5 +84,10 @@ public class CSAccountServiceImpl implements CSAccountService {
 	}
 	
 	
+//	0615 김민규추가(20:00)
+	@Override
+	public List<CSInfo> getCSByCorporate(HashMap<String, Object> condition) {
+		return csInfoDao.getCSByCorporate(condition);
+	}
 	
 }
