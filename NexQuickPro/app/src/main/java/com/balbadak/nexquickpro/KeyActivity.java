@@ -1,6 +1,7 @@
 package com.balbadak.nexquickpro;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -65,6 +66,10 @@ public class KeyActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Toast.makeText(getApplicationContext(),"저장되었습니다.",Toast.LENGTH_SHORT).show();
                 //이거 하고 어느 액티비티로 이동해야할까....? 다시 그 상세보기 있는 그 액티비티로?
+                Intent i = new Intent(KeyActivity.this,MainActivity.class);
+                startActivity(i);
+
+
             }
         });
 
