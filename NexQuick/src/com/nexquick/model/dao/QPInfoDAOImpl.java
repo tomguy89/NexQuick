@@ -44,11 +44,13 @@ public class QPInfoDAOImpl implements QPInfoDAO {
 		return sqlSession.selectList("qpInfo.selectQPList");
 	}
 	
+//	0615 김민규 수정
 	@Override
-	public List<QPInfo> selectQPListByName(HashMap<String, Object> condition) {
-		return sqlSession.selectList("qpInfo.selectQPListByName", condition);
+	public List<QPInfo> selectQPListSearch(HashMap<String, Object> condition) {
+		return sqlSession.selectList("qpInfo.selectQPListSearch", condition);
 	}
-
+	
+	
 	@Override
 	public List<QPInfo> selectQPList(int qpVehicleType) {
 		return sqlSession.selectList("qpInfo.selectQPListByVehicle", qpVehicleType);
@@ -83,4 +85,6 @@ public class QPInfoDAOImpl implements QPInfoDAO {
 		condition.put("qpPhone", qpPhone);
 		sqlSession.update("qpInfo.updateLicense", condition);
 	}
+
+
 }

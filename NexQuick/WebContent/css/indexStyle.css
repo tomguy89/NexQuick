@@ -328,6 +328,19 @@ input::-moz-placeholder { color: rgba(255, 255, 255, 0.65); }
 .corpBox {
 	display: none!important;
 }
+
+.theadCsGrade {
+	background : transparent;
+	color: white;
+	border : 0px;
+	
+}
+
+.theadCsGrade > option {
+		background : #003358;
+		color: white;
+	}
+
 .subBox {
 	background-image: url("../image/index_img/background_deliveryService.png");	
 	background-size: 100%;

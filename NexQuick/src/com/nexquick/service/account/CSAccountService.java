@@ -47,9 +47,19 @@ public interface CSAccountService {
 	
 	
 	List<CSInfo> csAllList();
-
-	List<CSInfo> csAllListByName(HashMap<String, Object> condition);
+	
+//  0615 김민규 수정
+	List<CSInfo> csAllListBySearch(HashMap<String, Object> condition);
 
 	void deleteDeviceInfo(String csId);
+
+//	0615 김민규추가
+	List<String> getBusinessNames(String name);
+//  0615 김민규추가
+	List<String> getDepartments(HashMap<String, Object> condition);
+//  0615 김민규추가
+	CSInfo getCSInfo(String csId);
+//  0615 김민규추가
+	boolean csGradeModify(CSInfo csInfo);
 	
 }

@@ -54,8 +54,8 @@ public interface QPInfoDAO {
 	 */
 	List<QPInfo> selectQPList(int qpVehicleType);
 	
-//	관리자용. 이름으로검색
-	List<QPInfo> selectQPListByName(HashMap<String, Object> condition);
+//	0615 김민규 수정
+	List<QPInfo> selectQPListSearch(HashMap<String, Object> condition);
 
 	//0612 이은진 추가
 	QPInfo selectQPAccountById(int qpId);

@@ -43,9 +43,10 @@ public class QPAccountServiceImpl implements QPAccountService {
 		return qpInfoDao.selectQPList();
 	}
 	
+//	0615 김민규 수정
 	@Override
-	public List<QPInfo> qpAllListByName(HashMap<String, Object> condition) {
-		return qpInfoDao.selectQPListByName(condition);
+	public List<QPInfo> qpAllListSearch(HashMap<String, Object> condition) {
+		return qpInfoDao.selectQPListSearch(condition);
 	}
 	
 	//0612 이은진 추가.
@@ -74,5 +75,7 @@ public class QPAccountServiceImpl implements QPAccountService {
 		// TODO Auto-generated method stub
 		qpInfoDao.updateLicense(qpLicense, qpPhone);
 	}
+
+
 	
 }

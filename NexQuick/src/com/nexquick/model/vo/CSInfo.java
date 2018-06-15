@@ -44,6 +44,21 @@ public class CSInfo {
 		setCsBusinessName(csBusinessName);
 		setCsBusinessNumber(csBusinessNumber);
 		setCsDepartment(csDepartment);
+		
+	}
+	
+	public CSInfo(String csId, String csPassword, String csName, String csPhone, int csType, String csBusinessName,
+			String csBusinessNumber, String csDepartment, int csGrade) {
+		super();
+		setCsId(csId);
+		setCsPassword(csPassword);
+		setCsName(csName);
+		setCsPhone(csPhone);
+		setCsType(csType);
+		setCsBusinessName(csBusinessName);
+		setCsBusinessNumber(csBusinessNumber);
+		setCsDepartment(csDepartment);
+		setCsGrade(csGrade);
 	}
 
 	public CSInfo(String csId, String csPassword, String csName, String csPhone, int csType, String csBusinessName,
@@ -56,6 +71,19 @@ public class CSInfo {
 		setCsType(csType);
 		setCsBusinessName(csBusinessName);
 		setCsBusinessNumber(csBusinessNumber);
+	}
+	
+	public CSInfo(String csId, String csPassword, String csName, String csPhone, int csType, String csBusinessName,
+			String csBusinessNumber, int csGrade) {
+		super();
+		setCsId(csId);
+		setCsPassword(csPassword);
+		setCsName(csName);
+		setCsPhone(csPhone);
+		setCsType(csType);
+		setCsBusinessName(csBusinessName);
+		setCsBusinessNumber(csBusinessNumber);
+		setCsGrade(csGrade);
 	}
 
 	public CSInfo(String csId, String csPassword, String csName, String csPhone, int csType) {

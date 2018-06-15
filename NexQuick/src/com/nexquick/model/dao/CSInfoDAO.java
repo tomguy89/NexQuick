@@ -53,11 +53,19 @@ public interface CSInfoDAO {
 	 * @return CSInfo List(사업자 등록 번호가 일치하는 고객 정보 리스트)
 	 */
 	List<CSInfo> selectCSList(String csBusinessNumber);
-
-	List<CSInfo> selectCSListByName(HashMap<String, Object> condition);
+	
+//  0615 김민규 수정
+	List<CSInfo> selectCSListBySearch(HashMap<String, Object> condition);
 	
 	boolean lastSignedInDevice(CSDevice csDevice);
 	String selectCSDevice(String csId);
 
 	void deleteDeviceInfo(String csId);
+
+//	0615 김민규추가
+	List<String> getBusinessNames(String name);
+//	0615 김민규추가
+	List<String> getDepartments(HashMap<String, Object> condition);
+//	0615 김민규추가
+	boolean updateCSGrade(CSInfo csInfo);
 }

@@ -46,8 +46,9 @@ public interface QPAccountService {
 	boolean qpModify(QPInfo qpInfo);
 	
 	List<QPInfo> qpAllList();
-
-	List<QPInfo> qpAllListByName(HashMap<String, Object> condition);
+	
+//	0615 김민규 수정(qpAllListName을 수정함)
+	List<QPInfo> qpAllListSearch(HashMap<String, Object> condition);
 	
 	//0612 이은진 추가
 	
@@ -59,4 +60,6 @@ public interface QPAccountService {
 	void updateProfile(String qpProfile, String qpPhone);
 	
 	void updateLicense(String qpLicense, String qpPhone);
+
+
 }

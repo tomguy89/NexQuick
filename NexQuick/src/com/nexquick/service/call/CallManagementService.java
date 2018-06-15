@@ -99,4 +99,7 @@ public interface CallManagementService {
 
 //	배송기사 이름 가져오기
 	QPInfo getQPInfo(int callNum);
+
+//	0615 김민규 추가
+	OrderInfo getOrder(int orderNum);
 }

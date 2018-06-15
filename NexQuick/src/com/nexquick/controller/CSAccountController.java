@@ -1,5 +1,8 @@
 package com.nexquick.controller;
 
+import java.util.HashMap;
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -88,11 +91,11 @@ public class CSAccountController {
 	 * @param csDepartment:부서번호(csType 2,3인 경우 null)
 	 * @return view page path (동기 통신 / 가입 완료 후 로그인 화면)
 	 */
+//	0615 csGrade 추가
 	@RequestMapping("/csSignUp.do")
 	public @ResponseBody boolean csSignUp(String csId, String csPassword, String csName, String csPhone,
-						   int csType, String csBusinessName, String csBusinessNumber, String csDepartment) {
-		
-		CSInfo csInfo = new CSInfo(csId, csPassword, csName, csPhone, csType, csBusinessName, csBusinessNumber, csDepartment);
+						   int csType, String csBusinessName, String csBusinessNumber, String csDepartment, int csGrade) {
+		CSInfo csInfo = new CSInfo(csId, csPassword, csName, csPhone, csType, csBusinessName, csBusinessNumber, csDepartment, csGrade);
 		if(csAccountService.csSignUp(csInfo)) return true;
 		else return false;
 	}
@@ -147,5 +150,26 @@ public class CSAccountController {
 			return false;
 		}
 	}
+	
+//  김민규 0615 추가
+	@RequestMapping("/selectBusinessName.do")
+	 public @ResponseBody List<String> getBusinessNames(String csBusinessName) {
+		System.out.println("컨트롤러");
+		List<String> list = csAccountService.getBusinessNames(csBusinessName);
+		System.out.println(list.toString());
+		return list;
+	 }
+	
+//  김민규 0615 추가
+	@RequestMapping("/selectDeptName.do")
+	public @ResponseBody List<String> getDepartments(String csBusinessName, String csDepartment) {
+		HashMap<String, Object> map = new HashMap<>();
+		map.put("csBusinessName", csBusinessName);
+		map.put("csDepartment", csDepartment);
+		List<String> list = csAccountService.getDepartments(map);
+		return list;
+	}
+	
+	
 	
 }

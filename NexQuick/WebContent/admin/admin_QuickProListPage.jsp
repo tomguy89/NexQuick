@@ -71,29 +71,9 @@ $(function() {
 	}, 5000);
 	
 	
+	searchAllQP();
 	
-	
-	$.ajax({
-		url : "<%= request.getContextPath() %>/admin/allQpByName.do",
-		dataType : "json",
-		method : "POST",
-		data : {
-			qpName : $("#qpName").val()
-		},
-		success : setQpListTable 
-	})
-	
-	$("#searchBtn").on("click", function() {
-		$.ajax({
-			url : "<%= request.getContextPath() %>/admin/allQpByName.do",
-			dataType : "json",
-			method : "POST",
-			data : {
-				qpName : $("#qpName").val()
-			},
-			success : setQpListTable 
-		})
-	});
+	$("#searchBtn").on("click", searchAllQP);
 	
 	
 	
@@ -141,9 +121,9 @@ function setQpListTable(JSONDocument) {
 			).append(
 				$("<td class = 'cell100 column7 c7 centerBox'>").text(JSONDocument[i].qpDeposit)
 			).append(
-				$("<td class = 'cell100 column8 c8 centerBox'>").text(JSONDocument[i].qpBank)
+				$("<td class = 'cell100 column8 c8 centerBox'>").text("QP 은행")
 			).append(
-				$("<td class = 'cell100 column9 c9 centerBox'>").text(JSONDocument[i].qpAccount)
+				$("<td class = 'cell100 column9 c9 centerBox'>").text("QP 계좌")
 			)
 		)
 		
@@ -151,6 +131,18 @@ function setQpListTable(JSONDocument) {
 	
 }
 
+function searchAllQP() {
+	$.ajax({
+		url : "<%= request.getContextPath() %>/admin/allQpSearch.do",
+		dataType : "json",
+		method : "POST",
+		data : {
+			qpName : $("#qpName").val(),
+			qpVehicleType : $("#qpVehicleType").val()
+		},
+		success : setQpListTable 
+	})
+}
 
 </script>
 </head>
@@ -189,7 +181,15 @@ function setQpListTable(JSONDocument) {
 									<th class="column100 column1 c1 centerBox">QPID</th>
 									<th class="column100 column2 c2 centerBox">이름</th>
 									<th class="column100 column3 c3 centerBox">전화번호</th>
-									<th class="column100 column4 c4 centerBox">차종</th>
+									<th class="column100 column4 c4 centerBox">
+										<select class = "theadCsGrade" id = "qpVehicleType" onchange = "searchAllQP()">
+											<option value='-5'>차종</option>
+											<option value='0'>오토바이</option>
+											<option value='1'>다마스</option>
+											<option value='2'>라보</option>
+											<option value='3'>트럭</option>
+										</select>
+									</th>
 									<th class="column100 column5 c5 centerBox">면허번호</th>
 									<th class="column100 column6 c6 centerBox">등록현황</th>
 									<th class="column100 column7 c7 centerBox">예치금</th>
@@ -199,7 +199,7 @@ function setQpListTable(JSONDocument) {
 							</thead>
 						</table>
 					</div>
-					<div class="table100-body js-pscroll">
+					<div class="table100-body js-pscroll" style = "max-height:500px!important;">
 						<table class = "table1000">
 							<tbody id = "tableBody">
 							</tbody>

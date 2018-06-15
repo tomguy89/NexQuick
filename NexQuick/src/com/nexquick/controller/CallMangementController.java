@@ -552,6 +552,16 @@ public class CallMangementController {
 		session.removeAttribute("orderMap");
 		return true;
 	}
+	
+	
+	@RequestMapping("/getOrder.do")
+	public @ResponseBody OrderInfo getOrder(int orderNum) {
+		OrderInfo orderInfo = callManagementService.getOrder(orderNum);
+		return orderInfo;
+	}
     
+	
+	
+	
 	
 }

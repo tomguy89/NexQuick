@@ -48,15 +48,41 @@ public class CSAccountServiceImpl implements CSAccountService {
 		return csInfoDao.selectCSList();
 	}
 	
+//	0615 김민규 수정
 	@Override
-	public List<CSInfo> csAllListByName(HashMap<String, Object> condition) {
-		return csInfoDao.selectCSListByName(condition);
+	public List<CSInfo> csAllListBySearch(HashMap<String, Object> condition) {
+		return csInfoDao.selectCSListBySearch(condition);
 	}
 
 	@Override
 	public void deleteDeviceInfo(String csId) {
 		csInfoDao.deleteDeviceInfo(csId);
 	}
+	
+//	0615 김민규추가
+	@Override
+	public List<String> getBusinessNames(String name) {
+		return csInfoDao.getBusinessNames(name);
+	}
+	
+//	0615 김민규추가
+	@Override
+	public List<String> getDepartments(HashMap<String, Object> condition) {
+		return csInfoDao.getDepartments(condition);
+	}
+
+//	0615 김민규추가
+	@Override
+	public CSInfo getCSInfo(String csId) {
+		return csInfoDao.selectCS(csId);
+	}
+
+//	0615 김민규추가
+	@Override
+	public boolean csGradeModify(CSInfo csInfo) {
+		return csInfoDao.updateCSGrade(csInfo);
+	}
+	
 	
 	
 }

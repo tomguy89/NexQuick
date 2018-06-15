@@ -41,8 +41,8 @@ public class CSInfoDAOImpl implements CSInfoDAO {
 	}
 	
 	@Override
-	public List<CSInfo> selectCSListByName(HashMap<String, Object> condition) {
-		return sqlSession.selectList("csInfo.selectCSListByName", condition);
+	public List<CSInfo> selectCSListBySearch(HashMap<String, Object> condition) {
+		return sqlSession.selectList("csInfo.selectCSListBySearch", condition);
 	}
 
 	@Override
@@ -63,6 +63,24 @@ public class CSInfoDAOImpl implements CSInfoDAO {
 	@Override
 	public void deleteDeviceInfo(String csId) {
 		sqlSession.update("csInfo.deleteDeviceInfo", csId);
+	}
+
+	
+//	0615 김민규추가
+	@Override
+	public List<String> getBusinessNames(String name) {
+		return sqlSession.selectList("csInfo.selectCSBusinessName", name); 
+	}
+//	0615 김민규추가
+	@Override
+	public List<String> getDepartments(HashMap<String, Object> condition) {
+		return sqlSession.selectList("csInfo.selectCSDepartment", condition);
+	}
+
+//	0615 김민규추가
+	@Override
+	public boolean updateCSGrade(CSInfo csInfo) {
+		return sqlSession.update("csInfo.updateCSGrade", csInfo) > 0;
 	}
 
 }

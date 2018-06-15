@@ -172,7 +172,7 @@ function orderList(JSONDocument) {
     	$("#orderListTable").append(
     		$("<tr class='row100 body'>")
     		.append(
-    			$("<td class='cell100 column1 centerBox'>").text(JSONDocument[i].orderNum)
+    			$("<td class='cell100 column1 centerBox'>").text(JSONDocument[i].orderNum).css("color", "#55B296").css("text-decoration", "underline").css("cursor", "pointer")
     		).append(
     			$("<td class='cell100 column2 centerBox'>").text(JSONDocument[i].receiverName)
     		).append(
@@ -255,7 +255,7 @@ function orderList(JSONDocument) {
 							</thead>
 						</table>
 					</div>
-					<div class="table100-body js-pscroll">
+					<div class="table100-body js-pscroll" style = "max-height:500px!important;">
 						<table class = "table1000">
 							<tbody id = "tableBody">
 							<%-- 	<tr class="row100 body">

@@ -37,6 +37,27 @@
 var currentCall = 0;
 var callNum;
  	$(function () {
+ 		
+ 		
+ 		<% if(csInfo.getCsGrade() == 0) { %>
+ 			$.confirm({
+			    title: '가입 대기중 고객',
+			    content: '현재 가입 대기중입니다. 관리자에게 문의해주세요.',
+			    type: 'red',
+			  	columnClass: 'centerBox',
+			    theme: 'modern',
+			    typeAnimated: true,
+			    buttons: {
+			        '확인': {
+			            action: function(){
+	 						location.replace("<%= request.getContextPath() %>/mainPage/main_index.jsp");
+			            }
+			        }
+			    }
+			});
+ 		
+ 		<% } %>
+ 		
  		$.ajax({
  			url : "<%= request.getContextPath() %>/call/currentCall.do",
 			data : {
@@ -49,7 +70,6 @@ var callNum;
 				console.log("진행중이었던 신청이 없습니다.");
 			}
  		});
- 		
  		
  		setInterval(function() {
  			$.ajax({

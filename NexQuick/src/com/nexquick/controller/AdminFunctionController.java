@@ -47,14 +47,26 @@ public class AdminFunctionController {
 		return "admin/admin_UserPage";
 	}
 	
-	@RequestMapping("/allCsByName.do")
-	private @ResponseBody List<CSInfo> allCsListByName(HttpSession session, String csName) {
+	@RequestMapping("/allCsSearch.do")
+	private @ResponseBody List<CSInfo> allCsListBySearch(HttpSession session, String csName, String csBusinessName, String csDepartment, int csGrade, int csType) {
 		HashMap<String, Object> condition = new HashMap<>();
 		if(csName.length() == 0 || csName.equals("")) {
 			csName = null;
 		}
+		if(csBusinessName.length() == 0 || csBusinessName.equals("")) {
+			csBusinessName = null;
+		}
+		if(csDepartment.length() == 0 || csDepartment.equals("")) {
+			csDepartment = null;
+		}
+		
 		condition.put("csName", csName);
-		List<CSInfo> csList = csAccountService.csAllListByName(condition);
+		condition.put("csBusinessName", csBusinessName);
+		condition.put("csDepartment", csDepartment);
+		condition.put("csGrade", csGrade);
+		condition.put("csType", csType);
+		
+		List<CSInfo> csList = csAccountService.csAllListBySearch(condition);
 		return csList;
 	}
 	
@@ -66,15 +78,25 @@ public class AdminFunctionController {
 	}
 	
 
-	@RequestMapping("/allQpByName.do")
-	private @ResponseBody List<QPInfo> allQpListByName(HttpSession session, String qpName) {
+	@RequestMapping("/allQpSearch.do")
+	private @ResponseBody List<QPInfo> allQpListSearch(HttpSession session, String qpName, int qpVehicleType) {
 		HashMap<String, Object> condition = new HashMap<>();
 		if(qpName.length() == 0 || qpName.equals("")) {
 			qpName = null;
 		}
 		condition.put("qpName", qpName);
-		List<QPInfo> qpList = qpAccountService.qpAllListByName(condition);
+		condition.put("qpVehicleType", qpVehicleType);
+		List<QPInfo> qpList = qpAccountService.qpAllListSearch(condition);
 		return qpList;
+	}
+	
+	
+//	0615 김민규추가
+	@RequestMapping("/updateCSByCSId")
+	private @ResponseBody boolean updateCSByCSId(String csId, int csGrade) {
+		CSInfo csInfo = csAccountService.getCSInfo(csId);
+		csInfo.setCsGrade(csGrade);
+		return csAccountService.csGradeModify(csInfo);
 	}
 	
 }

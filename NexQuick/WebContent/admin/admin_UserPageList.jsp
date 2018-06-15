@@ -25,9 +25,12 @@
 	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/css/indexStyle.css">
 	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/css/InputBoxStyle.css">
 	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/css/datepicker.min.css">
+	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/css/selectionBoxStyle.css">
 	<script src="<%=request.getContextPath() %>/js/datepicker.min.js"></script>
+	<script src="<%=request.getContextPath() %>/js/selectionBoxStyle.js"></script>
 	<script src="<%=request.getContextPath() %>/js/datepicker.en.js"></script>
-
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.0/jquery-confirm.min.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.0/jquery-confirm.min.js"></script>
 	
 <title>NexQuick :: 관리자 페이지 :: 사용자 관리</title>
 <script type="text/javascript">
@@ -73,27 +76,9 @@ $(function() {
 	
 	
 	
-	$.ajax({
-		url : "<%= request.getContextPath() %>/admin/allCsByName.do",
-		dataType : "json",
-		method : "POST",
-		data : {
-			csName : $("#csName").val()
-		},
-		success : setCsListTable 
-	})
 	
-	$("#searchBtn").on("click", function() {
-		$.ajax({
-			url : "<%= request.getContextPath() %>/admin/allCsByName.do",
-			dataType : "json",
-			method : "POST",
-			data : {
-				csName : $("#csName").val()
-			},
-			success : setCsListTable 
-		})
-	});
+	searchAllCs();
+	$("#searchBtn").on("click", searchAllCs);
 	
 	
 	
@@ -108,6 +93,7 @@ function setCsListTable(JSONDocument) {
 	var Department;
 	var csType;
 	for(var i in JSONDocument) {
+		var tdId = "#cs"+JSONDocument[i].csId;
 		switch(JSONDocument[i].csType) {
 		case 0:
 			csType = "관리자";
@@ -133,23 +119,104 @@ function setCsListTable(JSONDocument) {
 			).append(
 				$("<td class = 'cell100 column4 c4 centerBox'>").text(csType)
 			).append(
-				$("<td class = 'cell100 column5 c5 centerBox'>").text(JSONDocument[i].csGrade)
+				$("<td class = 'cell100 column5 c5 centerBox'>").text(JSONDocument[i].csMilege)
 			).append(
-				$("<td class = 'cell100 column6 c6 centerBox'>").text(JSONDocument[i].csMilege)
-			).append(
-				$("<td class = 'cell100 column7 c7 centerBox'>")
+				$("<td class = 'cell100 column6 c6 centerBox'>")
 				.append(
 					$("<button onclick = 'onopen(this)'>").attr("id", "btn"+count).text(JSONDocument[i].csBusinessNumber)
 				)
 			).append(
-				$("<td class = 'cell100 column8 c8 centerBox'>").text(JSONDocument[i].csBusinessName)
+				$("<td class = 'cell100 column7 c7 centerBox'>").text(JSONDocument[i].csBusinessName)
 			).append(
-				$("<td class = 'cell100 column9 c9 centerBox'>").text(JSONDocument[i].csDepartment)
+				$("<td class = 'cell100 column8 c8 centerBox'>").text(JSONDocument[i].csDepartment)
+			).append(
+				$("<td class = 'cell100 column9 c9 centerBox'>")
+				.append(
+					$("<select name = 'item0' onchange = 'saveUserInfo(this)'>").attr("id", "cs"+JSONDocument[i].csId)
+					.append(
+						$("<option value='1'>일반</option>")
+					).append(
+						$("<option value='2'>법인 관리자</option>")
+					).append(
+						$("<option value='0'>가입 대기</option>")
+					)
+				)
 			)
 		)
 		
+		if(JSONDocument[i].csGrade == 1) {
+			$(tdId).val(1);
+		} else if (JSONDocument[i].csGrade == 2) { // 법인관리자
+			$(tdId).val(2);
+		} else if (JSONDocument[i].csGrade == 0) {
+			$(tdId).val(0);
+		} else {// 관리자
+			$(tdId).val(1);
+		}
+		
+		
+		
 	}
-	
+}
+function saveUserInfo(selectThis) {
+	var csId = selectThis.id.substring(2);
+	$.ajax({
+		url : "<%= request.getContextPath() %>/admin/updateCSByCSId.do",
+		dataType : "json",
+		method : "POST",
+		data : {
+			csId : csId,
+			csGrade : $(selectThis).val()
+		},
+		success : function() {
+			$.confirm({
+			    title: '고객등급 수정 완료',
+			    content: '고객등급이 정상적으로 수정되었습니다.',
+			    type: 'green',
+			    columnClass: 'centerBox',
+			    closeIcon: true,
+			    typeAnimated: true,
+			    theme: 'modern',
+			    buttons: {
+			        '확인' : {
+			            btnClass: 'btn-blue'
+			        }
+			    }
+			});
+		}, error : function () {
+			$.confirm({
+			    title: '고객등급 수정 실패',
+			    content: '고객등급 수정에 에러가 생겨 수정되지 않았습니다.',
+			    type: 'red',
+			    columnClass: 'centerBox',
+			    closeIcon: true,
+			    typeAnimated: true,
+			    theme: 'modern',
+			    buttons: {
+			        '확인' : {
+			            btnClass: 'btn-red'
+			        }
+			    }
+			});
+		}
+	});
+
+}
+
+function searchAllCs() {
+	$.ajax({
+		url : "<%= request.getContextPath() %>/admin/allCsSearch.do",
+		dataType : "json",
+		method : "POST",
+		data : {
+			csName : $("#csName").val(),
+			csBusinessName : $("#csBusinessName").val(), 
+			csDepartment : $("#csDepartment").val(), 
+			csGrade : $("#csGrade").val(), 
+			csType : $("#csType").val()
+		},
+		success : setCsListTable 
+	});
 }
 
 
@@ -158,21 +225,41 @@ function setCsListTable(JSONDocument) {
 <body>
 <%@ include file = "../navigation.jsp" %>
 
+
+
+
 	<h2 class = "centerBox quickFirstTitle mb-5 text-conceptColor">
 		사용자 관리
 	</h2>
+		
 	
 	
 	<div class = "row">
-		<div class = "col-md-6">
-			<div class="group centerBox" style = "width: 20%; float : right;">      
-			    <input class = "inputDesignForDay" type="text" id = "csName"  data-language='en' placeholder = "이름을 입력하세요">
+		<div class = "col-md-3">
+			<div class="group centerBox" style = "width: 50%; float : right;">      
+			    <input class = "inputDesignForDay" type="text" id = "csName"  data-language='en' placeholder = "이름 검색">
 			    <span class="highlight"></span>
 			    <span class="bar"></span>
-			    <label class = "labelDesignForDay"><i class = "fas fa-street-view"></i>사용자 이름검색</label>
+			    <label class = "labelDesignForDay"><i class = "fas fa-street-view"></i>사용자 검색</label>
 			</div>
 		</div>
-		<div class = "col-md-6">
+		<div class = "col-md-3">
+			<div class="group centerBox" style = "width: 50%; float : right;">      
+			    <input class = "inputDesignForDay" type="text" id = "csBusinessName"  data-language='en' placeholder = "법인명 검색">
+			    <span class="highlight"></span>
+			    <span class="bar"></span>
+			    <label class = "labelDesignForDay"><i class = "fas fa-street-view"></i>법인명 검색</label>
+			</div>
+		</div>
+		<div class = "col-md-3">
+			<div class="group centerBox" style = "width: 50%; float : right;">      
+			    <input class = "inputDesignForDay" type="text" id = "csDepartment"  data-language='en' placeholder = "부서명 검색">
+			    <span class="highlight"></span>
+			    <span class="bar"></span>
+			    <label class = "labelDesignForDay"><i class = "fas fa-street-view"></i>부서명 검색</label>
+			</div>
+		</div>
+		<div class = "col-md-3">
 			<button class = "ColorBorder" style = "height: 47px!important ; line-height: 47px!important;" id = "searchBtn">검색하기</button>
 		</div>
 	</div>
@@ -190,17 +277,32 @@ function setCsListTable(JSONDocument) {
 									<th class="column100 column1 c1 centerBox">고객ID</th>
 									<th class="column100 column2 c2 centerBox">이름</th>
 									<th class="column100 column3 c3 centerBox">전화번호</th>
-									<th class="column100 column4 c4 centerBox">고객분류</th>
-									<th class="column100 column5 c5 centerBox">회원등급</th>
-									<th class="column100 column6 c6 centerBox">마일리지</th>
-									<th class="column100 column7 c7 centerBox">사업자등록번호</th>
-									<th class="column100 column8 c8 centerBox">법인명</th>
-									<th class="column100 column9 c9 centerBox">부서명</th>
+									<th class="column100 column4 c4 centerBox">
+										<select class = "theadCsGrade" id = "csType" onchange = "searchAllCs()">
+											<option value='-1'>고객분류</option>
+											<option value='0'>관리자</option>
+											<option value='1'>법인 고객</option>
+											<option value='2'>자영업 고객</option>
+											<option value='3'>개인 고객</option>
+										</select>
+									</th>
+									<th class="column100 column5 c5 centerBox">마일리지</th>
+									<th class="column100 column6 c6 centerBox">사업자등록번호</th>
+									<th class="column100 column7 c7 centerBox">법인명</th>
+									<th class="column100 column8 c8 centerBox">부서명</th>
+									<th class="column100 column9 c9 centerBox">
+										<select class = "theadCsGrade" id = "csGrade" onchange = "searchAllCs()">
+											<option value='-5'>고객등급</option>
+											<option value='1'>일반</option>
+											<option value='2'>법인 관리자</option>
+											<option value='0'>가입 대기</option>
+										</select>
+									</th>
 								</tr>
 							</thead>
 						</table>
 					</div>
-					<div class="table100-body js-pscroll">
+					<div class="table100-body js-pscroll" style = "max-height:500px!important;">
 						<table class = "table1000">
 							<tbody id = "tableBody">
 							<%-- 	<tr class="row100 body">
@@ -243,6 +345,7 @@ function setCsListTable(JSONDocument) {
 	</script>
 <!--===============================================================================================-->
 	<script src="<%=request.getContextPath() %>/Table_Fixed_Header/js/main.js"></script>
+
 
 
 <%@ include file = "../footer.jsp" %>

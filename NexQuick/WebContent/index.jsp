@@ -19,13 +19,67 @@
 <link rel="stylesheet" href="<%= request.getContextPath() %>/css/indexStyle.css" />
 <link rel="stylesheet" href="<%= request.getContextPath() %>/css/indexStyle_radio.css" />
 <link rel="stylesheet" href="<%= request.getContextPath() %>/css/InputBoxStyle.css" />
-
-
+<!-- jqueryUI -->
+<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js" type="text/javascript"></script>
+<link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css" />
+<style>
+.ui-autocomplete { 
+    overflow-y: scroll; 
+    overflow-x: hidden;}
+</style>
 
 
 <script type="text/javascript">
 	$(function() {
 
+		 $("#corpName").autocomplete({
+			 source : function(request, response) {
+				 $.ajax({
+					 url : "<%=request.getContextPath()%>/account/selectBusinessName.do",
+					 type : "post",
+					 dataType : "json",
+					 data: {
+						 'csBusinessName' : $("#corpName").val()
+					 },
+					 success : function(data) {
+						 var result = data;
+						 response(result);
+					 },
+					 error : function(data) {
+						 console.log("에러");
+					 }
+				 });
+			 }
+		 });
+		 
+		 $("#deptName").autocomplete({
+			 source : function(request, response) {
+				 $.ajax({
+					 url : "<%=request.getContextPath()%>/account/selectDeptName.do",
+					 type : "post",
+					 dataType : "json",
+					 data: {
+						 'csBusinessName' : $("#corpName").val(),
+						 'csDepartment' : $("#deptName").val(),
+					 },
+					 success : function(data) {
+						 var result = data;
+						 response(result);
+					 },
+					 error : function(data) {
+						 console.log("에러");
+					 }
+				 });
+			 }
+		 });
+		
+		
+		
+		
+		
+		
+		
+		
 		setInterval(function() {
 			$.ajax({
 				url : "<%= request.getContextPath() %>/call/delPastCall.do",
@@ -109,6 +163,11 @@
 			if($("input[type=radio]:checked").val() != 3) {
 				$(".corpForm").removeClass("corpBox");
 				$(".notPersonal").attr("required", "required");
+				if($("input[type=radio]:checked").val() == 2) {
+					$(".departForm").addClass("corpBox");
+				} else {
+					$(".departForm").removeClass("corpBox");
+				}
 			} else {
 				$(".corpForm").addClass("corpBox");
 				$(".notPersonal").removeAttr("required");
@@ -139,6 +198,7 @@
 				alert("연락처를 다시 확인해주세요.");
 				return false;
 			}
+			
 			if($("input[type=radio]:checked").val() != 3) {
 				if($("#corpName").val() == "") {
 					alert("법인명을 다시 확인해주세요.");
@@ -148,14 +208,25 @@
 					alert("사업자등록번호를 다시 확인해주세요.");
 					return false;
 				}
-				if($("#deptName").val() == "") {
-					alert("부서명을 다시 확인해주세요.");
-					return false;
+				
+				if($("input[type=radio]:checked").val() == 1) {
+					if($("#deptName").val() == "") {
+						alert("부서명을 다시 확인해주세요.");
+						return false;
+					}
 				}
+				
 				if($("#CEOName").val() == "") {
 					alert("대표자명을 다시 확인해주세요.");
 					return false;
 				}
+			}
+			
+			
+			if($("input[type=radio]:checked").val() != 3) {
+				var csGrade = 0;
+			} else {
+				var csGrade = 1;
 			}
 			
 			$.ajax({
@@ -168,7 +239,8 @@
 				    csType : $("input[type=radio]:checked").val(), 
 				    csBusinessName : $("#corpName").val(), 
 				    csBusinessNumber : $("#corpNum").val(),
-				    csDepartment : $("#deptName").val()
+				    csDepartment : $("#deptName").val(),
+				    csGrade : csGrade
 				},
 				dataType : "json",
 				method : "POST",
@@ -246,6 +318,7 @@
 
 </head>
 <body>
+
 
                     
 	<div class = "mainBox">
@@ -444,7 +517,7 @@
 						    </span>
 						</label> 
 		      		</div>
-		      		<div class = "col-md-6 offset-md-2">
+		      		<div class = "col-md-6 offset-md-2 departForm">
 		      		
 		      			<label class="field field_animated field_a2 page__field call">
 						    <input type="text" class="orderNumberForm field__input text-conceptColor notPersonal" placeholder="ex) 개발부" name = "csDepartment" id="deptName">

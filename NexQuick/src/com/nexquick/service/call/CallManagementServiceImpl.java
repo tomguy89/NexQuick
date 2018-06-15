@@ -109,6 +109,11 @@ public class CallManagementServiceImpl implements CallManagementService {
 		return callInfoDao.getQPInfo(callNum);
 	}
 	
+//	0615 김민규 추가
+	@Override
+	public OrderInfo getOrder(int orderNum) {
+		return orderInfoDao.selectOrder(orderNum);
+	}
 	
 	
 }

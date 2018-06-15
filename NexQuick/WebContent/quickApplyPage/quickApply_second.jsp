@@ -40,6 +40,26 @@
 var isUrgent = 1;
 	$(function() {
 		
+ 		<% if(csInfo.getCsGrade() == 0) { %>
+			$.confirm({
+		    title: '가입 대기중 고객',
+		    content: '현재 가입 대기중입니다. 관리자에게 문의해주세요.',
+		    type: 'red',
+		  	columnClass: 'centerBox',
+		    theme: 'modern',
+		    typeAnimated: true,
+		    buttons: {
+		        '확인': {
+		            action: function(){
+ 						location.replace("<%= request.getContextPath() %>/mainPage/main_index.jsp");
+		            }
+		        }
+		    }
+		});
+		
+		<% } %>
+		
+		
 		$.ajax({
 			url : "<%= request.getContextPath() %>/call/orderMapCheck.do",
 			dataType : "json",
