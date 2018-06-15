@@ -1,4 +1,4 @@
-package com.nexquick.System.Allocation;
+package com.nexquick.system.allocation;
 
 import java.util.HashMap;
 import java.util.LinkedList;

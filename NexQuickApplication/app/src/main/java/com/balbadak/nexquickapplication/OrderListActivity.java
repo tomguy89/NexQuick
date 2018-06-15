@@ -12,6 +12,9 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.text.Spannable;
+import android.text.SpannableStringBuilder;
+import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -22,9 +25,9 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 
+import com.balbadak.nexquickapplication.vo.OnDelivery;
 import com.tsengvn.typekit.TypekitContextWrapper;
 
 import org.json.JSONArray;
@@ -41,10 +44,10 @@ public class OrderListActivity extends AppCompatActivity implements NavigationVi
     private TextView titletextView;
     private String csId;
     private String csName;
-    private int callNum;
-    private int deliveryStatus;
+    OnDelivery orderDetail;
 
     ArrayList<ListViewItem> dateList;
+    ArrayList<OnDelivery> list;
 
 
     @Override
@@ -57,6 +60,7 @@ public class OrderListActivity extends AppCompatActivity implements NavigationVi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order_list);
         dateList = new ArrayList<>();
+        list = new ArrayList<>();
 
         titletextView = (TextView) findViewById(R.id.order_list_Title);
 
@@ -68,7 +72,7 @@ public class OrderListActivity extends AppCompatActivity implements NavigationVi
             csName = loginInfo.getString("csName", "");
         }
 
-        String temp = csName + "님의 최근 주문 내역";
+        String temp = csName + "님의 진행중인 주문 내역";
         titletextView.setText(temp);
 
         String url = "http://70.12.109.173:9090/NexQuick/list/app/userCallList.do";
@@ -122,6 +126,7 @@ public class OrderListActivity extends AppCompatActivity implements NavigationVi
         }
 
         public View getView(final int position, View convertView, ViewGroup parent) {
+
             View v = convertView;
             if (v == null) {
                 LayoutInflater vi = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -132,22 +137,45 @@ public class OrderListActivity extends AppCompatActivity implements NavigationVi
             TextView descStrView = (TextView) v.findViewById(R.id.order_list_item_detail);
             Button detailBtn = (Button) v.findViewById(R.id.detailBtn);
 
+            orderDetail = list.get(position);
+            SpannableStringBuilder ssb = new SpannableStringBuilder();
+            switch(orderDetail.getDeliveryStatus()){
+                case -1:
+                    ssb.append("배차실패   ").setSpan(new ForegroundColorSpan(getResources().getColor(R.color.colorTomato)), 0, 4, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    break;
+                case 1:
+                    ssb.append("배차 중     ");
+                    break;
+                case 2:
+                    ssb.append("배차완료   ");
+                    break;
+                case 3:
+                    ssb.append("배송 중     ").setSpan(new ForegroundColorSpan(getResources().getColor(R.color.colorEmerald)), 0, 4, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    break;
+            }
+            ssb.append(data.get(position).getTitleStr());
+            if (orderDetail.getUrgent() == 1) {
+                ssb.append("   급송");
+            }
 
-            titleStrView.setText(data.get(position).getTitleStr());
+            titleStrView.setText(ssb);
             descStrView.setText(data.get(position).getDescStr());
 
-            callNum = data.get(position).getCallNum();
-            deliveryStatus = data.get(position).getDeliveryStatus();
-            Log.i("callNum", callNum+"");
 
             detailBtn.setOnClickListener(new View.OnClickListener() {
-                int cn = callNum;
-                int ds = deliveryStatus;
+                OnDelivery orderInfo = orderDetail;
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(context, DialogDetailActivity.class);
-                    intent.putExtra("callNum", cn);
-                    intent.putExtra("deliveryStatus", ds);
+                    intent.putExtra("orderNum", orderInfo.getOrderNum());
+                    intent.putExtra("callNum", orderInfo.getCallNum());
+                    intent.putExtra("receiverName", orderInfo.getReceiverName());
+                    intent.putExtra("receiverPhone", orderInfo.getReceiverPhone());
+                    intent.putExtra("receiverAddress", orderInfo.getReceiverAddress()+" "+orderInfo.getReceiverAddressDetail());
+                    intent.putExtra("freights", orderInfo.getFreightList());
+                    intent.putExtra("orderPrice", orderInfo.getOrderPrice());
+                    intent.putExtra("memo", orderInfo.getMemo());
+                    intent.putExtra("deliveryStatus", orderInfo.getDeliveryStatus());
                     startActivity(intent);
                 }
             });
@@ -239,36 +267,47 @@ public class OrderListActivity extends AppCompatActivity implements NavigationVi
             StringBuilder descSb = new StringBuilder();
             super.onPostExecute(s);
 
-            if (s != null) {
+            if (s != null && s.toString().trim().length()!= 0) {
                 Log.e("받아온 것", s);
                 try {
                     JSONArray ja = new JSONArray(s);
                     JSONObject data;
+                    OnDelivery order;
+                    ListViewItem item;
                     for (int i = 0; i < ja.length(); i++) {
                         data = ja.getJSONObject(i);
 
-                        ListViewItem item = new ListViewItem();
+                        item = new ListViewItem();
+                        order = new OnDelivery();
                         titleSb.setLength(0);
                         descSb.setLength(0);
-                        if (data.getInt("urgent") == 1) {
-                            descSb.append("급/");
-                        }
 
-                        titleSb.append(data.getString("callTime"));
-                        descSb.append("수령인 : ");
-                        descSb.append(data.getString("receiverName"));
-                        descSb.append(" 수령지 : ");
-                        descSb.append(data.getString("receiverAddress"));
-                        descSb.append(" 가격 : ");
-                        descSb.append(data.getString("orderPrice"));
+                        order.setUrgent(data.getInt("urgent"));
+                        order.setOrderNum(data.getInt("orderNum"));
+                        order.setCallNum(data.getInt("callNum"));
+                        order.setCallTime(data.getString("callTime"));
+                        order.setReceiverName(data.getString("receiverName"));
+                        order.setReceiverPhone(data.getString("receiverPhone"));
+                        order.setReceiverAddress(data.getString("receiverAddress"));
+                        order.setReceiverAddressDetail(data.getString("receiverAddressDetail"));
+                        order.setOrderPrice(data.getInt("orderPrice"));
+                        order.setMemo(data.getString("memo"));
+                        order.setDeliveryStatus(data.getInt("deliveryStatus"));
+                        order.setFreightList(data.getString("freightList"));
+
+                        titleSb.append(order.getCallTime());
+                        descSb.append("   수령인   ");
+                        descSb.append(order.getReceiverName()).append("\n");
+                        descSb.append("   수령지   ");
+                        descSb.append(order.getReceiverAddress());
 
                         item.setTitleStr(titleSb.toString());
                         item.setDescStr(descSb.toString());
-                        item.setCallNum(data.getInt("callNum"));
-                        item.setDeliveryStatus(data.getInt("deliveryStatus"));
+                        item.setCallNum(order.getOrderNum());
+                        item.setDeliveryStatus(order.getDeliveryStatus());
 
                         dateList.add(item);
-
+                        list.add(order);
                     }
 
                 } catch (JSONException e) {
@@ -289,4 +328,8 @@ public class OrderListActivity extends AppCompatActivity implements NavigationVi
             }
         }
     }
+
+
+
+
 }

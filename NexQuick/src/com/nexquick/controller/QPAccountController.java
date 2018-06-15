@@ -16,8 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.nexquick.System.UploadPath;
-import com.nexquick.model.vo.CSInfo;
+import com.nexquick.system.UploadPath;
 import com.nexquick.model.vo.CallInfo;
 import com.nexquick.model.vo.QPInfo;
 import com.nexquick.model.vo.QPPay;

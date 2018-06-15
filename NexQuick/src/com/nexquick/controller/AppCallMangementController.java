@@ -12,7 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.nexquick.System.Allocation.AllocationQueue;
+import com.nexquick.system.allocation.AllocationQueue;
 import com.nexquick.model.vo.Address;
 import com.nexquick.model.vo.CSInfo;
 import com.nexquick.model.vo.CallInfo;
@@ -240,6 +240,7 @@ public class AppCallMangementController {
 		callInfo.setPayType(payType);
 		callInfo.setPayStatus(payStatus);
 		callManagementService.updateCall(callInfo);
+		AllocationQueue.getInstance().offer(callInfo, 0);
 		return true;
 	}
 	

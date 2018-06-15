@@ -12,7 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.nexquick.System.Allocation.AllocationQueue;
+import com.nexquick.system.allocation.AllocationQueue;
 import com.nexquick.model.vo.Address;
 import com.nexquick.model.vo.CSInfo;
 import com.nexquick.model.vo.CallInfo;
@@ -20,7 +20,6 @@ import com.nexquick.model.vo.FavoriteInfo;
 import com.nexquick.model.vo.FreightInfo;
 import com.nexquick.model.vo.OrderInfo;
 import com.nexquick.model.vo.QPInfo;
-import com.nexquick.model.vo.QPPosition;
 import com.nexquick.service.account.FavoriteManagementService;
 import com.nexquick.service.account.QPPositionService;
 import com.nexquick.service.call.CallManagementService;

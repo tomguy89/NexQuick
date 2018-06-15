@@ -29,7 +29,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="10dp"
-            android:text="이전 주문 내역"
+            android:text="완료된 주문 내역"
             android:textStyle="bold"
             android:textAlignment="center"
             android:textSize="20dp" />

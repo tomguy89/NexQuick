@@ -1,4 +1,4 @@
-package com.nexquick.System;
+package com.nexquick.system;
 
 import java.io.BufferedReader;
 import java.io.IOException;

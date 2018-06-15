@@ -42,7 +42,7 @@ public class Order2Activity extends AppCompatActivity implements NavigationView.
     private SharedPreferences loginInfo;
 
     //.173 태진, .164 승진
-    private String mainUrl = "http://70.12.109.164:9090/NexQuick/";
+    private String mainUrl = "http://70.12.109.173:9090/NexQuick/";
     private String csId;
     private String freight;
 
@@ -108,7 +108,7 @@ public class Order2Activity extends AppCompatActivity implements NavigationView.
 
         loginInfo = getSharedPreferences("setting", 0);
         csId = loginInfo.getString("csId", "");
-        callNum = loginInfo.getInt("callNum", callNum);
+        callNum = loginInfo.getInt("callNum", callNum+1);
         totalPrice = loginInfo.getInt("totalPrice", totalPrice);
 
         Log.e("callNum", callNum + "");

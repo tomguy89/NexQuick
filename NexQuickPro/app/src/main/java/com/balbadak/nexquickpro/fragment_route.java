@@ -3,6 +3,7 @@ package com.balbadak.nexquickpro;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -35,6 +36,7 @@ import net.daum.mf.map.api.MapPoint;
 import net.daum.mf.map.api.MapPointBounds;
 import net.daum.mf.map.api.MapView;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.xml.sax.SAXException;
@@ -55,8 +57,22 @@ public class fragment_route extends Fragment {
 
     ArrayList<ListViewItem> quickList;
 
+
+    //이은진 추가
+    int callNum;
+    int orderNum;
+    int qpId;
+    SharedPreferences loginInfo;
+    boolean pickChackFlag;
+
+    String pickUrl = "http://70.12.109.173:9090/NexQuick/list/afterBeamforQPS.do";
+    String chackUrl = "http://70.12.109.173:9090/NexQuick/list/afterBeamforQPR.do";
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
+        loginInfo=getActivity().getSharedPreferences("setting",0);
+        qpId=loginInfo.getInt("qpId",0);
+
 
         View view = inflater.inflate(R.layout.fragment_route, container, false);
         context = this.getActivity();
@@ -128,10 +144,29 @@ public class fragment_route extends Fragment {
             }
         });
 
-        finishBtn.setOnClickListener(new View.OnClickListener() {
+        finishBtn.setOnClickListener(new View.OnClickListener() { //이걸 누르는 순간 결제 해야 하는지 안 해야 하는지....
             @Override
             public void onClick(View v) {
+                    if(pickChackFlag){//콜넘을 갖고 가야 하고... 발송지로 가는 것!!
+                        ContentValues values = new ContentValues();
+                        values.put("callNum", callNum);
+                        values.put("qpId", qpId);
 
+                        SNetworkTask networkTask = new SNetworkTask(pickUrl,values);
+                        networkTask.execute();
+
+
+                    } else {//오더넘을 갖고가야 한다... 수령지로 가는 것!!!
+
+                        ContentValues values = new ContentValues();
+                        values.put("orderNum", orderNum);
+                        values.put("qpId", qpId);
+
+                        RNetworkTask networkTask = new RNetworkTask(chackUrl,values);
+                        networkTask.execute();
+
+
+                    }
             }
         });
 
@@ -147,6 +182,9 @@ public class fragment_route extends Fragment {
         String item;
         SpinnerAdapter spinnerAdapter;
 
+
+
+
         if (quickList != null && quickList.size() != 0) {
 //            for (ListViewItem lv : quickList) {
 //                item = lv.getTitleStr() + "/" + lv.getDescStr();
@@ -160,9 +198,13 @@ public class fragment_route extends Fragment {
                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                     ListViewItem lv = (ListViewItem) quickSpinner.getItemAtPosition(position);
                     if(lv.getQuickType() ==  1) {
-                        Toast.makeText(getActivity(),"callNum : "+ lv.getCallNum(),Toast.LENGTH_SHORT).show();
+                        callNum=lv.getCallNum();
+                        pickChackFlag=true;
+                      //  Toast.makeText(getActivity(),"callNum : "+ lv.getCallNum(),Toast.LENGTH_SHORT).show();
                     } else {
-                        Toast.makeText(getActivity(),"orderNum : "+ lv.getOrderNum(),Toast.LENGTH_SHORT).show();
+                        orderNum=lv.getOrderNum();
+                        pickChackFlag=false;
+                       // Toast.makeText(getActivity(),"orderNum : "+ lv.getOrderNum(),Toast.LENGTH_SHORT).show();
                     }
                 }
 
@@ -221,5 +263,123 @@ public class fragment_route extends Fragment {
             tMapView.addTMapPolyLine("Line1", tMapPolyLine);
         }
     }
+
+    public class SNetworkTask extends AsyncTask<Void, Void, String> {
+
+        private String url;
+        private ContentValues values;
+
+        public SNetworkTask(String url, ContentValues values) {
+
+            this.url = url;
+            this.values = values;
+        }
+
+        @Override
+        protected String doInBackground(Void... params) {
+            Log.e("INFO","SNETWORKTASK doInBackground에 들어왔어여");
+
+            String result; // 요청 결과를 저장할 변수.
+            RequestHttpURLConnection requestHttpURLConnection = new RequestHttpURLConnection();
+            result = requestHttpURLConnection.request(url, values); // 해당 URL로 부터 결과물을 얻어온다.
+
+            return result;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            //doInBackground()로 부터 리턴된 값이 onPostExecute()의 매개변수로 넘어오므로 s를 출력한다.
+
+            Log.e("INFO","onPostExecute에 온 파라매터는"+s);
+
+            if(s!=null){
+
+                try {
+                    JSONArray ja = new JSONArray(s);
+                    Log.e("INFO","jsonArray는 "+ja.toString());
+
+                    if(ja.length()>0){//뭔가 리스트가 왔다면
+                        Intent i1 = new Intent(getActivity(),SPayCheckActivity.class); //결제확인창으로 보낸다.
+                        i1.putExtra("unpayedCallNumber",ja.length());
+                        i1.putExtra("JSONArray",ja.toString());
+                        startActivity(i1);
+                    } else {
+                        Intent i2 =new Intent(getActivity(),QPBeamSActivity.class);//바로 nfc태깅창으로 보낸다.
+                        startActivity(i2);
+                    }
+
+                }
+                catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            } else {//온 리스트가 없다면..?
+                Toast.makeText(getActivity(),"서버 전송 중 오류가 생겼습니다.",Toast.LENGTH_SHORT); //이렇게 나오는지 확인하기...
+
+            }
+        }
+    }
+
+
+
+
+    public class RNetworkTask extends AsyncTask<Void, Void, String> {
+
+        private String url;
+        private ContentValues values;
+
+        public RNetworkTask(String url, ContentValues values) {
+
+            this.url = url;
+            this.values = values;
+        }
+
+        @Override
+        protected String doInBackground(Void... params) {
+
+            String result; // 요청 결과를 저장할 변수.
+            RequestHttpURLConnection requestHttpURLConnection = new RequestHttpURLConnection();
+            result = requestHttpURLConnection.request(url, values); // 해당 URL로 부터 결과물을 얻어온다.
+
+            return result;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            //doInBackground()로 부터 리턴된 값이 onPostExecute()의 매개변수로 넘어오므로 s를 출력한다.
+
+            Log.e("INFO","onPostExecute에 온 파라매터는"+s);
+
+            if(s!=null){
+
+                try {
+                    JSONArray ja = new JSONArray(s);
+                    Log.e("INFO","jsonArray는 "+ja.toString());
+
+                    if(ja.length()>0){//뭔가 리스트가 왔다면
+                        Intent i1 = new Intent(getActivity(),RPayCheckActivity.class); //결제확인창으로 보낸다.
+                        i1.putExtra("unpayedCallNumber",ja.length());
+                        i1.putExtra("JSONArray",ja.toString());
+                        startActivity(i1);
+                    } else {
+                        Intent i2 =new Intent(getActivity(),QPBeamRActivity.class);//바로 nfc태깅창으로 보낸다.
+                        startActivity(i2);
+                    }
+
+                }
+                catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            } else {//온 리스트가 없다면..?
+                Toast.makeText(getActivity(),"서버 전송 중 오류가 생겼습니다.",Toast.LENGTH_SHORT); //이렇게 나오는지 확인하기...
+
+            }
+        }
+    }
+
+
+
+
 
 }

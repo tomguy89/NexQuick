@@ -51,11 +51,11 @@ public class  LoginActivity extends AppCompatActivity {
         autoSwitch = (Switch)findViewById(R.id.autoSwitch);
         loginInfo = getSharedPreferences("setting", 0);
         editor = loginInfo.edit();
+        token = loginInfo.getString("token", "");
 
         if(loginInfo!=null && loginInfo.getString("rememberId", "")!=null && loginInfo.getString("rememberId", "").length()!=0){
             csId = loginInfo.getString("rememberId", "");
             csPassword = loginInfo.getString("rememberPassword", "");
-            token = loginInfo.getString("token", "");
             signIn();
         }
 
@@ -184,4 +184,6 @@ public class  LoginActivity extends AppCompatActivity {
             }
         }
     }
+
+
 }
