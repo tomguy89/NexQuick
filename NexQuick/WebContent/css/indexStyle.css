@@ -331,7 +331,7 @@ input::-moz-placeholder { color: rgba(255, 255, 255, 0.65); }
 
 .theadCsGrade {
 	background : transparent;
-	color: white;
+	color: #55B296;
 	border : 0px;
 	
 }
@@ -339,6 +339,7 @@ input::-moz-placeholder { color: rgba(255, 255, 255, 0.65); }
 .theadCsGrade > option {
 		background : #003358;
 		color: white;
+		font-size: 14px;
 	}
 
 .subBox {

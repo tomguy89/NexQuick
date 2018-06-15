@@ -52,7 +52,6 @@ $(function() {
 			method : "POST",
 			success : function(JSONDocument) {
 				if(JSONDocument) {
-					console.log("로그인 중");
 				} else if (!JSONDocument) {
 					alert("로그아웃 되었습니다. 다시 로그인 해주세요.");
 					location.replace("<%= request.getContextPath() %>/index.jsp");
@@ -121,11 +120,11 @@ function setCallList(JSONDocument) {
 		}
 
 		$("#tableBody").append(
-			$("<tr class='row100 body'>")
+			$("<tr class='row100 body callListTr'>")
 			.append(
 				$("<td class='cell100 column1 centerBox'>")
 				.append(
-					$("<a onclick='getOrders(this)'>").attr("id", "callNum" + JSONDocument[i].callNum).text(JSONDocument[i].callNum)
+					$("<a onclick='getOrders(this)'>").attr("id", "callNum" + JSONDocument[i].callNum).text(JSONDocument[i].callNum).css("cursor", "pointer").css("color", "#55B296").css("text-decoration", "underline")
 				)
 			).append(
 				$("<td class='cell100 column2 centerBox'>").text(JSONDocument[i].senderName)
@@ -139,6 +138,9 @@ function setCallList(JSONDocument) {
 				$("<td class='cell100 column6 centerBox'>").text(deliveryStatus)
 			)
 		)
+		
+		setList();
+		
 		totalPrice += JSONDocument[i].totalPrice;
 	}
     $("#tableBody").append(
@@ -149,14 +151,12 @@ function setCallList(JSONDocument) {
    			$("<td class='cell100 column1 centerBox' colspan='2'>").text(totalPrice + "원")
    		)
     )
-	
-	console.log(JSONDocument);
+    
 }
 
 
 
 function getOrders(callNum) {
-	console.log(callNum.text);
 	$.ajax({
 		url : "<%=request.getContextPath()%>/call/getOrderList.do",
 		data : {
@@ -202,10 +202,19 @@ function orderList(JSONDocument) {
 	)
     callPrice = totalPrice;
 	$("#orderList").modal("show");
-    
 }
 
-
+function setList() {
+	console.log("zz");
+	$(".callListTr > td").each(function() {
+		console.log($(this));
+		if($(this).text() == '배차실패') {
+			$(this).css("color", "#F43F22");
+		}
+	});
+	
+	
+}
 
 </script>
 

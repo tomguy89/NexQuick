@@ -149,9 +149,9 @@ function setCallList(JSONDocument) {
 
 function getDepartmentPeople(department) {
 	$.ajax({
-		url : "<%=request.getContextPath()%>/call/getOrder.do",
+		url : "<%=request.getContextPath()%>/account/selectCSByCorporate.do",
 		data : {
-			"csBusinessName" : <%= csInfo.getCsBusinessName() %>,
+			"csBusinessName" : "<%= csInfo.getCsBusinessName() %>",
 			"csDepartment" : $(department).text()
 		},
 		dataType : "json",
@@ -162,6 +162,19 @@ function getDepartmentPeople(department) {
 }
 
 function setDepartmentPeople(JSONDocument) {
+	$("#departmentPeople").empty();
+	for(var i in JSONDocument) {
+		$("#departmentPeople").append(
+			$("<tr>")
+			.append($("<td class = 'centerBox'>").css("width", "25%").text(JSONDocument[i].csId))
+			.append($("<td class = 'centerBox'>").css("width", "25%").text(JSONDocument[i].csName))
+			.append($("<td class = 'centerBox'>").css("width", "25%").text(JSONDocument[i].csBusinessName))
+			.append($("<td class = 'centerBox'>").css("width", "25%").text(JSONDocument[i].csDepartment))
+		)
+		
+	}
+	
+	$("#departmentList").modal('show');
 	
 }
 
@@ -477,11 +490,11 @@ function setFreightList(JSONDocument) {
 
 
 			
-	<div class="modal fade bd-example-modal-lg" id="orderList" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal fade bd-example-modal-lg" id="departmentList" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 	  <div class="modal-dialog modal-dialog-centered modal-lg modal_resize" role="document">
 	    <div class="modal-content">
 	      <div class="modal-header">
-	        <h5 class="modal-title" id="exampleModalLabel">신청 정보</h5>
+	        <h5 class="modal-title" id="exampleModalLabel">부서원 정보</h5>
 	        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
 	          <span aria-hidden="true">&times;</span>
 	        </button>
@@ -491,7 +504,7 @@ function setFreightList(JSONDocument) {
 
 			
 			<!-- 화물리스트 -->
-			<div class="limiter" style = "margin-top: 100px;">
+			<div class="limiter">
 				<div class="container-table100" style = "top:0em!important;">
 					<div class = "table1000">
 						<div class="table100 ver1">

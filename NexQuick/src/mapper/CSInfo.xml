@@ -144,7 +144,7 @@
 		select * 
 		from csInfo
 		where csBusinessName = #{csBusinessName}
-		and csDepartment #{csDepartment}
+		and csDepartment = #{csDepartment}
 	</select>
 
 
