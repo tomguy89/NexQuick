@@ -35,6 +35,7 @@
 <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/xeicon@2.3.3/xeicon.min.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.0/jquery-confirm.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.0/jquery-confirm.min.js"></script>
+<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
 <%@ include file = "../navigation.jsp" %>
 <script type="text/javascript">
 var isUrgent = 1;
@@ -1074,20 +1075,19 @@ var isUrgent = 1;
 	var btnId;
 	var btn_real;
    	function goPopup(buttonId){
-   		// 호출된 페이지(jusopopup.jsp)에서 실제 주소검색URL(http://www.juso.go.kr/addrlink/addrLinkUrl.do)를 호출하게 됩니다.
-   	    var pop = window.open("<%=request.getContextPath()%>/jusoPopup.jsp","pop","width=570,height=420, scrollbars=yes, resizable=yes");
    		btnId = $(buttonId).attr("id");
    		btn_real = btnId.substring(7);
-   	}
-   	/** API 서비스 제공항목 확대 (2017.02) **/
-   	function jusoCallBack(roadFullAddr,roadAddrPart1,addrDetail,roadAddrPart2,engAddr, jibunAddr, zipNo, admCd, rnMgtSn, bdMgtSn
-   							, detBdNmList, bdNm, bdKdcd, siNm, sggNm, emdNm, liNm, rn, udrtYn, buldMnnm, buldSlno, mtYn, lnbrMnnm, lnbrSlno, emdNo){
-   		// 팝업페이지에서 주소입력한 정보를 받아서, 현 페이지에 정보를 등록합니다.
    		var address = "#address" + btn_real;
-   		var addressDetail = "#addressDetail" + btn_real;
-   		$(address).val(roadAddrPart1);
-   		$(addressDetail).val(addrDetail);
-   	} 
+   		console.log(btnId);
+   		console.log(btn_real);
+   		console.log(address);
+   		
+   	  	new daum.Postcode({
+  	        oncomplete: function(data) {
+  	        	$(address).val(data.address + " (" + data.bname + ")");
+  	        }
+  	    }).open();
+   	}
 
    	function addFavorite(JSONDocument) {
    		if(JSONDocument) {
