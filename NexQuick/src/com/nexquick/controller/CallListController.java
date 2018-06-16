@@ -238,7 +238,7 @@ public class CallListController {
 	//0615 qp가 가진 배송 목록 최적으로 가져오기
 	
 	@RequestMapping("/optimalRoute.do")
-	public List<Coordinate> optimalRouteList(int qpId){
+	public @ResponseBody List<OnDelivery> optimalRouteList(int qpId){
 		return callSelectListService.getOptimalRoute(qpId);
 	}
 	

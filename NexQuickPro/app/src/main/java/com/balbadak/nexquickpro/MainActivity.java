@@ -144,7 +144,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     public void initQuickList(){
 
-        String url = "http://70.12.109.173:9090/NexQuick/appCall/orderListByQPId.do";
+        String url = "http://70.12.109.173:9090/NexQuick/list/optimalRoute.do";
 
         ContentValues values = new ContentValues();
         values.put("qpId", qpId);

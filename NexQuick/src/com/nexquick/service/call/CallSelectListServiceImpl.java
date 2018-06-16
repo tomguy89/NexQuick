@@ -229,9 +229,9 @@ public class CallSelectListServiceImpl implements CallSelectListService {
 		coordinateList = optimalRouteService.optimization(coordinateList);
 		for(int i=1; i<coordinateList.size(); i++) {
 			if(coordinateList.get(i).getType().equals("O")) {
-				
-			}else if (coordinateList.get(i).getType().equals("Q")) {
-				
+				result.add(getOrderByOrderNum(coordinateList.get(i).getNumber()));
+			}else if (coordinateList.get(i).getType().equals("C")) {
+				result.add(orderListByCallNum(coordinateList.get(i).getNumber()).get(0));
 			}
 		}
 		
