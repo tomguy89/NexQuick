@@ -213,7 +213,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         });
 
 
-        // Initializing the TabLayout
+/*        // Initializing the TabLayout
         tabLayout = (TabLayout) findViewById(R.id.tabLayout);
         tabLayout.addTab(tabLayout.newTab().setText("퀵리스트").setIcon(R.drawable.tab_apply_detail_black));
         tabLayout.addTab(tabLayout.newTab().setText("경로안내").setIcon(R.drawable.tab_address_detail));
@@ -246,7 +246,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         });
 
-        viewPager.setCurrentItem(1); // routeActivity (경로화면)이 디폴트
+        viewPager.setCurrentItem(1); // routeActivity (경로화면)이 디폴트*/
 
     }
 
@@ -395,10 +395,45 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     e.printStackTrace();
                 }
 
-
             } else {
 
             }
+
+            // Initializing the TabLayout
+            tabLayout = (TabLayout) findViewById(R.id.tabLayout);
+            tabLayout.addTab(tabLayout.newTab().setText("퀵리스트").setIcon(R.drawable.tab_apply_detail_black));
+            tabLayout.addTab(tabLayout.newTab().setText("경로안내").setIcon(R.drawable.tab_address_detail));
+            tabLayout.addTab(tabLayout.newTab().setText("정산하기").setIcon(R.drawable.tab_complete_black));
+            tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
+
+            // Initializing ViewPager
+            viewPager = (ViewPager) findViewById(R.id.pager);
+
+            // Creating TabPagerAdapter adapter
+            TabPagerAdapter pagerAdapter = new TabPagerAdapter(getSupportFragmentManager(), tabLayout.getTabCount());
+            viewPager.setAdapter(pagerAdapter);
+            viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+
+            // Set TabSelectedListener
+            tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+                @Override
+                public void onTabSelected(TabLayout.Tab tab) {
+                    viewPager.setCurrentItem(tab.getPosition());
+                }
+
+                @Override
+                public void onTabUnselected(TabLayout.Tab tab) {
+
+                }
+
+                @Override
+                public void onTabReselected(TabLayout.Tab tab) {
+
+                }
+            });
+
+            viewPager.setCurrentItem(1); // routeActivity (경로화면)이 디폴트
+
 
         }
     }

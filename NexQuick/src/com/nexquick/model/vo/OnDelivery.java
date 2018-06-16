@@ -8,20 +8,17 @@ public class OnDelivery {
 	private String senderName;
 	private String senderAddress;
 	private String senderAddressDetail;
-	private String senderLatitude;
-	private String senderLongitude;
 	private String receiverName;
 	private String receiverPhone;
 	private String receiverAddress;
 	private String receiverAddressDetail;
-	private String receiverLatitude;
-	private String receiverLongitude;
 	private int orderPrice;
 	private String memo;
 	private int urgent;
 	private int deliveryStatus;
 	private int distance;
 	private String freightList;
+	private String arrivalTime;
 	
 	public OnDelivery() {
 		super();
@@ -75,22 +72,6 @@ public class OnDelivery {
 		this.senderAddressDetail = senderAddressDetail;
 	}
 
-	public String getSenderLatitude() {
-		return senderLatitude;
-	}
-
-	public void setSenderLatitude(String senderLatitude) {
-		this.senderLatitude = senderLatitude;
-	}
-
-	public String getSenderLongitude() {
-		return senderLongitude;
-	}
-
-	public void setSenderLongitude(String senderLongitude) {
-		this.senderLongitude = senderLongitude;
-	}
-
 	public String getReceiverName() {
 		return receiverName;
 	}
@@ -121,22 +102,6 @@ public class OnDelivery {
 
 	public void setReceiverAddressDetail(String receiverAddressDetail) {
 		this.receiverAddressDetail = receiverAddressDetail;
-	}
-
-	public String getReceiverLatitude() {
-		return receiverLatitude;
-	}
-
-	public void setReceiverLatitude(String receiverLatitude) {
-		this.receiverLatitude = receiverLatitude;
-	}
-
-	public String getReceiverLongitude() {
-		return receiverLongitude;
-	}
-
-	public void setReceiverLongitude(String receiverLongitude) {
-		this.receiverLongitude = receiverLongitude;
 	}
 
 	public int getOrderPrice() {
@@ -187,7 +152,13 @@ public class OnDelivery {
 		this.freightList = freightList;
 	}
 
+	public String getArrivalTime() {
+		return arrivalTime;
+	}
 
-	
+	public void setArrivalTime(String arrivalTime) {
+		this.arrivalTime = arrivalTime;
+	}
+
 
 }

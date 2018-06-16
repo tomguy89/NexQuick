@@ -76,7 +76,7 @@
 	</delete>
 	
 	<select id="onDeliveryCallList" parameterType="String" resultType="OnDelivery">
-		select c.callNum, o.orderNum, callTime, senderName, senderAddress, senderAddressDetail, c.Latitude as senderLatitude, c.Longitude as senderLongitude, receiverName, receiverPhone, receiverAddress, receiverAddressDetail, o.latitude as receiverLatitude, o.longitude as receiverLongitude, orderPrice, urgent, deliveryStatus, freightList
+		select c.callNum, o.orderNum, callTime, senderName, senderAddress, senderAddressDetail, receiverName, receiverPhone, receiverAddress, receiverAddressDetail, orderPrice, urgent, deliveryStatus, freightList, arrivalTime
 		from orderInfo o, callInfo c, (SELECT LISTAGG(aa, ',') WITHIN GROUP (order by ordernum) AS freightList, ordernum
 										FROM   (SELECT freightName||' '|| freightQuant as aa, ordernum
         										FROM priceInfo p, freightInfo f
@@ -93,7 +93,7 @@
 	</select>
 	
 	<select id="allCallList" parameterType="String" resultType="OnDelivery">
-		select c.callNum, orderNum, callTime, senderName, senderAddress, senderAddressDetail, c.Latitude as senderLatitude, c.Longitude as senderLongitude, receiverName, receiverPhone, receiverAddress, receiverAddressDetail, o.latitude as receiverLatitude, o.longitude as receiverLongitude,  orderPrice, urgent, deliveryStatus 
+		select c.callNum, orderNum, callTime, senderName, senderAddress, senderAddressDetail, receiverName, receiverPhone, receiverAddress, receiverAddressDetail, orderPrice, urgent, deliveryStatus, arrivalTime 
 		from orderInfo o, callInfo c
 		where c.callNum = o.callNum
 		and csId = #{csId}
@@ -101,7 +101,7 @@
 	</select>
 	
 	<select id="finishedCallList" parameterType="String" resultType="OnDelivery">
-		select c.callNum, orderNum, callTime, senderName, senderAddress, senderAddressDetail, c.Latitude as senderLatitude, c.Longitude as senderLongitude, receiverName, receiverPhone, receiverAddress, receiverAddressDetail, o.latitude as receiverLatitude, o.longitude as receiverLongitude,  orderPrice, urgent, deliveryStatus 
+		select c.callNum, orderNum, callTime, senderName, senderAddress, senderAddressDetail, receiverName, receiverPhone, receiverAddress, receiverAddressDetail, orderPrice, urgent, deliveryStatus, arrivalTime 
 		from orderInfo o, callInfo c
 		where c.callNum = o.callNum
 		and csId = #{csId}
@@ -110,7 +110,7 @@
 	</select>
 	
 	<select id="orderListByQPId" parameterType="int" resultType="OnDelivery">
-		select c.callNum, o.orderNum, callTime, senderName, senderAddress, senderAddressDetail, c.Latitude as senderLatitude, c.Longitude as senderLongitude, receiverName, receiverPhone, receiverAddress, receiverAddressDetail, o.latitude as receiverLatitude, o.longitude as receiverLongitude,  orderPrice, urgent, deliveryStatus, distance, freightList
+		select c.callNum, o.orderNum, callTime, senderName, senderAddress, senderAddressDetail, receiverName, receiverPhone, receiverAddress, receiverAddressDetail, orderPrice, urgent, deliveryStatus, distance, freightList, arrivalTime
 		from orderInfo o, callInfo c, (SELECT LISTAGG(aa, ',') WITHIN GROUP (order by ordernum) AS freightList, ordernum
 										FROM   (SELECT freightName||' '|| freightQuant as aa, ordernum
         										FROM priceInfo p, freightInfo f
@@ -125,7 +125,7 @@
 	</select>
 	
 	<select id="orderListByCallNum" parameterType="int" resultType="OnDelivery">
-		select c.callNum, o.orderNum, callTime, senderName, senderAddress, senderAddressDetail, c.Latitude as senderLatitude, c.Longitude as senderLongitude, receiverName, receiverPhone, receiverAddress, receiverAddressDetail, o.latitude as receiverLatitude, o.longitude as receiverLongitude,  orderPrice, urgent, deliveryStatus, freightList
+		select c.callNum, o.orderNum, callTime, senderName, senderAddress, senderAddressDetail, receiverName, receiverPhone, receiverAddress, receiverAddressDetail, orderPrice, urgent, deliveryStatus, freightList, arrivalTime
 		from orderInfo o, callInfo c, (SELECT LISTAGG(aa, ',') WITHIN GROUP (order by ordernum) AS freightList, ordernum
 										FROM   (SELECT freightName||' '|| freightQuant as aa, ordernum
         										FROM priceInfo p, freightInfo f
@@ -140,7 +140,7 @@
 	</select>
 	
 	<select id="getOrderByOrderNum" parameterType="int" resultType="OnDelivery">
-		select c.callNum, o.orderNum, callTime, senderName, senderAddress, senderAddressDetail, c.Latitude as senderLatitude, c.Longitude as senderLongitude, receiverName, receiverPhone, receiverAddress, receiverAddressDetail, o.latitude as receiverLatitude, o.longitude as receiverLongitude,  orderPrice, memo, urgent, deliveryStatus, freightList
+		select c.callNum, o.orderNum, callTime, senderName, senderAddress, senderAddressDetail, receiverName, receiverPhone, receiverAddress, receiverAddressDetail, orderPrice, memo, urgent, deliveryStatus, freightList, arrivalTime
 		from orderInfo o, callInfo c, (SELECT LISTAGG(aa, ',') WITHIN GROUP (order by ordernum) AS freightList, ordernum
 										FROM   (SELECT freightName||' '|| freightQuant as aa, ordernum
         										FROM priceInfo p, freightInfo f
@@ -154,7 +154,7 @@
 	</select>
 	
 	<select id="allCallListByIdAndName" parameterType="String" resultType="OnDelivery">
-		select c.callNum, orderNum, callTime, senderName, senderAddress, senderAddressDetail, c.Latitude as senderLatitude, c.Longitude as senderLongitude, receiverName, receiverPhone, receiverAddress, receiverAddressDetail, o.latitude as receiverLatitude, o.longitude as receiverLongitude,  orderPrice, urgent, deliveryStatus 
+		select c.callNum, orderNum, callTime, senderName, senderAddress, senderAddressDetail, receiverName, receiverPhone, receiverAddress, receiverAddressDetail, orderPrice, urgent, deliveryStatus 
 		from orderInfo o, callInfo c
 		where c.callNum = o.callNum
 		<where>

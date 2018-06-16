@@ -43,23 +43,32 @@
             android:textAlignment="center"
             android:textSize="40sp" />
 
-        <Button
-            android:id="@+id/workbtn"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:backgroundTint="@color/colorPrimary"
+            android:layout_height="200dp"
             android:padding="20dp"
-            android:text="출근하기"
-            android:textSize="20sp" />
+            android:orientation="horizontal">
 
-        <Button
-            android:id="@+id/exitbtn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:text="종료하기"
-            android:textSize="20sp" />
+            <Button
+                android:id="@+id/exitbtn"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_margin="10dp"
+                android:text="배송내역"
+                android:textSize="20sp" />
+
+            <Button
+                android:id="@+id/workbtn"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_margin="10dp"
+                android:backgroundTint="@color/colorGold"
+                android:text="출근하기"
+                android:textSize="20sp" />
+
+        </LinearLayout>
 
         <Space
             android:layout_width="match_parent"

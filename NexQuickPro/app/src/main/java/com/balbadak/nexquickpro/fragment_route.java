@@ -200,11 +200,9 @@ public class fragment_route extends Fragment {
                     if(lv.getQuickType() ==  1) {
                         callNum=lv.getCallNum();
                         pickChackFlag=true;
-                    Toast.makeText(getActivity(),"callNum : "+ lv.getCallNum(),Toast.LENGTH_SHORT).show();
                     } else {
                         orderNum=lv.getOrderNum();
                         pickChackFlag=false;
-                  Toast.makeText(getActivity(),"orderNum : "+ lv.getOrderNum(),Toast.LENGTH_SHORT).show();
                     }
                 }
 
