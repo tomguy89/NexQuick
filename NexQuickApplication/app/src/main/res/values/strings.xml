@@ -57,4 +57,8 @@
     <string name="quick_detail_title">상세보기</string>
     <string name="blank_string" />
     <string name="favorite">즐겨찾기</string>
+
+    <string name="tapconfirm_title">"TAP & CONFIRM"</string>
+
+    <string name="tapconfirm_desc">"퀵 인수/인도 확인입니다. 고객님의 폰 뒷면을 퀵프로님의 폰 뒷면과 탭해주세요. 자동로그인을 이용하시면 앱을 켜지 않고도 탭하실 수 있습니다."</string>
 </resources>
