@@ -134,10 +134,10 @@ public class CallSelectListServiceImpl implements CallSelectListService {
 		return orderInfoDao.orderListByQPId(qpId);
 	}
 	
-	//0612 이은진 추가.
+	//0612 이은진 추가. 이승진 수정
 	@Override
 	public List<OnDelivery> selectUnpayedCall(int qpId) {
-		return orderInfoDao.selectUnpayedCall(qpId);
+		return callInfoDao.selectUnpayedCall(qpId);
 	}
 
 	@Override
@@ -147,7 +147,7 @@ public class CallSelectListServiceImpl implements CallSelectListService {
 
 	@Override
 	public void updatePayStatus(List<Integer> list) {
-		orderInfoDao.updatePayStatus(list);
+		callInfoDao.updatePayStatus(list);
 	}
 	
 	//0612 이은진 추가2222
@@ -236,6 +236,17 @@ public class CallSelectListServiceImpl implements CallSelectListService {
 		}
 		
 		return result;
+	}
+
+	// 승진 추가
+	@Override
+	public int selectUnpayedSumInApp(List<Integer> list) {
+		return callInfoDao.selectUnpayedSumInApp(list);
+	}
+	@Override
+	public int selectUnpayedSumPlace(List<Integer> list) {
+		return callInfoDao.selectUnpayedSumPlace(list);
+	
 	}
 
 }

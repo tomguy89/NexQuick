@@ -6,6 +6,7 @@ import java.util.List;
 import org.apache.ibatis.session.SqlSession;
 
 import com.nexquick.model.vo.CallInfo;
+import com.nexquick.model.vo.OnDelivery;
 import com.nexquick.model.vo.QPInfo;
 
 public class CallInfoDAOImpl implements CallInfoDAO {
@@ -118,7 +119,26 @@ public class CallInfoDAOImpl implements CallInfoDAO {
 		// TODO Auto-generated method stub
 		return sqlSession.selectOne("callInfo.findCSIdbyCallNum", callNum);
 	}
+
 	
-	
-	
+	// 0616 승진 추가
+	@Override
+	public List<OnDelivery> selectUnpayedCall(int qpId) {
+		return sqlSession.selectList("callInfo.selectUnpayedCall", qpId);
+	}
+
+	@Override
+	public int selectUnpayedSumInApp(List<Integer> list) {
+		return sqlSession.selectOne("callInfo.selectUnpayedSumInApp", list);
+	}
+
+	@Override
+	public int selectUnpayedSumPlace(List<Integer> list) {
+		return sqlSession.selectOne("callInfo.selectUnpayedSumPlace", list);
+	}
+    
+    @Override
+    public void updatePayStatus(List<Integer> list) {
+        sqlSession.update("callInfo.updatePayStatus", list);
+    }
 }

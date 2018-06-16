@@ -1,265 +1,196 @@
 package com.balbadak.nexquickpro.vo;
 
 public class OnDelivery {
-	private int callNum;
-	private int orderNum;
-	private String callTime;
-	private String senderName;
-	private String senderAddress;
-	private String senderAddressDetail;
-	private String senderLatitude;
-	private String senderLongitude;
-	private String receiverName;
-	private String receiverPhone;
-	private String receiverAddress;
-	private String receiverAddressDetail;
-	private String receiverLatitude;
-	private String receiverLongitude;
-	private int orderPrice;
-	private String memo;
-	private int urgent;
-	private int deliveryStatus;
-	private int distance;
-	private String freightList;
+    private int callNum;
+    private int orderNum;
+    private String callTime;
+    private String senderName;
+    private String senderAddress;
+    private String senderAddressDetail;
+    private String senderLatitude;
+    private String senderLongitude;
+    private String receiverName;
+    private String receiverPhone;
+    private String receiverAddress;
+    private String receiverAddressDetail;
+    private String receiverLatitude;
+    private String receiverLongitude;
+    private int orderPrice;
+    private String memo;
+    private int urgent;
+    private int deliveryStatus;
+    private int distance;
+    private String freightList;
+    private String arrivaltime;
 
-	public OnDelivery() {
-		super();
-	}
+    public OnDelivery() {
+    }
 
-<<<<<<< HEAD:NexQuickPro/app/src/main/java/com/balbadak/nexquickpro/vo/OnDelivery.java
-	public int getFreightPrice() {
-		return freightPrice;
-	}
+    public int getCallNum() {
+        return callNum;
+    }
 
-	public void setFreightPrice(int freightPrice) {
-		this.freightPrice = freightPrice;
-	}
+    public void setCallNum(int callNum) {
+        this.callNum = callNum;
+    }
 
-	public int getFreightType() {
-		return freightType;
-	}
+    public int getOrderNum() {
+        return orderNum;
+    }
 
-	public void setFreightType(int freightType) {
-		this.freightType = freightType;
-	}
+    public void setOrderNum(int orderNum) {
+        this.orderNum = orderNum;
+    }
 
-	public int getFreightQuant() {
-		return freightQuant;
-	}
+    public String getCallTime() {
+        return callTime;
+    }
 
-	public void setFreightQuant(int freightQuant) {
-		this.freightQuant = freightQuant;
-	}
+    public void setCallTime(String callTime) {
+        this.callTime = callTime;
+    }
 
-	public String getSenderName() {
-		return senderName;
-	}
+    public String getSenderName() {
+        return senderName;
+    }
 
-	public void setSenderName(String senderName) {
-		this.senderName = senderName;
-	}
+    public void setSenderName(String senderName) {
+        this.senderName = senderName;
+    }
 
-	public String getSenderAddressDetail() {
-		return senderAddressDetail;
-	}
+    public String getSenderAddress() {
+        return senderAddress;
+    }
 
-	public void setSenderAddressDetail(String senderAddressDetail) {
-		this.senderAddressDetail = senderAddressDetail;
-	}
+    public void setSenderAddress(String senderAddress) {
+        this.senderAddress = senderAddress;
+    }
 
-	public String getReceiverAddressDetail() {
-		return receiverAddressDetail;
-	}
+    public String getSenderAddressDetail() {
+        return senderAddressDetail;
+    }
 
-	public void setReceiverAddressDetail(String receiverAddressDetail) {
-		this.receiverAddressDetail = receiverAddressDetail;
-	}
+    public void setSenderAddressDetail(String senderAddressDetail) {
+        this.senderAddressDetail = senderAddressDetail;
+    }
 
-=======
->>>>>>> a9dae4b28d10c67eb53f87f65fc36d8bedbc730f:NexQuick/src/com/nexquick/model/vo/OnDelivery.java
-	public int getCallNum() {
-		return callNum;
-	}
+    public String getSenderLatitude() {
+        return senderLatitude;
+    }
 
-	public void setCallNum(int callNum) {
-		this.callNum = callNum;
-	}
+    public void setSenderLatitude(String senderLatitude) {
+        this.senderLatitude = senderLatitude;
+    }
 
-	public int getOrderNum() {
-		return orderNum;
-	}
+    public String getSenderLongitude() {
+        return senderLongitude;
+    }
 
-	public void setOrderNum(int orderNum) {
-		this.orderNum = orderNum;
-	}
+    public void setSenderLongitude(String senderLongitude) {
+        this.senderLongitude = senderLongitude;
+    }
 
-	public String getCallTime() {
-		return callTime;
-	}
+    public String getReceiverName() {
+        return receiverName;
+    }
 
-	public void setCallTime(String callTime) {
-		this.callTime = callTime;
-	}
+    public void setReceiverName(String receiverName) {
+        this.receiverName = receiverName;
+    }
 
-<<<<<<< HEAD:NexQuickPro/app/src/main/java/com/balbadak/nexquickpro/vo/OnDelivery.java
-=======
-	public String getSenderName() {
-		return senderName;
-	}
+    public String getReceiverPhone() {
+        return receiverPhone;
+    }
 
-	public void setSenderName(String senderName) {
-		this.senderName = senderName;
-	}
+    public void setReceiverPhone(String receiverPhone) {
+        this.receiverPhone = receiverPhone;
+    }
 
->>>>>>> a9dae4b28d10c67eb53f87f65fc36d8bedbc730f:NexQuick/src/com/nexquick/model/vo/OnDelivery.java
-	public String getSenderAddress() {
-		return senderAddress;
-	}
+    public String getReceiverAddress() {
+        return receiverAddress;
+    }
 
-	public void setSenderAddress(String senderAddress) {
-		this.senderAddress = senderAddress;
-	}
+    public void setReceiverAddress(String receiverAddress) {
+        this.receiverAddress = receiverAddress;
+    }
 
-<<<<<<< HEAD:NexQuickPro/app/src/main/java/com/balbadak/nexquickpro/vo/OnDelivery.java
-	public String getReceiverAddress() {
-		return receiverAddress;
-	}
+    public String getReceiverAddressDetail() {
+        return receiverAddressDetail;
+    }
 
-=======
-	public String getSenderAddressDetail() {
-		return senderAddressDetail;
-	}
+    public void setReceiverAddressDetail(String receiverAddressDetail) {
+        this.receiverAddressDetail = receiverAddressDetail;
+    }
 
-	public void setSenderAddressDetail(String senderAddressDetail) {
-		this.senderAddressDetail = senderAddressDetail;
-	}
+    public String getReceiverLatitude() {
+        return receiverLatitude;
+    }
 
-	public String getSenderLatitude() {
-		return senderLatitude;
-	}
+    public void setReceiverLatitude(String receiverLatitude) {
+        this.receiverLatitude = receiverLatitude;
+    }
 
-	public void setSenderLatitude(String senderLatitude) {
-		this.senderLatitude = senderLatitude;
-	}
+    public String getReceiverLongitude() {
+        return receiverLongitude;
+    }
 
-	public String getSenderLongitude() {
-		return senderLongitude;
-	}
+    public void setReceiverLongitude(String receiverLongitude) {
+        this.receiverLongitude = receiverLongitude;
+    }
 
-	public void setSenderLongitude(String senderLongitude) {
-		this.senderLongitude = senderLongitude;
-	}
+    public int getOrderPrice() {
+        return orderPrice;
+    }
 
->>>>>>> a9dae4b28d10c67eb53f87f65fc36d8bedbc730f:NexQuick/src/com/nexquick/model/vo/OnDelivery.java
-	public String getReceiverName() {
-		return receiverName;
-	}
+    public void setOrderPrice(int orderPrice) {
+        this.orderPrice = orderPrice;
+    }
 
-	public void setReceiverName(String receiverName) {
-		this.receiverName = receiverName;
-	}
+    public String getMemo() {
+        return memo;
+    }
 
-	public String getReceiverPhone() {
-		return receiverPhone;
-	}
+    public void setMemo(String memo) {
+        this.memo = memo;
+    }
 
-	public void setReceiverPhone(String receiverPhone) {
-		this.receiverPhone = receiverPhone;
-	}
+    public int getUrgent() {
+        return urgent;
+    }
 
-<<<<<<< HEAD:NexQuickPro/app/src/main/java/com/balbadak/nexquickpro/vo/OnDelivery.java
-=======
-	public String getReceiverAddress() {
-		return receiverAddress;
-	}
+    public void setUrgent(int urgent) {
+        this.urgent = urgent;
+    }
 
->>>>>>> a9dae4b28d10c67eb53f87f65fc36d8bedbc730f:NexQuick/src/com/nexquick/model/vo/OnDelivery.java
-	public void setReceiverAddress(String receiverAddress) {
-		this.receiverAddress = receiverAddress;
-	}
+    public int getDeliveryStatus() {
+        return deliveryStatus;
+    }
 
-<<<<<<< HEAD:NexQuickPro/app/src/main/java/com/balbadak/nexquickpro/vo/OnDelivery.java
-=======
-	public String getReceiverAddressDetail() {
-		return receiverAddressDetail;
-	}
+    public void setDeliveryStatus(int deliveryStatus) {
+        this.deliveryStatus = deliveryStatus;
+    }
 
-	public void setReceiverAddressDetail(String receiverAddressDetail) {
-		this.receiverAddressDetail = receiverAddressDetail;
-	}
+    public int getDistance() {
+        return distance;
+    }
 
-	public String getReceiverLatitude() {
-		return receiverLatitude;
-	}
+    public void setDistance(int distance) {
+        this.distance = distance;
+    }
 
-	public void setReceiverLatitude(String receiverLatitude) {
-		this.receiverLatitude = receiverLatitude;
-	}
+    public String getFreightList() {
+        return freightList;
+    }
 
-	public String getReceiverLongitude() {
-		return receiverLongitude;
-	}
+    public void setFreightList(String freightList) {
+        this.freightList = freightList;
+    }
 
-	public void setReceiverLongitude(String receiverLongitude) {
-		this.receiverLongitude = receiverLongitude;
-	}
+    public String getArrivaltime() {
+        return arrivaltime;
+    }
 
->>>>>>> a9dae4b28d10c67eb53f87f65fc36d8bedbc730f:NexQuick/src/com/nexquick/model/vo/OnDelivery.java
-	public int getOrderPrice() {
-		return orderPrice;
-	}
-
-	public void setOrderPrice(int orderPrice) {
-		this.orderPrice = orderPrice;
-	}
-
-	public String getMemo() {
-		return memo;
-	}
-
-	public void setMemo(String memo) {
-		this.memo = memo;
-	}
-
-	public int getUrgent() {
-		return urgent;
-	}
-
-	public void setUrgent(int urgent) {
-		this.urgent = urgent;
-	}
-
-	public int getDeliveryStatus() {
-		return deliveryStatus;
-	}
-
-	public void setDeliveryStatus(int deliveryStatus) {
-		this.deliveryStatus = deliveryStatus;
-	}
-
-<<<<<<< HEAD:NexQuickPro/app/src/main/java/com/balbadak/nexquickpro/vo/OnDelivery.java
-=======
-	public int getDistance() {
-		return distance;
-	}
-
-	public void setDistance(int distance) {
-		this.distance = distance;
-	}
-
->>>>>>> a9dae4b28d10c67eb53f87f65fc36d8bedbc730f:NexQuick/src/com/nexquick/model/vo/OnDelivery.java
-	public String getFreightList() {
-		return freightList;
-	}
-
-	public void setFreightList(String freightList) {
-		this.freightList = freightList;
-	}
-
-<<<<<<< HEAD:NexQuickPro/app/src/main/java/com/balbadak/nexquickpro/vo/OnDelivery.java
-=======
-
-	
-
->>>>>>> a9dae4b28d10c67eb53f87f65fc36d8bedbc730f:NexQuick/src/com/nexquick/model/vo/OnDelivery.java
+    public void setArrivaltime(String arrivaltime) {
+        this.arrivaltime = arrivaltime;
+    }
 }

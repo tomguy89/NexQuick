@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import com.nexquick.model.vo.CallInfo;
+import com.nexquick.model.vo.OnDelivery;
 import com.nexquick.model.vo.QPInfo;
 
 /**
@@ -95,5 +96,12 @@ public interface CallInfoDAO {
 
 	void payComplete(List <Integer> list);
 	String findCSIdbyCallNum(int callNum);
+
 	
+	//0616 이승진 변경
+	List<OnDelivery> selectUnpayedCall(int qpId);
+	int selectUnpayedSumInApp(List<Integer> list);
+    int selectUnpayedSumPlace(List<Integer> list);
+    void updatePayStatus(List<Integer> list);
+
 }

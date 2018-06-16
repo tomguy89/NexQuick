@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.annotation.SuppressLint;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -47,6 +48,9 @@ public class fragment_calculate extends Fragment {
     private TextView placeMoneyTv;
     private TextView totalJungsanTv;
 
+    private LinearLayout calculate_sub;
+
+    private Button finishBtn;
     int jungsan;
 
     OnDelivery orderDetail;
@@ -59,10 +63,11 @@ public class fragment_calculate extends Fragment {
 
         listView = (ListView) view.findViewById(R.id.calculate_listview);
 
-        Button finishBtn = view.findViewById(R.id.calculate_finish);
+        finishBtn = view.findViewById(R.id.calculate_finish);
         dataList = new ArrayList<>();
         list = new ArrayList<>();
 
+        calculate_sub = view.findViewById(R.id.calculate_sub);
 
         loginInfo = getActivity().getSharedPreferences("setting",0);
         qpId =  loginInfo.getInt("qpId",0);
@@ -88,7 +93,7 @@ public class fragment_calculate extends Fragment {
         getCalMoneyListTask.execute();
 
 
-        if(jungsan > 0) {
+//        if(jungsan > 0) {
 
             finishBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -98,7 +103,7 @@ public class fragment_calculate extends Fragment {
                     String url = "http://70.12.109.164:9090/NexQuick/qpAccount/processPayment.do";
                     ContentValues values = new ContentValues();
                     values.put("qpId", qpId);
-
+                    values.put("jungsan", jungsan);
 
                     ProcessPaymentTask processPaymentTask = new ProcessPaymentTask(url,values);
                     processPaymentTask.execute();
@@ -107,7 +112,9 @@ public class fragment_calculate extends Fragment {
                 }
             });
 
-        } else {
+//        }
+
+        /*else {
 
             finishBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -124,7 +131,7 @@ public class fragment_calculate extends Fragment {
                 }
             });
 
-        }
+        }*/
 
         return view;
     }
@@ -183,8 +190,9 @@ public class fragment_calculate extends Fragment {
                         order.setMemo(data.getString("memo"));
                         order.setDeliveryStatus(data.getInt("deliveryStatus"));
                         order.setFreightList(data.getString("freightList"));
+                        order.setArrivaltime(data.getString("arrivaltime"));
 
-                        titleSb.append(order.getCallTime());
+                        titleSb.append(order.getArrivaltime());
                         descSb.append("   수령인   ");
                         descSb.append(order.getReceiverName()).append("\n");
                         descSb.append("   수령지   ");
@@ -274,6 +282,9 @@ public class fragment_calculate extends Fragment {
             } else {
 
                 calculateNoneTv.setVisibility(View.VISIBLE);
+                calculate_sub.setVisibility(View.GONE);
+                finishBtn.setEnabled(false);
+
             }
 
         }
@@ -327,7 +338,6 @@ public class fragment_calculate extends Fragment {
                 if(money!= 0){
 
                 } else{
-
 
                     Toast.makeText(getActivity(),"정산 가능한 내역이 없습니다.",Toast.LENGTH_SHORT).show();
                 }

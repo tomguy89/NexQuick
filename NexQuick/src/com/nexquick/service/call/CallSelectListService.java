@@ -98,5 +98,9 @@ public interface CallSelectListService {
 	List<BusinessOrderInfo> getBusinessOrderList(HashMap<String, Object> condition);
 
 	List<OnDelivery> getOptimalRoute(int qpId);
+
+
+	int selectUnpayedSumInApp(List<Integer> list);
+	int selectUnpayedSumPlace(List<Integer> list);
 	
 }
