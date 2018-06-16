@@ -2,12 +2,12 @@
     pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <div class = "subBox whiteColor mt-5">
-	<div class = "centerBox font_3em mt-5">
+	<div class = "centerBox font_3em mt-5 mb-3">
 		<b>고객을 생각하는 NexQuick</b>
 	</div>
-	<div class = "row centerBox">
+	<div class = "row centerBox mt-5">
 		<div class = "col-md-6">
-			지도 사진
+			<img src="<%= request.getContextPath() %>/image/index_img/capture_map.PNG" width="300" height="400">
 			<div class = "mt-4 font_2em mb-2">
 				<b>실시간 배송상황 확인</b>
 			</div>
@@ -18,7 +18,7 @@
 			
 		</div>
 		<div class = "col-md-6">
-			챗봇 사진
+						<img src="<%= request.getContextPath() %>/image/index_img/capture_chatbot.PNG" width="300" height="400">
 			<div class = "mt-4 font_2em mb-2">
 				<b>NexQuick 챗봇</b>
 			</div>

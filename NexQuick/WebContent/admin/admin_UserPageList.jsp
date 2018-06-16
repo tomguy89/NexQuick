@@ -29,6 +29,7 @@
 	<script src="<%=request.getContextPath() %>/js/datepicker.min.js"></script>
 	<script src="<%=request.getContextPath() %>/js/selectionBoxStyle.js"></script>
 	<script src="<%=request.getContextPath() %>/js/datepicker.en.js"></script>
+	
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.0/jquery-confirm.min.css">
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.0/jquery-confirm.min.js"></script>
 	
@@ -132,7 +133,7 @@ function setCsListTable(JSONDocument) {
 			).append(
 				$("<td class = 'cell100 column9 c9 centerBox'>")
 				.append(
-					$("<select name = 'item0' onchange = 'saveUserInfo(this)'>").attr("id", "cs"+JSONDocument[i].csId)
+					$("<select name = 'item0' class=theadCsGrade_change onchange = 'saveUserInfo(this)'>").attr("id", "cs"+JSONDocument[i].csId)
 					.append(
 						$("<option value='1'>일반</option>")
 					).append(
@@ -240,7 +241,7 @@ function searchAllCs() {
 			    <input class = "inputDesignForDay" type="text" id = "csName"  data-language='en' placeholder = "이름 검색">
 			    <span class="highlight"></span>
 			    <span class="bar"></span>
-			    <label class = "labelDesignForDay"><i class = "fas fa-street-view"></i>사용자 검색</label>
+			    <label class = "labelDesignForDay"><i class = "xi-user"></i> 사용자 검색</label>
 			</div>
 		</div>
 		<div class = "col-md-3">
@@ -248,7 +249,7 @@ function searchAllCs() {
 			    <input class = "inputDesignForDay" type="text" id = "csBusinessName"  data-language='en' placeholder = "법인명 검색">
 			    <span class="highlight"></span>
 			    <span class="bar"></span>
-			    <label class = "labelDesignForDay"><i class = "fas fa-street-view"></i>법인명 검색</label>
+			    <label class = "labelDesignForDay"><i class = "xi-network-company"></i> 법인명 검색</label>
 			</div>
 		</div>
 		<div class = "col-md-3">
@@ -256,11 +257,14 @@ function searchAllCs() {
 			    <input class = "inputDesignForDay" type="text" id = "csDepartment"  data-language='en' placeholder = "부서명 검색">
 			    <span class="highlight"></span>
 			    <span class="bar"></span>
-			    <label class = "labelDesignForDay"><i class = "fas fa-street-view"></i>부서명 검색</label>
+			    <label class = "labelDesignForDay"><i class = "xi-group"></i> 부서명 검색</label>
 			</div>
 		</div>
 		<div class = "col-md-3">
-			<button class = "ColorBorder" style = "height: 47px!important ; line-height: 47px!important;" id = "searchBtn">검색하기</button>
+			<button class = "ColorBorder" style = "height: 47px!important ; line-height: 47px!important;" id = "searchBtn">
+			<i class="fas fa-search"></i>
+			검색하기
+			</button>
 		</div>
 	</div>
 	

@@ -7,28 +7,28 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<script src="<%=request.getContextPath() %>/Table_Fixed_Header/vendor/jquery/jquery-3.2.1.min.js"></script>
+<script src="<%=request.getContextPath() %>/Table_Fixed_Header/vendor/jquery/jquery-3.2.1.min.js"></script>
 <!--===============================================================================================-->	
-	<link rel="icon" type="image/png" href="images/icons/favicon.ico"/>
+<link rel="icon" type="image/png" href="images/icons/favicon.ico"/>
 <!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/Table_Fixed_Header/vendor/bootstrap/css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/Table_Fixed_Header/vendor/bootstrap/css/bootstrap.min.css">
 <!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/Table_Fixed_Header/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/Table_Fixed_Header/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
 <!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/Table_Fixed_Header/vendor/animate/animate.css">
+<link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/Table_Fixed_Header/vendor/animate/animate.css">
 <!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/Table_Fixed_Header/vendor/select2/select2.min.css">
+<link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/Table_Fixed_Header/vendor/select2/select2.min.css">
 <!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/Table_Fixed_Header/vendor/perfect-scrollbar/perfect-scrollbar.css">
+<link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/Table_Fixed_Header/vendor/perfect-scrollbar/perfect-scrollbar.css">
 <!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/Table_Fixed_Header/css/util.css">
-	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/Table_Fixed_Header/css/main.css">
+<link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/Table_Fixed_Header/css/util.css">
+<link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/Table_Fixed_Header/css/main.css">
 <!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/css/indexStyle.css">
-	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/css/InputBoxStyle.css">
-	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/css/datepicker.min.css">
-	<script src="<%=request.getContextPath() %>/js/datepicker.min.js"></script>
-	<script src="<%=request.getContextPath() %>/js/datepicker.en.js"></script>
+<link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/css/indexStyle.css">
+<link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/css/InputBoxStyle.css">
+<link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/css/datepicker.min.css">
+<script src="<%=request.getContextPath() %>/js/datepicker.min.js"></script>
+<script src="<%=request.getContextPath() %>/js/datepicker.en.js"></script>
 <script type="text/javascript">
 var callPrice;
 $(function() {
@@ -233,11 +233,14 @@ function setList() {
 			    <input class = "datepicker-here inputDesignForDay" type="text" id = "callTime"  data-language='en' placeholder = "날짜를 입력하세요">
 			    <span class="highlight"></span>
 			    <span class="bar"></span>
-			    <label class = "labelDesignForDay"><i class = "fas fa-street-view"></i>해당 날짜 이후</label>
+			    <label class = "labelDesignForDay"><i class = "far fa-calendar-alt"></i> 해당 날짜 이후</label>
 			</div>
 		</div>
 		<div class = "col-md-6">
-			<button class = "ColorBorder" style = "height: 47px!important ; line-height: 47px!important;" id = "searchBtn">검색하기</button>
+			<button class = "ColorBorder" style = "height: 47px!important ; line-height: 47px!important;" id = "searchBtn">
+			<i class="fas fa-search"></i>
+			검색하기
+			</button>
 		</div>
 	</div>
 	
@@ -308,7 +311,7 @@ function setList() {
 	  <div class="modal-dialog modal-dialog-centered modal-lg modal_resize" role="document">
 	    <div class="modal-content">
 	      <div class="modal-header">
-	        <h5 class="modal-title" id="exampleModalLabel">개인정보 수정</h5>
+	        <h5 class="modal-title" id="exampleModalLabel">신청정보 상세</h5>
 	        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
 	          <span aria-hidden="true">&times;</span>
 	        </button>
@@ -350,7 +353,8 @@ function setList() {
 	      
 	      </div>
           <div class="modal-footer centerBox">
-	        <button type="button" class="ColorBorder" id = "submitBtn" data-dismiss="modal"> 창 닫기 </button>
+	        <button type="button" class="ColorBorder" id = "submitBtn" data-dismiss="modal">
+	        <i class="far fa-times-circle"></i> 창 닫기 </button>
 	      </div>
 		      
 	    </div>

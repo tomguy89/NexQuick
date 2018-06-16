@@ -219,7 +219,7 @@ function orderList(JSONDocument) {
 			    <input class = "inputDesignForDay" type="text" id = "senderName"  data-language='en' placeholder = "이름을 입력하세요">
 			    <span class="highlight"></span>
 			    <span class="bar"></span>
-			    <label class = "labelDesignForDay"><i class = "fas fa-street-view"></i>신청자 검색</label>
+			    <label class = "labelDesignForDay"><i class = "xi-user-o"></i>신청자 검색</label>
 			</div>
 		</div>
 		<div class = "col-md-3">
@@ -227,11 +227,14 @@ function orderList(JSONDocument) {
 			    <input class = "datepicker-here inputDesignForDay" type="text" id = "callTime"  data-language='en' placeholder = "날짜를 입력하세요">
 			    <span class="highlight"></span>
 			    <span class="bar"></span>
-			    <label class = "labelDesignForDay"><i class = "fas fa-street-view"></i>해당 날짜 이후</label>
+			    <label class = "labelDesignForDay"><i class = "far fa-calendar-alt"></i>해당 날짜 이후</label>
 			</div>
 		</div>
 		<div class = "col-md-2">
-			<button class = "ColorBorder" style = "height: 47px!important ; line-height: 47px!important;" id = "searchBtn">검색하기</button>
+			<button class = "ColorBorder" style = "height: 47px!important ; line-height: 47px!important;" id = "searchBtn">
+			<i class="fas fa-search"></i>
+			검색하기
+			</button>
 		</div>
 	</div>
 	
@@ -352,7 +355,10 @@ function orderList(JSONDocument) {
 	      
 	      </div>
           <div class="modal-footer centerBox">
-	        <button type="button" class="ColorBorder" id = "submitBtn" data-dismiss="modal"> 창 닫기 </button>
+	        <button type="button" class="ColorBorder" id = "submitBtn" data-dismiss="modal"> 
+	        <i class="far fa-times-circle"></i>
+	        	창 닫기 
+	        </button>
 	      </div>
 		      
 	    </div>

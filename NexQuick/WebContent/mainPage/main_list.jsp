@@ -599,7 +599,8 @@ function findAddress(Address) {
 	
       </div>
       <div class="modal-footer centerBox">
-        <button type="button" class="ColorBorder" data-dismiss="modal">확인</button>
+        <button type="button" class="ColorBorder" data-dismiss="modal">
+        <i class="far fa-check-circle"></i> 확인</button>
       </div>
     </div>
   </div>

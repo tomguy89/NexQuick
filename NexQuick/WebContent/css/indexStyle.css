@@ -337,10 +337,23 @@ input::-moz-placeholder { color: rgba(255, 255, 255, 0.65); }
 }
 
 .theadCsGrade > option {
-		background : #003358;
-		color: white;
-		font-size: 14px;
-	}
+	background : #003358;
+	color: white;
+	font-size: 14px;
+}
+
+.theadCsGrade_change {
+	background : transparent;
+	color: #55B296;
+	border : 0px;
+	
+}
+
+.theadCsGrade_change > option {
+	background : white;
+	color: #003358;
+	font-size: 14px;
+}
 
 .subBox {
 	background-image: url("../image/index_img/background_deliveryService.png");	

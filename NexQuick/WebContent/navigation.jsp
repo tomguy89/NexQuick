@@ -18,6 +18,8 @@
 		
 		<script src="<%= request.getContextPath() %>/GoogleNexusWebsiteMenu/js/modernizr.custom.js"></script>
 		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+		<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/xeicon@2.3.3/xeicon.min.css">
+
 		
 		
 		<script>
@@ -204,7 +206,6 @@
 									<li><a href = "<%= request.getContextPath() %>/admin/admin_QuickProListPage.jsp"><i class="fas fa-motorcycle navIcons"></i>배송기사 관리</a></li>
 									<li><a><i class="fas fa-coins navIcons"></i>매출 관리</a></li>
 									<li><a href = "<%= request.getContextPath() %>/admin/admin_CallListPage.jsp"><i class="far fa-file-alt navIcons"></i>신청 관리</a></li>
-									<li><a><i class="far fa-comments navIcons"></i>상담내역 관리</a></li>
 								</ul>
 							</li>
 							<%} else { %>

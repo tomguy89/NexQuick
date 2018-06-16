@@ -105,6 +105,15 @@ var callNum;
  		
  		$(".jconfirm-box-container").css("margin-left", "auto").css("margin-right", "auto");
  		
+ 		$("#urgentText").attr("data-container", "body");
+		$("#urgentText").attr("data-placement", "left");
+		$("#urgentText").attr("data-content", "긴급배송은 다른 경유지를 거치지 않고 직배송하는 대신, 요금이 1.2배가 됩니다.");
+		$("#urgentText").popover({
+			trigger : 'hover',
+			delay: { 
+		       hide: "1000"
+		    }
+		});
  		
     	$('#datetimepicker1').datetimepicker();
     	
@@ -181,6 +190,75 @@ var callNum;
     	/* 다음 페이지으로 이동 */
     	$("#goNextBtn").on("click", function() {
     		/* 긴급배송 여부를 숫자값으로 표현하기 위해. */
+    		if($("#address").val() == "" || $("#address").val().length == 0) {
+				$.confirm({
+				    title: '주소설정 오류',
+				    content: '주소를 입력해주세요.',
+				    type: 'red',
+				    closeIcon: true,
+				    typeAnimated: true,
+				    columnClass: 'centerBox',
+				    theme: 'modern',
+				    buttons: {
+				        '확인': {
+				            
+				        }
+				    }
+				});
+				return;
+    		}
+    		if($("#addressDetail").val() == "" || $("#addressDetail").val().length == 0) {
+				$.confirm({
+				    title: '상세주소설정 오류',
+				    content: '상세주소를 입력해주세요.',
+				    type: 'red',
+				    closeIcon: true,
+				    typeAnimated: true,
+				    columnClass: 'centerBox',
+				    theme: 'modern',
+				    buttons: {
+				        '확인': {
+				            
+				        }
+				    }
+				});
+				return;
+    		}
+    		if($("#userNameApply").val() == "" || $("#userNameApply").val().length == 0) {
+				$.confirm({
+				    title: '발송인설정 오류',
+				    content: '발송인 이름을 입력해주세요.',
+				    type: 'red',
+				    closeIcon: true,
+				    typeAnimated: true,
+				    columnClass: 'centerBox',
+				    theme: 'modern',
+				    buttons: {
+				        '확인': {
+				            
+				        }
+				    }
+				});
+				return;
+    		}
+    		if($("#phone").val() == "" || $("#phone").val().length == 0) {
+				$.confirm({
+				    title: '발송인 연락처 설정 오류',
+				    content: '발송인 연락처를 입력해주세요.',
+				    type: 'red',
+				    closeIcon: true,
+				    typeAnimated: true,
+				    columnClass: 'centerBox',
+				    theme: 'modern',
+				    buttons: {
+				        '확인': {
+				            
+				        }
+				    }
+				});
+				return;
+    		}
+    		
     		var urgent_value;
     		var group_value;
     		var reserve_value;
@@ -622,9 +700,9 @@ var callNum;
 		
 		<div class = "urgentBox">
 			<label class="label font_1em paddingZero">
-			    <input  class="label__checkbox" type="checkbox" id = "urgentBox" />
+			    <input  class="label__checkbox" type="checkbox" id = "urgentBox"/>
 			    <span class="label__text ">
-			      <span class="label__check">
+			      <span class="label__check" id = "urgentText">
 			        <i class="fa fa-check icon font_1em"></i>
 			      </span>
 			    </span>
@@ -659,7 +737,7 @@ var callNum;
 					    <input class = "datepicker-here inputDesignForApply" type="text" id = "timeInput" style = "width: 100%;" data-language='en' data-timepicker="true">
 					    <span class="highlight"></span>
 					    <span class="barApply"></span>
-					    <label class = "labelDesignForApply text-conceptColor"><i class = "fas fa-street-view"></i>예약시간 설정</label>
+					    <label class = "labelDesignForApply text-conceptColor"><i class="far fa-clock"></i> 예약시간 설정</label>
 					</div>
 		  		</div>
 	  		</div>
@@ -718,10 +796,12 @@ var callNum;
 	
 <div class = "row mt-5 centerBox justify_center">	
 	<div class = "col-md-2">
-		<button class = "dangerBorder mt-4" id = "cancelBtn">주문취소</button>
+		<button class = "dangerBorder mt-4" id = "cancelBtn">
+		<i class="far fa-times-circle"></i> 주문취소</button>
 	</div>
 	<div class = "col-md-2">
-		<button class = "ColorBorder mt-4" id = "goNextBtn">다음으로</button>
+		<button class = "ColorBorder mt-4" id = "goNextBtn">
+		<i class="fas fa-caret-right"></i> 다음으로</button>
 	</div>
 </div>
 
@@ -731,48 +811,6 @@ var callNum;
 <%@ include file = "../footer.jsp" %>
 
 
-<!-- 시간 들어갈 modal 팝업창 -->
-
-<!-- Modal -->
-<div class="modal fade bd-example-modal-lg" id = "modal1" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h2 class="modal-title centerBox" id="exampleModalCenterTitle">예약배송 시간설정</h2>
-      </div>
-      <div class="modal-body">
-		
-		
-		<!-- 시간 들어가는 부분 -->
-		<div style="overflow:hidden;">
-		    <div class="form-group text-conceptColor">
-		        <div class="row">
-		            <div class="col-md-12">
-		                <div id="datetimepicker12"></div>
-		            </div>
-		        </div>
-		    </div>
-		    <script type="text/javascript">
-		        $(function () {
-		            $('#datetimepicker12').datetimepicker({
-		                inline: true,
-		                sideBySide: true
-		            });
-		        });
-		    </script>
-		</div>       
-       
-       
-       
-       
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="dangerBorder" data-dismiss="modal">취소</button>
-        <button type="button" class="ColorBorder" id = "saveTime" data-dismiss="modal">확인</button>
-      </div>
-    </div>
-  </div>
-</div>
 
 
 

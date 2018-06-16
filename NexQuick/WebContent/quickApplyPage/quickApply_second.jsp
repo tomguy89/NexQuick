@@ -71,6 +71,8 @@ var isUrgent = 1;
 		})
 		
 		
+		$("#orderNow").css("display", "none");
+		
 		setInterval(function() {
 			$.ajax({
 				url : "<%= request.getContextPath() %>/account/sessionCheck.do",
@@ -146,7 +148,7 @@ var isUrgent = 1;
     	
     	/* 오더버튼 추가 */
     	$("#addOrderBtn").on("click", function() {
-    		
+    		$("#orderNow").slideUp();
     		countIndex++;
     		
     		$("div.carousel-inner > div.carousel-item").removeClass("active");
@@ -305,7 +307,7 @@ var isUrgent = 1;
 	    								}
 	    							})
 	    						).append(
-	    							$("<button class = 'ColorBorder mt-5' type = button disabled = disabled>")
+	    							$("<button class = 'ColorBorder mt-5' type = button>")
 	    							.append(
 	    								$("<i class='far fa-save'></i>").attr("id", "saveIcon"+dataIndex)
 	    							).append(
@@ -586,28 +588,27 @@ var isUrgent = 1;
 	  		
 	  		function addFavorites(JSONDocument) {
 	  			if(JSONDocument) {
-	  	   			$(saveFavorite).attr("checked", "checked").attr("disabled", "disabled");
+	  	   			$(saveFavorite).attr("checked", "checked");
 	  	   		}	
 	  		}
 	  		
   			var trId;
   			var trRemove;
 	  		function addFreights (JSONDocument) {
-	  			/* 옆에 리스트에 추가 */
-				$.confirm({
-				    title: '물품 추가 완료',
-				    content: '물품이 추가되었습니다. 이제 결제하실 수 있습니다.',
-				    type: 'green',
-				    closeIcon: true,
-				    columnClass: 'centerBox',
-				    typeAnimated: true,
-				    theme: 'modern',
-				    buttons: {
-				        '확인': {
-				        }
-				    }
-				});
-  			
+	  			
+				$("#orderNow").slideDown();
+				$("#olList").attr("data-container", "body")
+				  .attr("data-toggle", "popover")
+				  .attr("data-placement", "top")
+				  .attr("data-content", "이제 결제하실 수 있습니다.");
+	
+				$("#olList").popover('show');
+				
+				setTimeout(function() {
+					$("#olList").popover('hide');
+				}, 2000);
+	  			
+				
 	  			totalPrice += JSONDocument.freightPrice;
 	  			$(freightPrice).text(Number($(freightPrice).text())+Number(JSONDocument.freightPrice));
 				$(tableIndex).append(
@@ -880,21 +881,20 @@ var isUrgent = 1;
   		};
   		
   		function addFreight(JSONDocument) {
-  			$("#orderNow").attr("data-toggle", "modal").attr("data-target", "#payBox");
-			$.confirm({
-			    title: '물품 추가 완료',
-			    content: '물품이 추가되었습니다. 이제 결제하실 수 있습니다.',
-			    type: 'green',
-			    columnClass: 'centerBox',
-			    closeIcon: true,
-			    typeAnimated: true,
-			    theme: 'modern',
-			    buttons: {
-			        '확인': {
-			        }
-			    }
-			});
   			
+  			$("#orderNow").attr("data-toggle", "modal").attr("data-target", "#payBox");
+			$("#orderNow").slideDown();
+			$("#olList").attr("data-container", "body")
+						  .attr("data-toggle", "popover")
+						  .attr("data-placement", "top")
+						  .attr("data-content", "이제 결제하실 수 있습니다.");
+  			
+			$("#olList").popover('show');
+			setTimeout(function() {
+				$("#olList").popover('hide');
+			}, 2000);
+			
+			
   			totalPrice += JSONDocument.freightPrice;
   			$("#freightPrice0").text(Number($("#freightPrice0").text())+Number(JSONDocument.freightPrice));
 			$(tableIndex).append(
@@ -1091,7 +1091,7 @@ var isUrgent = 1;
 
    	function addFavorite(JSONDocument) {
    		if(JSONDocument) {
-   			$("#saveFavorite0").attr("checked", "checked").attr("disabled", "disabled");
+   			$("#saveFavorite0").attr("checked", "checked");
    		}	
    	}
    	
@@ -1179,7 +1179,12 @@ var isUrgent = 1;
 				).append(
 					$("<td>")
 					.append(
-						$("<button class = 'favBtn ColorBorder'>바로 입력하기</button>").attr("id", "favBtn"+Index)
+						$("<button class = 'favBtn ColorBorder'>").attr("id", "favBtn"+Index).attr('data-dismiss', "modal")
+						.append(
+							$("<i class = 'xi-enter'>")
+						).append(
+							$("<span> 바로 입력하기</span")
+						)
 					)
 				)
 			);
@@ -1243,12 +1248,13 @@ var isUrgent = 1;
 			<div class = "col-md-5">
 				<h2 class = "centerBox quickFirstTitle mb-5 text-conceptColor mr-3">
 					물품 정보
-					<button class = "ColorBorder ml-3" id = "gotoPayTable" data-toggle = "modal" data-target = "#payTable">요금표</button>
+					<button class = "ColorBorder ml-3" id = "gotoPayTable" data-toggle = "modal" data-target = "#payTable">
+					<i class="fas fa-coins"></i> 요금표</button>
 				</h2>
 			</div>
 		</div>
 		<div id="carouselExampleIndicators" class="carousel slide" data-interval="false">
-		  <ol class="carousel-indicators mt-5 mb-5">
+		  <ol class="carousel-indicators mt-5 mb-5" id = "olList">
 		    <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active" id = "li0"></li>
 		  </ol>
 		  
@@ -1409,8 +1415,10 @@ var isUrgent = 1;
 			
 			<div class = "centerBox mt-5">
 				<!-- <input type = "submit" class = "centerBox"/> -->
-				<button id = "orderNow" type = "button" class = "ColorBorder">주문하기</button>
-				<button id = "addOrderBtn" type = "button" class = "ColorBorder">배송지 추가하기</button>
+				<button id = "orderNow" type = "button" class = "ColorBorder">
+				<i class="fas fa-caret-right"></i> 주문하기</button>
+				<button id = "addOrderBtn" type = "button" class = "ColorBorder">
+				<i class = 'xi-plus-circle-o'></i> 배송지 추가하기</button>
 			</div>
 			
 		</form>
@@ -1508,12 +1516,10 @@ var isUrgent = 1;
         </div>
         </div>
         <!-- END Col three -->
+        <% if(csInfo.getCsType() == 1) { %>
         <div class = "row mt-5">
      		<div class="col-md-12">
-     		
-     		
           		<div class="card_s text-center" id = "payMethod_4">
-          		
           			<div class = "row">
 	          			<div class = "col-md-6 vertical_center">
 			            	<div class="title_s">
@@ -1524,19 +1530,24 @@ var isUrgent = 1;
 		              		<h2 class = "mt-5">신용결제(법인회원 전용)</h2>
 				            <div class = "emptyBox_s mt-3">
 				            </div>
-				           <button type = "button" id = "company_pay" class = "ColorBorder payBtn"><i class="fa_s far fa-credit-card"></i> 결제목록에 추가</button>
-				          </div>
-	            		</div>
-          			</div>
-		        </div>
-		      </div>
-		    </div>
-		  </div>
-		</section>
+				            <button type = "button" id = "company_pay" class = "ColorBorder payBtn">
+				            	<i class="fa_s far fa-credit-card"></i>
+				            	 결제목록에 추가
+				            </button>
+			            </div>
+            		</div>
+       			</div>
+	        </div>
+     	</div>
+     	<% } %>
+    </div>
+  </div>
+</section>
 			
       </div>
       <div class="modal-footer centerBox">
-        <button type="button" class="dangerBorder" data-dismiss="modal">취소</button>
+        <button type="button" class="dangerBorder" data-dismiss="modal">
+        <i class="far fa-times-circle"></i> 취소</button>
       </div>
     </div>
   </div>
@@ -1662,7 +1673,8 @@ var isUrgent = 1;
 			
       </div> <!-- 모달끝 -->
       <div class="modal-footer centerBox">
-        <button type="button" class="ColorBorder" data-dismiss="modal">확인</button>
+        <button type="button" class="ColorBorder" data-dismiss="modal">
+        <i class="far fa-check-circle"></i> 확인</button>
       </div>
     </div>
   </div>
@@ -1726,7 +1738,8 @@ var isUrgent = 1;
       	
       </div>
       <div class="modal-footer centerBox">
-        <button type="button" class="ColorBorder" data-dismiss="modal">확인</button>
+        <button type="button" class="ColorBorder" data-dismiss="modal">
+        <i class="far fa-check-circle"></i> 확인</button>
       </div>
     </div>
   </div>
@@ -1770,7 +1783,8 @@ var isUrgent = 1;
 	
       </div>
       <div class="modal-footer centerBox">
-        <button type="button" class="ColorBorder" data-dismiss="modal">확인</button>
+        <button type="button" class="ColorBorder" data-dismiss="modal">
+        <i class="far fa-check-circle"></i> 확인</button>
       </div>
     </div>
   </div>

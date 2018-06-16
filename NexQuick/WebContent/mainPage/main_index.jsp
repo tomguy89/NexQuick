@@ -161,7 +161,7 @@ $(function() {
               <li> <i class="fa fa-check" aria-hidden="true"></i> 신용결제 </li>
               </ul>
             </div>
-            <a>이동하기</a>
+            <a><i class="fas fa-caret-right"></i> 이동하기</a>
           </div>
           
         </div>
@@ -182,7 +182,7 @@ $(function() {
               <li> <i class="fa fa-check" aria-hidden="true"></i> 배송 서비스 평가 </li>
               </ul>
             </div>
-            <a>이동하기</a>
+            <a><i class="fas fa-caret-right"></i> 이동하기</a>
           </div>
         </div>
         <!-- END Col two -->
@@ -202,7 +202,7 @@ $(function() {
               <li> <i class="fa fa-check" aria-hidden="true"></i> 신청 상세보기 </li>
               </ul>
             </div>
-            <a>이동하기</a>
+            <a><i class="fas fa-caret-right"></i> 이동하기</a>
           </div>
         </div>
         <!-- END Col three -->

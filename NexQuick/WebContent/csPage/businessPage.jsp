@@ -301,30 +301,33 @@ function setFreightList(JSONDocument) {
 	<div class = "row">
 		<div class = "col-md-3">
 			<div class="group centerBox" style = "width: 50%; float : right;">      
-			    <input class = "inputDesignForDay" type="text" id = "csName"  data-language='en' placeholder = "이름 검색">
+			    <input class = "inputDesignForDay" type="text" id = "csName"  data-language='en' placeholder = "ex) 민규, 김민규">
 			    <span class="highlight"></span>
 			    <span class="bar"></span>
-			    <label class = "labelDesignForDay"><i class = "fas fa-street-view"></i>사용자 검색</label>
+			    <label class = "labelDesignForDay"><i class = "xi-user-o"></i>신청인 검색</label>
 			</div>
 		</div>
 		<div class = "col-md-3">
 			<div class="group centerBox" style = "width: 50%; float : right;">      
-			    <input class = "inputDesignForDay" type="text" id = "csDepartment"  data-language='en' placeholder = "부서명 검색">
+			    <input class = "inputDesignForDay" type="text" id = "csDepartment"  data-language='en' placeholder = "ex)개발, 개발부">
 			    <span class="highlight"></span>
 			    <span class="bar"></span>
-			    <label class = "labelDesignForDay"><i class = "fas fa-street-view"></i>부서명 검색</label>
+			    <label class = "labelDesignForDay"><i class = "xi-group"></i>부서명 검색</label>
 			</div>
 		</div>
 		<div class = "col-md-3">
 			<div class="group centerBox" style = "width: 50%; float : right;">      
-			    <input class = "datepicker-here inputDesignForDay" type="text" id = "callTime"  data-language='en' placeholder = "날짜를 입력하세요">
+			    <input class = "datepicker-here inputDesignForDay" type="text" id = "callTime"  data-language='en' placeholder = "여기를 클릭하세요">
 			    <span class="highlight"></span>
 			    <span class="bar"></span>
-			    <label class = "labelDesignForDay"><i class = "fas fa-street-view"></i>해당 날짜 이후</label>
+			    <label class = "labelDesignForDay"><i class = "far fa-calendar-alt"></i>해당 날짜 이후</label>
 			</div>
 		</div>
 		<div class = "col-md-3">
-			<button class = "ColorBorder" style = "height: 47px!important ; line-height: 47px!important;" id = "searchBtn">검색하기</button>
+			<button class = "ColorBorder" style = "height: 47px!important ; line-height: 47px!important;" id = "searchBtn">
+			<i class="fas fa-search"></i>
+			검색하기
+			</button>
 		</div>
 	</div>
 	
@@ -535,7 +538,8 @@ function setFreightList(JSONDocument) {
 	      
 	      </div>
           <div class="modal-footer centerBox">
-	        <button type="button" class="ColorBorder" id = "submitBtn" data-dismiss="modal"> 창 닫기 </button>
+	        <button type="button" class="ColorBorder" id = "submitBtn" data-dismiss="modal">
+	        <i class="far fa-times-circle"></i> 창 닫기 </button>
 	      </div>
 		      
 	    </div>

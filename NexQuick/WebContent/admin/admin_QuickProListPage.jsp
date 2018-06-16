@@ -160,11 +160,14 @@ function searchAllQP() {
 			    <input class = "inputDesignForDay" type="text" id = "qpName"  data-language='en' placeholder = "이름을 입력하세요">
 			    <span class="highlight"></span>
 			    <span class="bar"></span>
-			    <label class = "labelDesignForDay"><i class = "fas fa-street-view"></i>배송기사 이름검색</label>
+			    <label class = "labelDesignForDay"><i class = "xi-motorcycle"></i>배송기사 이름검색</label>
 			</div>
 		</div>
 		<div class = "col-md-6">
-			<button class = "ColorBorder" style = "height: 47px!important ; line-height: 47px!important;" id = "searchBtn">검색하기</button>
+			<button class = "ColorBorder" style = "height: 47px!important ; line-height: 47px!important;" id = "searchBtn">
+			<i class="fas fa-search"></i>
+			검색하기
+			</button>
 		</div>
 	</div>
 	
