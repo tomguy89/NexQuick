@@ -108,7 +108,7 @@ public class  LoginActivity extends AppCompatActivity {
 
     private void signIn(){
         // URL 설정.
-        String url = "http://70.12.109.173:9090/NexQuick/qpAccount/qpSignIn.do";
+        String url = "http://70.12.109.164:9090/NexQuick/qpAccount/qpSignIn.do";
 
         ContentValues values = new ContentValues();
         values.put("qpPhone", qpPhone);

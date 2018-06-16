@@ -7,45 +7,51 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_margin="10dp"
-        >
-
-        <TableLayout
-            android:id="@+id/calculate"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:stretchColumns="0">
-
-            <TableRow>
-                <TextView
-                    android:id="@+id/calculate_title"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/border_udrl"
-                    android:text="정산예정 리스트"
-                    android:textAlignment="center"
-                    android:textSize="20sp"
-                    android:textColor="#ffffff"
-
-                    >
-
-                </TextView>
-
-
-            </TableRow>
-
-            <ListView
-                android:id="@+id/calculate_listview"
-                android:layout_width="match_parent"
-                android:layout_height="250dp" />
-        </TableLayout>
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+
+            <TextView
+                android:id="@+id/calculate_title"
+                android:layout_width="match_parent"
+                android:layout_height="40sp"
+                android:text="정산예정 리스트"
+                android:textAlignment="center"
+                android:textColor="#ffffff"
+                android:textSize="20sp" />
+
+
+            <TextView
+                android:id="@+id/calculate_none"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="20sp"
+                android:text="정산 가능 내역이 없습니다."
+                android:textAlignment="center"
+                android:textColor="#ffffff"
+                android:textSize="20sp"
+                android:visibility="gone" />
+
+            <ListView
+                android:id="@+id/calculate_listview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical">
 
 
@@ -53,24 +59,58 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:text="오늘의 수익"
                 android:layout_margin="10sp"
+                android:text="오늘의 수익"
                 android:textAlignment="center"
-                android:textSize="25sp"/>
+                android:textSize="25sp" />
 
-            <TextView
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="입금/카드/신용    000000원"
-                android:textAlignment="center"/>
+                android:orientation="horizontal">
 
-            <TextView
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="입금/카드/신용(수수료 5%)  "
+                    android:textAlignment="textEnd" />
+
+                <TextView
+                    android:id="@+id/inappMoney"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="  원"
+                    android:textAlignment="textStart" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="현장결제분            000000원"
-                android:textAlignment="center"/>
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:layout_weight="1"
+                    android:text="현장결제분 수수료(5%)  "
+                    android:textAlignment="textEnd" />
+
+
+                <TextView
+                    android:id="@+id/placeMoney"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="  원"
+                    android:textAlignment="textStart" />
+
+            </LinearLayout>
 
             <View
                 android:id="@+id/divider"
@@ -79,14 +119,30 @@
                 android:layout_margin="5dp"
                 android:background="?android:attr/listDivider" />
 
-
-            <TextView
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="정산 금액        000000원"
-                android:textAlignment="center"
                 android:layout_margin="10sp"
-                android:textSize="25sp"/>
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:layout_weight="1"
+                    android:text="정산금액  "
+                    android:textAlignment="textEnd"
+                    android:textSize="25sp" />
+
+                <TextView
+                    android:id="@+id/totaljungsan"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text=" 원"
+                    android:textAlignment="textStart"
+                    android:textSize="25sp" />
+            </LinearLayout>
 
 
             <Button
@@ -96,12 +152,10 @@
                 android:layout_gravity="end"
                 android:backgroundTint="@color/colorPrimary"
                 android:text="정산하기"
-                android:textSize="25sp"
                 android:textColor="#ffffff"
-                />
+                android:textSize="25sp" />
 
         </LinearLayout>
 
     </LinearLayout>
-
 </FrameLayout>

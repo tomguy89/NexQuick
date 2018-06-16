@@ -92,7 +92,6 @@ public class fragment_order_list extends Fragment {
 
             TextView titleStrView = (TextView) v.findViewById(R.id.order_list_item_date);
             TextView descStrView = (TextView) v.findViewById(R.id.order_list_item_detail);
-            TextView UrgentStrView = (TextView) v.findViewById(R.id.order_list_item_urgent);
             Button detailBtn = (Button) v.findViewById(R.id.detailBtn);
 
 

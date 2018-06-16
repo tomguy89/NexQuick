@@ -3,48 +3,45 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/order_list_item_date"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="날짜다"
-            android:textColor="@color/colorPrimary"
-            android:textStyle="bold" />
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:layout_weight="1"
+            android:padding="5dp"
+            android:orientation="vertical">
 
             <TextView
-                android:id="@+id/order_list_item_urgent"
-                android:layout_width="wrap_content"
+                android:id="@+id/order_list_item_date"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text=""
-                android:textColor="@color/colorTomato" />
+                android:paddingBottom="2dp"
+                android:text="날짜다"
+                android:textColor="@color/colorGold"
+                android:textSize="15dp"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/order_list_item_detail"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="아이템들이다"
-                android:layout_weight="1"
-                android:textColor="#ffffff" />
-
+                android:lines="2"
+                android:textSize="15dp"
+                android:lineSpacingExtra="2dp"
+                android:text="아이템들이다" />
         </LinearLayout>
 
+        <Button
+            android:id="@+id/detailBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="@string/detail" />
+
     </LinearLayout>
-
-    <Button
-        android:id="@+id/detailBtn"
-        android:layout_width="50sp"
-        android:layout_height="wrap_content"
-
-        android:text="상세" />
 </LinearLayout>

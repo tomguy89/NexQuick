@@ -86,10 +86,10 @@ public class GoToWorkActivity extends AppCompatActivity implements NavigationVie
                 Intent i = new Intent(getApplicationContext(), LocationService.class);
                 stopService(i);
                 //여기까지
-
-                moveTaskToBack(true);
-                finish();
-                android.os.Process.killProcess(android.os.Process.myPid());
+                editor.clear();
+                editor.commit();
+                i = new Intent(getApplicationContext(), LoginActivity.class);
+                startActivity(i);
             }
         });
 
