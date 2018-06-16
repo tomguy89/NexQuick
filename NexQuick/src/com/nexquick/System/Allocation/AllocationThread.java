@@ -1,5 +1,6 @@
 package com.nexquick.system.allocation;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -126,14 +127,24 @@ public class AllocationThread {
 		String addrStr = callInfo.getSenderAddress()+" "+callInfo.getSenderAddressDetail();
 		Address addr = addressTransService.getAddress(addrStr);
 		String hCode = addr.gethCode();
+		String bCode = addr.getbCode();
 		System.out.println(hCode);
+		Map<String, Object> param = new HashMap<String, Object>();
+		param.put("hCode", hCode);
+		param.put("bCode", bCode);
+		param.put("latitude", addr.getLatitude());
+		param.put("longitude", addr.getLongitude());
+		param.put("vehicleType", callInfo.getVehicleType());
 		if (hCode!=null) {
-			qpList = qpPositionService.selectQPListByHCode(addr);
+			qpList = qpPositionService.selectQPListByHCode(param);
 		}else {
-			String bCode = addr.getbCode();
-			qpList = qpPositionService.selectQPListByBCode(addr);
+			
+			qpList = qpPositionService.selectQPListByBCode(param);
 		}
 		
+		for(QPPosition qp : qpList) {
+			System.out.println("select qp : "+qp.getQpId());
+		}
 		
 		
 		if (qpList.size()!=0) {
@@ -169,8 +180,10 @@ public class AllocationThread {
 	
 	}
 	
-	public List<QPPosition> priorityQP(List<QPPosition> qpList){
-		
+	public List<QPPosition> priorityQP(List<QPPosition> qpList, CallInfo callInfo){
+		for(QPPosition qp : qpList) {
+			
+		}
 		return qpList;
 	}
 	

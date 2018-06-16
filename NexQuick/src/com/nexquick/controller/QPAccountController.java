@@ -114,7 +114,7 @@ public class QPAccountController {
 	3. unpayedcall의 콜넘으로 총액 갖고오기
 	4. unpyedcall의 콜넘으로 결제상태 업데이트하기*/
 	
-	@RequestMapping("processPayment.do")
+	@RequestMapping("/processPayment.do")
 	public @ResponseBody QPPay processPayment(int qpId) {
 		
 		System.out.println("processPayment 컨트롤러에 들어옴");

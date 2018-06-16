@@ -54,6 +54,7 @@ public class RPayCheckActivity extends AppCompatActivity {
                                                networkTask.execute();
 
                                                Intent i = new Intent(getApplicationContext(), QPBeamRActivity.class);//인수하기 버튼을 눌렀다면...
+                                                i.putExtra("orderNum",getIntent().getIntExtra("orderNum",0));
                                                startActivity(i);
                                                finish();
                                            }

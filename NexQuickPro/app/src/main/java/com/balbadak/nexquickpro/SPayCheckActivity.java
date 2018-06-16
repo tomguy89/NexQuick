@@ -61,6 +61,8 @@ public class SPayCheckActivity extends AppCompatActivity {
                                                networkTask.execute();
 
                                                Intent i = new Intent(getApplicationContext(), QPBeamSActivity.class);//인수하기 버튼을 눌렀다면...
+                                                i.putExtra("callNum",getIntent().getIntExtra("callNum",0));
+
                                                startActivity(i);
                                                finish();
                                            }

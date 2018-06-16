@@ -21,7 +21,8 @@
 		p:callInfoDao-ref="callInfoDao" p:orderInfoDao-ref="orderInfoDao" p:freightInfoDao-ref="freightInfoDao"/>
 
 	<bean id="callSelectListService" class="com.nexquick.service.call.CallSelectListServiceImpl"
-		p:callInfoDao-ref="callInfoDao" p:orderInfoDao-ref="orderInfoDao" p:freightInfoDao-ref="freightInfoDao"/>		
+		p:callInfoDao-ref="callInfoDao" p:orderInfoDao-ref="orderInfoDao" p:freightInfoDao-ref="freightInfoDao"
+		p:qpPositionDao-ref="qpPositionDao" p:optimalRouteService-ref="optimalRouteService"/>		
 			
 	<bean id="pricingService" class="com.nexquick.service.call.PricingServiceImpl"
 		p:priceDao-ref="priceInfoDao" p:weatherCheckService-ref="weatherCheckService" />
@@ -31,5 +32,7 @@
 	<bean id="distanceCheckService" class="com.nexquick.service.parsing.DistanceCheckServiceImpl"/>
 	
 	<bean id="weatherCheckService" class="com.nexquick.service.parsing.WeatherCheckServiceImpl"/>
+	
+	<bean id="optimalRouteService" class="com.nexquick.service.parsing.OptimalRouteServiceImpl"/>
 		
 </beans>

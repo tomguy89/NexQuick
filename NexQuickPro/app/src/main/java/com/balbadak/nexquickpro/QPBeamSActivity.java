@@ -53,16 +53,17 @@ public class QPBeamSActivity extends Activity { //nfc를 보내느 activity (xml
         pIntent = PendingIntent.getActivity(this, 0, new Intent(this,
                 getClass()).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP), 0);
 
-        //loginInfo = getSharedPreferences("setting", 0);
-        //qpId = "S"+loginInfo.getString("qpId", "");
-        qpId="S2";//이거 지워야합니다.
-        callNum=33; //이거 지우고 넘어올 때 가져온 데이터
+        loginInfo = getSharedPreferences("setting", 0);
+        qpId = "S"+loginInfo.getInt("qpId", 0);
+        callNum=getIntent().getIntExtra("callNum",0);
+
 
 
         signBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(getApplicationContext(),KeyActivity.class);
+                i.putExtra("callNum",callNum);
                 startActivity(i);
             }
         });

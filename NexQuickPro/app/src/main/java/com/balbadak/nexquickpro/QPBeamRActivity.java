@@ -32,7 +32,8 @@ public class QPBeamRActivity extends Activity { //nfc를 보내느 activity (xml
     PendingIntent pIntent;
     IntentFilter[] mNdefFilters;
     private SharedPreferences loginInfo;
-
+    String qpId;
+    int orderNum;
 
     /** Called when the activity is first created. */
     @Override
@@ -49,10 +50,15 @@ public class QPBeamRActivity extends Activity { //nfc를 보내느 activity (xml
         pIntent = PendingIntent.getActivity(this, 0, new Intent(this,
                 getClass()).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP), 0);
 
+        orderNum=getIntent().getIntExtra("orderNum",orderNum);
+
+
+
         signBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(getApplicationContext(),KeyActivity.class);
+                i.putExtra("orderNum",orderNum);
                 startActivity(i);
             }
         });
@@ -75,9 +81,9 @@ public class QPBeamRActivity extends Activity { //nfc를 보내느 activity (xml
         @Override
         public NdefMessage createNdefMessage(NfcEvent event) {//전송합니당
             // TODO Auto-generated method stub
-           // loginInfo = getSharedPreferences("setting", 0);  //이걸로 바꿔야한다.
-            //String qpId = "R"+loginInfo.getString("qpId", "");//이걸로 바꿔야한다.
-            String qpId="R"+"2";
+           loginInfo = getSharedPreferences("setting", 0);  //이걸로 바꿔야한다.
+           qpId = "R"+loginInfo.getInt("qpId", 0);//이걸로 바꿔야한다.
+
 
             return makeNdefMessage(qpId);
         }

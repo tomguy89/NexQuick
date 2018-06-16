@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.nexquick.model.vo.BusinessOrderInfo;
 import com.nexquick.model.vo.CSInfo;
 import com.nexquick.model.vo.CallInfo;
+import com.nexquick.model.vo.Coordinate;
 import com.nexquick.model.vo.OnDelivery;
 import com.nexquick.model.vo.OrderInfo;
 import com.nexquick.service.call.CallSelectListService;
@@ -234,5 +235,38 @@ public class CallListController {
 		return callSelectListService.selectUnpayedCall(qpId);
 	}
 	
+	//0615 qp가 가진 배송 목록 최적으로 가져오기
+	
+	@RequestMapping("/optimalRoute.do")
+	public List<Coordinate> optimalRouteList(int qpId){
+		return callSelectListService.getOptimalRoute(qpId);
+	}
+	
+	@RequestMapping("/updateOrderAfterConfirmbySign.do")
+	   public void updateOrderListbySign(int orderNum) {
+	       System.out.println(orderNum);
+	       
+	       List <Integer> list = new ArrayList<>();
+
+	       list.add(orderNum);
+	       
+	       callSelectListService.updateOrderAfterConfirm(list);
+
+	   }
+	   
+	   
+	   @RequestMapping("/updateCallAfterConfirmbySign.do")
+	   public void updateCallListbySign(int callNum) {
+	   
+	       System.out.println(callNum);
+	       
+	       List <Integer> list = new ArrayList<>();
+
+	       list.add(callNum);
+	       
+	       callSelectListService.updateCallAfterConfirm(list);
+
+	   }
+	   
 
 }

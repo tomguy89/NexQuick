@@ -1,6 +1,7 @@
 package com.nexquick.model.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import com.nexquick.model.vo.Address;
 import com.nexquick.model.vo.QPPosition;
@@ -47,9 +48,9 @@ public interface QPPositionDAO {
 	List<QPPosition> selectQPPositionList();
 	
 
-	List<QPPosition> selectQPByBCode(Address addr);
+	List<QPPosition> selectQPByBCode(Map<String, Object> param);
 
-	List<QPPosition> selectQPByHCode(Address addr);
+	List<QPPosition> selectQPByHCode(Map<String, Object> param);
 	
 	boolean decline(int qpId);
 	

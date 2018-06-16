@@ -341,7 +341,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         descSb.setLength(0);
 
 
-                        if (data.getInt("deliveryStatus") == 1) {
+                        if (data.getInt("deliveryStatus") == 2) {
                             if (data.getInt("urgent") == 1) {
                                 titleSb.append("급/");
                                 item.setUrgentStr("급");
@@ -368,7 +368,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                 quickList.add(item);
                             }
 
-                        } else if (data.getInt("deliveryStatus") == 2) {
+                        } else if (data.getInt("deliveryStatus") == 3) {
                             if (data.getInt("urgent") == 1) {
                                 titleSb.append("급/");
                                 item.setUrgentStr("급");

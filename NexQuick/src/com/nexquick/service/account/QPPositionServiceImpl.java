@@ -1,6 +1,7 @@
 package com.nexquick.service.account;
 
 import java.util.List;
+import java.util.Map;
 
 import com.nexquick.model.dao.QPPositionDAO;
 import com.nexquick.model.vo.Address;
@@ -15,14 +16,14 @@ public class QPPositionServiceImpl implements QPPositionService {
 	
 
 	@Override
-	public List<QPPosition> selectQPListByBCode(Address addr){
-		return qpPositionDao.selectQPByBCode(addr);
+	public List<QPPosition> selectQPListByBCode(Map<String, Object> param){
+		return qpPositionDao.selectQPByBCode(param);
 	}
 	
 
 	@Override
-	public List<QPPosition> selectQPListByHCode(Address addr){
-		return qpPositionDao.selectQPByHCode(addr);
+	public List<QPPosition> selectQPListByHCode(Map<String, Object> param){
+		return qpPositionDao.selectQPByHCode(param);
 	}
 	
 //	새로만듦. 0608

@@ -1,6 +1,7 @@
 package com.nexquick.model.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 
@@ -40,14 +41,13 @@ public class QPPositionDAOImpl implements QPPositionDAO {
 	}
 
 	@Override
-	public List<QPPosition> selectQPByBCode(Address addr) {
-		return sqlSession.selectList("qpPosition.selectQPByBCode", addr);
+	public List<QPPosition> selectQPByBCode(Map<String, Object> param) {
+		return sqlSession.selectList("qpPosition.selectQPByBCode", param);
 	}
 	
 	@Override
-	public List<QPPosition> selectQPByHCode(Address addr) {
-		System.out.println(addr.toString());
-		return sqlSession.selectList("qpPosition.selectQPByHCode", addr);
+	public List<QPPosition> selectQPByHCode(Map<String, Object> param) {
+		return sqlSession.selectList("qpPosition.selectQPByHCode", param);
 	}
 
 	@Override

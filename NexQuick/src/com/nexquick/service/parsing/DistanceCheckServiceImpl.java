@@ -47,6 +47,7 @@ public class DistanceCheckServiceImpl implements DistanceCheckService {
             con.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
             con.setRequestProperty("Content-Length", String.valueOf(postDataBytes.length));
             con.setRequestProperty("appKey","5096fcfd-6200-419f-b367-a37263afc3cc");
+            //con.setRequestProperty("appKey","2c831aee-8c6e-444b-82ed-1a23b76e504c");
             con.setDoOutput(true);
             con.getOutputStream().write(postDataBytes); // POST 호출
 
@@ -61,6 +62,7 @@ public class DistanceCheckServiceImpl implements DistanceCheckService {
 			}
 			
 			JSONObject object = (JSONObject)JSONValue.parse(isr);
+			System.out.println(object.toString());
 			JSONArray features = (JSONArray) object.get("features");
 			JSONObject feature;
 			for (int i = 0; i < 1/*features.size()*/; i++){
@@ -69,8 +71,6 @@ public class DistanceCheckServiceImpl implements DistanceCheckService {
 				JSONObject properties = (JSONObject) feature.get("properties");
 				result = (Math.round(Integer.parseInt(properties.get("totalDistance").toString())/10.))/100.;
 				
-//				System.out.printf("거리 : %.2f km\n",Integer.parseInt(properties.get("totalDistance").toString())/1000.);
-//				System.out.printf("시간 : %.1f 분",Integer.parseInt(properties.get("totalTime").toString())/60.);
 			}
 
 		} catch (IOException e) {

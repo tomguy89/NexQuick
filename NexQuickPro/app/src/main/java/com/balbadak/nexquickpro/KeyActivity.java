@@ -1,13 +1,16 @@
 package com.balbadak.nexquickpro;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,15 +21,22 @@ import android.widget.Toast;
 
 import com.tsengvn.typekit.TypekitContextWrapper;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class KeyActivity extends AppCompatActivity {
 
     Context ctx = this;
     LinearLayout ll1;
     MyView m;
+    String url;
+    ContentValues values;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+      values = new ContentValues();
+
         setContentView(R.layout.activity_key);
         LinearLayout ll = new LinearLayout(this);// 메인 컨테이너
         ll.setOrientation(LinearLayout.VERTICAL);
@@ -66,6 +76,31 @@ public class KeyActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Toast.makeText(getApplicationContext(),"저장되었습니다.",Toast.LENGTH_SHORT).show();
                 //이거 하고 어느 액티비티로 이동해야할까....? 다시 그 상세보기 있는 그 액티비티로?
+
+                Intent gIntent = getIntent();
+
+
+                if(gIntent.getIntExtra("callNum",0)==0){ //callNum이 오지 않은 인도
+                    Log.e("INFO","인도다!!!");
+
+
+                        url="http://70.12.109.173:9090/NexQuick/list/updateOrderAfterConfirmbySign.do";
+                        values.put("orderNum",gIntent.getIntExtra("orderNum",0));
+
+                    NetworkTask networkTask = new NetworkTask(url, values);
+                    networkTask.execute();
+
+
+                } else { //callNum이 왔다...
+                    Log.e("INFO","인수다!!!");
+                    url="http://70.12.109.173:9090/NexQuick/list/updateCallAfterConfirmbySign.do";
+                    values.put("callNum",gIntent.getIntExtra("callNum",0));
+                    NetworkTask networkTask = new NetworkTask(url, values);
+                    networkTask.execute();
+
+                }
+
+
                 Intent i = new Intent(KeyActivity.this,MainActivity.class);
                 startActivity(i);
 
@@ -91,6 +126,39 @@ public class KeyActivity extends AppCompatActivity {
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(TypekitContextWrapper.wrap(newBase));
     }
+
+
+
+
+    public class NetworkTask extends AsyncTask<Void, Void, String> {
+
+        private String url;
+        private ContentValues values;
+
+        public NetworkTask(String url, ContentValues values) {
+
+            this.url = url;
+            this.values = values;
+        }
+
+        @Override
+        protected String doInBackground(Void... params) {
+
+            String result; // 요청 결과를 저장할 변수.
+            RequestHttpURLConnection requestHttpURLConnection = new RequestHttpURLConnection();
+            result = requestHttpURLConnection.request(url, values); // 해당 URL로 부터 결과물을 얻어온다.
+
+            return result;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+
+        }
+    }
+
+
 
 
 } // end of class

@@ -46,26 +46,32 @@
 		select * from qpPosition
 		where qpId=#{qpId}
 	</select>
-	<select id="selectQPByBCode" parameterType="Address" resultType="QPPosition">
-		SELECT p.*, nvl(now, 0) now
-		FROM qpPosition p, (select count(*) as now, qpId
-        		            from orderInfo o, callInfo c
-                		    where c.callNum = o.callNum
-                   		    and isget = 0
-              			    group by qpId) n
-		WHERE p.qpId = n.qpId(+)
+	<select id="selectQPByBCode" parameterType="Map" resultType="QPPosition">
+		select p.qpId, qpstatus, nvl(now, 0) now
+		from qpPosition p, (select count(*) as now, qpId
+		                    from orderInfo o, callInfo c
+		                    where c.callNum = o.callNum
+		                    and isget = 0
+		                    group by qpId) n, qpInfo i
+		where p.qpId = n.qpId(+)
+		and qpStatus = 0
+		and i.qpId = p.qpId
+		and qpVehicleType = #{vehicleType}
 		order by abs(to_number(#{bCode})-to_number(bCode)),
 		abs(power(qplatitude-to_number(#{latitude}), 2)+power(qplongitude-to_number(#{longitude}), 2)),
 		n.now
 	</select>
-	<select id="selectQPByHCode" parameterType="Address" resultType="QPPosition">
+	<select id="selectQPByHCode" parameterType="Map" resultType="QPPosition">
 		SELECT p.*, nvl(now, 0) now
-		FROM qpPosition p, (select count(*) as now, qpId
-        		            from orderInfo o, callInfo c
-                		    where c.callNum = o.callNum
-                   		    and isget = 0
-              			    group by qpId) n
-		WHERE p.qpId = n.qpId(+)
+		from qpPosition p, (select count(*) as now, qpId
+		                    from orderInfo o, callInfo c
+		                    where c.callNum = o.callNum
+		                    and isget = 0
+		                    group by qpId) n, qpInfo i
+		where p.qpId = n.qpId(+)
+		and qpStatus = 0
+		and i.qpId = p.qpId
+		and qpVehicleType = #{vehicleType}
 		order by abs(to_number(#{hCode})-to_number(hCode)),
 		abs(power(qplatitude-to_number(#{latitude}), 2)+power(qplongitude-to_number(#{longitude}), 2)),
 		n.now

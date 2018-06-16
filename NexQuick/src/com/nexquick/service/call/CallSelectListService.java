@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.nexquick.model.vo.BusinessOrderInfo;
 import com.nexquick.model.vo.CallInfo;
+import com.nexquick.model.vo.Coordinate;
 import com.nexquick.model.vo.FreightInfo;
 import com.nexquick.model.vo.OnDelivery;
 import com.nexquick.model.vo.OrderInfo;
@@ -95,5 +96,7 @@ public interface CallSelectListService {
 	OnDelivery getOrderByOrderNum(int orderNum);
 
 	List<BusinessOrderInfo> getBusinessOrderList(HashMap<String, Object> condition);
+
+	List<OnDelivery> getOptimalRoute(int qpId);
 	
 }

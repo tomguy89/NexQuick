@@ -1,16 +1,22 @@
 package com.nexquick.service.call;
 
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 
 import com.nexquick.model.dao.CallInfoDAO;
 import com.nexquick.model.dao.FreightInfoDAO;
 import com.nexquick.model.dao.OrderInfoDAO;
+import com.nexquick.model.dao.QPPositionDAO;
 import com.nexquick.model.vo.BusinessOrderInfo;
 import com.nexquick.model.vo.CallInfo;
+import com.nexquick.model.vo.Coordinate;
 import com.nexquick.model.vo.FreightInfo;
 import com.nexquick.model.vo.OnDelivery;
 import com.nexquick.model.vo.OrderInfo;
+import com.nexquick.model.vo.QPPosition;
+import com.nexquick.service.parsing.OptimalRouteService;
 
 public class CallSelectListServiceImpl implements CallSelectListService {
 	
@@ -27,6 +33,16 @@ public class CallSelectListServiceImpl implements CallSelectListService {
 	private FreightInfoDAO freightInfoDao;
 	public void setFreightInfoDao(FreightInfoDAO freightInfoDao) {
 		this.freightInfoDao = freightInfoDao;
+	}
+	
+	private QPPositionDAO qpPositionDao;
+	public void setQpPositionDao(QPPositionDAO qpPositionDao) {
+		this.qpPositionDao = qpPositionDao;
+	}
+	
+	private OptimalRouteService optimalRouteService;
+	public void setOptimalRouteService(OptimalRouteService optimalRouteService) {
+		this.optimalRouteService = optimalRouteService;
 	}
 
 	@Override
@@ -180,6 +196,46 @@ public class CallSelectListServiceImpl implements CallSelectListService {
 	public List<BusinessOrderInfo> getBusinessOrderList(HashMap<String, Object> condition) {
 		return orderInfoDao.getBusinessOrderList(condition);
 	}
+	
+	@Override
+	public List<OnDelivery> getOptimalRoute(int qpId){
+		List<Coordinate> coordinateList = new ArrayList<>();
+		
+		QPPosition qpPosition = qpPositionDao.selectQPPosition(qpId);
+		coordinateList.add(new Coordinate("Q", qpId, qpPosition.getQpLatitude(), qpPosition.getQpLongitude()));
 
+		List<CallInfo> callList = callInfoDao.selectCallList(null, qpId, 2);
+		for(CallInfo ci : callList) {
+			coordinateList.add(new Coordinate("C", ci.getCallNum(), ci.getLatitude(), ci.getLongitude()));
+		}
+		
+		callList = callInfoDao.selectCallList(null, qpId, 3);
+		for(CallInfo ci : callList) {
+			List<OrderInfo> orderList = orderInfoDao.selectOrderList(ci.getCallNum());
+			for(OrderInfo oi : orderList) {
+				coordinateList.add(new Coordinate("O", oi.getOrderNum(), oi.getLatitude(), oi.getLongitude()));
+			}
+		}
+		
+		coordinateList.sort(new Comparator<Coordinate>() {
+			@Override
+			public int compare(Coordinate o1, Coordinate o2) {
+			 	return (int) (Math.sqrt(Math.pow((o1.getLatitude()-qpPosition.getQpLatitude()), 2)+Math.pow((o1.getLongitude()-qpPosition.getQpLongitude()), 2))
+			 			- Math.sqrt(Math.pow((o2.getLatitude()-qpPosition.getQpLatitude()), 2)+Math.pow((o2.getLongitude()-qpPosition.getQpLongitude()), 2)));
+			}
+		});
+		
+		List<OnDelivery> result = new ArrayList<>();
+		coordinateList = optimalRouteService.optimization(coordinateList);
+		for(int i=1; i<coordinateList.size(); i++) {
+			if(coordinateList.get(i).getType().equals("O")) {
+				
+			}else if (coordinateList.get(i).getType().equals("Q")) {
+				
+			}
+		}
+		
+		return result;
+	}
 
 }
