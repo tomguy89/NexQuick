@@ -9,21 +9,16 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
-import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
-import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 
-import android.annotation.SuppressLint;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -613,6 +608,9 @@ public class Order1Activity extends AppCompatActivity implements NavigationView.
             startActivity(intent);
         } else if (id == R.id.nav_order_list) {
             Intent intent = new Intent(getApplicationContext(), OrderListActivity.class);
+            startActivity(intent);
+        } else if(id == R.id.chatBot) {
+            Intent intent = new Intent(getApplicationContext(), ChatBotActivity.class);
             startActivity(intent);
         }
 

@@ -18,9 +18,13 @@
             android:icon="@drawable/ic_menu_manage"
             android:title="@string/updateUserInfo" />
         <item
-            android:id="@+id/nav_customer_center"
+            android:id="@+id/chatBot"
             android:icon="@drawable/ic_menu_send"
-            android:title="@string/chatting" />
+            android:title="@string/chatbot" />
+        <button
+            android:id="@+id/chatBot_1"
+            android:icon="@drawable/ic_menu_send"
+            android:title="@string/chatbot" />
     </group>
 
     <item android:title="Communicate">

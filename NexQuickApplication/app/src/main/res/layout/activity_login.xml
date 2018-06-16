@@ -17,21 +17,24 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_weight="0.8"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:paddingLeft="70dp"
+        android:paddingRight="70dp">
 
         <Space
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="0.2"/>
+            android:layout_weight="0.2" />
 
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="wrap_content"
+        <ImageView
+            android:id="@+id/logoImg"
+            android:layout_width="180dp"
             android:layout_height="wrap_content"
-            android:textSize="30sp"
             android:layout_gravity="center"
-            android:text="넥스퀵(주문용)"
-            android:layout_margin="15dp"/>
+            android:layout_marginBottom="30dp"
+            android:adjustViewBounds="true"
+            android:scaleType="fitCenter"
+            android:src="@drawable/bluelogo" />
 
         <EditText
             android:id="@+id/etLogin"
@@ -61,6 +64,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
+            android:background="@drawable/button_style"
             android:text="@string/login"
             android:textStyle="bold" />
 
@@ -70,13 +74,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
+            android:background="@drawable/button_style"
             android:text="@string/signup"
             android:textStyle="bold" />
 
         <Space
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="0.2"/>
+            android:layout_weight="0.2" />
 
     </LinearLayout>
 
@@ -84,6 +89,7 @@
     <Space
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:layout_weight="0.2"/>
+        android:layout_weight="0.2"
+        android:paddingLeft="50dp" />
 
 </LinearLayout>
