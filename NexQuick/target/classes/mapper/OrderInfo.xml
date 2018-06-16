@@ -1,0 +1,316 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="orderInfo">
+
+	<resultMap type="OrderInfo" id="OrderInfoResultMap">
+		<id column="orderNum" property="orderNum" />
+		<result column="callNum" property="callNum" />
+		<result column="receiverName" property="receiverName" />
+		<result column="receiverAddress" property="receiverAddress" />
+		<result column="receiverAddressDetail" property="receiverAddressDetail" />
+		<result column="receiverPhone" property="receiverPhone" />
+		<result column="orderPrice" property="orderPrice" />
+		<result column="isGet" property="isGet" />
+		<result column="arrivalTime" property="arrivalTime" />
+		<result column="memo" property="memo" />
+		<result column="distance" property="distance" />
+		<result column="latitude" property="latitude" />
+		<result column="longitude" property="longitude" />
+	</resultMap>
+
+
+	<insert id="createOrder" parameterType="OrderInfo">
+		insert into orderInfo values(
+			#{orderNum},#{callNum},#{receiverName},#{receiverAddress},#{receiverAddressDetail},#{receiverPhone},
+			#{orderPrice},#{isGet},null,#{memo},#{distance},#{latitude},#{longitude})
+		
+		<selectKey keyProperty="orderNum" resultType="int" order="BEFORE">
+			SELECT onumseq.nextval FROM DUAL
+		</selectKey>
+	</insert>
+
+	<select id="selectOrder" parameterType="int" resultType="OrderInfo">
+		select * from orderInfo
+		where orderNum=#{orderNum}
+	</select><!-- orderNum으로 하나 찾기 -->
+	
+	<select id="selectOrderListByCnum" parameterType="int" resultType="OrderInfo">
+		select * from orderInfo
+		where callNum=#{callNum}
+	</select><!-- callNum으로 찾기 -->
+	
+	<select id="selectOrderList" resultType="OrderInfo">
+		select * from orderInfo
+	</select><!-- 전체 -->
+	
+	<update id="updateOrder" parameterType="OrderInfo">
+		update orderInfo
+		set receiverName=#{receiverName},
+		receiverAddress=#{receiverAddress},
+		receiverAddressDetail=#{receiverAddressDetail},
+		receiverPhone=#{receiverPhone},
+		orderPrice=#{orderPrice},
+		isget=#{isGet},
+		memo=#{memo},
+		distance=#{distance},
+		latitude=#{latitude},
+		longitude=#{longitude}
+		where orderNum=#{orderNum}
+	</update>
+	<!-- arrivalTime만 바뀌는 거 / 사용자가 call 수정하면서 정보 바꾸는 거 둘 다 하나 메소드로 동시 처리? -->
+
+	<delete id="deleteOrder" parameterType="int">
+		delete orderInfo
+		where orderNum=#{orderNum}
+	</delete>
+	
+	<delete id="deletePastOrders">
+		delete from orderInfo
+		where callNum in (select callNum
+                          from callInfo
+                          where sysdate-callTime > 1)
+	</delete>
+	
+	<select id="onDeliveryCallList" parameterType="String" resultType="OnDelivery">
+		select c.callNum, o.orderNum, callTime, senderName, senderAddress, senderAddressDetail, c.Latitude as senderLatitude, c.Longitude as senderLongitude, receiverName, receiverPhone, receiverAddress, receiverAddressDetail, o.latitude as receiverLatitude, o.longitude as receiverLongitude, orderPrice, urgent, deliveryStatus, freightList
+		from orderInfo o, callInfo c, (SELECT LISTAGG(aa, ',') WITHIN GROUP (order by ordernum) AS freightList, ordernum
+										FROM   (SELECT freightName||' '|| freightQuant as aa, ordernum
+        										FROM priceInfo p, freightInfo f
+        										WHERE p.freightType = f.freightType
+        										)
+        								GROUP BY ordernum) x
+		WHERE isGet = 0
+		AND o.ordernum = x.ordernum(+)
+		AND o.callNum = c.callNum
+		and csId = #{csId}
+		and deliveryStatus in (-1, 1, 2, 3)
+		ORDER BY callTime
+
+	</select>
+	
+	<select id="allCallList" parameterType="String" resultType="OnDelivery">
+		select c.callNum, orderNum, callTime, senderName, senderAddress, senderAddressDetail, c.Latitude as senderLatitude, c.Longitude as senderLongitude, receiverName, receiverPhone, receiverAddress, receiverAddressDetail, o.latitude as receiverLatitude, o.longitude as receiverLongitude,  orderPrice, urgent, deliveryStatus 
+		from orderInfo o, callInfo c
+		where c.callNum = o.callNum
+		and csId = #{csId}
+		order by callTime
+	</select>
+	
+	<select id="finishedCallList" parameterType="String" resultType="OnDelivery">
+		select c.callNum, orderNum, callTime, senderName, senderAddress, senderAddressDetail, c.Latitude as senderLatitude, c.Longitude as senderLongitude, receiverName, receiverPhone, receiverAddress, receiverAddressDetail, o.latitude as receiverLatitude, o.longitude as receiverLongitude,  orderPrice, urgent, deliveryStatus 
+		from orderInfo o, callInfo c
+		where c.callNum = o.callNum
+		and csId = #{csId}
+		and ((deliveryStatus = 3 and isGet = 1) or (deliveryStatus = 4))
+		order by callTime
+	</select>
+	
+	<select id="orderListByQPId" parameterType="int" resultType="OnDelivery">
+		select c.callNum, o.orderNum, callTime, senderName, senderAddress, senderAddressDetail, c.Latitude as senderLatitude, c.Longitude as senderLongitude, receiverName, receiverPhone, receiverAddress, receiverAddressDetail, o.latitude as receiverLatitude, o.longitude as receiverLongitude,  orderPrice, urgent, deliveryStatus, distance, freightList
+		from orderInfo o, callInfo c, (SELECT LISTAGG(aa, ',') WITHIN GROUP (order by ordernum) AS freightList, ordernum
+										FROM   (SELECT freightName||' '|| freightQuant as aa, ordernum
+        										FROM priceInfo p, freightInfo f
+        										WHERE p.freightType = f.freightType
+        										)
+        								GROUP BY ordernum) x
+		WHERE isGet = 0
+		AND o.ordernum = x.ordernum(+)
+		AND o.callNum = c.callNum
+		AND qpId = #{qpId}
+		ORDER BY callTime
+	</select>
+	
+	<select id="orderListByCallNum" parameterType="int" resultType="OnDelivery">
+		select c.callNum, o.orderNum, callTime, senderName, senderAddress, senderAddressDetail, c.Latitude as senderLatitude, c.Longitude as senderLongitude, receiverName, receiverPhone, receiverAddress, receiverAddressDetail, o.latitude as receiverLatitude, o.longitude as receiverLongitude,  orderPrice, urgent, deliveryStatus, freightList
+		from orderInfo o, callInfo c, (SELECT LISTAGG(aa, ',') WITHIN GROUP (order by ordernum) AS freightList, ordernum
+										FROM   (SELECT freightName||' '|| freightQuant as aa, ordernum
+        										FROM priceInfo p, freightInfo f
+        										WHERE p.freightType = f.freightType
+        										)
+        								GROUP BY ordernum) x
+		WHERE isGet = 0
+		AND o.ordernum = x.ordernum(+)
+		AND o.callNum = c.callNum
+		AND c.callNum = #{callNum}
+		ORDER BY callTime
+	</select>
+	
+	<select id="getOrderByOrderNum" parameterType="int" resultType="OnDelivery">
+		select c.callNum, o.orderNum, callTime, senderName, senderAddress, senderAddressDetail, c.Latitude as senderLatitude, c.Longitude as senderLongitude, receiverName, receiverPhone, receiverAddress, receiverAddressDetail, o.latitude as receiverLatitude, o.longitude as receiverLongitude,  orderPrice, memo, urgent, deliveryStatus, freightList
+		from orderInfo o, callInfo c, (SELECT LISTAGG(aa, ',') WITHIN GROUP (order by ordernum) AS freightList, ordernum
+										FROM   (SELECT freightName||' '|| freightQuant as aa, ordernum
+        										FROM priceInfo p, freightInfo f
+        										WHERE p.freightType = f.freightType
+        										)
+        								GROUP BY ordernum) x
+		WHERE isGet = 0
+		AND o.ordernum = x.ordernum(+)
+		AND o.callNum = c.callNum
+		AND o.orderNum = #{orderNum}
+	</select>
+	
+	<select id="allCallListByIdAndName" parameterType="String" resultType="OnDelivery">
+		select c.callNum, orderNum, callTime, senderName, senderAddress, senderAddressDetail, c.Latitude as senderLatitude, c.Longitude as senderLongitude, receiverName, receiverPhone, receiverAddress, receiverAddressDetail, o.latitude as receiverLatitude, o.longitude as receiverLongitude,  orderPrice, urgent, deliveryStatus 
+		from orderInfo o, callInfo c
+		where c.callNum = o.callNum
+		<where>
+			<if test="csId != null">
+				AND csId = #{csId}
+			</if>
+			<if test="callTime != null">
+				AND callTime >= #{callTime}
+			</if>
+		</where>
+		order by callTime
+	</select>
+
+	<select id="selectOrderListToConfrim" parameterType="map"
+		resultType="OrderInfo">
+		select * from orderInfo
+		where
+		receiverPhone = #{receiverPhone}
+		and
+		callNum in (
+		select callNum from callInfo
+		where qpId=#{qpId}
+		and deliveryStatus=3
+		)
+
+	</select>
+	
+
+	<update id="updateOrderAfterConfirm" parameterType="map">
+	update orderinfo
+	set isGet=1, arrivalTime=sysdate
+	where orderNum in
+	<if test="list != null and list.size() >= 1">
+	<foreach separator="," close=")" open="(" item="orderNum" collection="list"> #{orderNum} </foreach>
+	</if>
+	</update>
+
+	
+	<select id="sumIsGet" parameterType="int" resultType="int">
+		select sum(isGet)
+		from orderInfo
+		where callNum=#{callNum}
+	</select>
+	
+	
+	<select id="countLinkedOrder" parameterType="int" resultType="int">
+		select count(*)
+		from orderInfo
+		where callNum=#{callNum}
+	</select>
+
+
+	<select id="onSpotDefferedPayCall" parameterType="map"
+		resultType="CallInfo">
+		select
+		C.callNum,C.csId,C.qpId,c.senderName,c.senderAddress,c.senderAddressDetail,c.senderPhone,c.vehicleType,c.totalPrice,c.payType,c.urgent,c.series,c.reserved,c.reservationTime,c.deliveryStatus,c.payStatus,c.callTime,c.latitude,c.longitude
+		from qpInfo Q, callInfo C, orderInfo O where Q.qpId=C.qpId and
+		C.callNum=O.callNum and O.receiverPhone=( select receiverPhone from
+		orderInfo where orderNum=#{orderNum} ) and Q.qpId=#{qpId} and
+		C.deliveryStatus=3 and payType in (4,5)
+	</select>
+
+	<!-- 0614 김민규 추가 - 리스트로 불러오기 -->
+	<select id="getFreightListByOrderNum" parameterType="int"
+		resultType="OnDelivery">
+		select o.orderNum as orderNum,
+		o.callNum as callNum,
+		c.callTime as callTime,
+		o.receiverName as receiverName,
+		o.receiverAddress as receiverAddress,
+		o.receiverAddressDetail as receiverAddressDetail,
+		c.senderName as senderName,
+		c.senderAddress as senderAddress,
+		c.senderAddressDetail as senderAddressDetail,
+		o.orderPrice as orderPrice,
+		c.urgent as urgent,
+		c.deliveryStatus as deliveryStatus,
+		f.freightType as freightType,
+		f.freightQuant as freightQuant,
+		f.freightPrice as freightPrice
+		from orderinfo o, freightInfo f, callinfo c
+		where o.ORDERNUM = f.ORDERNUM
+		and o.orderNum = #{orderNum}
+		and o.callNum = c.callNum
+	</select>
+
+	<!-- 0615 김민규 추가 -->
+	<select id="getBusinessOrderList" parameterType="map"
+		resultType="BusinessOrderInfo">
+		select o.orderNum as orderNum,
+		ci.csId as csId,
+		ci.csName as csName,
+		ci.csBusinessName as csBusinessName,
+		ci.csDepartment as csDepartment,
+		c.senderName as senderName,
+		c.senderAddress as senderAddress,
+		c.senderAddressDetail as senderAddressDetail,
+		c.callTime as callTime,
+		o.orderPrice as orderPrice,
+		c.payType as payType
+		from callInfo c, orderInfo o, csInfo ci
+		<where>
+			c.csId = ci.csId
+			<if test="csName != null">
+				AND ci.csName like '%'||#{csName}||'%'
+			</if>
+			<if test="callTime != null">
+				AND c.callTime >= to_date(#{callTime}, 'mm/dd/yyyy hh24:mi')
+			</if>
+			<if test="csDepartment != null">
+				AND ci.csDepartment like '%'||#{csDepartment}||'%'
+			</if>
+			<if test="payType != -2">
+				AND c.payType = #{payType}
+			</if>
+			and c.callNum = o.callNum
+			and ci.csBusinessName = #{csBusinessName}
+		</where>
+		order by c.callTime desc
+	</select>
+
+
+<!-- 0612 이은진 추가 -->
+	
+	<select id="selectUnpayedCall" parameterType="int"
+		resultType="OnDelivery">
+		select *
+		from orderInfo o, callInfo c
+		where o.callnum = c.callnum 
+		and qpId=#{qpId}
+		and deliveryStatus=4
+		and payStatus=2
+		and payType not in (2,3,4,5)
+	</select>
+
+	<select id="selectUnpayedSum" parameterType="map"
+		resultType="int">
+		select trunc(sum(orderPrice)*0.95)
+		from orderInfo
+		<if test="list != null and list.size() >= 1">
+			where orderNum in
+			<foreach separator="," close=")" open="(" item="orderNum"
+				collection="list"> #{orderNum} </foreach>
+		</if>
+	</select>
+
+
+	<update id="updatePayStatus" parameterType="map">
+		update orderInfo
+		set payStatus=3
+		<if test="list != null and list.size() >= 1">
+			where orderNum in
+			<foreach separator="," close=")" open="(" item="orderNum"
+				collection="list"> #{orderNum} </foreach>
+		</if>
+	</update>
+	
+</mapper>
+
