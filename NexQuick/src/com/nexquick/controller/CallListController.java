@@ -268,5 +268,11 @@ public class CallListController {
 
 	   }
 	   
+	   
+		@RequestMapping("/qptotalList.do")
+		public @ResponseBody List<OnDelivery> qptotalList(int qpId){
+			return callSelectListService.qptotalList(qpId);
+		}
+	   
 
 }

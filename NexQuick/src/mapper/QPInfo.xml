@@ -15,6 +15,9 @@
 		<result column="qpVehicleType" property="qpVehicleType" />
 		<result column="qpDeposit" property="qpDeposit" />
 		<result column="qpProfile" property="qpProfile" />
+		<result column="qpBank" property="qpBank" />
+		<result column="qpAccount" property="qpAccount" />
+		
  	</resultMap>
  	
  
@@ -109,5 +112,22 @@
 		set qpLicense=#{qpLicense}
 		where qpPhone=#{qpPhone}
 	</update>
-     
+	
+	<update id="updateQP" parameterType="QPInfo">
+		update qpInfo
+		set 
+			qpPassword=#{qpPassword},
+			qpVehicleType=#{qpVehicleType}
+		where qpId=#{qpId}	
+	</update>
+	
+	<update id="updateQPAccount" parameterType="QPInfo">
+			update qpAccount
+		set qpAccount=#{qpAccount},
+			qpBank=#{qpBank}
+		where qpId=#{qpId}
+     	
+	</update>
+	
+
  </mapper>

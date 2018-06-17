@@ -181,4 +181,30 @@ public class CSAccountController {
 	}
 	
 	
+	
+	
+	
+	@RequestMapping("app/getCsInfo.do")
+	public @ResponseBody CSInfo getCsInfo(String csId) {
+		return csAccountService.getCSInfo(csId);
+	}
+	
+	@RequestMapping("app/csModify.do")
+	public @ResponseBody boolean appCsInfoModify(String csId, String csPassword, String csPhone, int csType, 
+							   String csBusinessName, String csBusinessNumber, String csDepartment) {
+		
+		CSInfo csInfo = csAccountService.getCSInfo(csId);
+		
+		csInfo.setCsPassword(csPassword);
+		csInfo.setCsPhone(csPhone);
+		csInfo.setCsType(csType);
+		if(csBusinessName==null || csBusinessName.trim().length()==0) csInfo.setCsBusinessName(null);
+		if(csBusinessNumber==null || csBusinessNumber.trim().length()==0) csInfo.setCsBusinessNumber(null);
+		if(csDepartment==null || csDepartment.trim().length()==0) csInfo.setCsDepartment(null);
+		
+		if(csAccountService.csModify(csInfo)) return true;
+		else return false;
+	}
+	
+	
 }

@@ -320,4 +320,61 @@ public class QPAccountController {
 		
 	}
 
+	
+	@RequestMapping("/processDepositSubtr.do")
+	public @ResponseBody int processDepositSubtr(int qpId, int jungsan) {
+	
+	
+		System.out.println("processDepositSubtr 컨트롤러에 들어옴");
+		
+		List<OnDelivery> deliveryList = callSelectListService.selectUnpayedCall(qpId);
+
+		Set<Integer> callSet = new HashSet<>();
+
+		for (OnDelivery d : deliveryList) {
+			callSet.add(d.getCallNum());
+		}
+		
+		List<Integer> jungsanList = new ArrayList<>();
+		jungsanList.addAll(callSet);
+		QPInfo qpInfo = qpAccountService.selectQPAccountById(qpId);
+		int money = qpInfo.getQpDeposit() - jungsan;
+		
+		System.out.println("보증금 : " + money +"원");
+		
+
+	
+		updatePaystatus(jungsanList);
+
+
+	return money;
+		
+	}
+	
+	@RequestMapping("/getQP.do")
+	public @ResponseBody QPInfo getQP(int qpId) {
+		QPInfo qpInfo = qpAccountService.selectQP(qpId);
+		QPInfo qpInfo2 = qpAccountService.selectQPAccountById(qpId);
+			
+		qpInfo.setQpBank(qpInfo2.getQpBank());
+		qpInfo.setQpAccount(qpInfo2.getQpAccount());
+		return qpInfo;
+	}
+			
+	@RequestMapping("/qpInfoUpdate.do")
+	public @ResponseBody boolean qpInfoUpdate(int qpId, String qpPassword,
+			int vehicleType, String qpBank, String qpAccount) {
+
+		QPInfo qpInfo = qpAccountService.selectQP(qpId);
+		qpInfo.setQpPassword(qpPassword);
+		qpInfo.setQpVehicleType(vehicleType);
+		qpInfo.setQpBank(qpBank);
+		qpInfo.setQpAccount(qpAccount);
+
+		if (qpAccountService.qpModify(qpInfo)&& qpAccountService.qpAccountModify(qpInfo))
+			return true;
+		else
+			return false;
+	}
+
 }

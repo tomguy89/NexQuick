@@ -75,7 +75,15 @@ public class QPAccountServiceImpl implements QPAccountService {
 		// TODO Auto-generated method stub
 		qpInfoDao.updateLicense(qpLicense, qpPhone);
 	}
-
-
 	
+	@Override
+	public QPInfo selectQP(int qpId) {
+		return qpInfoDao.selectQP(qpId);
+	}
+	
+	@Override
+	public boolean qpAccountModify(QPInfo qpInfo) {
+		return qpInfoDao.updateQPAccount(qpInfo);
+	}
+
 }

@@ -61,5 +61,9 @@ public interface QPAccountService {
 	
 	void updateLicense(String qpLicense, String qpPhone);
 
+	QPInfo selectQP(int qpId);
+
+	boolean qpAccountModify(QPInfo qpInfo);
+
 
 }

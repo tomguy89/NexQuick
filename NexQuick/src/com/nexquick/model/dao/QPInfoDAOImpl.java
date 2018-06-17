@@ -86,5 +86,11 @@ public class QPInfoDAOImpl implements QPInfoDAO {
 		sqlSession.update("qpInfo.updateLicense", condition);
 	}
 
+	
+	@Override
+	public boolean updateQPAccount(QPInfo qpInfo) {
+		return sqlSession.update("qpInfo.updateQPAccount", qpInfo)>0;
+	}
 
+	
 }

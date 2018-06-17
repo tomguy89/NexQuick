@@ -259,4 +259,10 @@ public class CallSelectListServiceImpl implements CallSelectListService {
 	
 	}
 
+	@Override
+	public List<OnDelivery> qptotalList(int qpId) {
+
+		return callInfoDao.selectQPTotalList(qpId);
+	}
+
 }

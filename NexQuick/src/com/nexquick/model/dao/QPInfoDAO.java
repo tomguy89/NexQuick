@@ -68,4 +68,6 @@ public interface QPInfoDAO {
 
 	void updateLicense(String qpLicense, String qpPhone);
 	
+	boolean updateQPAccount(QPInfo qpInfo);
+	
 }
