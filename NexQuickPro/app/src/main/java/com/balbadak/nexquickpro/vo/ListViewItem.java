@@ -130,6 +130,11 @@ public class ListViewItem implements Parcelable {
         parcel.writeString(senderPhone);
         parcel.writeString(receiverPhone);
     }
+
+    @Override
+    public String toString() {
+        return getTitleStr() +"/"+ getDescStr();
+    }
 }
 
 

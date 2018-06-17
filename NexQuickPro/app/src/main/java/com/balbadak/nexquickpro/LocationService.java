@@ -20,7 +20,7 @@ import android.util.Log;
 
 public class LocationService extends Service {
 
-
+    String mainUrl;
     //  TextView tv;//안드로이드에서 정보 받는 거 확인용(나중에는 없앤다.)
 
     //   ToggleButton tb;//출퇴근버튼
@@ -34,7 +34,7 @@ public class LocationService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
-
+        mainUrl = getResources().getString(R.string.main_url);
         Log.e("INFO", "서비스onCreate");
         lm = (LocationManager) getApplicationContext().getSystemService(Context.LOCATION_SERVICE);
 
@@ -66,14 +66,14 @@ public class LocationService extends Service {
 
         flag=false;
         // GPS 제공자의 정보가 바뀌면 콜백하도록 리스너 등록하기~!!!
-      /*  lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, // 등록할 위치제공자
-                1000, // 통지사이의 최소 시간간격 (miliSecond)
-                1, // 통지사이의 최소 변경거리 (m)
+        lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, // 등록할 위치제공자
+                5000, // 통지사이의 최소 시간간격 (miliSecond)
+                5, // 통지사이의 최소 변경거리 (m)
                 mLocationListener);
         lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, // 등록할 위치제공자(실내면 여기로 가게된다)
-                1000, // 통지사이의 최소 시간간격 (miliSecond)
-                1, // 통지사이의 최소 변경거리 (m)
-                mLocationListener);*/
+                5000, // 통지사이의 최소 시간간격 (miliSecond)
+                5, // 통지사이의 최소 변경거리 (m)
+                mLocationListener);
 
     }
 
@@ -140,7 +140,7 @@ public class LocationService extends Service {
 
     private  void insertGPS(double qpLongitude, double qpLatitude){
         Log.e("INFO","insertGPS호출됨");
-        String url = "http://70.12.109.164:9090/NexQuick/qpPosition/insertPosition.do"; //url 주소는 태진오빠껄로 바꾸기!!
+        String url = mainUrl + "qpPosition/insertPosition.do"; //url 주소는 태진오빠껄로 바꾸기!!
 
         ContentValues values = new ContentValues();
 
@@ -159,7 +159,7 @@ public class LocationService extends Service {
         Log.e("INFO","updateGPS호출됨");
 
         // String url = "http://70.12.109.166:9090/NexQuick/qpPosition/updatePosition.do";
-        String url = "http://70.12.109.164:9090/NexQuick/qpPosition/updatePosition.do"; //url 주소는 태진오빠껄로 바꾸기!!
+        String url = mainUrl + "qpPosition/updatePosition.do"; //url 주소는 태진오빠껄로 바꾸기!!
 
 
         ContentValues values = new ContentValues();
@@ -178,7 +178,7 @@ public class LocationService extends Service {
         Log.e("INFO","deleteGPS호출됨");
 
         // String url = "http://70.12.109.166:9090/NexQuick/qpPosition/updatePosition.do";
-        String url = "http://70.12.109.164:9090/NexQuick/qpPosition/deletePosition.do"; //url 주소는 태진오빠껄로 바꾸기!!
+        String url = mainUrl + "qpPosition/deletePosition.do"; //url 주소는 태진오빠껄로 바꾸기!!
 
         ContentValues values = new ContentValues();
         values.put("qpId",qpId);
@@ -199,7 +199,6 @@ public class LocationService extends Service {
 
         @Override
         protected Void doInBackground(Void... voids) {
-            Log.e("INFO","doInBackground호출됨");
             RequestHttpURLConnection requestHttpURLConnection = new RequestHttpURLConnection();
             requestHttpURLConnection.request(url, values);
 
@@ -209,7 +208,6 @@ public class LocationService extends Service {
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
-            Log.e("INFO","postExecute호출됨");
         }
     }
 

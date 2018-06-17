@@ -19,8 +19,7 @@ import com.balbadak.nexquickapplication.payment.InicisWebViewClient;
 
 public class DialogPayActivity extends AppCompatActivity {
 
-    //.173 태진, .164 승진
-    private String mainUrl = "http://70.12.109.164:9090/NexQuick/";
+    private String mainUrl;
 
     private WebView mainWebView;
     private static final String APP_SCHEME = "iamporttest://";
@@ -30,6 +29,7 @@ public class DialogPayActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dialog_pay);
+        mainUrl = getResources().getString(R.string.main_url);
 
         Display display = ((WindowManager) getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
 

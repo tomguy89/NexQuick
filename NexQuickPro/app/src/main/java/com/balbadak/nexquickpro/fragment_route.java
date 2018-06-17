@@ -26,7 +26,6 @@ import android.widget.SpinnerAdapter;
 import android.widget.Toast;
 
 import com.balbadak.nexquickpro.vo.ListViewItem;
-import com.balbadak.nexquickpro.vo.OnDelivery;
 import com.skt.Tmap.TMapData;
 import com.skt.Tmap.TMapMarkerItem;
 import com.skt.Tmap.TMapPoint;
@@ -67,7 +66,6 @@ public class fragment_route extends Fragment {
     int qpId;
     SharedPreferences loginInfo;
     boolean pickChackFlag;
-    /* 0617 김민규수정 */
     String phoneNumber = "tel:"+"00000000000";
     String pickUrl = "http://192.168.0.2:9090/NexQuick/list/afterBeamforQPS.do";
     String chackUrl = "http:/192.168.0.2:9090/NexQuick/list/afterBeamforQPR.do";
@@ -208,13 +206,9 @@ public class fragment_route extends Fragment {
                     ListViewItem lv = (ListViewItem) quickSpinner.getItemAtPosition(position);
                     if(lv.getQuickType() ==  1) {
                         callNum=lv.getCallNum();
-                        /* 0617 김민규수정 */
-                        phoneNumber = "tel:"+lv.getSenderPhone();
                         pickChackFlag=true;
                     } else {
                         orderNum=lv.getOrderNum();
-                        /* 0617 김민규수정 */
-                        phoneNumber = "tel:"+lv.getReceiverPhone();
                         pickChackFlag=false;
                     }
                 }

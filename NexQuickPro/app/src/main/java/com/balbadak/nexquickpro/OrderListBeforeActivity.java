@@ -51,6 +51,7 @@ public class OrderListBeforeActivity extends AppCompatActivity implements Naviga
     private int callNum;
     private int qpId;
     private String qpName;
+    private int onWork;
 
 
     private ArrayList<ListViewItem> quickList;
@@ -78,13 +79,14 @@ public class OrderListBeforeActivity extends AppCompatActivity implements Naviga
         if (loginInfo != null) {
             qpId = loginInfo.getInt("qpId", 0);
             qpName = loginInfo.getString("qpName", "");
+            onWork = loginInfo.getInt("onWork", 0);
         }
 
         quickList = new ArrayList<>();
         ArrayList<OnDelivery> list = new ArrayList<>();
         listView = (ListView) this.findViewById(R.id.order_before_listview);
 
-        String url = "http://70.12.109.164:9090/NexQuick/list/qptotalList.do";
+        String url = "http://70.12.109.173:9090/NexQuick/list/qptotalList.do";
         ContentValues values = new ContentValues();
         values.put("qpId", qpId);
 
@@ -117,23 +119,44 @@ public class OrderListBeforeActivity extends AppCompatActivity implements Naviga
 
         onWorkSwitch = (Switch) nav_header_view.findViewById(R.id.onWorkSwitch);
 
-        onWorkSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        if(onWork == 2) {
+            //퇴근상태이면 들어갈 각종 디폴트 상황들, oncreat에서만 로딩됨
+            onWorkSwitch.setChecked(false);
+            nav_header_contents.setText("운행정지");
+        } else if (onWork == 1) {
+            //출근상태라면 들어갈 각종 디폴트 상황들, oncreat에서만 로딩됨
+            onWorkSwitch.setChecked(true);
+            nav_header_contents.setText("운행중");
+            Intent i = new Intent(getApplicationContext(), LocationService.class);
+            startService(i);
+        } else{
+            onWorkSwitch.setChecked(false);
+            onWorkSwitch.setEnabled(false);
+            nav_header_contents.setText("출근 전");
+        }
 
-            //스위치 토글시 바뀔 내용들
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    editor.putInt("onWork", 1); //프리퍼런스 값 바꿈
-                    editor.commit();
-                    nav_header_contents.setText("출근중");
+        if (onWork != -1){
+            onWorkSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 
-                } else {
-                    editor.putInt("onWork", 0); //프리퍼런스 값 바꿈
-                    editor.commit();
-                    nav_header_contents.setText("퇴근중");
+                //스위치 토글시 바뀔 내용들
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    Intent i = new Intent(getApplicationContext(), LocationService.class);
+                    if(isChecked) {
+                        editor.putInt("onWork", 1); //프리퍼런스 값 바꿈
+                        editor.commit();
+                        startService(i);
+                        nav_header_contents.setText("운행중");
+
+                    } else {
+                        editor.putInt("onWork", 2); //프리퍼런스 값 바꿈
+                        editor.commit();
+                        stopService(i);
+                        nav_header_contents.setText("운행정지");
+                    }
                 }
-            }
-        });
+            });
+        }
 
     }
 
@@ -190,12 +213,20 @@ public class OrderListBeforeActivity extends AppCompatActivity implements Naviga
             startActivity(intent);
             finish();
         } else if (id == R.id.logout) {
-            loginInfo.edit().clear();
+
+            editor.remove("qpId");
+            editor.remove("qpName");
+            editor.remove("qpPhone");
+            editor.remove("qpDeposit");
+            editor.remove("rememberId");
+            editor.remove("rememberPassword");
+            editor.remove("onWork");
+            editor.commit();
             Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
+
             finish();
-
-
         }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);

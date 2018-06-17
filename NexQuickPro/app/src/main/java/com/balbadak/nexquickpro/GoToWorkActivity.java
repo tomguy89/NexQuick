@@ -15,7 +15,6 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -23,6 +22,7 @@ import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.tsengvn.typekit.TypekitContextWrapper;
 
@@ -31,11 +31,12 @@ public class GoToWorkActivity extends AppCompatActivity implements NavigationVie
     Context context = this;
     private SharedPreferences loginInfo;
     private SharedPreferences.Editor editor;
-    String qpPhone;
-    String qpName;
+    int qpId;
+    private String qpPhone;
+    private String qpName;
     private int onWork;
     Button workbtn;
-    Button exitbtn;
+    Button listbtn;
 
     TextView nav_header_title;
     TextView nav_header_contents;
@@ -49,6 +50,7 @@ public class GoToWorkActivity extends AppCompatActivity implements NavigationVie
         editor = loginInfo.edit();
 
         if (loginInfo != null) {
+            qpId = loginInfo.getInt("qpId", 0);
             qpPhone = loginInfo.getString("qpPhone", "");
             qpName = loginInfo.getString("qpName", "");
         }
@@ -58,43 +60,33 @@ public class GoToWorkActivity extends AppCompatActivity implements NavigationVie
         greeting.setText(qpName + "프로님" + "\n안녕하세요?");
 
         workbtn = findViewById(R.id.workbtn);
-        exitbtn = findViewById(R.id.exitbtn);
+        listbtn = findViewById(R.id.listbtn);
 
         if (!runtime_permissions()) {
             enable_buttons();
+        }else{
+            Toast.makeText(context, "운행을 하려면 앱 권한이 필요합니다.", Toast.LENGTH_SHORT).show();
         }
 
-        /*workbtn.setOnClickListener(new View.OnClickListener() {
+        listbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                //출근처리 메소드 넣어주세요.
-                Intent i =new Intent(getApplicationContext(),LocationService.class);
-                startService(i);
-                Intent intent = new Intent(context, MainActivity.class);
-                startActivity(intent);
-            }
-        });*/
+                Intent i = new Intent(getApplicationContext(), OrderListBeforeActivity.class);
+                startActivity(i);
 
-
-        exitbtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // 앱종료를 위한 코드
-
-                //나중에 로그아웃, 정산 후 퇴근, 앱 종료 등을 할 때 복사
+                /*//나중에 로그아웃, 정산 후 퇴근, 앱 종료 등을 할 때 복사
                 Intent i = new Intent(getApplicationContext(), LocationService.class);
                 stopService(i);
                 //여기까지
                 editor.clear();
                 editor.commit();
                 i = new Intent(getApplicationContext(), LoginActivity.class);
-                startActivity(i);
+                startActivity(i);*/
+
             }
         });
 
-
-        //은진이 파트 얹어주세용
 
         // Adding Toolbar to the activity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -117,39 +109,26 @@ public class GoToWorkActivity extends AppCompatActivity implements NavigationVie
         nav_header_title.setText(qpName + " 퀵프로님");
 
 
-        if (onWork == 0) {
-            //퇴근상태이면 들어갈 각종 디폴트 상황들, oncreat에서만 로딩됨
-
-        } else {
-            //출근상태라면 들어갈 각종 디폴트 상황들, oncreat에서만 로딩됨
-
-        }
-
-
         onWorkSwitch = (Switch) nav_header_view.findViewById(R.id.onWorkSwitch);
-
-        onWorkSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-
-            //스위치 토글시 바뀔 내용들
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    editor.putInt("onWork", 1); //프리퍼런스 값 바꿈
-                    editor.commit();
-                    nav_header_contents.setText("출근중");
-
-                } else {
-                    editor.putInt("onWork", 0); //프리퍼런스 값 바꿈
-                    editor.commit();
-                    nav_header_contents.setText("퇴근중");
-                }
-            }
-        });
+        onWorkSwitch.setChecked(false);
+        onWorkSwitch.setEnabled(false);
+        editor.putInt("onWork", -1); //프리퍼런스 값 바꿈
+        editor.commit();
+        nav_header_contents.setText("출근 전");
 
     }
 
     @Override
     public void onBackPressed() {
+
+        /*Intent i = new Intent(getApplicationContext(), LocationService.class);
+        stopService(i);
+        editor.remove("qpId");
+        editor.remove("qpName");
+        editor.remove("qpPhone");
+        editor.remove("qpDeposit");
+        editor.commit();
+*/
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
@@ -201,13 +180,20 @@ public class GoToWorkActivity extends AppCompatActivity implements NavigationVie
             startActivity(intent);
             finish();
         } else if (id == R.id.logout) {
-            loginInfo.edit().clear();
+            editor.remove("qpId");
+            editor.remove("qpName");
+            editor.remove("qpPhone");
+            editor.remove("qpDeposit");
+            editor.remove("rememberId");
+            editor.remove("rememberPassword");
+            editor.remove("onWork");
+            editor.commit();
             Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
             finish();
-
-
         }
+
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
@@ -220,9 +206,13 @@ public class GoToWorkActivity extends AppCompatActivity implements NavigationVie
                 @Override
                 public void onClick(View v) {
 
-                    //출근처리 메소드 넣어주세요.
+                    Intent i =new Intent(getApplicationContext(),LocationService.class);
+                    startService(i);
+                    editor.putInt("onWork", 1); //프리퍼런스 값 바꿈
+                    editor.commit();
 
                     Intent intent = new Intent(context, MainActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);
                 }
             });

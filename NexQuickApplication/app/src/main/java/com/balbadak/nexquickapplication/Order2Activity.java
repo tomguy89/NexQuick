@@ -38,11 +38,11 @@ import java.util.ArrayList;
 
 public class Order2Activity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
+    private String mainUrl;
+
     private Context context = this;
     private SharedPreferences loginInfo;
 
-    //.173 태진, .164 승진
-    private String mainUrl = "http://70.12.109.164:9090/NexQuick/";
     private String csId;
     private String freight;
 
@@ -105,6 +105,7 @@ public class Order2Activity extends AppCompatActivity implements NavigationView.
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_neworder2);
+        mainUrl = getResources().getString(R.string.main_url);
 
         loginInfo = getSharedPreferences("setting", 0);
         csId = loginInfo.getString("csId", "");

@@ -23,10 +23,14 @@ import java.util.ArrayList;
 public class DialogDetailActivity extends AppCompatActivity {
 
     //.173 태진, .164 승진
-    private String mainUrl = "http://70.12.109.164:9090/NexQuick/";
+    private String mainUrl;
 
     int orderNum;
     int callNum;
+    int num;
+    String name;
+    String phone;
+    String address;
     String receiverName;
     String receiverPhone;
     String receiverAddress;
@@ -40,10 +44,12 @@ public class DialogDetailActivity extends AppCompatActivity {
     Button mapBtn;
     Context context;
     TextView deliveryStatusTv;
-    TextView orderNumTV;
-    TextView receiverNameTV;
-    TextView receiverPhoneTV;
-    TextView receiverAddressTV;
+    TextView numLTV;
+    TextView nameLTV;
+    TextView numTV;
+    TextView nameTV;
+    TextView phoneTV;
+    TextView addressTV;
     TextView freightsTV;
     TextView orderPriceTV;
     TextView memoTV;
@@ -52,24 +58,17 @@ public class DialogDetailActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dialog_detail);
+        mainUrl = getResources().getString(R.string.main_url);
         context = this;
         orderList = new ArrayList<>();
         Intent intent = getIntent();
 
-        orderNum = intent.getIntExtra("orderNum", 0);
-        callNum = intent.getIntExtra("callNum", 0);
-        receiverName = intent.getStringExtra("receiverName");
-        receiverPhone = intent.getStringExtra("receiverPhone");
-        receiverAddress = intent.getStringExtra("receiverAddress");
-        freights = intent.getStringExtra("freights");
-        orderPrice = intent.getIntExtra("orderPrice", 0);
-        memo = intent.getStringExtra("memo");
-        deliveryStatus = intent.getIntExtra("deliveryStatus", 0);
-
-        orderNumTV = (TextView) findViewById(R.id.detail_orderNum);
-        receiverNameTV = (TextView) findViewById(R.id.detail_receiverName);
-        receiverPhoneTV = (TextView) findViewById(R.id.detail_receiverPhone);
-        receiverAddressTV = (TextView) findViewById(R.id.detail_receiverAddress);
+        numLTV = (TextView) findViewById(R.id.detail_numTV);
+        nameLTV = (TextView) findViewById(R.id.detail_nameTV);
+        numTV = (TextView) findViewById(R.id.detail_num);
+        nameTV = (TextView) findViewById(R.id.detail_name);
+        phoneTV = (TextView) findViewById(R.id.detail_phone);
+        addressTV = (TextView) findViewById(R.id.detail_address);
         freightsTV = (TextView) findViewById(R.id.detail_freights);
         orderPriceTV = (TextView) findViewById(R.id.detail_orderPrice);
         memoTV = (TextView) findViewById(R.id.detail_memo);
@@ -94,31 +93,28 @@ public class DialogDetailActivity extends AppCompatActivity {
         chatBotBtn = (Button) findViewById(R.id.quickCancelBtn);
         mapBtn = (Button) findViewById(R.id.mapBtn);
 
-        switch (deliveryStatus) {
-            case -1:
-                deliveryStatusTv.setText("배차실패");
-                mapBtn.setBackgroundTintList(getResources().getColorStateList(R.color.colorEmerald));
-                mapBtn.setText("배차 재요청");
-                mapBtn.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        reAllocateAlert();
-                    }
-                });
+        num = intent.getIntExtra("num", 0);
+        name = intent.getStringExtra("name");
+        phone = intent.getStringExtra("phone");
+        address = intent.getStringExtra("address");
+        freights = intent.getStringExtra("freights");
+        orderPrice = intent.getIntExtra("orderPrice", 0);
+        memo = intent.getStringExtra("memo");
+        deliveryStatus = intent.getIntExtra("deliveryStatus", 0);
 
-                break;
-            case 1:
-                deliveryStatusTv.setText("주문완료");
-                break;
+
+        switch (deliveryStatus) {
             case 2:
+                numLTV.setText("콜번호");
+                nameLTV.setText("발송인");
                 deliveryStatusTv.setText("배차완료");
                 break;
-
             case 3:
+                numLTV.setText("오더번호");
+                nameLTV.setText("수령인");
                 deliveryStatusTv.setText("배송중");
                 quickCancelBtn.setAlpha(.5f);
                 quickCancelBtn.setEnabled(false);
-
                 break;
             case 4:
                 deliveryStatusTv.setText("배송완료");
@@ -144,10 +140,10 @@ public class DialogDetailActivity extends AppCompatActivity {
                 deliveryStatusTv.setText("미처리주문");
         }
 
-        orderNumTV.setText(orderNum+"");
-        receiverNameTV.setText(receiverName);
-        receiverPhoneTV.setText(receiverPhone);
-        receiverAddressTV.setText(receiverAddress);
+        numTV.setText(num+"");
+        nameTV.setText(name);
+        phoneTV.setText(phone);
+        addressTV.setText(address);
         freightsTV.setText(freights);
         orderPriceTV.setText(orderPrice+"");
         memoTV.setText(memo);

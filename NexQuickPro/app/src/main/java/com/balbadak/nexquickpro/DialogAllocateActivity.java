@@ -4,7 +4,6 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -23,6 +22,7 @@ import com.tsengvn.typekit.TypekitContextWrapper;
 
 public class DialogAllocateActivity extends AppCompatActivity {
 
+    private String mainUrl;
     int callNum = 0;
     int qpId = 0;
     private SharedPreferences loginInfo;
@@ -31,6 +31,7 @@ public class DialogAllocateActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dialog_allocate);
+        mainUrl = getResources().getString(R.string.main_url);
 
         TextView tv = (TextView)findViewById(R.id.quick_allocate_contents);
         Intent intent = getIntent();
@@ -94,7 +95,7 @@ public class DialogAllocateActivity extends AppCompatActivity {
         acceptBtn.setOnClickListener((new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String url = "http://70.12.109.164:9090/NexQuick/appCall/completeAllocate.do";
+                String url = mainUrl+"appCall/completeAllocate.do";
                 ContentValues values = new ContentValues();
                 values.put("callNum", callNum);
                 values.put("qpId", qpId);

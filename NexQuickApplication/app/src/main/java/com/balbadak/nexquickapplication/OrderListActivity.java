@@ -39,6 +39,8 @@ import java.util.ArrayList;
 
 public class OrderListActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
+    private String mainUrl;
+
     private Context context = this;
     private SharedPreferences loginInfo;
     private ListView listView;
@@ -47,7 +49,6 @@ public class OrderListActivity extends AppCompatActivity implements NavigationVi
     private String csName;
     OnDelivery orderDetail;
 
-    private String mainUrl = "http://70.12.109.164:9090/NexQuick/";
 
     ArrayList<ListViewItem> dateList;
     ArrayList<OnDelivery> list;
@@ -62,6 +63,7 @@ public class OrderListActivity extends AppCompatActivity implements NavigationVi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order_list);
+        mainUrl = getResources().getString(R.string.main_url);
         dateList = new ArrayList<>();
         list = new ArrayList<>();
 

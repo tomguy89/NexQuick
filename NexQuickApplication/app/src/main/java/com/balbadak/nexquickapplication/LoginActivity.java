@@ -23,10 +23,7 @@ import org.json.JSONObject;
 public class  LoginActivity extends AppCompatActivity {
 
     private Context context = this;
-
-    //.173 태진, .164 승진
-    private String mainUrl = "http://70.12.109.164:9090/NexQuick/";
-
+    private String mainUrl;
     String csId;
     String csPassword;
     String token;
@@ -41,7 +38,7 @@ public class  LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
+        mainUrl = getResources().getString(R.string.main_url);
 
         Button loginBtn = (Button) findViewById(R.id.loginBtn);
         Button signBtn = (Button) findViewById(R.id.SignBtn);

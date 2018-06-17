@@ -47,6 +47,7 @@ import java.util.Date;
 
 public class Order1Activity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
+    private String mainUrl;
 
     private String TAG = "PickerActivity";
 
@@ -55,9 +56,6 @@ public class Order1Activity extends AppCompatActivity implements NavigationView.
     private String csId;
     private String csName;
     private int callNum;
-
-    //.173 태진, .164 승진
-    private String mainUrl = "http://70.12.109.164:9090/NexQuick/";
 
     private EditText etSenderName;
     private EditText etSenderPhone;
@@ -92,6 +90,7 @@ public class Order1Activity extends AppCompatActivity implements NavigationView.
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_neworder1);
+        mainUrl = getResources().getString(R.string.main_url);
 
 
         Button nextBtn = (Button) findViewById(R.id.next2p);

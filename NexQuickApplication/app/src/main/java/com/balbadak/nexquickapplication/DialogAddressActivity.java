@@ -14,7 +14,7 @@ import android.webkit.WebViewClient;
 public class DialogAddressActivity extends AppCompatActivity {
 
     private WebView addressWebView;
-    private String mainUrl = "http://70.12.109.164:9090/NexQuick/";
+    private String mainUrl;
 
     class MyJavaScriptInterface
     {
@@ -38,7 +38,7 @@ public class DialogAddressActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dialog_address);
-
+        mainUrl = getResources().getString(R.string.main_url);
 
         Display display = ((WindowManager) getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
 

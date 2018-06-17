@@ -29,6 +29,7 @@ import android.widget.Switch;
 import android.widget.TextView;
 
 import com.balbadak.nexquickpro.vo.ListViewItem;
+import com.balbadak.nexquickpro.vo.OnDelivery;
 import com.tsengvn.typekit.TypekitContextWrapper;
 
 import org.json.JSONArray;
@@ -50,6 +51,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     ArrayList<ListViewItem> quickList;
+    ArrayList<OnDelivery> list;
 
     private TabLayout tabLayout;
     private ViewPager viewPager;
@@ -74,6 +76,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         qpId = loginInfo.getInt("qpId", 0);
         onWork = loginInfo.getInt("onWork", 0);
         quickList = new ArrayList<>();
+        list = new ArrayList<>();
 
         initQuickList();
         initNavi();
@@ -135,11 +138,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             startActivity(intent);
             finish();
         } else if (id == R.id.logout) {
-            loginInfo.edit().clear();
+            editor.remove("qpId");
+            editor.remove("qpName");
+            editor.remove("qpPhone");
+            editor.remove("qpDeposit");
+            editor.remove("rememberId");
+            editor.remove("rememberPassword");
+            editor.remove("onWork");
+            editor.commit();
             Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
             finish();
-
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -183,40 +193,44 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         onWorkSwitch = (Switch) nav_header_view.findViewById(R.id.onWorkSwitch);
 
-        if(onWork == 0) {
+        if(onWork == 2) {
             //퇴근상태이면 들어갈 각종 디폴트 상황들, oncreat에서만 로딩됨
             onWorkSwitch.setChecked(false);
             nav_header_contents.setText("운행정지");
-        } else {
+        } else if (onWork == 1) {
             //출근상태라면 들어갈 각종 디폴트 상황들, oncreat에서만 로딩됨
             onWorkSwitch.setChecked(true);
             nav_header_contents.setText("운행중");
             Intent i = new Intent(getApplicationContext(), LocationService.class);
             startService(i);
+        } else{
+            onWorkSwitch.setChecked(false);
+            onWorkSwitch.setEnabled(false);
+            nav_header_contents.setText("출근 전");
         }
 
+        if (onWork != -1){
+            onWorkSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 
+                //스위치 토글시 바뀔 내용들
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    Intent i = new Intent(getApplicationContext(), LocationService.class);
+                    if(isChecked) {
+                        editor.putInt("onWork", 1); //프리퍼런스 값 바꿈
+                        editor.commit();
+                        startService(i);
+                        nav_header_contents.setText("운행중");
 
-        onWorkSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-
-            //스위치 토글시 바뀔 내용들
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                Intent i = new Intent(getApplicationContext(), LocationService.class);
-                if(isChecked) {
-                    editor.putInt("onWork", 1); //프리퍼런스 값 바꿈
-                    editor.commit();
-                    startService(i);
-                    nav_header_contents.setText("운행중");
-
-                } else {
-                    editor.putInt("onWork", 0); //프리퍼런스 값 바꿈
-                    editor.commit();
-                    stopService(i);
-                    nav_header_contents.setText("운행정지");
+                    } else {
+                        editor.putInt("onWork", 2); //프리퍼런스 값 바꿈
+                        editor.commit();
+                        stopService(i);
+                        nav_header_contents.setText("운행정지");
+                    }
                 }
-            }
-        });
+            });
+        }
 
     }
 
@@ -243,12 +257,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     fragment = new fragment_order_list();
                     bundle = new Bundle();
                     bundle.putParcelableArrayList("quickList", quickList);
+                    bundle.putParcelableArrayList("list", list);
                     fragment.setArguments(bundle);
                     break;
                 case 1:
                     fragment = new fragment_route();
                     bundle = new Bundle();
                     bundle.putParcelableArrayList("quickList", quickList);
+                    bundle.putParcelableArrayList("list", list);
                     fragment.setArguments(bundle);
                     break;
                 case 2:
@@ -302,53 +318,69 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 try {
                     JSONArray ja = new JSONArray(s);
                     JSONObject data;
+                    OnDelivery order;
                     HashSet<Integer> callNumSet = new HashSet<>();
                     for (int i = 0; i < ja.length(); i++) {
+                        order = new OnDelivery();
                         data = ja.getJSONObject(i);
-
                         ListViewItem item = new ListViewItem();
                         titleSb.setLength(0);
                         descSb.setLength(0);
 
+                        order.setUrgent(data.getInt("urgent"));
+                        order.setOrderNum(data.getInt("orderNum"));
+                        order.setCallNum(data.getInt("callNum"));
+                        order.setCallTime(data.getString("callTime"));
+                        order.setOrderPrice(data.getInt("orderPrice"));
+                        order.setMemo(data.getString("memo"));
+                        order.setDeliveryStatus(data.getInt("deliveryStatus"));
+                        order.setFreightList(data.getString("freightList"));
 
-                        if (data.getInt("deliveryStatus") == 2) {
-                            if (data.getInt("urgent") == 1) {
+                        if (order.getDeliveryStatus() == 2) {
+                            if (order.getUrgent() == 1) {
                                 titleSb.append("급/");
                                 item.setUrgentStr("급");
                             }
 
+                            order.setSenderName(data.getString("senderName"));
+                            order.setSenderPhone(data.getString("senderPhone"));
+                            order.setSenderAddress(data.getString("senderAddress"));
+                            order.setSenderAddressDetail(data.getString("senderAddressDetail"));
 
-                            if(!callNumSet.contains(data.getInt("callNum"))) {
+                            if(!callNumSet.contains(order.getCallNum())) {
 
-                                callNumSet.add(data.getInt("callNum"));
+                                callNumSet.add(order.getCallNum());
 
                                 titleSb.append("픽/");
-                                titleSb.append(data.getString("senderAddress"));
+                                titleSb.append(order.getSenderAddress());
 
-                                if(data.getString("freightList")!=null) descSb.append(data.getString("freightList"));
+                                if(order.getFreightList()!=null) descSb.append(order.getFreightList());
                                 descSb.append("/");
-                                descSb.append(data.getString("orderPrice"));
+                                descSb.append(order.getOrderPrice());
 
                                 item.setTitleStr(titleSb.toString());
                                 item.setDescStr(descSb.toString());
-                                item.setCallNum(data.getInt("callNum"));
-                                item.setOrderNum(data.getInt("orderNum"));
-                                /*0617김민규추가*/
-                                item.setSenderPhone(data.getString("senderPhone"));
-                                item.setReceiverPhone(data.getString("receiverPhone"));
+                                item.setCallNum(order.getCallNum());
+                                item.setOrderNum(order.getOrderNum());
+                                item.setSenderPhone(order.getSenderPhone());
                                 item.setQuickType(1);
 
+                                list.add(order);
                                 quickList.add(item);
                             }
 
-                        } else if (data.getInt("deliveryStatus") == 3) {
-                            if (data.getInt("urgent") == 1) {
+                        } else if (order.getDeliveryStatus() == 3) {
+                            if (order.getUrgent() == 1) {
                                 titleSb.append("급/");
                                 item.setUrgentStr("급");
                             }
+                            order.setReceiverName(data.getString("receiverName"));
+                            order.setReceiverPhone(data.getString("receiverPhone"));
+                            order.setReceiverAddress(data.getString("receiverAddress"));
+                            order.setReceiverAddressDetail(data.getString("receiverAddressDetail"));
 
                             titleSb.append("착/");
-                            titleSb.append(data.getString("receiverAddress"));
+                            titleSb.append(order.getReceiverAddress());
 
                             if(data.getString("freightList")!=null) descSb.append(data.getString("freightList"));
                             descSb.append("/");
@@ -356,13 +388,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                             item.setTitleStr(titleSb.toString());
                             item.setDescStr(descSb.toString());
-                            item.setCallNum(data.getInt("callNum"));
-                            item.setOrderNum(data.getInt("orderNum"));
-                            /*0617 김민규추가*/
-                            item.setSenderPhone(data.getString("senderPhone"));
-                            item.setReceiverPhone(data.getString("receiverPhone"));
+                            item.setCallNum(order.getCallNum());
+                            item.setOrderNum(order.getOrderNum());
+                            item.setReceiverPhone(order.getReceiverPhone());
                             item.setQuickType(2);
 
+                            list.add(order);
                             quickList.add(item);
                         }
                     }

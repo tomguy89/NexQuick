@@ -6,6 +6,7 @@ public class OnDelivery {
 	private int orderNum;
 	private String callTime;
 	private String senderName;
+	private String senderPhone;
 	private String senderAddress;
 	private String senderAddressDetail;
 	private String receiverName;
@@ -54,6 +55,14 @@ public class OnDelivery {
 
 	public void setSenderName(String senderName) {
 		this.senderName = senderName;
+	}
+
+	public String getSenderPhone() {
+		return senderPhone;
+	}
+
+	public void setSenderPhone(String senderPhone) {
+		this.senderPhone = senderPhone;
 	}
 
 	public String getSenderAddress() {

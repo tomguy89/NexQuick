@@ -7,7 +7,6 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
@@ -26,8 +25,8 @@ import java.security.Signature;
 public class  LoginActivity extends AppCompatActivity {
 
     private Context context = this;
-    String qpPhone;
-    String qpPassword;
+    private String qpPhone;
+    private String qpPassword;
     EditText etLogin;
     EditText etPassword;
     Switch autoSwitch;
@@ -108,7 +107,7 @@ public class  LoginActivity extends AppCompatActivity {
 
     private void signIn(){
         // URL 설정.
-        String url = "http://70.12.109.164:9090/NexQuick/qpAccount/qpSignIn.do";
+        String url = "http://70.12.109.173:9090/NexQuick/qpAccount/qpSignIn.do";
 
         ContentValues values = new ContentValues();
         values.put("qpPhone", qpPhone);
@@ -152,13 +151,14 @@ public class  LoginActivity extends AppCompatActivity {
             int qpId = 0;
             String qpName = null;
             String qpPhone = null;
-
+            int qpDeposit = 0;
             if(s!=null){
                 try {
                     JSONObject object = new JSONObject(s);
                     qpId = object.getInt("qpId");
                     qpName = object.getString("qpName");
                     qpPhone = object.getString("qpPhone");
+                    qpDeposit = object.getInt("qpDeposit");
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -166,9 +166,17 @@ public class  LoginActivity extends AppCompatActivity {
                     editor.putInt("qpId", qpId);
                     editor.putString("qpName", qpName);
                     editor.putString("qpPhone", qpPhone);
+                    editor.putInt("qpDeposit", qpDeposit);
                     editor.commit();
                     Toast.makeText(context, "로그인 되었습니다.", Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(getApplicationContext(), GoToWorkActivity.class);
+                    int onWork = loginInfo.getInt("onWork", 0);
+                    Intent intent;
+                    if(onWork > 0){
+                        intent = new Intent(getApplicationContext(), MainActivity.class);
+                    }else{
+                        intent = new Intent(getApplicationContext(), GoToWorkActivity.class);
+                    }
+
                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);
                 } else{

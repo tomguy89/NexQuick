@@ -26,8 +26,7 @@ import java.util.ArrayList;
 
 public class DialogDetailActivity extends AppCompatActivity {
 
-    //.173 태진, .164 승진
-    private String mainUrl = "http://70.12.109.164:9090/NexQuick/";
+    private String mainUrl;
 
     int orderNum;
     int callNum;
@@ -56,6 +55,7 @@ public class DialogDetailActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dialog_detail);
+        mainUrl = getResources().getString(R.string.main_url);
         context = this;
 
         Intent intent = getIntent();

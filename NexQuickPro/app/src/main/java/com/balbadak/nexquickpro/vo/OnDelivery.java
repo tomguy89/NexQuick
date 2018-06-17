@@ -1,10 +1,14 @@
 package com.balbadak.nexquickpro.vo;
 
-public class OnDelivery {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class OnDelivery implements Parcelable {
     private int callNum;
     private int orderNum;
     private String callTime;
     private String senderName;
+    private String senderPhone;
     private String senderAddress;
     private String senderAddressDetail;
     private String senderLatitude;
@@ -22,6 +26,7 @@ public class OnDelivery {
     private int distance;
     private String freightList;
     private String arrivaltime;
+
 
     public OnDelivery() {
     }
@@ -56,6 +61,14 @@ public class OnDelivery {
 
     public void setSenderName(String senderName) {
         this.senderName = senderName;
+    }
+
+    public String getSenderPhone() {
+        return senderPhone;
+    }
+
+    public void setSenderPhone(String senderPhone) {
+        this.senderPhone = senderPhone;
     }
 
     public String getSenderAddress() {
@@ -192,5 +205,77 @@ public class OnDelivery {
 
     public void setArrivaltime(String arrivaltime) {
         this.arrivaltime = arrivaltime;
+    }
+
+    public static Creator<OnDelivery> getCREATOR() {
+        return CREATOR;
+    }
+
+    protected OnDelivery(Parcel in) {
+        callNum = in.readInt();
+        orderNum = in.readInt();
+        callTime = in.readString();
+        senderName = in.readString();
+        senderPhone = in.readString();
+        senderAddress = in.readString();
+        senderAddressDetail = in.readString();
+        senderLatitude = in.readString();
+        senderLongitude = in.readString();
+        receiverName = in.readString();
+        receiverPhone = in.readString();
+        receiverAddress = in.readString();
+        receiverAddressDetail = in.readString();
+        receiverLatitude = in.readString();
+        receiverLongitude = in.readString();
+        orderPrice = in.readInt();
+        memo = in.readString();
+        urgent = in.readInt();
+        deliveryStatus = in.readInt();
+        distance = in.readInt();
+        freightList = in.readString();
+        arrivaltime = in.readString();
+    }
+
+    public static final Creator<OnDelivery> CREATOR = new Creator<OnDelivery>() {
+        @Override
+        public OnDelivery createFromParcel(Parcel in) {
+            return new OnDelivery(in);
+        }
+
+        @Override
+        public OnDelivery[] newArray(int size) {
+            return new OnDelivery[size];
+        }
+    };
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(callNum);
+        dest.writeInt(orderNum);
+        dest.writeString(callTime);
+        dest.writeString(senderName);
+        dest.writeString(senderPhone);
+        dest.writeString(senderAddress);
+        dest.writeString(senderAddressDetail);
+        dest.writeString(senderLatitude);
+        dest.writeString(senderLongitude);
+        dest.writeString(receiverName);
+        dest.writeString(receiverPhone);
+        dest.writeString(receiverAddress);
+        dest.writeString(receiverAddressDetail);
+        dest.writeString(receiverLatitude);
+        dest.writeString(receiverLongitude);
+        dest.writeInt(orderPrice);
+        dest.writeString(memo);
+        dest.writeInt(urgent);
+        dest.writeInt(deliveryStatus);
+        dest.writeInt(distance);
+        dest.writeString(freightList);
+        dest.writeString(arrivaltime);
     }
 }

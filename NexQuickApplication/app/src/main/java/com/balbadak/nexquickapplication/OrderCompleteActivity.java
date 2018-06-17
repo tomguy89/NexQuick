@@ -16,12 +16,13 @@ import android.widget.Button;
 
 public class OrderCompleteActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
-    private String mainUrl = "http://70.12.109.164:9090/NexQuick/";
+    private String mainUrl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order_complete);
+        mainUrl = getResources().getString(R.string.main_url);
 
 
         Button confirm = (Button) findViewById(R.id.order_confirm);

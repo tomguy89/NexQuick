@@ -17,6 +17,7 @@ import org.json.JSONException;
 
 public class FakeActivity extends AppCompatActivity {
 
+    String mainUrl;
     int callNum;
     int orderNum;
     int qpId;
@@ -28,6 +29,7 @@ public class FakeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fake);
+        mainUrl = getResources().getString(R.string.main_url);
 
         Button insuBtn = findViewById(R.id.insuBtn);
         Button indoBtn = findViewById(R.id.indoBtn);
@@ -42,7 +44,7 @@ public class FakeActivity extends AppCompatActivity {
         insuBtn.setOnClickListener(new View.OnClickListener() {//인수 버튼을 누르면
             @Override
             public void onClick(View v) {
-                String url = "http://70.12.109.173:9090/NexQuick/list/afterBeamforQPS.do";
+                String url = mainUrl + "list/afterBeamforQPS.do";
 
                 ContentValues values = new ContentValues();
                 values.put("callNum", callNum);
@@ -58,7 +60,7 @@ public class FakeActivity extends AppCompatActivity {
         indoBtn.setOnClickListener(new View.OnClickListener() {//인도 버튼을 누르면...
             @Override
             public void onClick(View v) {
-                String url = "http://70.12.109.173:9090/NexQuick/list/afterBeamforQPR.do";
+                String url = mainUrl + "list/afterBeamforQPR.do";
 
                 ContentValues values = new ContentValues();
                 values.put("orderNum", orderNum);

@@ -22,6 +22,7 @@ import android.widget.TextView;
 
 
 import com.balbadak.nexquickpro.vo.ListViewItem;
+import com.balbadak.nexquickpro.vo.OnDelivery;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -40,10 +41,12 @@ public class fragment_order_list extends Fragment {
     Context context;
 
     ArrayList<ListViewItem> quickList;
+    ArrayList<OnDelivery> list;
     SharedPreferences loginInfo;
     int orderNum;
     int callNum;
     int qpId;
+    OnDelivery orderDetail;
 
     View view;
 
@@ -60,6 +63,7 @@ public class fragment_order_list extends Fragment {
         quickListView = (ListView) view.findViewById(R.id.insu_listview);
 
         quickList = getArguments().getParcelableArrayList("quickList");
+        list = getArguments().getParcelableArrayList("list");
 
 
         loginInfo = getActivity().getSharedPreferences("setting", 0);
@@ -95,18 +99,26 @@ public class fragment_order_list extends Fragment {
             Button detailBtn = (Button) v.findViewById(R.id.detailBtn);
 
 
-
+            orderDetail = list.get(position);
             if(data.get(position).getQuickType() == 1) {
                 titleStrView.setText(data.get(position).getTitleStr());
                 titleStrView.setTextColor(getResources().getColor(R.color.colorGold));
 
                 detailBtn.setOnClickListener(new View.OnClickListener() {
-                    int cn = callNum;
+                    OnDelivery orderInfo = orderDetail;
 
                     @Override
                     public void onClick(View v) {
                         Intent intent = new Intent(context, DialogDetailActivity.class);
-                        intent.putExtra("callNum", cn);
+                        intent.putExtra("num", orderInfo.getCallNum());
+                        intent.putExtra("name", orderInfo.getSenderName());
+                        intent.putExtra("phone", orderInfo.getSenderPhone());
+                        intent.putExtra("address", orderInfo.getSenderAddress()+" "+orderInfo.getSenderAddressDetail());
+                        intent.putExtra("freights", orderInfo.getFreightList());
+                        intent.putExtra("orderPrice", orderInfo.getOrderPrice());
+                        intent.putExtra("memo", orderInfo.getMemo());
+                        intent.putExtra("deliveryStatus", orderInfo.getDeliveryStatus());
+
                         startActivity(intent);
                     }
                 });
@@ -116,12 +128,18 @@ public class fragment_order_list extends Fragment {
                 titleStrView.setTextColor(getResources().getColor(R.color.colorEmerald));
 
                 detailBtn.setOnClickListener(new View.OnClickListener() {
-                    int on = orderNum;
-
+                    OnDelivery orderInfo = orderDetail;
                     @Override
                     public void onClick(View v) {
                         Intent intent = new Intent(context, DialogDetailActivity.class);
-                        intent.putExtra("orderNum", on);
+                        intent.putExtra("num", orderInfo.getOrderNum());
+                        intent.putExtra("name", orderInfo.getReceiverName());
+                        intent.putExtra("phone", orderInfo.getReceiverPhone());
+                        intent.putExtra("address", orderInfo.getReceiverAddress()+" "+orderInfo.getReceiverAddressDetail());
+                        intent.putExtra("freights", orderInfo.getFreightList());
+                        intent.putExtra("orderPrice", orderInfo.getOrderPrice());
+                        intent.putExtra("memo", orderInfo.getMemo());
+                        intent.putExtra("deliveryStatus", orderInfo.getDeliveryStatus());
                         startActivity(intent);
                     }
                 });

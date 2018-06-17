@@ -40,7 +40,7 @@ public class CSBeamActivity extends AppCompatActivity implements NavigationView.
 
 
     private static final String TAG = "BeamActivity";
-    private String mainUrl = "http://70.12.109.164:9090/NexQuick/";
+    private String mainUrl;
 
     private boolean mWriteMode = false;
     NfcAdapter mNfcAdapter;
@@ -66,6 +66,7 @@ public class CSBeamActivity extends AppCompatActivity implements NavigationView.
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mainUrl = getResources().getString(R.string.main_url);
         mNfcAdapter = NfcAdapter.getDefaultAdapter(this);
 
         setContentView(R.layout.activity_csbeam);

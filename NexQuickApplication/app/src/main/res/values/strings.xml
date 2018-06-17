@@ -1,4 +1,6 @@
 <resources>
+    <string name="main_url">http://70.12.109.173:9090/NexQuick/</string>
+
     <string name="app_name">NexQuick</string>
     <string name="hintId">아이디를 입력하세요</string>
     <string name="hintPassword">비밀번호를 입력하세요</string>

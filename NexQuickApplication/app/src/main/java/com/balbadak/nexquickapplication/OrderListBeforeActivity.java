@@ -41,6 +41,7 @@ import java.util.ArrayList;
 
 public class OrderListBeforeActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
+    private String mainUrl;
 
     private Context context = this;
     private SharedPreferences loginInfo;
@@ -53,7 +54,6 @@ public class OrderListBeforeActivity extends AppCompatActivity implements Naviga
     ArrayList<ListViewItem> dataList;
     ArrayList<String> date;
     ArrayList<OnDelivery> list;
-    private String mainUrl = "http://70.12.109.164:9090/NexQuick/";
 
     private Spinner spinner;
 
@@ -68,6 +68,7 @@ public class OrderListBeforeActivity extends AppCompatActivity implements Naviga
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order_list_before);
+        mainUrl = getResources().getString(R.string.main_url);
         date = new ArrayList<>();
         dataList = new ArrayList<>();
         list = new ArrayList<>();

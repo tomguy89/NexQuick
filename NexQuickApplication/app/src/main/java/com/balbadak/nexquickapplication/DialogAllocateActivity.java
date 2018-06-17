@@ -25,8 +25,7 @@ import java.util.ArrayList;
 //배차 관련 파이어베이스 메시지를 받은 클래스
 public class DialogAllocateActivity extends AppCompatActivity {
 
-    //.173 태진, .164 승진
-    private String mainUrl = "http://70.12.109.164:9090/NexQuick/";
+    private String mainUrl;
     Context context;
 
     int callNum;
@@ -44,6 +43,7 @@ public class DialogAllocateActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dialog_allocate);
+        mainUrl = getResources().getString(R.string.main_url);
         context = this;
 
 

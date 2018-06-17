@@ -33,6 +33,7 @@ import java.util.ArrayList;
 @SuppressLint("ValidFragment")
 public class fragment_calculate extends Fragment {
 
+    String mainUrl;
     ViewPager viewPager;
     ListView listView;
     View view;
@@ -62,6 +63,8 @@ public class fragment_calculate extends Fragment {
         View view  =inflater.inflate(R.layout.fragment_calculate, container, false);
 
         viewPager = getActivity().findViewById(R.id.pager);
+        mainUrl = getActivity().getResources().getString(R.string.main_url);
+
 
         listView = (ListView) view.findViewById(R.id.calculate_listview);
 
@@ -80,7 +83,7 @@ public class fragment_calculate extends Fragment {
         placeMoneyTv = (TextView) view.findViewById(R.id.placeMoney);
         totalJungsanTv = (TextView) view.findViewById(R.id.totaljungsan);
 
-        String url = "http://70.12.109.173:9090/NexQuick/list/calculationList.do";
+        String url = mainUrl + "list/calculationList.do";
         ContentValues values = new ContentValues();
         values.put("qpId", qpId);
 
@@ -90,7 +93,7 @@ public class fragment_calculate extends Fragment {
         CustomAdapter adapter = new CustomAdapter(getActivity(), 0, dataList);
         listView.setAdapter(adapter);
 
-        url = "http://70.12.109.164:9090/NexQuick/qpAccount/unpayedMoney.do";
+        url = mainUrl + "qpAccount/unpayedMoney.do";
 
         GetCalMoneyListTask getCalMoneyListTask = new GetCalMoneyListTask(url,values);
         getCalMoneyListTask.execute();
@@ -243,8 +246,8 @@ public class fragment_calculate extends Fragment {
                             @Override
                             public void onClick(View v) {
 
-                                //String url = "http://70.12.109.166:9090/NexQuick/qpAccount/processPayment.do";
-                                String url = "http://192.168.0.2:9090/NexQuick/qpAccount/processPayment.do";
+
+                                String url = mainUrl + "qpAccount/processPayment.do";
                                 ContentValues values = new ContentValues();
                                 values.put("qpId", qpId);
                                 values.put("jungsan", jungsan);
@@ -263,7 +266,7 @@ public class fragment_calculate extends Fragment {
                             public void onClick(View v) {
 
                                 //String url = "http://70.12.109.166:9090/NexQuick/qpAccount/processDepositSubtr.do";
-                                String url = "http://70.12.109.164:9090/NexQuick/qpAccount/processDepositSubtr.do";
+                                String url = mainUrl + "qpAccount/processDepositSubtr.do";
                                 ContentValues values = new ContentValues();
                                 values.put("qpId", qpId);
                                 values.put("jungsan", jungsan);

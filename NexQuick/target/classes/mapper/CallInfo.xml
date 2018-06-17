@@ -273,24 +273,28 @@
 		resultType="int">
 		select trunc(nvl(sum(totalPrice), 0))
 		from callInfo
-		<if test="list != null and list.size() >= 1">
-			where callNum in
-			<foreach separator="," close=")" open="(" item="callNum"
-				collection="list"> #{callNum} </foreach>
-		</if>
+		<where>
+			<if test="list != null and list.size() >= 1">
+				callNum in
+				<foreach separator="," close=")" open="(" item="callNum"
+					collection="list"> #{callNum} </foreach>
+			</if>
 		and payType not in (2,3,4,5)
+		</where>
 	</select>
 
 	<select id="selectUnpayedSumPlace" parameterType="map"
 		resultType="int">
 		select trunc(nvl(sum(totalPrice), 0))
 		from callInfo
-		<if test="list != null and list.size() >= 1">
-			where callNum in
-			<foreach separator="," close=")" open="(" item="callNum"
-				collection="list"> #{callNum} </foreach>
-		</if>
+		<where>
+			<if test="list != null and list.size() >= 1">
+				where callNum in
+				<foreach separator="," close=")" open="(" item="callNum"
+					collection="list"> #{callNum} </foreach>
+			</if>
 		and payType in (2,3,4,5)
+		</where>
 	</select>
 
 	<update id="updatePayStatus" parameterType="map">

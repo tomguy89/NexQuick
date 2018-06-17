@@ -44,7 +44,8 @@ public class SignupActivity extends AppCompatActivity implements LoaderCallbacks
 
     }
 
-    private String mainUrl = "http://70.12.109.164:9090/NexQuick/";
+    private String mainUrl;
+
     // UI references.
     private Context context = this;
     private View focusView = null;
@@ -75,6 +76,7 @@ public class SignupActivity extends AppCompatActivity implements LoaderCallbacks
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
+        mainUrl = getResources().getString(R.string.main_url);
         // Set up the login form.
         mUserIdView = (AutoCompleteTextView) findViewById(R.id.userId);
         mPasswordView = (EditText) findViewById(R.id.password);

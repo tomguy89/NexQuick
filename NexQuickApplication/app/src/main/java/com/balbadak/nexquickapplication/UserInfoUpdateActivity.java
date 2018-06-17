@@ -50,7 +50,7 @@ public class UserInfoUpdateActivity extends AppCompatActivity implements Navigat
         super.onApplyThemeResource(theme, resid, first);
 
     }
-    private String mainUrl = "http://70.12.109.164:9090/NexQuick/";
+    private String mainUrl;
 
     // UI references.
     private Context context = this;
@@ -86,6 +86,7 @@ public class UserInfoUpdateActivity extends AppCompatActivity implements Navigat
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_userinfo_update);
+        mainUrl = getResources().getString(R.string.main_url);
         // Set up the login form.
         mUserIdView = (EditText) findViewById(R.id.userId);
         mPasswordView = (EditText) findViewById(R.id.password);

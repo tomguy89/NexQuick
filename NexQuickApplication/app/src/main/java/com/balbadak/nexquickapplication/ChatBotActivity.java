@@ -13,13 +13,14 @@ import com.balbadak.nexquickapplication.R;
 
 public class ChatBotActivity extends AppCompatActivity  {
 
-    private String mainUrl = "http://70.12.109.164:9090/NexQuick/";
+    private String mainUrl;
     private WebView chatBotWebView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chatbot);
+        mainUrl = getResources().getString(R.string.main_url);
         chatBotWebView = findViewById(R.id.chatBotWebView);
 
 
@@ -33,7 +34,7 @@ public class ChatBotActivity extends AppCompatActivity  {
 
 
         chatBotWebView.getSettings().setJavaScriptEnabled(true);
-        chatBotWebView.loadUrl(mainUrl+"/payTest.jsp");
+        chatBotWebView.loadUrl(mainUrl+"payTest.jsp");
 
 
 

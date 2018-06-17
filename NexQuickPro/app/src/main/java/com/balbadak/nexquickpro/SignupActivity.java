@@ -148,7 +148,7 @@ public class SignupActivity extends AppCompatActivity implements LoaderCallbacks
                     if(qpPhone == null || qpPhone.length()==0) {
                         mUserPhoneView.setError(null);
                     }else{
-                        String url = "http://70.12.109.164:9090/NexQuick/qpAccount/qpPhoneDuplCheck.do";
+                        String url = "http://70.12.109.173:9090/NexQuick/qpAccount/qpPhoneDuplCheck.do";
                         ContentValues values = new ContentValues();
                         values.put("qpPhone", qpPhone);
                         UserSignUpTask duplCheckTask = new UserSignUpTask(url, values);
@@ -647,7 +647,7 @@ public class SignupActivity extends AppCompatActivity implements LoaderCallbacks
 
 
         if (usablePhone && usablePw && pwPaired) {
-            String url = "http://70.12.109.164:9090/NexQuick/qpAccount/qpSignUp.do"; //이것도 태진오빠껄로 바꾸기
+            String url = "http://70.12.109.173:9090/NexQuick/qpAccount/qpSignUp.do"; //이것도 태진오빠껄로 바꾸기
             ContentValues values = new ContentValues();
             values.put("qpPhone", qpPhone);
             values.put("qpPassword", qpPassword);
