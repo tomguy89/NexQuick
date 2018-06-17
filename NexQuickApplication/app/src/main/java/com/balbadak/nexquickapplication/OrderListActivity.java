@@ -27,6 +27,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 
+import com.balbadak.nexquickapplication.vo.ListViewItem;
 import com.balbadak.nexquickapplication.vo.OnDelivery;
 import com.tsengvn.typekit.TypekitContextWrapper;
 
@@ -45,6 +46,8 @@ public class OrderListActivity extends AppCompatActivity implements NavigationVi
     private String csId;
     private String csName;
     OnDelivery orderDetail;
+
+    private String mainUrl = "http://70.12.109.164:9090/NexQuick/";
 
     ArrayList<ListViewItem> dateList;
     ArrayList<OnDelivery> list;
@@ -75,7 +78,7 @@ public class OrderListActivity extends AppCompatActivity implements NavigationVi
         String temp = csName + "님의 진행중인 주문 내역";
         titletextView.setText(temp);
 
-        String url = "http://192.168.0.2:9090/NexQuick/list/app/userCallList.do";
+        String url = mainUrl+"list/app/userCallList.do";
 
         ContentValues values = new ContentValues();
         values.put("csId", csId);
@@ -329,6 +332,12 @@ public class OrderListActivity extends AppCompatActivity implements NavigationVi
             startActivity(intent);
         }else if(id == R.id.insuindo) {
             Intent intent = new Intent(getApplicationContext(), CSBeamActivity.class);
+            startActivity(intent);
+        } else if(id == R.id.logout) {
+            SharedPreferences.Editor editor = getSharedPreferences("setting", 0).edit();
+            editor.clear().commit();
+            Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
         }
 

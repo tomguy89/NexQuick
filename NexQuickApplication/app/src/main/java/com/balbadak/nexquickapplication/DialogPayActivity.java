@@ -56,7 +56,7 @@ public class DialogPayActivity extends AppCompatActivity {
         Uri intentData = intent.getData();
 
         if (intentData == null) {
-            mainWebView.loadUrl(mainUrl+"pay_test.jsp");
+            mainWebView.loadUrl(mainUrl+"app_pay_test.jsp");
         } else {
             //isp 인증 후 복귀했을 때 결제 후속조치
             String url = intentData.toString();

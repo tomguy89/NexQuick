@@ -14,6 +14,7 @@ import android.webkit.WebViewClient;
 public class DialogAddressActivity extends AppCompatActivity {
 
     private WebView addressWebView;
+    private String mainUrl = "http://70.12.109.164:9090/NexQuick/";
 
     class MyJavaScriptInterface
     {
@@ -62,7 +63,7 @@ public class DialogAddressActivity extends AppCompatActivity {
 
         //browser.loadUrl("file:///android_asset/daum.html");
         //browser.loadUrl("http://www.daddyface.com/public/daum.html");
-        addressWebView.loadUrl("http://70.12.109.164:9090/NexQuick/app_address.jsp");
+        addressWebView.loadUrl(mainUrl+"app_address.jsp");
 
     }
 }

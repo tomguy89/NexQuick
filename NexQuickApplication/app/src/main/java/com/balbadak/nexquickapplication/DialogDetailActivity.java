@@ -27,7 +27,7 @@ import java.util.ArrayList;
 public class DialogDetailActivity extends AppCompatActivity {
 
     //.173 태진, .164 승진
-    private String mainUrl = "http://70.12.109.173:9090/NexQuick/";
+    private String mainUrl = "http://70.12.109.164:9090/NexQuick/";
 
     int orderNum;
     int callNum;
@@ -57,7 +57,7 @@ public class DialogDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dialog_detail);
         context = this;
-        orderList = new ArrayList<>();
+
         Intent intent = getIntent();
         orderNum = intent.getIntExtra("orderNum", 0);
         callNum = intent.getIntExtra("callNum", 0);
@@ -67,6 +67,11 @@ public class DialogDetailActivity extends AppCompatActivity {
         freights = intent.getStringExtra("freights");
         orderPrice = intent.getIntExtra("orderPrice", 0);
         memo = intent.getStringExtra("memo");
+
+        if(memo == null) {
+            memo = "";
+        }
+
         deliveryStatus = intent.getIntExtra("deliveryStatus", 0);
 
         orderNumTV = (TextView) findViewById(R.id.detail_orderNum);
@@ -116,7 +121,6 @@ public class DialogDetailActivity extends AppCompatActivity {
             case 2:
                 deliveryStatusTv.setText("배차완료");
                 break;
-
             case 3:
                 deliveryStatusTv.setText("배송중");
                 quickCancelBtn.setAlpha(.5f);

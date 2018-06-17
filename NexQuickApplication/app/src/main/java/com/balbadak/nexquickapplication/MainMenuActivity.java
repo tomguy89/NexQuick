@@ -151,8 +151,14 @@ public class MainMenuActivity extends AppCompatActivity implements NavigationVie
         } else if(id == R.id.userUpdate) {
             Intent intent = new Intent(getApplicationContext(), UserInfoUpdateActivity.class);
             startActivity(intent);
-        }else if(id == R.id.insuindo) {
+        } else if(id == R.id.insuindo) {
             Intent intent = new Intent(getApplicationContext(), CSBeamActivity.class);
+            startActivity(intent);
+        } else if(id == R.id.logout) {
+            SharedPreferences.Editor editor = getSharedPreferences("setting", 0).edit();
+            editor.clear().commit();
+            Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
         }
 

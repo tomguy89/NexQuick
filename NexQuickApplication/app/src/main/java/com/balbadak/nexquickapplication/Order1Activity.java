@@ -57,7 +57,7 @@ public class Order1Activity extends AppCompatActivity implements NavigationView.
     private int callNum;
 
     //.173 태진, .164 승진
-    private String mainUrl = "http://192.168.0.2:9090/NexQuick/";
+    private String mainUrl = "http://70.12.109.164:9090/NexQuick/";
 
     private EditText etSenderName;
     private EditText etSenderPhone;
@@ -436,7 +436,7 @@ public class Order1Activity extends AppCompatActivity implements NavigationView.
                         ed.putInt("callNum", callNum);
                         ed.putInt("totalPrice", 0);
                         ed.commit();
-                        Log.e("callNum", callNum + "!");
+
 
 
                 } catch (JSONException e) {
@@ -617,6 +617,12 @@ public class Order1Activity extends AppCompatActivity implements NavigationView.
             startActivity(intent);
         }else if(id == R.id.insuindo) {
             Intent intent = new Intent(getApplicationContext(), CSBeamActivity.class);
+            startActivity(intent);
+        } else if(id == R.id.logout) {
+            SharedPreferences.Editor editor = getSharedPreferences("setting", 0).edit();
+            editor.clear().commit();
+            Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
         }
 

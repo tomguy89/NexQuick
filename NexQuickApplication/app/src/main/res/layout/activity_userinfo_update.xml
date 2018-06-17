@@ -12,7 +12,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        >
 
         <include
             layout="@layout/app_bar_navigation"
@@ -22,8 +23,13 @@
         <LinearLayout
 
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="10dp">
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
 
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
@@ -79,7 +85,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
                 <android.support.design.widget.TextInputLayout
@@ -119,7 +125,7 @@
             <RadioGroup
                 android:id="@+id/radioGroup"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
                 <RadioButton
@@ -146,78 +152,71 @@
             </RadioGroup>
 
 
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/businessNum"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:hint="@string/prompt_user_bnum"
+                    android:inputType="text"
+                    android:singleLine="true"
+                    android:visibility="gone"/>
+
+            </android.support.design.widget.TextInputLayout>
+
             <LinearLayout
-                android:id="@+id/for_biz"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="horizontal">
 
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1">
 
                     <EditText
-                        android:id="@+id/businessNum"
+                        android:id="@+id/businessName"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:ems="10"
-                        android:hint="@string/prompt_user_bnum"
+                        android:hint="@string/prompt_user_bname"
                         android:inputType="text"
-                        android:singleLine="true" />
+                        android:maxLines="1"
+                        android:singleLine="true"
+                        android:visibility="gone"/>
 
                 </android.support.design.widget.TextInputLayout>
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal">
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1">
 
-                    <android.support.design.widget.TextInputLayout
-                        android:layout_width="wrap_content"
+                    <EditText
+                        android:id="@+id/businessDept"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1">
+                        android:hint="@string/prompt_user_dept"
+                        android:inputType="text"
+                        android:maxLines="1"
+                        android:singleLine="true"
+                        android:visibility="gone"/>
 
-                        <EditText
-                            android:id="@+id/businessName"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:hint="@string/prompt_user_bname"
-                            android:inputType="text"
-                            android:maxLines="1"
-                            android:singleLine="true" />
+                </android.support.design.widget.TextInputLayout>
 
-                    </android.support.design.widget.TextInputLayout>
-
-                    <android.support.design.widget.TextInputLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1">
-
-                        <EditText
-                            android:id="@+id/businessDept"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:hint="@string/prompt_user_dept"
-                            android:inputType="text"
-                            android:maxLines="1"
-                            android:singleLine="true" />
-
-                    </android.support.design.widget.TextInputLayout>
-
-                </LinearLayout>
             </LinearLayout>
-
-            <Space
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1" />
+<Space
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_weight="1"/>
 
             <Button
                 android:id="@+id/sign_in_button"
-                style="?android:textAppearanceSmall"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
                 android:background="@color/colorPrimary"
                 android:text="정보 수정"
                 android:textColor="#ffffff"
@@ -235,6 +234,7 @@
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
+        android:visibility="visible"
         app:headerLayout="@layout/nav_header_navigation"
         app:menu="@menu/activity_navigation_drawer" />
 </android.support.v4.widget.DrawerLayout>

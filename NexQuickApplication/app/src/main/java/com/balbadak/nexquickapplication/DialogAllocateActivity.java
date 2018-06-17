@@ -26,7 +26,7 @@ import java.util.ArrayList;
 public class DialogAllocateActivity extends AppCompatActivity {
 
     //.173 태진, .164 승진
-    private String mainUrl = "http://70.12.109.173:9090/NexQuick/";
+    private String mainUrl = "http://70.12.109.164:9090/NexQuick/";
     Context context;
 
     int callNum;

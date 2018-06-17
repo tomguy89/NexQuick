@@ -29,6 +29,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.balbadak.nexquickapplication.vo.ListViewItem;
 import com.balbadak.nexquickapplication.vo.OnDelivery;
 import com.tsengvn.typekit.TypekitContextWrapper;
 
@@ -52,7 +53,7 @@ public class OrderListBeforeActivity extends AppCompatActivity implements Naviga
     ArrayList<ListViewItem> dataList;
     ArrayList<String> date;
     ArrayList<OnDelivery> list;
-
+    private String mainUrl = "http://70.12.109.164:9090/NexQuick/";
 
     private Spinner spinner;
 
@@ -106,15 +107,13 @@ public class OrderListBeforeActivity extends AppCompatActivity implements Naviga
         String temp = csName + "님의 완료된 주문 내역";
         titletextView.setText(temp);
 
-        String url = "http://192.168.0.2:9090/NexQuick/list/app/finishedCallList.do";
+        String url = mainUrl + "list/app/finishedCallList.do";
 
         ContentValues values = new ContentValues();
         values.put("csId", csId);
         // AsyncTask를 통해 HttpURLConnection 수행.
-        OrderListBeforeActivity.GetListTask getListTask = new OrderListBeforeActivity.GetListTask(url, values);
+        GetListTask getListTask = new GetListTask(url, values);
         getListTask.execute();
-
-
 
 
         Button orderListBeforeBtn = (Button) findViewById(R.id.orderListBeforeBtn);
@@ -352,8 +351,13 @@ public class OrderListBeforeActivity extends AppCompatActivity implements Naviga
         }else if(id == R.id.insuindo) {
             Intent intent = new Intent(getApplicationContext(), CSBeamActivity.class);
             startActivity(intent);
+        } else if(id == R.id.logout) {
+            SharedPreferences.Editor editor = getSharedPreferences("setting", 0).edit();
+            editor.clear().commit();
+            Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
         }
-
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);

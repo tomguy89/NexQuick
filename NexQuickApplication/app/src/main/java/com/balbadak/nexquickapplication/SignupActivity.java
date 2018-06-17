@@ -44,6 +44,7 @@ public class SignupActivity extends AppCompatActivity implements LoaderCallbacks
 
     }
 
+    private String mainUrl = "http://70.12.109.164:9090/NexQuick/";
     // UI references.
     private Context context = this;
     private View focusView = null;
@@ -124,7 +125,7 @@ public class SignupActivity extends AppCompatActivity implements LoaderCallbacks
                     if(csId == null || csId.length()==0) {
                         mUserIdView.setError(null);
                     }else{
-                        String url = "http://70.12.109.173:9090/NexQuick/account/csIdDuplCheck.do";
+                        String url = mainUrl+"account/csIdDuplCheck.do";
                         ContentValues values = new ContentValues();
                         values.put("csId", csId);
                         UserSignUpTask duplCheckTask = new UserSignUpTask(url, values);
@@ -268,7 +269,7 @@ public class SignupActivity extends AppCompatActivity implements LoaderCallbacks
         }
 
         if (usableId && usablePw && pwPaired) {
-            String url = "http://70.12.109.173:9090/NexQuick/account/csSignUp.do";
+            String url = mainUrl+"account/csSignUp.do";
             ContentValues values = new ContentValues();
             values.put("csId", csId);
             values.put("csPassword", csPassword);

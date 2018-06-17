@@ -40,6 +40,7 @@ public class CSBeamActivity extends AppCompatActivity implements NavigationView.
 
 
     private static final String TAG = "BeamActivity";
+    private String mainUrl = "http://70.12.109.164:9090/NexQuick/";
 
     private boolean mWriteMode = false;
     NfcAdapter mNfcAdapter;
@@ -157,7 +158,7 @@ public class CSBeamActivity extends AppCompatActivity implements NavigationView.
 
  protected void checkCallInfo(final String qpId, final String csId){
 
-        String url = "http://70.12.109.173:9090/NexQuick/list/confirmCall.do";
+        String url = mainUrl+ "list/confirmCall.do";
 
         Log.e("INFO","callInfo에 있는지 체크하러 들어왔다"+qpId+"/"+csId);
 
@@ -190,7 +191,7 @@ public class CSBeamActivity extends AppCompatActivity implements NavigationView.
 
 
                                                             StringRequest stringRequest2 = new StringRequest(Request.Method.POST,
-                                                             "http://70.12.109.173:9090/NexQuick/list/updateCallAfterConfirm.do",
+                                                             mainUrl+"list/updateCallAfterConfirm.do",
                                                                     new Response.Listener<String>() {
                                                                         @Override
                                                                         public void onResponse(String response) {
@@ -273,7 +274,7 @@ public class CSBeamActivity extends AppCompatActivity implements NavigationView.
 
     protected void checkOrderInfo(final String qpId, final String receiverPhone){
 
-        String url = "http://70.12.109.173:9090/NexQuick/list/confirmOrder.do";
+        String url = mainUrl + "list/confirmOrder.do";
 
         Log.e("INFO","checkOrderInfo에 있는지 체크하러 들어왔다"+qpId+"/"+receiverPhone);
 
@@ -305,7 +306,7 @@ public class CSBeamActivity extends AppCompatActivity implements NavigationView.
                                                         startActivity(intent);
 
                                                         StringRequest stringRequest2 = new StringRequest(Request.Method.POST,
-                                                                "http://70.12.109.173:9090/NexQuick/list/updateOrderAfterConfirm.do",
+                                                                 mainUrl+"list/updateOrderAfterConfirm.do",
                                                                 new Response.Listener<String>() {
                                                                     @Override
                                                                     public void onResponse(String response) {
@@ -465,6 +466,12 @@ public class CSBeamActivity extends AppCompatActivity implements NavigationView.
             startActivity(intent);
         }else if(id == R.id.insuindo) {
             Intent intent = new Intent(getApplicationContext(), CSBeamActivity.class);
+            startActivity(intent);
+        }else if(id == R.id.logout) {
+            SharedPreferences.Editor editor = getSharedPreferences("setting", 0).edit();
+            editor.clear().commit();
+            Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
         }
 

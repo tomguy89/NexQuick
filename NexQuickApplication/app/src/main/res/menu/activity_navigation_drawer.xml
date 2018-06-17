@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:showIn="navigation_view"
-    >
+    tools:showIn="navigation_view">
 
     <group android:checkableBehavior="single">
         <item
@@ -19,15 +18,24 @@
             android:title="인수인도" />
 
         <item
-            android:id="@+id/userUpdate"
-            android:icon="@drawable/ic_menu_manage"
-            android:title="@string/updateUserInfo" />
-        <item
             android:id="@+id/chatBot"
             android:icon="@drawable/ic_menu_send"
             android:title="@string/chatbot" />
-
     </group>
 
+
+    <item android:title="계정관리">
+        <menu>
+            <item
+                android:id="@+id/userUpdate"
+                android:icon="@drawable/ic_menu_manage"
+                android:title="@string/updateUserInfo" />
+
+            <item
+                android:id="@+id/logout"
+                android:icon="@drawable/ic_menu_send"
+                android:title="로그아웃" />
+        </menu>
+    </item>
 
 </menu>

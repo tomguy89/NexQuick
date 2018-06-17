@@ -42,7 +42,7 @@ public class Order2Activity extends AppCompatActivity implements NavigationView.
     private SharedPreferences loginInfo;
 
     //.173 태진, .164 승진
-    private String mainUrl = "http://192.168.0.2:9090/NexQuick/";
+    private String mainUrl = "http://70.12.109.164:9090/NexQuick/";
     private String csId;
     private String freight;
 
@@ -108,10 +108,9 @@ public class Order2Activity extends AppCompatActivity implements NavigationView.
 
         loginInfo = getSharedPreferences("setting", 0);
         csId = loginInfo.getString("csId", "");
-        callNum = loginInfo.getInt("callNum", callNum+1);
-        totalPrice = loginInfo.getInt("totalPrice", totalPrice);
-
-        Log.e("callNum", callNum + "");
+        callNum = loginInfo.getInt("callNum", 0);
+        totalPrice = loginInfo.getInt("totalPrice", 0);
+        Log.e("callNum2", callNum + "!");
 
         favSpinner = (Spinner) findViewById(R.id.receiverAddressSpinner);
         etReceiverName = (EditText) findViewById(R.id.receiverName);
@@ -529,7 +528,7 @@ public class Order2Activity extends AppCompatActivity implements NavigationView.
                     ed.putInt("orderNum", orderNum);
                     ed.commit();
                     Log.e("orderNum", orderNum + "!");
-
+                    Log.e("callNum", callNum + "!");
                     int[] freightCounts = {smallBundleCount, /*middleBundleCount, bigBundleCount,*/smallBoxCount, middleBoxCount, bigBoxCount};
                     url = mainUrl + "appCall/addFreight.do";
                     fValues.put("callNum", callNum);
@@ -586,6 +585,7 @@ public class Order2Activity extends AppCompatActivity implements NavigationView.
                     data = new JSONObject(s);
                     int freightPrice = data.getInt("freightPrice");
                     totalPrice = totalPrice + freightPrice;
+                    Log.e("callNum", callNum + "!");
                     SharedPreferences.Editor ed = loginInfo.edit();
                     ed.putInt("totalPrice", totalPrice);
                     ed.commit();
@@ -597,8 +597,11 @@ public class Order2Activity extends AppCompatActivity implements NavigationView.
                 }
 
             }
+
             Toast.makeText(context, "SetFreightTask", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(context, Order3Activity.class);
+            intent.putExtra("cn", callNum);
+            Log.e("callNumx", callNum + "!");
             startActivity(intent);
 
 
@@ -721,6 +724,12 @@ public class Order2Activity extends AppCompatActivity implements NavigationView.
             startActivity(intent);
         }else if(id == R.id.insuindo) {
             Intent intent = new Intent(getApplicationContext(), CSBeamActivity.class);
+            startActivity(intent);
+        } else if(id == R.id.logout) {
+            SharedPreferences.Editor editor = getSharedPreferences("setting", 0).edit();
+            editor.clear().commit();
+            Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
         }
 

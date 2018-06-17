@@ -34,6 +34,8 @@ import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
+import com.tsengvn.typekit.TypekitContextWrapper;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -41,13 +43,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class UserInfoUpdateActivity extends AppCompatActivity implements LoaderCallbacks<Cursor>, NavigationView.OnNavigationItemSelectedListener {
+public class UserInfoUpdateActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     @Override
     protected void onApplyThemeResource(Resources.Theme theme, int resid, boolean first) {
         super.onApplyThemeResource(theme, resid, first);
 
     }
+    private String mainUrl = "http://70.12.109.164:9090/NexQuick/";
 
     // UI references.
     private Context context = this;
@@ -62,7 +65,7 @@ public class UserInfoUpdateActivity extends AppCompatActivity implements LoaderC
     boolean usablePw = false;
     boolean pwPaired = false;
 
-    private AutoCompleteTextView mUserIdView;
+    private EditText mUserIdView;
     private EditText mPasswordView;
     private EditText mPasswordRe;
     private EditText mNameView;
@@ -74,14 +77,17 @@ public class UserInfoUpdateActivity extends AppCompatActivity implements LoaderC
     Drawable confirmIcon;
 
 
-
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(TypekitContextWrapper.wrap(newBase));
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_userinfo_update);
         // Set up the login form.
-        mUserIdView = (AutoCompleteTextView) findViewById(R.id.userId);
+        mUserIdView = (EditText) findViewById(R.id.userId);
         mPasswordView = (EditText) findViewById(R.id.password);
         mPasswordRe = (EditText) findViewById(R.id.passwordRe);
         mNameView = (EditText) findViewById(R.id.username);
@@ -97,11 +103,10 @@ public class UserInfoUpdateActivity extends AppCompatActivity implements LoaderC
         if (loginInfo != null && loginInfo.getString("csId", "") != null && loginInfo.getString("csId", "").length() != 0) {
             csId = loginInfo.getString("csId", "");
             csName = loginInfo.getString("csName", "");
-            //폰은
         }
 
 
-        String url = "http://70.12.109.173:9090/NexQuick/account/app/getCsInfo.do";
+        String url = mainUrl+"account/app/getCsInfo.do";
         ContentValues values = new ContentValues();
         values.put("csId", csId);
         GetInfoTask getInfoTask =  new GetInfoTask(url, values);
@@ -261,7 +266,7 @@ public class UserInfoUpdateActivity extends AppCompatActivity implements LoaderC
         }
 
         if (usableId && usablePw && pwPaired) {
-            String url = "http://70.12.109.173:9090/NexQuick/account/app/csModify.do";
+            String url = mainUrl +"account/app/csModify.do";
             ContentValues values = new ContentValues();
             values.put("csId", csId);
             values.put("csPassword", csPassword);
@@ -274,59 +279,6 @@ public class UserInfoUpdateActivity extends AppCompatActivity implements LoaderC
             UserUpdateTask userSignUp = new UserUpdateTask(url, values);
             userSignUp.execute();
         }
-    }
-
-    @Override
-    public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
-        return new CursorLoader(this,
-                // Retrieve data rows for the device user's 'profile' contact.
-                Uri.withAppendedPath(ContactsContract.Profile.CONTENT_URI,
-                        ContactsContract.Contacts.Data.CONTENT_DIRECTORY), ProfileQuery.PROJECTION,
-
-                // Select only email addresses.
-                ContactsContract.Contacts.Data.MIMETYPE +
-                        " = ?", new String[]{ContactsContract.CommonDataKinds.Email
-                .CONTENT_ITEM_TYPE},
-
-                // Show primary email addresses first. Note that there won't be
-                // a primary email address if the user hasn't specified one.
-                ContactsContract.Contacts.Data.IS_PRIMARY + " DESC");
-    }
-
-    @Override
-    public void onLoadFinished(Loader<Cursor> cursorLoader, Cursor cursor) {
-        List<String> emails = new ArrayList<>();
-        cursor.moveToFirst();
-        while (!cursor.isAfterLast()) {
-            emails.add(cursor.getString(ProfileQuery.ADDRESS));
-            cursor.moveToNext();
-        }
-
-        addEmailsToAutoComplete(emails);
-    }
-
-    @Override
-    public void onLoaderReset(Loader<Cursor> cursorLoader) {
-
-    }
-
-    private void addEmailsToAutoComplete(List<String> emailAddressCollection) {
-        //Create adapter to tell the AutoCompleteTextView what to show in its dropdown list.
-        ArrayAdapter<String> adapter =
-                new ArrayAdapter<>(UserInfoUpdateActivity.this,
-                        android.R.layout.simple_dropdown_item_1line, emailAddressCollection);
-
-        mUserIdView.setAdapter(adapter);
-    }
-
-    private interface ProfileQuery {
-        String[] PROJECTION = {
-                ContactsContract.CommonDataKinds.Email.ADDRESS,
-                ContactsContract.CommonDataKinds.Email.IS_PRIMARY,
-        };
-
-        int ADDRESS = 0;
-        int IS_PRIMARY = 1;
     }
 
     /**
@@ -390,6 +342,7 @@ public class UserInfoUpdateActivity extends AppCompatActivity implements LoaderC
                     JSONObject data = new JSONObject(s);
 
                     mUserIdView.setText(data.getString("csId"));
+                    mUserIdView.setEnabled(false);
                     mNameView.setText(data.getString("csName"));
                     mNameView.setEnabled(false);
                     mPhoneView.setText(data.getString("csPhone"));
@@ -480,8 +433,14 @@ public class UserInfoUpdateActivity extends AppCompatActivity implements LoaderC
         } else if(id == R.id.userUpdate) {
             Intent intent = new Intent(getApplicationContext(), UserInfoUpdateActivity.class);
             startActivity(intent);
-        }else if(id == R.id.insuindo) {
+        } else if(id == R.id.insuindo) {
             Intent intent = new Intent(getApplicationContext(), CSBeamActivity.class);
+            startActivity(intent);
+        } else if(id == R.id.logout) {
+            SharedPreferences.Editor editor = getSharedPreferences("setting", 0).edit();
+            editor.clear().commit();
+            Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
         }
 

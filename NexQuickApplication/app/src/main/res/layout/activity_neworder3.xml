@@ -32,7 +32,6 @@
                 android:id="@+id/order_listview"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
                 android:padding="10dp" />
 
             <LinearLayout
@@ -207,7 +206,7 @@
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
-        android:visibility="gone"
+        android:visibility="visible"
         app:headerLayout="@layout/nav_header_navigation"
         app:menu="@menu/activity_navigation_drawer" />
 
