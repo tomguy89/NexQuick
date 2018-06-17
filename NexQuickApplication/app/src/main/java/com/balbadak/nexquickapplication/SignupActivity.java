@@ -281,6 +281,8 @@ public class SignupActivity extends AppCompatActivity implements LoaderCallbacks
             values.put("csBusinessName", bName);
             values.put("csBusinessNumber", bNum);
             values.put("csDepartment", bDept);
+            if(csType == 3) values.put("csGrade", 1);
+            else values.put("csGrade", 0);
             UserSignUpTask userSignUp = new UserSignUpTask(url, values);
             userSignUp.execute();
         }

@@ -95,6 +95,9 @@ public class CSAccountController {
 	@RequestMapping("/csSignUp.do")
 	public @ResponseBody boolean csSignUp(String csId, String csPassword, String csName, String csPhone,
 						   int csType, String csBusinessName, String csBusinessNumber, String csDepartment, int csGrade) {
+		System.out.println(csId);
+		System.out.println(csPassword);
+		System.out.println(csGrade);
 		CSInfo csInfo = new CSInfo(csId, csPassword, csName, csPhone, csType, csBusinessName, csBusinessNumber, csDepartment, csGrade);
 		if(csAccountService.csSignUp(csInfo)) return true;
 		else return false;

@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AndroidLayouts">
+    <shared>
+      <config />
+    </shared>
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="fcd52544-5c68-46c8-b44e-aca0ed9f7b85" name="Default" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -26,7 +31,7 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ChatBotActivity.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="ChatBotActivity.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/balbadak/nexquickapplication/ChatBotActivity.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="247">
@@ -38,7 +43,46 @@
           </provider>
         </entry>
       </file>
+      <file leaf-file-name="SignupActivity.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/balbadak/nexquickapplication/SignupActivity.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-456">
+              <caret line="299" column="41" lean-forward="false" selection-start-line="299" selection-start-column="41" selection-end-line="299" selection-end-column="41" />
+              <folding>
+                <element signature="e#2260#2303#0" expanded="true" />
+                <element signature="e#2981#4044#0" expanded="true" />
+                <element signature="e#4043#4044#0" expanded="true" />
+                <element signature="e#4216#4963#0" expanded="true" />
+                <element signature="e#4962#4963#0" expanded="true" />
+                <element signature="e#5014#5827#0" expanded="true" />
+                <element signature="e#5454#5496#0" expanded="true" />
+                <element signature="e#5667#5707#0" expanded="true" />
+                <element signature="e#5826#5827#0" expanded="true" />
+                <element signature="e#6487#6529#0" expanded="true" />
+                <element signature="e#6646#6690#0" expanded="true" />
+                <element signature="e#6972#7119#0" expanded="true" />
+                <element signature="e#7118#7119#0" expanded="true" />
+                <element signature="e#8278#8318#0" expanded="true" />
+                <element signature="e#8512#8552#0" expanded="true" />
+                <element signature="e#8750#8790#0" expanded="true" />
+                <element signature="e#8972#9012#0" expanded="true" />
+                <element signature="e#9165#9205#0" expanded="true" />
+                <element signature="e#9381#9421#0" expanded="true" />
+                <element signature="e#9581#9621#0" expanded="true" />
+                <element signature="e#9818#9858#0" expanded="true" />
+                <element signature="e#13645#13683#0" expanded="true" />
+                <element signature="e#13915#13951#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
     </leaf>
+  </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>url</find>
+    </findStrings>
   </component>
   <component name="GradleLocalSettings">
     <option name="myGradleHomes">
@@ -2073,6 +2117,13 @@
       </map>
     </option>
   </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/app/src/main/java/com/balbadak/nexquickapplication/SignupActivity.java" />
+      </list>
+    </option>
+  </component>
   <component name="ProjectFrameBounds" extendedState="6">
     <option name="x" value="-8" />
     <option name="y" value="-8" />
@@ -2136,6 +2187,7 @@
   <component name="PropertiesComponent">
     <property name="android.sdk.path" value="$USER_HOME$/AppData/Local/Android/Sdk" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="device.picker.selection" value="ce031603b48f381705" />
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -2173,7 +2225,7 @@
         <option name="Android.Gradle.BeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="app" type="AndroidRunConfigurationType" factoryName="Android App">
+    <configuration name="app" type="AndroidRunConfigurationType" factoryName="Android App" activateToolWindowBeforeRun="false">
       <module name="app" />
       <option name="DEPLOY" value="true" />
       <option name="ARTIFACT_NAME" value="" />
@@ -2303,10 +2355,9 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1296" height="1000" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Android Profiler" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Android Profiler" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
@@ -2358,6 +2409,38 @@
           <caret line="22" column="8" lean-forward="false" selection-start-line="22" selection-start-column="8" selection-end-line="22" selection-end-column="62" />
           <folding>
             <element signature="e#664#707#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/balbadak/nexquickapplication/SignupActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-456">
+          <caret line="299" column="41" lean-forward="false" selection-start-line="299" selection-start-column="41" selection-end-line="299" selection-end-column="41" />
+          <folding>
+            <element signature="e#2260#2303#0" expanded="true" />
+            <element signature="e#2981#4044#0" expanded="true" />
+            <element signature="e#4043#4044#0" expanded="true" />
+            <element signature="e#4216#4963#0" expanded="true" />
+            <element signature="e#4962#4963#0" expanded="true" />
+            <element signature="e#5014#5827#0" expanded="true" />
+            <element signature="e#5454#5496#0" expanded="true" />
+            <element signature="e#5667#5707#0" expanded="true" />
+            <element signature="e#5826#5827#0" expanded="true" />
+            <element signature="e#6487#6529#0" expanded="true" />
+            <element signature="e#6646#6690#0" expanded="true" />
+            <element signature="e#6972#7119#0" expanded="true" />
+            <element signature="e#7118#7119#0" expanded="true" />
+            <element signature="e#8278#8318#0" expanded="true" />
+            <element signature="e#8512#8552#0" expanded="true" />
+            <element signature="e#8750#8790#0" expanded="true" />
+            <element signature="e#8972#9012#0" expanded="true" />
+            <element signature="e#9165#9205#0" expanded="true" />
+            <element signature="e#9381#9421#0" expanded="true" />
+            <element signature="e#9581#9621#0" expanded="true" />
+            <element signature="e#9818#9858#0" expanded="true" />
+            <element signature="e#13645#13683#0" expanded="true" />
+            <element signature="e#13915#13951#0" expanded="true" />
           </folding>
         </state>
       </provider>
