@@ -2186,7 +2186,7 @@
   </component>
   <component name="PropertiesComponent">
     <property name="android.sdk.path" value="$USER_HOME$/AppData/Local/Android/Sdk" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../NexQuickPro" />
     <property name="device.picker.selection" value="ce031603b48f381705" />
   </component>
   <component name="RunDashboard">
