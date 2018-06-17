@@ -56,15 +56,21 @@
                 android:layout_weight="1"
                 android:layout_margin="10dp"
                 android:text="배송내역"
+                android:textColor="#ffffff"
+                android:drawableTop="@drawable/main_list_img_white"
+                android:paddingTop="20dp"
+                android:background="@drawable/button_style"
                 android:textSize="20sp" />
 
             <Button
                 android:id="@+id/workbtn"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
                 android:layout_margin="10dp"
-                android:backgroundTint="@color/colorGold"
+                android:layout_weight="1"
+                android:background="@drawable/button_style_fill"
+                android:drawableTop="@drawable/box_img_1"
+                android:paddingTop="20dp"
                 android:text="출근하기"
                 android:textSize="20sp" />
 

@@ -124,7 +124,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:layout_weight="1"
-                android:background="@color/colorPrimary"
+                android:background="@drawable/button_style_fill"
                 android:text="@string/prompt_lisence"
                 android:textColor="#ffffff"
                 android:textStyle="bold" />
@@ -135,7 +135,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:layout_weight="1"
-                android:background="@color/colorPrimary"
+                android:background="@drawable/button_style_fill"
                 android:text="@string/prompt_picture"
                 android:textColor="#ffffff"
                 android:textStyle="bold" />
@@ -256,7 +256,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
 
-            android:background="@color/colorPrimary"
+            android:background="@drawable/button_style_fill"
             android:text="@string/action_sign_in"
             android:textColor="#ffffff"
             android:textStyle="bold" />

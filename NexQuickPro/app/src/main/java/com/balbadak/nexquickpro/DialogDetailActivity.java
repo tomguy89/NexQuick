@@ -55,6 +55,7 @@ public class DialogDetailActivity extends AppCompatActivity {
         context = this;
         orderList = new ArrayList<>();
         Intent intent = getIntent();
+
         orderNum = intent.getIntExtra("orderNum", 0);
         callNum = intent.getIntExtra("callNum", 0);
         receiverName = intent.getStringExtra("receiverName");

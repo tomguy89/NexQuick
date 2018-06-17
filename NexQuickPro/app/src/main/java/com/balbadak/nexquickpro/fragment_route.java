@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -24,6 +25,8 @@ import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 import android.widget.Toast;
 
+import com.balbadak.nexquickpro.vo.ListViewItem;
+import com.balbadak.nexquickpro.vo.OnDelivery;
 import com.skt.Tmap.TMapData;
 import com.skt.Tmap.TMapMarkerItem;
 import com.skt.Tmap.TMapPoint;
@@ -64,7 +67,8 @@ public class fragment_route extends Fragment {
     int qpId;
     SharedPreferences loginInfo;
     boolean pickChackFlag;
-
+    /* 0617 김민규수정 */
+    String phoneNumber = "tel:"+"00000000000";
     String pickUrl = "http://192.168.0.2:9090/NexQuick/list/afterBeamforQPS.do";
     String chackUrl = "http:/192.168.0.2:9090/NexQuick/list/afterBeamforQPR.do";
     @Override
@@ -137,10 +141,15 @@ public class fragment_route extends Fragment {
             }
         });
 
+        /* 0617 김민규수정 */
         phoneBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                try {
+                    startActivity(new Intent("android.intent.action.DIAL", Uri.parse(phoneNumber)));
+                } catch(Exception e) {
+                    e.printStackTrace();
+                }
             }
         });
 
@@ -199,9 +208,13 @@ public class fragment_route extends Fragment {
                     ListViewItem lv = (ListViewItem) quickSpinner.getItemAtPosition(position);
                     if(lv.getQuickType() ==  1) {
                         callNum=lv.getCallNum();
+                        /* 0617 김민규수정 */
+                        phoneNumber = "tel:"+lv.getSenderPhone();
                         pickChackFlag=true;
                     } else {
                         orderNum=lv.getOrderNum();
+                        /* 0617 김민규수정 */
+                        phoneNumber = "tel:"+lv.getReceiverPhone();
                         pickChackFlag=false;
                     }
                 }

@@ -28,6 +28,7 @@ import android.widget.CompoundButton;
 import android.widget.Switch;
 import android.widget.TextView;
 
+import com.balbadak.nexquickpro.vo.ListViewItem;
 import com.tsengvn.typekit.TypekitContextWrapper;
 
 import org.json.JSONArray;
@@ -149,7 +150,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     public void initQuickList(){
 
-        String url = "http://70.12.109.164:9090/NexQuick/list/optimalRoute.do";
+        String url = "http://70.12.109.173:9090/NexQuick/list/optimalRoute.do";
 
         ContentValues values = new ContentValues();
         values.put("qpId", qpId);
@@ -332,6 +333,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                 item.setDescStr(descSb.toString());
                                 item.setCallNum(data.getInt("callNum"));
                                 item.setOrderNum(data.getInt("orderNum"));
+                                /*0617김민규추가*/
+                                item.setSenderPhone(data.getString("senderPhone"));
+                                item.setReceiverPhone(data.getString("receiverPhone"));
                                 item.setQuickType(1);
 
                                 quickList.add(item);
@@ -354,6 +358,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                             item.setDescStr(descSb.toString());
                             item.setCallNum(data.getInt("callNum"));
                             item.setOrderNum(data.getInt("orderNum"));
+                            /*0617 김민규추가*/
+                            item.setSenderPhone(data.getString("senderPhone"));
+                            item.setReceiverPhone(data.getString("receiverPhone"));
                             item.setQuickType(2);
 
                             quickList.add(item);

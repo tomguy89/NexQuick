@@ -7,11 +7,11 @@
 
         <item
             android:id="@+id/main_menu"
-            android:icon="@drawable/ic_menu_camera"
+            android:icon="@drawable/house_img"
             android:title="메인메뉴" />
         <item
             android:id="@+id/order_list_before"
-            android:icon="@drawable/ic_menu_gallery"
+            android:icon="@drawable/list_img"
             android:title="배송내역" />
 
     </group>
@@ -20,7 +20,7 @@
         <menu>
             <item
                 android:id="@+id/update_info"
-                android:icon="@drawable/ic_menu_manage"
+                android:icon="@drawable/setting_img"
                 android:title="@string/updateUserInfo" />
             <item
                 android:id="@+id/logout"

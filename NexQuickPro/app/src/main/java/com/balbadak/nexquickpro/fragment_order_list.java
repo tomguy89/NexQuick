@@ -21,6 +21,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 
+import com.balbadak.nexquickpro.vo.ListViewItem;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
