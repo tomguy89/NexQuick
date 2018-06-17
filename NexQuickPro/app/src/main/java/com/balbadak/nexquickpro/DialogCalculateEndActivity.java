@@ -33,8 +33,13 @@ public class DialogCalculateEndActivity extends AppCompatActivity {
 
 
         tv = findViewById(R.id.quick_allocate_contents);
-        tv.setText(gotIntent.getStringExtra("qpBank")+" "+ gotIntent.getStringExtra("qpAccount")+"로 "+  gotIntent.getIntExtra("money",0)+"원이 입금되었습니다.");
-
+    //여기부터
+        if(gotIntent.getStringExtra("qpAcount") != null) {
+            tv.setText(gotIntent.getStringExtra("qpBank") + " " + gotIntent.getStringExtra("qpAccount") + "로 " + gotIntent.getIntExtra("money", 0) + "원이 입금되었습니다.");
+        } else {
+            tv.setText("보증금이 차감되었습니다. 현재 보증금은" +gotIntent.getIntExtra("money", 0) + "원입니다.");
+        }
+        //여기까지
         cancelBtn.setOnClickListener(new View.OnClickListener() {
                                          @Override
                                          public void onClick(View v) {

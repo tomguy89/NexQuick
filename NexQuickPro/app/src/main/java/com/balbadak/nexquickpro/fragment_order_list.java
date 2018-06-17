@@ -38,8 +38,6 @@ public class fragment_order_list extends Fragment {
     Context context;
 
     ArrayList<ListViewItem> quickList;
-
-
     SharedPreferences loginInfo;
     int orderNum;
     int callNum;

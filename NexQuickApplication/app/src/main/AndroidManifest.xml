@@ -24,7 +24,8 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".CSBeamActivity">
+        <activity android:name=".CSBeamActivity"
+            android:theme="@style/AppTheme.NoActionBar">
 
             <intent-filter>
                 <action android:name="android.nfc.action.NDEF_DISCOVERED" />
@@ -36,7 +37,8 @@
 
         <activity
             android:name=".MainMenuActivity"
-            android:label="NexQuick" />
+            android:label="NexQuick"
+            android:theme="@style/AppTheme.NoActionBar"/>
 
         <activity
             android:name=".OrderListActivity"
@@ -70,13 +72,12 @@
             android:theme="@style/AppTheme.NoActionBar" />
 
         <activity
-            android:name=".ChatBotActivity"
-            android:label="@string/title_activity_navigation"
+            android:name=".UserInfoUpdateActivity"
             android:theme="@style/AppTheme.NoActionBar" />
 
 
-
-        <activity android:name=".OrderCompleteActivity" />
+        <activity android:name=".OrderCompleteActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
 
         <activity
             android:name=".SignupActivity"
@@ -96,6 +97,10 @@
 
         <activity
             android:name=".DialogAllocateActivity"
+            android:theme="@style/DialogTheme" />
+
+        <activity
+            android:name=".ChatBotActivity"
             android:theme="@style/DialogTheme" />
 
         <activity

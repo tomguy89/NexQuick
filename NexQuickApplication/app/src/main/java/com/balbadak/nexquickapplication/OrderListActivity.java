@@ -75,7 +75,7 @@ public class OrderListActivity extends AppCompatActivity implements NavigationVi
         String temp = csName + "님의 진행중인 주문 내역";
         titletextView.setText(temp);
 
-        String url = "http://70.12.109.173:9090/NexQuick/list/app/userCallList.do";
+        String url = "http://192.168.0.2:9090/NexQuick/list/app/userCallList.do";
 
         ContentValues values = new ContentValues();
         values.put("csId", csId);
@@ -186,59 +186,6 @@ public class OrderListActivity extends AppCompatActivity implements NavigationVi
 
     }
 
-    // 여기부터 마이메뉴 네비게이션 영역
-    @Override
-    public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
-        }
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.navigation, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
-    @SuppressWarnings("StatementWithEmptyBody")
-    @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
-        int id = item.getItemId();
-
-        if (id == R.id.nav_new_order) {
-            Intent intent = new Intent(getApplicationContext(), Order1Activity.class);
-            startActivity(intent);
-        } else if (id == R.id.nav_order_list) {
-            Intent intent = new Intent(getApplicationContext(), OrderListActivity.class);
-            startActivity(intent);
-        }
-
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
-        return true;
-    }
-    // 여기까지 마이메뉴 영역
-
 
     // 여기부터 AsyncTask 영역
     public class GetListTask extends AsyncTask<Void, Void, String> {
@@ -329,7 +276,67 @@ public class OrderListActivity extends AppCompatActivity implements NavigationVi
         }
     }
 
+    //------------------------------여기부터 내비 영역 -----------------------------
+    @Override
+    public void onBackPressed() {
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
+    }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.navigation, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_settings) {
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    @SuppressWarnings("StatementWithEmptyBody")
+    @Override
+    public boolean onNavigationItemSelected(MenuItem item) {
+        // Handle navigation view item clicks here.
+        int id = item.getItemId();
+
+        if (id == R.id.nav_new_order) {
+            Intent intent = new Intent(getApplicationContext(), Order1Activity.class);
+            startActivity(intent);
+        } else if (id == R.id.nav_order_list) {
+            Intent intent = new Intent(getApplicationContext(), OrderListActivity.class);
+            startActivity(intent);
+        } else if(id == R.id.chatBot) {
+            Intent intent = new Intent(getApplicationContext(), ChatBotActivity.class);
+            startActivity(intent);
+        } else if(id == R.id.userUpdate) {
+            Intent intent = new Intent(getApplicationContext(), UserInfoUpdateActivity.class);
+            startActivity(intent);
+        }else if(id == R.id.insuindo) {
+            Intent intent = new Intent(getApplicationContext(), CSBeamActivity.class);
+            startActivity(intent);
+        }
+
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer.closeDrawer(GravityCompat.START);
+        return true;
+    }
 
 
 }

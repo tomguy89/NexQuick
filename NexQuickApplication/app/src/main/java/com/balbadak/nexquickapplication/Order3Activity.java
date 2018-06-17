@@ -38,7 +38,7 @@ public class Order3Activity extends AppCompatActivity implements NavigationView.
     private SharedPreferences quickInfo;
 
     //.173 태진, .164 승진
-    private String mainUrl = "http://70.12.109.173:9090/NexQuick/";
+    private String mainUrl = "http://192.168.0.2:9090/NexQuick/";
     private String payUrl;
     private int totalPrice;
     private int callNum;
@@ -290,10 +290,19 @@ public class Order3Activity extends AppCompatActivity implements NavigationView.
         int id = item.getItemId();
 
         if (id == R.id.nav_new_order) {
-            Intent intent = new Intent(getApplicationContext(), Order3Activity.class);
+            Intent intent = new Intent(getApplicationContext(), Order1Activity.class);
             startActivity(intent);
         } else if (id == R.id.nav_order_list) {
             Intent intent = new Intent(getApplicationContext(), OrderListActivity.class);
+            startActivity(intent);
+        } else if(id == R.id.chatBot) {
+            Intent intent = new Intent(getApplicationContext(), ChatBotActivity.class);
+            startActivity(intent);
+        } else if(id == R.id.userUpdate) {
+            Intent intent = new Intent(getApplicationContext(), UserInfoUpdateActivity.class);
+            startActivity(intent);
+        }else if(id == R.id.insuindo) {
+            Intent intent = new Intent(getApplicationContext(), CSBeamActivity.class);
             startActivity(intent);
         }
 

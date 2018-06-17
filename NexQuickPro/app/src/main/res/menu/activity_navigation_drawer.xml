@@ -6,33 +6,26 @@
     <group android:checkableBehavior="none">
 
         <item
-            android:id="@+id/nav_new_order"
+            android:id="@+id/main_menu"
             android:icon="@drawable/ic_menu_camera"
-            android:title="@string/newOrder" />
+            android:title="메인메뉴" />
         <item
-            android:id="@+id/nav_order_list"
+            android:id="@+id/order_list_before"
             android:icon="@drawable/ic_menu_gallery"
-            android:title="@string/orderList" />
-        <item
-            android:id="@+id/nav_user_info"
-            android:icon="@drawable/ic_menu_manage"
-            android:title="@string/updateUserInfo" />
-        <item
-            android:id="@+id/nav_customer_center"
-            android:icon="@drawable/ic_menu_send"
-            android:title="@string/chatting" />
+            android:title="배송내역" />
+
     </group>
 
-    <item android:title="Communicate">
+    <item android:title="계정관리">
         <menu>
             <item
-                android:id="@+id/nav_share"
-                android:icon="@drawable/ic_menu_share"
-                android:title="Share" />
+                android:id="@+id/update_info"
+                android:icon="@drawable/ic_menu_manage"
+                android:title="@string/updateUserInfo" />
             <item
-                android:id="@+id/nav_send"
+                android:id="@+id/logout"
                 android:icon="@drawable/ic_menu_send"
-                android:title="Send" />
+                android:title="로그아웃" />
         </menu>
     </item>
 

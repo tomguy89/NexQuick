@@ -127,7 +127,7 @@ public class LocationActivity extends AppCompatActivity {
 
     private  void insertGPS(double qpLongitude, double qpLatitude){
 
-        String url = "http://70.12.109.173:9090/NexQuick/qpPosition/insertPosition.do"; //url 주소는 태진오빠껄로 바꾸기!!
+        String url = "http://70.12.109.164:9090/NexQuick/qpPosition/insertPosition.do"; //url 주소는 태진오빠껄로 바꾸기!!
 
         ContentValues values = new ContentValues();
 
@@ -161,7 +161,7 @@ public class LocationActivity extends AppCompatActivity {
 
 
         // String url = "http://70.12.109.166:9090/NexQuick/qpPosition/updatePosition.do";
-        String url = "http://70.12.109.173:9090/NexQuick/qpPosition/deletePosition.do"; //url 주소는 태진오빠껄로 바꾸기!!
+        String url = "http://70.12.109.164:9090/NexQuick/qpPosition/deletePosition.do"; //url 주소는 태진오빠껄로 바꾸기!!
 
         ContentValues values = new ContentValues();
         values.put("qpId",qpId);

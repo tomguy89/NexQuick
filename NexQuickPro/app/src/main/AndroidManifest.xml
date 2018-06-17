@@ -13,11 +13,11 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
+
     <uses-feature android:name="android.hardware.camera" />
     <uses-feature android:name="android.hardware.camera.autofocus" />
-    <!--이은진 tts/stt 추가-->
+    <!-- 이은진 tts/stt 추가 -->
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
-
 
     <application
         android:name=".CustomStartApp"
@@ -27,7 +27,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".IntroActivity"
+        <activity
+            android:name=".IntroActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -35,12 +36,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <activity android:name=".GoToWorkActivity" android:theme="@style/AppTheme.NoActionBar"/>
-
-        <activity android:name=".LoginActivity">
-
-        </activity>
+        <activity
+            android:name=".GoToWorkActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".LoginActivity"></activity>
         <activity android:name=".KeyActivity" />
         <activity
             android:name=".MainActivity"
@@ -48,14 +47,11 @@
             android:theme="@style/AppTheme.NoActionBar"
             android:uiOptions="splitActionBarWhenNarrow" />
 
-
         <meta-data
             android:name="com.kakao.sdk.AppKey"
             android:value="aa50824339a1434072f8e7522d94aa54" />
 
-
-
-        <!-- 다이얼로그 액티비티-->
+        <!-- 다이얼로그 액티비티 -->
         <activity
             android:name=".KeyHashActivity"
             android:theme="@style/DialogTheme" />
@@ -68,13 +64,12 @@
         <activity
             android:name=".DialogAllocateActivity"
             android:theme="@style/DialogTheme" />
-        <!-- // 다이얼로그 액티비티-->
+        <!-- // 다이얼로그 액티비티 -->
 
         <activity
             android:name=".SignupActivity"
             android:label="@string/title_activity_signup"
             android:theme="@style/DialogTheme" />
-
         <activity
             android:name=".SPayCheckActivity"
             android:theme="@style/DialogTheme" />
@@ -82,10 +77,8 @@
             android:name=".RPayCheckActivity"
             android:theme="@style/DialogTheme" />
         <!-- // 다이얼로그 액티비티 -->
-        <activity android:name=".QPBeamSActivity"></activity>
-        <activity android:name=".QPBeamRActivity"></activity>
-
-
+        <activity android:name=".QPBeamSActivity" />
+        <activity android:name=".QPBeamRActivity" />
 
         <!-- 2018-06-10 firebase cloud messaging -->
         <service android:name=".MyFirebaseMessagingService">
@@ -98,18 +91,21 @@
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
         </service>
-        <service android:name=".LocationService" android:exported="true" android:enabled="true"/>
+        <service
+            android:name=".LocationService"
+            android:enabled="true"
+            android:exported="true" />
         <service
             android:name=".TTSService"
             android:enabled="true"
-            android:exported="true"/>
+            android:exported="true" />
         <service
             android:name=".GoogleService"
             android:enabled="true"
             android:exported="true" />
 
-
-
+        <activity android:name=".UpdateUserActivity"/>
+        <activity android:name=".OrderListBeforeActivity" android:theme="@style/AppTheme.NoActionBar"/>
     </application>
 
 </manifest>

@@ -42,6 +42,7 @@ public class fragment_calculate extends Fragment {
 
     ArrayList<ListViewItem> dataList;
     ArrayList<OnDelivery> list;
+    OnDelivery orderDetail;
 
     private TextView calculateNoneTv;
     private TextView inappMoneyTv;
@@ -53,7 +54,8 @@ public class fragment_calculate extends Fragment {
     private Button finishBtn;
     int jungsan;
 
-    OnDelivery orderDetail;
+
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -70,6 +72,7 @@ public class fragment_calculate extends Fragment {
         calculate_sub = view.findViewById(R.id.calculate_sub);
 
         loginInfo = getActivity().getSharedPreferences("setting",0);
+
         qpId =  loginInfo.getInt("qpId",0);
 
         calculateNoneTv = (TextView) view.findViewById(R.id.calculate_none);
@@ -77,7 +80,7 @@ public class fragment_calculate extends Fragment {
         placeMoneyTv = (TextView) view.findViewById(R.id.placeMoney);
         totalJungsanTv = (TextView) view.findViewById(R.id.totaljungsan);
 
-        String url = "http://70.12.109.164:9090/NexQuick/list/calculationList.do";
+        String url = "http://70.12.109.173:9090/NexQuick/list/calculationList.do";
         ContentValues values = new ContentValues();
         values.put("qpId", qpId);
 
@@ -93,45 +96,7 @@ public class fragment_calculate extends Fragment {
         getCalMoneyListTask.execute();
 
 
-//        if(jungsan > 0) {
 
-            finishBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-                    //String url = "http://70.12.109.166:9090/NexQuick/qpAccount/processPayment.do";
-                    String url = "http://70.12.109.164:9090/NexQuick/qpAccount/processPayment.do";
-                    ContentValues values = new ContentValues();
-                    values.put("qpId", qpId);
-                    values.put("jungsan", jungsan);
-
-                    ProcessPaymentTask processPaymentTask = new ProcessPaymentTask(url,values);
-                    processPaymentTask.execute();
-
-
-                }
-            });
-
-//        }
-
-        /*else {
-
-            finishBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-                    //String url = "http://70.12.109.166:9090/NexQuick/qpAccount/processDepositSubtr.do";
-                    String url = "http://70.12.109.164:9090/NexQuick/qpAccount/processDepositSubtr.do";
-                    ContentValues values = new ContentValues();
-                    values.put("qpId", qpId);
-                    values.put("jungsan", jungsan);
-
-                    DepositSubtrTask depositSubtrTask = new DepositSubtrTask(url,values);
-                    depositSubtrTask.execute();
-                }
-            });
-
-        }*/
 
         return view;
     }
@@ -272,7 +237,44 @@ public class fragment_calculate extends Fragment {
                     jungsan = inapp - place;
                     totalJungsanTv.setText(jungsan + " 원");
 
+                    if(jungsan > 0) {
 
+                        finishBtn.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+
+                                //String url = "http://70.12.109.166:9090/NexQuick/qpAccount/processPayment.do";
+                                String url = "http://192.168.0.2:9090/NexQuick/qpAccount/processPayment.do";
+                                ContentValues values = new ContentValues();
+                                values.put("qpId", qpId);
+                                values.put("jungsan", jungsan);
+
+                                ProcessPaymentTask processPaymentTask = new ProcessPaymentTask(url,values);
+                                processPaymentTask.execute();
+
+
+                            }
+                        });
+
+                    } else {
+
+                        finishBtn.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+
+                                //String url = "http://70.12.109.166:9090/NexQuick/qpAccount/processDepositSubtr.do";
+                                String url = "http://70.12.109.164:9090/NexQuick/qpAccount/processDepositSubtr.do";
+                                ContentValues values = new ContentValues();
+                                values.put("qpId", qpId);
+                                values.put("jungsan", jungsan);
+
+                                DepositSubtrTask depositSubtrTask = new DepositSubtrTask(url,values);
+                                depositSubtrTask.execute();
+
+                            }
+                        });
+
+                    }
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -355,7 +357,7 @@ public class fragment_calculate extends Fragment {
         }
     }
 
-
+//로직 수정
     public class DepositSubtrTask extends AsyncTask<Void, Void, String> {
 
         private String url;
@@ -384,43 +386,31 @@ public class fragment_calculate extends Fragment {
             //doInBackground()로 부터 리턴된 값이 onPostExecute()의 매개변수로 넘어오므로 s를 출력한다.
             //qpPay JSON 객체를 파싱한다.
 
-            int money=0;
+            int money = 0;
             String qpBank = null;
             String qpAccount = null;
 
-
-            if(s!=null){
+            if (s != null) {
                 try {
                     JSONObject object = new JSONObject(s);
 
-                    money=object.getInt("money");
-                    qpBank=object.getString("qpBank");
-                    qpAccount=object.getString("qpAccount");
+                    money = object.getInt("money");
+
 
                 } catch (JSONException e) {
                     e.printStackTrace();
+
                 }
-                if(money!= 0){
 
-                } else{
+                loginInfo.edit().putInt("deposit", money).commit();
 
+                Intent intent = new Intent(getActivity(), DialogCalculateEndActivity.class);
+                intent.putExtra("money", money);
 
-                    Toast.makeText(getActivity(),"정산 가능한 내역이 없습니다.",Toast.LENGTH_SHORT).show();
-                }
-            } else {
-                Toast.makeText(getActivity(),"정산 가능한 내역이 없습니다.",Toast.LENGTH_SHORT).show();
+                startActivity(intent);
             }
-
-            //정산완료 팝업을 띄웁니다.
-            Intent intent = new Intent(getActivity(), DialogCalculateEndActivity.class);
-            intent.putExtra("money",money);
-            intent.putExtra("qpBank",qpBank);
-            intent.putExtra("qpAccount",qpAccount);
-
-            startActivity(intent);
         }
     }
-
     private class CustomAdapter extends ArrayAdapter<ListViewItem> {
         private ArrayList<ListViewItem> data;
         private ArrayList<String> items;

@@ -49,12 +49,20 @@
             android:hint="@string/hintPassword"
             android:inputType="textPassword" />
 
+
         <Switch
             android:id="@+id/autoSwitch"
+            android:layout_gravity="start"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="@string/autoLogin" />
+            android:layout_centerInParent="true"
+            android:track="@drawable/switch_track_selector"
+            android:thumb="@drawable/switch_thumb_selector"
+            android:text="자동로그인  "
+            android:textOn="On"
+            android:textOff="Off"
+            />
+
 
         <Button
             android:id="@+id/loginBtn"

@@ -14,30 +14,20 @@
             android:icon="@drawable/ic_menu_gallery"
             android:title="@string/orderList" />
         <item
-            android:id="@+id/nav_user_info"
+            android:id="@+id/insuindo"
+            android:icon="@drawable/ic_menu_send"
+            android:title="인수인도" />
+
+        <item
+            android:id="@+id/userUpdate"
             android:icon="@drawable/ic_menu_manage"
             android:title="@string/updateUserInfo" />
         <item
             android:id="@+id/chatBot"
             android:icon="@drawable/ic_menu_send"
             android:title="@string/chatbot" />
-        <button
-            android:id="@+id/chatBot_1"
-            android:icon="@drawable/ic_menu_send"
-            android:title="@string/chatbot" />
+
     </group>
 
-    <item android:title="Communicate">
-        <menu>
-            <item
-                android:id="@+id/nav_share"
-                android:icon="@drawable/ic_menu_share"
-                android:title="Share" />
-            <item
-                android:id="@+id/nav_send"
-                android:icon="@drawable/ic_menu_send"
-                android:title="Send" />
-        </menu>
-    </item>
 
 </menu>

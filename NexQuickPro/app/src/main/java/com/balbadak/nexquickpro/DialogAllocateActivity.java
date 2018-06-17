@@ -94,7 +94,7 @@ public class DialogAllocateActivity extends AppCompatActivity {
         acceptBtn.setOnClickListener((new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String url = "http://70.12.109.173:9090/NexQuick/appCall/completeAllocate.do";
+                String url = "http://70.12.109.164:9090/NexQuick/appCall/completeAllocate.do";
                 ContentValues values = new ContentValues();
                 values.put("callNum", callNum);
                 values.put("qpId", qpId);

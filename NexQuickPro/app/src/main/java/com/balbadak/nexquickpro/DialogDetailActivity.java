@@ -23,7 +23,7 @@ import java.util.ArrayList;
 public class DialogDetailActivity extends AppCompatActivity {
 
     //.173 태진, .164 승진
-    private String mainUrl = "http://70.12.109.173:9090/NexQuick/";
+    private String mainUrl = "http://70.12.109.164:9090/NexQuick/";
 
     int orderNum;
     int callNum;
@@ -128,7 +128,16 @@ public class DialogDetailActivity extends AppCompatActivity {
                 mapBtn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) { finish(); }});
-
+                break;
+            case 5:
+                deliveryStatusTv.setText("정산완료");
+                chatBotBtn.setEnabled(false);
+                quickCancelBtn.setVisibility(View.GONE);
+                chatBotBtn.setVisibility(View.GONE);
+                mapBtn.setText("닫기");
+                mapBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) { finish(); }});
                 break;
             default:
                 deliveryStatusTv.setText("미처리주문");
@@ -228,9 +237,10 @@ public class DialogDetailActivity extends AppCompatActivity {
             Log.e("df", s);
             if(s.toString().equals("true")) {
                 Toast.makeText(getApplicationContext(), "요청에 성공했습니다.", Toast.LENGTH_SHORT);
-                Intent i = new Intent(getApplicationContext(), OrderListActivity.class);
+                finishActivity(222);
+/*                Intent i = new Intent(getApplicationContext(), OrderListActivity.class);
                 i.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                startActivity(i);
+                startActivity(i);*/
             }
         }
     }

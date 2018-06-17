@@ -121,18 +121,23 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_new_order) {
+        if (id == R.id.main_menu) {
             Intent intent = new Intent(getApplicationContext(), MainActivity.class);
             startActivity(intent);
-        } else if (id == R.id.nav_order_list) {
-
-        } else if (id == R.id.nav_user_info) {
-
-        } else if (id == R.id.nav_customer_center) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
+            finish();
+        } else if (id == R.id.order_list_before) {
+            Intent intent = new Intent(getApplicationContext(), OrderListBeforeActivity.class);
+            startActivity(intent);
+            finish();
+        } else if (id == R.id.update_info) {
+            Intent intent = new Intent(getApplicationContext(), UpdateUserActivity.class);
+            startActivity(intent);
+            finish();
+        } else if (id == R.id.logout) {
+            loginInfo.edit().clear();
+            Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+            startActivity(intent);
+            finish();
 
         }
 
@@ -144,7 +149,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     public void initQuickList(){
 
-        String url = "http://70.12.109.173:9090/NexQuick/list/optimalRoute.do";
+        String url = "http://70.12.109.164:9090/NexQuick/list/optimalRoute.do";
 
         ContentValues values = new ContentValues();
         values.put("qpId", qpId);
@@ -211,42 +216,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 }
             }
         });
-
-
-/*        // Initializing the TabLayout
-        tabLayout = (TabLayout) findViewById(R.id.tabLayout);
-        tabLayout.addTab(tabLayout.newTab().setText("퀵리스트").setIcon(R.drawable.tab_apply_detail_black));
-        tabLayout.addTab(tabLayout.newTab().setText("경로안내").setIcon(R.drawable.tab_address_detail));
-        tabLayout.addTab(tabLayout.newTab().setText("정산하기").setIcon(R.drawable.tab_complete_black));
-        tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
-
-        // Initializing ViewPager
-        viewPager = (ViewPager) findViewById(R.id.pager);
-
-        // Creating TabPagerAdapter adapter
-        TabPagerAdapter pagerAdapter = new TabPagerAdapter(getSupportFragmentManager(), tabLayout.getTabCount());
-        viewPager.setAdapter(pagerAdapter);
-        viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
-
-        // Set TabSelectedListener
-        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                viewPager.setCurrentItem(tab.getPosition());
-            }
-
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-
-            }
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-
-            }
-        });
-
-        viewPager.setCurrentItem(1); // routeActivity (경로화면)이 디폴트*/
 
     }
 

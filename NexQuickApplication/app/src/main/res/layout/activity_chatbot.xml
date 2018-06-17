@@ -4,35 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context=".ChatBotActivity">
 
 
-
-    <TextView
+    <WebView
+        android:id="@+id/chatBotWebView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:text="주문완료!"
-        android:textStyle="bold"
-        android:textAlignment="center"
-        android:textSize="30sp"/>
+        android:layout_height="match_parent">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textAlignment="center"
-        android:text="총 주문 : X개"/>
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textAlignment="center"
-        android:text="현장결제인 경우 기사님에게 직접 드리면 됩니다"/>
-
-    <Button
-        android:id="@+id/chatBotConfirm"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="확인"
-        />
+    </WebView>
 </LinearLayout>

@@ -93,7 +93,7 @@ public class KeyActivity extends AppCompatActivity {
 
                 } else { //callNum이 왔다...
                     Log.e("INFO","인수다!!!");
-                    url="http://70.12.109.173:9090/NexQuick/list/updateCallAfterConfirmbySign.do";
+                    url="http://70.12.109.164:9090/NexQuick/list/updateCallAfterConfirmbySign.do";
                     values.put("callNum",gIntent.getIntExtra("callNum",0));
                     NetworkTask networkTask = new NetworkTask(url, values);
                     networkTask.execute();

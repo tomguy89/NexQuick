@@ -65,8 +65,8 @@ public class fragment_route extends Fragment {
     SharedPreferences loginInfo;
     boolean pickChackFlag;
 
-    String pickUrl = "http://70.12.109.173:9090/NexQuick/list/afterBeamforQPS.do";
-    String chackUrl = "http://70.12.109.173:9090/NexQuick/list/afterBeamforQPR.do";
+    String pickUrl = "http://192.168.0.2:9090/NexQuick/list/afterBeamforQPS.do";
+    String chackUrl = "http:/192.168.0.2:9090/NexQuick/list/afterBeamforQPR.do";
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 

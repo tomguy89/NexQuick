@@ -140,7 +140,7 @@ public class LocationService extends Service {
 
     private  void insertGPS(double qpLongitude, double qpLatitude){
         Log.e("INFO","insertGPS호출됨");
-        String url = "http://70.12.109.173:9090/NexQuick/qpPosition/insertPosition.do"; //url 주소는 태진오빠껄로 바꾸기!!
+        String url = "http://70.12.109.164:9090/NexQuick/qpPosition/insertPosition.do"; //url 주소는 태진오빠껄로 바꾸기!!
 
         ContentValues values = new ContentValues();
 
@@ -159,7 +159,7 @@ public class LocationService extends Service {
         Log.e("INFO","updateGPS호출됨");
 
         // String url = "http://70.12.109.166:9090/NexQuick/qpPosition/updatePosition.do";
-        String url = "http://70.12.109.173:9090/NexQuick/qpPosition/updatePosition.do"; //url 주소는 태진오빠껄로 바꾸기!!
+        String url = "http://70.12.109.164:9090/NexQuick/qpPosition/updatePosition.do"; //url 주소는 태진오빠껄로 바꾸기!!
 
 
         ContentValues values = new ContentValues();
@@ -178,7 +178,7 @@ public class LocationService extends Service {
         Log.e("INFO","deleteGPS호출됨");
 
         // String url = "http://70.12.109.166:9090/NexQuick/qpPosition/updatePosition.do";
-        String url = "http://70.12.109.173:9090/NexQuick/qpPosition/deletePosition.do"; //url 주소는 태진오빠껄로 바꾸기!!
+        String url = "http://70.12.109.164:9090/NexQuick/qpPosition/deletePosition.do"; //url 주소는 태진오빠껄로 바꾸기!!
 
         ContentValues values = new ContentValues();
         values.put("qpId",qpId);

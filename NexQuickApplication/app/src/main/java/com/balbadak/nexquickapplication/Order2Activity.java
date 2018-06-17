@@ -42,7 +42,7 @@ public class Order2Activity extends AppCompatActivity implements NavigationView.
     private SharedPreferences loginInfo;
 
     //.173 태진, .164 승진
-    private String mainUrl = "http://70.12.109.173:9090/NexQuick/";
+    private String mainUrl = "http://192.168.0.2:9090/NexQuick/";
     private String csId;
     private String freight;
 
@@ -713,7 +713,17 @@ public class Order2Activity extends AppCompatActivity implements NavigationView.
         } else if (id == R.id.nav_order_list) {
             Intent intent = new Intent(getApplicationContext(), OrderListActivity.class);
             startActivity(intent);
+        } else if(id == R.id.chatBot) {
+            Intent intent = new Intent(getApplicationContext(), ChatBotActivity.class);
+            startActivity(intent);
+        } else if(id == R.id.userUpdate) {
+            Intent intent = new Intent(getApplicationContext(), UserInfoUpdateActivity.class);
+            startActivity(intent);
+        }else if(id == R.id.insuindo) {
+            Intent intent = new Intent(getApplicationContext(), CSBeamActivity.class);
+            startActivity(intent);
         }
+
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);

@@ -45,7 +45,7 @@ public class RPayCheckActivity extends AppCompatActivity {
         yesBtn.setOnClickListener(new View.OnClickListener() {
                                            @Override
                                            public void onClick(View v) {
-                                               String url = "http://70.12.109.173:9090/NexQuick/list/payComplete.do";
+                                               String url = "http://70.12.109.164:9090/NexQuick/list/payComplete.do";
 
                                                ContentValues values = new ContentValues();
                                                values.put("result", gotIntent.getStringExtra("JSONArray"));
