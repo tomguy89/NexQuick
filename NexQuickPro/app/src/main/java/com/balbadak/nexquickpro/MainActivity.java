@@ -43,7 +43,7 @@ import java.util.HashSet;
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
 
-
+    String mainUrl;
     //폰트관련 설정
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -69,6 +69,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        mainUrl = getResources().getString(R.string.main_url);
         loginInfo = getSharedPreferences("setting", 0);
         editor = loginInfo.edit();
 
@@ -160,7 +161,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     public void initQuickList(){
 
-        String url = "http://70.12.109.173:9090/NexQuick/list/optimalRoute.do";
+        String url = mainUrl + "list/optimalRoute.do";
 
         ContentValues values = new ContentValues();
         values.put("qpId", qpId);

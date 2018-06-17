@@ -43,7 +43,7 @@ import java.util.ArrayList;
 public class OrderListBeforeActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
     Context context;
-
+    String mainUrl;
     private SharedPreferences loginInfo;
     private SharedPreferences.Editor editor;
     private ListView listView;
@@ -73,6 +73,7 @@ public class OrderListBeforeActivity extends AppCompatActivity implements Naviga
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order_list_before);
+        mainUrl = getResources().getString(R.string.main_url);
         context = this;
         loginInfo = getSharedPreferences("setting", 0);
         editor = loginInfo.edit();
@@ -86,7 +87,7 @@ public class OrderListBeforeActivity extends AppCompatActivity implements Naviga
         ArrayList<OnDelivery> list = new ArrayList<>();
         listView = (ListView) this.findViewById(R.id.order_before_listview);
 
-        String url = "http://70.12.109.173:9090/NexQuick/list/qptotalList.do";
+        String url = mainUrl + "list/qptotalList.do";
         ContentValues values = new ContentValues();
         values.put("qpId", qpId);
 

@@ -100,6 +100,8 @@ public class UpdateUserActivity extends AppCompatActivity implements LoaderManag
             "foo@example.com:hello", "bar@example.com:world"
     };
 
+    String mainUrl;
+
     Context context = this;
     SharedPreferences loginInfo;
     // UI references.
@@ -142,6 +144,7 @@ public class UpdateUserActivity extends AppCompatActivity implements LoaderManag
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_update_user);
+        mainUrl = getResources().getString(R.string.main_url);
         // Set up the login form.
         loginInfo = getSharedPreferences("setting", 0);
         qpId = loginInfo.getInt("qpId", 0);
@@ -154,7 +157,7 @@ public class UpdateUserActivity extends AppCompatActivity implements LoaderManag
         confirmIcon = getResources().getDrawable(R.drawable.confirm, null);
         confirmIcon.setBounds(0, 0, 50, 50);
 
-        String url = "http://70.12.109.173:9090/NexQuick/qpAccount/getQP.do";
+        String url = mainUrl + "qpAccount/getQP.do";
         ContentValues values = new ContentValues();
         rg = (RadioGroup) findViewById(R.id.vehicleType);
 
@@ -193,7 +196,7 @@ public class UpdateUserActivity extends AppCompatActivity implements LoaderManag
                     if (qpPhone == null || qpPhone.length() == 0) {
                         mUserPhoneView.setError(null);
                     } else {
-                        String url = "http://70.12.109.173:9090/NexQuick/qpAccount/qpPhoneDuplCheck.do";
+                        String url = mainUrl + "qpAccount/qpPhoneDuplCheck.do";
                         ContentValues values = new ContentValues();
                         values.put("qpPhone", qpPhone);
                         UserInfoUpdateTask duplCheckTask = new UserInfoUpdateTask(url, values);
@@ -419,7 +422,7 @@ public class UpdateUserActivity extends AppCompatActivity implements LoaderManag
 
             try {
                 FileInputStream fis = new FileInputStream(filePath);
-                URL url = new URL("http://70.12.109.173:9090/NexQuick/qpAccount/uploadPicture.do");//나중에 태진오빠 주소로 바꾸기!
+                URL url = new URL(mainUrl + "qpAccount/uploadPicture.do");//나중에 태진오빠 주소로 바꾸기!
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                 //웹서버를 통해 입출력 가능하도록 설정
                 conn.setDoInput(true);
@@ -515,7 +518,7 @@ public class UpdateUserActivity extends AppCompatActivity implements LoaderManag
 
             try {
                 FileInputStream fis = new FileInputStream(filePath2);
-                URL url = new URL("http://70.12.109.173:9090/NexQuick/qpAccount/uploadLicense.do");//나중에 태진오빠 주소로 바꾸기!
+                URL url = new URL(mainUrl + "qpAccount/uploadLicense.do");//나중에 태진오빠 주소로 바꾸기!
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                 //웹서버를 통해 입출력 가능하도록 설정
                 conn.setDoInput(true);
@@ -689,7 +692,7 @@ public class UpdateUserActivity extends AppCompatActivity implements LoaderManag
 //
 
         if (usablePw && pwPaired) {
-            String url = "http://70.12.109.173:9090/NexQuick/qpAccount/qpInfoUpdate.do"; //이것도 태진오빠껄로 바꾸기
+            String url = mainUrl + "qpAccount/qpInfoUpdate.do"; //이것도 태진오빠껄로 바꾸기
             ContentValues values = new ContentValues();
             values.put("qpId", qpId);
             values.put("qpPassword", qpPassword);

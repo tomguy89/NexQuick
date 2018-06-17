@@ -20,6 +20,7 @@ import org.json.JSONException;
 
 public class SPayCheckActivity extends AppCompatActivity {
 
+    String mainUrl;
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -30,6 +31,7 @@ public class SPayCheckActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dialog_spay_check);
+        mainUrl = getResources().getString(R.string.main_url);
 
         ImageButton cancelBtn = (ImageButton) findViewById(R.id.payDialogCancelBtn);
         Button yesBtn=findViewById(R.id.yesBtn);
@@ -52,7 +54,7 @@ public class SPayCheckActivity extends AppCompatActivity {
                                            @Override
                                            public void onClick(View v) {    //컨트롤러에서 update한다.....
 
-                                               String url = "http://70.12.109.173:9090/NexQuick/list/payComplete.do";
+                                               String url = mainUrl + "list/payComplete.do";
 
                                                ContentValues values = new ContentValues();
                                                values.put("result", gotIntent.getStringExtra("JSONArray"));
