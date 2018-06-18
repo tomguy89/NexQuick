@@ -12,6 +12,9 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.text.Spannable;
+import android.text.SpannableStringBuilder;
+import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -84,7 +87,7 @@ public class OrderListBeforeActivity extends AppCompatActivity implements Naviga
         }
 
         quickList = new ArrayList<>();
-        ArrayList<OnDelivery> list = new ArrayList<>();
+        list = new ArrayList<>();
         listView = (ListView) this.findViewById(R.id.order_before_listview);
 
         String url = mainUrl + "list/qptotalList.do";
@@ -268,30 +271,35 @@ public class OrderListBeforeActivity extends AppCompatActivity implements Naviga
                     JSONArray ja = new JSONArray(s);
                     JSONObject data;
                     OnDelivery order;
-                    com.balbadak.nexquickpro.vo.ListViewItem item;
+                    ListViewItem item;
                     for (int i = 0; i < ja.length(); i++) {
                         data = ja.getJSONObject(i);
 
-                        item = new com.balbadak.nexquickpro.vo.ListViewItem();
+                        item = new ListViewItem();
                         order = new OnDelivery();
                         titleSb.setLength(0);
                         descSb.setLength(0);
 
                         order.setUrgent(data.getInt("urgent"));
+                        Log.e("urgent", order.getUrgent()+"");
                         order.setOrderNum(data.getInt("orderNum"));
+                        Log.e("orderNum", order.getOrderNum()+"");
                         order.setCallNum(data.getInt("callNum"));
+                        Log.e("callNum", order.getCallNum()+"");
                         order.setCallTime(data.getString("callTime"));
+                        Log.e("callTime", order.getCallTime());
                         order.setReceiverName(data.getString("receiverName"));
+                        Log.e("receiverName", order.getReceiverName());
                         order.setReceiverPhone(data.getString("receiverPhone"));
+                        Log.e("receiverPhone", order.getReceiverPhone());
                         order.setReceiverAddress(data.getString("receiverAddress"));
                         order.setReceiverAddressDetail(data.getString("receiverAddressDetail"));
                         order.setOrderPrice(data.getInt("orderPrice"));
                         order.setMemo(data.getString("memo"));
                         order.setDeliveryStatus(data.getInt("deliveryStatus"));
                         order.setFreightList(data.getString("freightList"));
-                        order.setArrivaltime(data.getString("arrivaltime"));
 
-                        titleSb.append(order.getArrivaltime());
+                        titleSb.append(order.getCallTime());
                         descSb.append("   수령인   ");
                         descSb.append(order.getReceiverName()).append("\n");
                         descSb.append("   수령지   ");
@@ -346,8 +354,18 @@ public class OrderListBeforeActivity extends AppCompatActivity implements Naviga
             Button detailBtn = (Button) v.findViewById(R.id.detailBtn);
 
             orderDetail = list.get(position);
+            Log.e("position", position+"");
+            Log.e("확인", orderDetail.getOrderNum()+"/"+orderDetail.getReceiverName()+"/"+orderDetail.getReceiverPhone()+"/"+orderDetail.getReceiverAddress()+"/"+orderDetail.getReceiverAddressDetail()+"/"+orderDetail.getFreightList()+"/"+ orderDetail.getFreightList()+"/"+orderDetail.getDeliveryStatus());
+            SpannableStringBuilder ssb = new SpannableStringBuilder();
 
-            titleStrView.setText(data.get(position).getTitleStr());
+            ssb.append("배송완료    ").setSpan(new ForegroundColorSpan(getResources().getColor(R.color.colorEmerald)), 0, 4, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+            ssb.append(data.get(position).getTitleStr());
+            if (orderDetail.getUrgent() == 1) {
+                ssb.append("   급송");
+            }
+
+            titleStrView.setText(ssb);
             descStrView.setText(data.get(position).getDescStr());
 
 
@@ -364,7 +382,7 @@ public class OrderListBeforeActivity extends AppCompatActivity implements Naviga
                     intent.putExtra("freights", orderInfo.getFreightList());
                     intent.putExtra("orderPrice", orderInfo.getOrderPrice());
                     intent.putExtra("memo", orderInfo.getMemo());
-                    intent.putExtra("deliveryStatus", 5);
+                    intent.putExtra("deliveryStatus", 4);
                     startActivity(intent);
                 }
             });

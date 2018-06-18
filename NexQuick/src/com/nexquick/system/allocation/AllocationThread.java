@@ -1,5 +1,6 @@
 package com.nexquick.system.allocation;
 
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -146,11 +147,19 @@ public class AllocationThread {
 			System.out.println("select qp : "+qp.getQpId());
 		}
 		
-		
+		if(callInfo.getUrgent()==1) {
+			qpList.sort(new Comparator<QPPosition>() {
+				@Override
+				public int compare(QPPosition o1, QPPosition o2) {
+					return o1.getNow()-o2.getNow();
+				}
+			});
+		}
 		if (qpList.size()!=0) {
 			System.out.println("repeat : "+repeat);
 			for(QPPosition qp : qpList) {
 				System.out.println(qp.getQpId());
+				
 				//callInfo.setQpId(qp.getQpId());
 				//callManagementService.updateCall(callInfo);
 				fireBaseMessaging.sendMessage(qp.getConnectToken(), msgBd.toString());

@@ -104,6 +104,5 @@ public interface CallInfoDAO {
     int selectUnpayedSumPlace(List<Integer> list);
     void updatePayStatus(List<Integer> list);
 
-	List<OnDelivery> selectQPTotalList(int qpId);
 
 }

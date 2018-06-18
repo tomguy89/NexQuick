@@ -157,5 +157,9 @@ public class OrderInfoDAOImpl implements OrderInfoDAO {
 		return sqlSession.selectList("orderInfo.getOnDeliveryCallListLast", callNum);
 	}
 	
-	
+
+	@Override
+	public List<OnDelivery> selectQPTotalList(int qpId) {
+		return sqlSession.selectList("orderInfo.selectQPTotalList",qpId);
+	}
 }

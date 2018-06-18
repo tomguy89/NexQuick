@@ -10,6 +10,7 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
@@ -121,7 +122,7 @@ public class fragment_route extends Fragment {
         qpMarker.setTMapPoint(qpPoint); // 마커의 좌표 지정
         qpMarker.setName("Pro님의 현재 위치"); // 마커의 타이틀 지정
         tMapView.addMarkerItem("qpMarker", qpMarker); // 지도에 마커 추가
-        tMapView.setCenterPoint(qpPoint.getLongitude(), qpPoint.getLatitude());
+        tMapView.setCenterPoint(qpLongitude, qpLatitude);
 
         TMapPoint tMapPointStart = qpPoint; // 출발지
 
@@ -140,9 +141,9 @@ public class fragment_route extends Fragment {
             newMarker.setTMapPoint(newPoint); // 마커의 좌표 지정
             newMarker.setName((i + 1) + "번째 방문 위치"); // 마커의 타이틀 지정
             tMapView.addMarkerItem("Point" + (i + 1), newMarker); // 지도에 마커 추가
-            tMapView.setCenterPoint(newPoint.getLongitude(), newPoint.getLatitude());
             passList.add(newPoint);
         }
+
 
         if(passList.size()>0){
             NetworkTask networkTask = new NetworkTask(qpPoint, passList.get(passList.size() - 1), passList);
@@ -226,6 +227,14 @@ public class fragment_route extends Fragment {
                 @Override
                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                     ListViewItem lv = (ListViewItem) quickSpinner.getItemAtPosition(position);
+                    tMapView.setCenterPoint(Double.parseDouble(list.get(position).getLongitude()), Double.parseDouble(list.get(position).getLatitude()));
+                    Handler mHandler = new Handler();
+                    mHandler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            tMapView.setCenterPoint(qpLongitude, qpLatitude);
+                        }
+                    }, 3000);
                     if(lv.getQuickType() ==  1) {
                         callNum=lv.getCallNum();
                         pickChackFlag=true;

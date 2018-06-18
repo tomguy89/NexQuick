@@ -142,8 +142,4 @@ public class CallInfoDAOImpl implements CallInfoDAO {
         sqlSession.update("callInfo.updatePayStatus", list);
     }
 
-	@Override
-	public List<OnDelivery> selectQPTotalList(int qpId) {
-		return sqlSession.selectList("callInfo.selectQPTotalList",qpId);
-	}
 }

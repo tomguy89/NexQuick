@@ -310,15 +310,4 @@
 		
 	</update>
 	
-	<select id="selectQPTotalList" parameterType="int"
-		resultType="OnDelivery">
-		select *
-		from orderInfo o, callInfo c, freightInfo f
-		where
-		o.callnum = c.callnum
-		and o.ordernum = f.ordernum
-		and qpId=#{qpId}
-		and deliveryStatus=4
-	</select>
-	
 </mapper>

@@ -90,5 +90,5 @@ public interface OrderInfoDAO {
 	void updatePayStatus(List<Integer> list);
 
 	List<OnDelivery> getOnDeliveryCallListLast(int callNum);
-	
+	List<OnDelivery> selectQPTotalList(int qpId);
 }

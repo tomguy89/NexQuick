@@ -326,6 +326,21 @@
         AND c.callNum = #{callNum}
         ORDER BY callTime
     </select>
+    
+    <select id="selectQPTotalList" parameterType="int"
+		resultType="OnDelivery">
+		select c.callNum, o.orderNum, callTime, senderName, senderAddress, senderAddressDetail, receiverName, receiverAddress, receiverAddressDetail, orderPrice, urgent, deliveryStatus, freightList
+		from orderInfo o, callInfo c, (SELECT LISTAGG(aa, ',') WITHIN GROUP (order by ordernum) AS freightList, ordernum
+        		                       FROM   (select freightName||' '|| freightQuant as aa, ordernum
+                		                       from priceInfo p, freightInfo f
+                        		                where p.freightType = f.freightType
+                                        )
+        group by ordernum) x
+		where o.ordernum = x.ordernum(+)
+		and o.callNum = c.callNum
+		and c.qpId = 1
+		and deliveryStatus = 4
+	</select>
 	
 </mapper>
 

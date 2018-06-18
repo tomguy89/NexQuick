@@ -34,6 +34,10 @@ public class MyFirebaseMessagingService extends com.google.firebase.messaging.Fi
 //                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 //
 //        notificationManager.notify(0 /* ID of notification */, notificationBuilder.build());
+        Intent sIntent = new Intent(this, TTSService.class);
+        sIntent.putExtra("message",messageBody);
+        startService(sIntent);
+
         intent.putExtra("message", messageBody);
         startActivity(intent);
     }
