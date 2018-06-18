@@ -42,27 +42,64 @@
                 android:textSize="30sp"
                 android:textStyle="bold" />
 
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"/>
+
             <TextView
+                android:id="@+id/order_count"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="총 주문 : X개"
+                android:textSize="20sp"
+                android:textColor="@color/colorGold"
+                android:textStyle="bold"
                 android:textAlignment="center" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="현장결제인 경우 기사님에게 직접 드리면 됩니다"
+                android:textSize="20sp"
+                android:text="현장결제인 경우\n기사님에게 직접 계산하세요"
+                android:textStyle="bold"
                 android:textAlignment="center" />
-
-            <Button
-                android:id="@+id/order_confirm"
-                android:layout_width="wrap_content"
+            <Space
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:orientation="horizontal"
+                >
 
-                android:text="확인" />
+                <Button
+                    android:id="@+id/orderConfirmBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:layout_margin="10dp"
+                    android:paddingTop="20dp"
+                    android:textSize="20sp"
+                    android:text="주문종료" />
 
-
+                <Button
+                    android:id="@+id/orderlistBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:layout_margin="10dp"
+                    android:paddingTop="20dp"
+                    android:textSize="20sp"
+                    android:text="배송내역" />
+            </LinearLayout>
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"/>
         </LinearLayout>
+
     </LinearLayout>
 
     <android.support.design.widget.NavigationView
@@ -71,6 +108,7 @@
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
+        android:visibility="gone"
         app:headerLayout="@layout/nav_header_navigation"
         app:menu="@menu/activity_navigation_drawer" />
 </android.support.v4.widget.DrawerLayout>

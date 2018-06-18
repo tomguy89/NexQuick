@@ -31,6 +31,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.balbadak.nexquickapplication.vo.CallInfo;
 import com.balbadak.nexquickapplication.vo.ListViewItem;
 import com.balbadak.nexquickapplication.vo.OnDelivery;
 import com.balbadak.nexquickapplication.vo.OrderInfo;
@@ -54,8 +55,12 @@ public class Order3Activity extends AppCompatActivity implements NavigationView.
 
     private int totalPrice;
     private int callNum;
+    private int orderCount;
     private ContentValues values;
     private ListView orderListview;
+
+    CallInfo callInfo;
+
     TextView tvTotalPrice;
     OnDelivery orderDetail;
     ArrayList<ListViewItem> dateList;
@@ -76,33 +81,21 @@ public class Order3Activity extends AppCompatActivity implements NavigationView.
         setContentView(R.layout.activity_neworder3);
         loginInfo = getSharedPreferences("setting", 0);
 
-        callNum =  getIntent().getExtras().getInt("cn");
+        callNum = getIntent().getExtras().getInt("cn");
         Log.e("callNum3", callNum + "!");
         dateList = new ArrayList<>();
         list = new ArrayList<>();
-
-
-        //발송지 정보
-        ListViewItem item = new ListViewItem();
-        OnDelivery order = new OnDelivery();
         titleSb = new StringBuilder();
         descSb = new StringBuilder();
-        titleSb.append("발송지");
-        descSb.append("   발송인   ");
-        descSb.append(order.getReceiverName()).append("\n");
-        descSb.append("   발송지   ");
-        descSb.append(order.getReceiverAddress());
 
-
-        item.setTitleStr(titleSb.toString());
-        item.setDescStr(descSb.toString());
-        item.setCallNum(order.getOrderNum());
-
-
-        //
-        String url = mainUrl + "appCall/getOrderListLast.do";
+        String url = mainUrl + "appCall/getCall.do";
         values = new ContentValues();
         values.put("callNum", callNum);
+        GetCallInfo getCallInfo = new GetCallInfo(url, values);
+        getCallInfo.execute();
+
+        url = mainUrl + "appCall/getOrderListLast.do";
+
         GetListTask getListTask = new GetListTask(url, values);
         getListTask.execute();
 
@@ -116,6 +109,7 @@ public class Order3Activity extends AppCompatActivity implements NavigationView.
                 finish();
             }
         });
+
 
         payUrl = mainUrl + "appCall/registCall.do";
 
@@ -131,6 +125,7 @@ public class Order3Activity extends AppCompatActivity implements NavigationView.
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, DialogPayActivity.class);
+                intent.putExtra("orderCount", orderCount);
                 startActivityForResult(intent, 2000);
             }
         });
@@ -140,6 +135,7 @@ public class Order3Activity extends AppCompatActivity implements NavigationView.
             public void onClick(View v) {
 
                 Intent intent = new Intent(context, DialogPayActivity.class);
+                intent.putExtra("orderCount", orderCount);
                 startActivityForResult(intent, 2020);
             }
         });
@@ -155,6 +151,7 @@ public class Order3Activity extends AppCompatActivity implements NavigationView.
                 MainTask mainTask = new MainTask(payUrl, values);
                 mainTask.execute();
                 Intent intent = new Intent(context, OrderCompleteActivity.class);
+                intent.putExtra("orderCount", orderCount);
                 startActivity(intent);
             }
         });
@@ -170,6 +167,7 @@ public class Order3Activity extends AppCompatActivity implements NavigationView.
                 MainTask mainTask = new MainTask(payUrl, values);
                 mainTask.execute();
                 Intent intent = new Intent(context, OrderCompleteActivity.class);
+                intent.putExtra("orderCount", orderCount);
                 startActivity(intent);
             }
         });
@@ -185,6 +183,7 @@ public class Order3Activity extends AppCompatActivity implements NavigationView.
                 MainTask mainTask = new MainTask(payUrl, values);
                 mainTask.execute();
                 Intent intent = new Intent(context, OrderCompleteActivity.class);
+                intent.putExtra("orderCount", orderCount);
                 startActivity(intent);
             }
         });
@@ -200,6 +199,7 @@ public class Order3Activity extends AppCompatActivity implements NavigationView.
                 MainTask mainTask = new MainTask(payUrl, values);
                 mainTask.execute();
                 Intent intent = new Intent(context, OrderCompleteActivity.class);
+                intent.putExtra("orderCount", orderCount);
                 startActivity(intent);
             }
         });
@@ -215,6 +215,7 @@ public class Order3Activity extends AppCompatActivity implements NavigationView.
                 MainTask mainTask = new MainTask(payUrl, values);
                 mainTask.execute();
                 Intent intent = new Intent(context, OrderCompleteActivity.class);
+                intent.putExtra("orderCount", orderCount);
                 startActivity(intent);
             }
         });
@@ -257,7 +258,7 @@ public class Order3Activity extends AppCompatActivity implements NavigationView.
                     startActivity(i);
                 }
                 break;
-            case 2020 :
+            case 2020:
                 if (resultCode == RESULT_OK) {
                     values.put("deliveryStatus", 1);
                     values.put("payType", 1);
@@ -270,11 +271,6 @@ public class Order3Activity extends AppCompatActivity implements NavigationView.
         }
     }
 
-
-    public void setDesc () {
-
-
-    }
 
     private class CustomAdapter extends ArrayAdapter<ListViewItem> {
         private ArrayList<ListViewItem> data;
@@ -297,49 +293,44 @@ public class Order3Activity extends AppCompatActivity implements NavigationView.
             TextView descStrView = (TextView) v.findViewById(R.id.order_list_item_detail);
             Button detailBtn = (Button) v.findViewById(R.id.detailBtn);
 
-            orderDetail = list.get(position);
-            SpannableStringBuilder ssb = new SpannableStringBuilder();
-            switch(orderDetail.getDeliveryStatus()){
-                case -1:
-                    ssb.append("배차실패   ").setSpan(new ForegroundColorSpan(getResources().getColor(R.color.colorTomato)), 0, 4, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                    break;
-                case 1:
-                    ssb.append("배차 중     ");
-                    break;
-                case 2:
-                    ssb.append("배차완료   ");
-                    break;
-                case 3:
-                    ssb.append("배송 중     ").setSpan(new ForegroundColorSpan(getResources().getColor(R.color.colorEmerald)), 0, 4, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                    break;
-            }
-            ssb.append(data.get(position).getTitleStr());
-            if (orderDetail.getUrgent() == 1) {
-                ssb.append("   급송");
-            }
-
-            titleStrView.setText(ssb);
+            titleStrView.setText(data.get(position).getTitleStr());
             descStrView.setText(data.get(position).getDescStr());
 
 
-            detailBtn.setOnClickListener(new View.OnClickListener() {
-                OnDelivery orderInfo = orderDetail;
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(context, DialogDetailActivity.class);
-                    intent.putExtra("orderNum", orderInfo.getOrderNum());
-                    intent.putExtra("callNum", orderInfo.getCallNum());
-                    intent.putExtra("receiverName", orderInfo.getReceiverName());
-                    intent.putExtra("receiverPhone", orderInfo.getReceiverPhone());
-                    intent.putExtra("receiverAddress", orderInfo.getReceiverAddress()+" "+orderInfo.getReceiverAddressDetail());
-                    intent.putExtra("freights", orderInfo.getFreightList());
-                    intent.putExtra("orderPrice", orderInfo.getOrderPrice());
-                    intent.putExtra("memo", orderInfo.getMemo());
-                    intent.putExtra("deliveryStatus", orderInfo.getDeliveryStatus());
-                    startActivity(intent);
-                }
-            });
+            if (position > 0) {
+                titleStrView.setTextColor(getResources().getColor(R.color.colorTomato));
+                detailBtn.setOnClickListener(new View.OnClickListener() {
+                    OnDelivery orderInfo = list.get(position-1);
 
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(context, DialogOrderCompleteDetailActivity.class);
+
+                        intent.putExtra("name", orderInfo.getReceiverName());
+                        intent.putExtra("phone", orderInfo.getReceiverPhone());
+                        intent.putExtra("address", orderInfo.getReceiverAddress() + " " + orderInfo.getReceiverAddressDetail());
+
+                        intent.putExtra("freights", orderInfo.getFreightList());
+                        intent.putExtra("orderPrice", orderInfo.getOrderPrice());
+                        intent.putExtra("memo", orderInfo.getMemo());
+                        startActivity(intent);
+                    }
+                });
+            } else {
+
+                titleStrView.setTextColor(getResources().getColor(R.color.colorGold));
+                detailBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(context, DialogOrderCompleteDetailActivity.class);
+
+                        intent.putExtra("name", callInfo.getSenderName());
+                        intent.putExtra("phone", callInfo.getSenderPhone());
+                        intent.putExtra("address", callInfo.getSenderAddress() + " " + callInfo.getSenderAddressDetail());
+                        startActivity(intent);
+                    }
+                });
+            }
             return v;
         }
 
@@ -348,6 +339,77 @@ public class Order3Activity extends AppCompatActivity implements NavigationView.
 
 
     // 여기부터 AsyncTask 영역
+    public class GetCallInfo extends AsyncTask<Void, Void, String> {
+
+        private String url;
+        private ContentValues values;
+
+        public GetCallInfo(String url, ContentValues values) {
+
+            this.url = url;
+            this.values = values;
+        }
+
+        @Override
+        protected String doInBackground(Void... params) {
+
+            String result; // 요청 결과를 저장할 변수.
+            RequestHttpURLConnection requestHttpURLConnection = new RequestHttpURLConnection();
+            result = requestHttpURLConnection.request(url, values); // 해당 URL로 부터 결과물을 얻어온다.
+            return result;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+
+            super.onPostExecute(s);
+
+            if (s != null && s.toString().trim().length() != 0) {
+                Log.e("받아온 것", s);
+                try {
+
+                    JSONObject data = new JSONObject(s);
+
+                    ListViewItem item;
+
+
+                    item = new ListViewItem();
+                    callInfo = new CallInfo();
+                    titleSb.setLength(0);
+                    descSb.setLength(0);
+
+                    callInfo.setCallNum(data.getInt("callNum"));
+                    callInfo.setSenderName(data.getString("senderName"));
+                    callInfo.setSenderAddress(data.getString("senderAddress"));
+                    callInfo.setSenderAddressDetail(data.getString("senderAddressDetail"));
+                    callInfo.setSenderPhone(data.getString("senderPhone"));
+
+                    titleSb.append("발송정보 ");
+                    descSb.append("   발송인   ");
+                    descSb.append(callInfo.getSenderName()).append("\n");
+                    descSb.append("   발송지   ");
+                    descSb.append(callInfo.getSenderAddress());
+
+                    item.setTitleStr(titleSb.toString());
+                    item.setDescStr(descSb.toString());
+                    item.setCallNum(callInfo.getCallNum());
+                    dateList.add(item);
+                    // list.add(order);
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+
+            } else {
+
+
+            }
+        }
+    }
+
+
     public class GetListTask extends AsyncTask<Void, Void, String> {
 
         private String url;
@@ -372,8 +434,9 @@ public class Order3Activity extends AppCompatActivity implements NavigationView.
         protected void onPostExecute(String s) {
 
             super.onPostExecute(s);
-
-            if (s != null && s.toString().trim().length()!= 0) {
+            titleSb = new StringBuilder();
+            descSb = new StringBuilder();
+            if (s != null && s.toString().trim().length() != 0) {
                 Log.e("받아온 것", s);
                 try {
                     JSONArray ja = new JSONArray(s);
@@ -397,7 +460,8 @@ public class Order3Activity extends AppCompatActivity implements NavigationView.
                         order.setOrderPrice(data.getInt("orderPrice"));
                         order.setMemo(data.getString("memo"));
                         order.setFreightList(data.getString("freightList"));
-                        titleSb.append("수령지 " + (i+1));
+
+                        titleSb.append("수령정보 " + (i + 1));
                         descSb.append("   수령인   ");
                         descSb.append(order.getReceiverName()).append("\n");
                         descSb.append("   수령지   ");
@@ -410,7 +474,7 @@ public class Order3Activity extends AppCompatActivity implements NavigationView.
                         dateList.add(item);
                         list.add(order);
                     }
-                    tvTotalPrice.setText(totalPrice +"원");
+                    tvTotalPrice.setText(totalPrice + "원");
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -418,6 +482,7 @@ public class Order3Activity extends AppCompatActivity implements NavigationView.
                 if (dateList.size() != 0) {
                     CustomAdapter adapter = new CustomAdapter(context, 0, dateList);
                     orderListview.setAdapter(adapter);
+                    orderCount = dateList.size()-1; //  오더 갯수. 데이트리스트는 수령지 정보도 가지고 있어서 하나 빼씀
                 } else {
 
 
@@ -425,10 +490,10 @@ public class Order3Activity extends AppCompatActivity implements NavigationView.
             } else {
 
 
-
             }
         }
     }
+
     //새로운 콜을 보내는 태스크
     public class MainTask extends AsyncTask<Void, Void, String> {
 
@@ -452,9 +517,6 @@ public class Order3Activity extends AppCompatActivity implements NavigationView.
 
         @Override
         protected void onPostExecute(String s) {
-
-            SharedPreferences.Editor editor= loginInfo.edit();
-            editor.putInt("totalPrice", 0);
         }
     }
 
@@ -504,20 +566,20 @@ public class Order3Activity extends AppCompatActivity implements NavigationView.
         } else if (id == R.id.nav_order_list) {
             Intent intent = new Intent(getApplicationContext(), OrderListActivity.class);
             startActivity(intent);
-        } else if(id == R.id.chatBot) {
+        } else if (id == R.id.chatBot) {
             Intent intent = new Intent(getApplicationContext(), ChatBotActivity.class);
             startActivity(intent);
-        } else if(id == R.id.userUpdate) {
+        } else if (id == R.id.userUpdate) {
             Intent intent = new Intent(getApplicationContext(), UserInfoUpdateActivity.class);
             startActivity(intent);
-        }else if(id == R.id.insuindo) {
+        } else if (id == R.id.insuindo) {
             Intent intent = new Intent(getApplicationContext(), CSBeamActivity.class);
             startActivity(intent);
-        } else if(id == R.id.logout) {
+        } else if (id == R.id.logout) {
             SharedPreferences.Editor editor = getSharedPreferences("setting", 0).edit();
             editor.clear().commit();
             Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
         }
 

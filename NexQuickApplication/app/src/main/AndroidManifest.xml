@@ -92,6 +92,10 @@
             android:theme="@style/DialogTheme" />
 
         <activity
+            android:name=".DialogOrderCompleteDetailActivity"
+            android:theme="@style/DialogTheme" />
+
+        <activity
             android:name=".DialogAddressActivity"
             android:theme="@style/DialogTheme" />
 

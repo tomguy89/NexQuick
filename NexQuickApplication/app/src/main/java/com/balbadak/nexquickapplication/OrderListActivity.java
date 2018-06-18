@@ -149,13 +149,13 @@ public class OrderListActivity extends AppCompatActivity implements NavigationVi
                     ssb.append("배차실패   ").setSpan(new ForegroundColorSpan(getResources().getColor(R.color.colorTomato)), 0, 4, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                     break;
                 case 1:
-                    ssb.append("배차 중     ");
+                    ssb.append("배차 중    ");
                     break;
                 case 2:
                     ssb.append("배차완료   ");
                     break;
                 case 3:
-                    ssb.append("배송 중     ").setSpan(new ForegroundColorSpan(getResources().getColor(R.color.colorEmerald)), 0, 4, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    ssb.append("배송 중    ").setSpan(new ForegroundColorSpan(getResources().getColor(R.color.colorEmerald)), 0, 4, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                     break;
             }
             ssb.append(data.get(position).getTitleStr());

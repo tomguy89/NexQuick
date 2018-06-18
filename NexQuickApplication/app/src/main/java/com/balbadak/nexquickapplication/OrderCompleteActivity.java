@@ -13,6 +13,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 public class OrderCompleteActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
@@ -24,18 +25,29 @@ public class OrderCompleteActivity extends AppCompatActivity implements Navigati
         setContentView(R.layout.activity_order_complete);
         mainUrl = getResources().getString(R.string.main_url);
 
+        TextView orderCountTv = (TextView) findViewById(R.id.order_count);
 
-        Button confirm = (Button) findViewById(R.id.order_confirm);
+        orderCountTv.setText("총 주문 : "+getIntent().getExtras().getInt("orderCount") +" 개");
+        Button orderConfirmBtn = (Button) findViewById(R.id.orderConfirmBtn);
+        Button orderlistBtn = (Button) findViewById(R.id.orderlistBtn);
 
-        confirm.setOnClickListener(new View.OnClickListener() {
+        orderConfirmBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 Intent intent = new Intent(getApplicationContext(), MainMenuActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
             }
         });
 
+        orderlistBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), OrderListActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+            }
+        });
 
 
         // 내비게이션 서랍을 위한 툴바

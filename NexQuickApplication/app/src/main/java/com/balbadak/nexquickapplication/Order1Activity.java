@@ -132,6 +132,7 @@ public class Order1Activity extends AppCompatActivity implements NavigationView.
 
         cbxUrgent = (CheckBox) findViewById(R.id.urgentCbx);
         cbxReserve = (CheckBox) findViewById(R.id.reserveCbx);
+        cbxSeries = (CheckBox) findViewById(R.id.seriesCbx);
         reserveView = (LinearLayout) findViewById(R.id.reserveView);
 
 
@@ -166,6 +167,7 @@ public class Order1Activity extends AppCompatActivity implements NavigationView.
                     SetCallTask setCallTask = new SetCallTask(url, values);
                     setCallTask.execute();
                     Intent intent = new Intent(context, Order2Activity.class);
+                    intent.putExtra("series",(cbxSeries.isChecked())? 1:0);
                     startActivity(intent);
 
 
@@ -363,15 +365,17 @@ public class Order1Activity extends AppCompatActivity implements NavigationView.
         }
 
 
-        int temp;
+        int tempR, tempS;
         values.put("urgent", (cbxUrgent.isChecked()) ? 1 : 0); // checked 1, unchecked 2
-        values.put("reserved", temp = (cbxReserve.isChecked()) ? 1 : 0); // checked 1, unchecked 2
-        values.put("series", 0); // 일괄 배송 처리 안함
-        if (temp == 1) {
+        values.put("reserved", tempR = (cbxReserve.isChecked()) ? 1 : 0); // checked 1, unchecked 2
+        values.put("series",tempS = (cbxSeries.isChecked()) ? 1 : 0 );
+        if (tempR == 1) {
             String date = etDatePicker.getText().toString() + " " + etTimePicker.getText().toString();
             Log.i("reservationTime", date);
             values.put("reservationTime", date);
         }
+
+
 
         return true;
 

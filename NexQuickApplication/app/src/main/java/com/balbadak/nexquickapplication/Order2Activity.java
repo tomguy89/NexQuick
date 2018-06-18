@@ -48,7 +48,8 @@ public class Order2Activity extends AppCompatActivity implements NavigationView.
 
     private int callNum;
     private int orderNum;
-    private int totalPrice;
+    private int series;
+    private int finishFlag;
 
     private ArrayList<FavoriteInfo> favoriteInfos;
     private ArrayList<FreightInfo> freightInfos;
@@ -79,6 +80,7 @@ public class Order2Activity extends AppCompatActivity implements NavigationView.
     private int bigBoxCount;
 
     private Button addressBtn;
+    private Button addAnother;
 
     private EditText etReceiverName;
     private EditText etReceiverPhone;
@@ -110,7 +112,9 @@ public class Order2Activity extends AppCompatActivity implements NavigationView.
         loginInfo = getSharedPreferences("setting", 0);
         csId = loginInfo.getString("csId", "");
         callNum = loginInfo.getInt("callNum", 0);
-        Log.e("callNum2", callNum + "!");
+        series = getIntent().getExtras().getInt("series");
+
+        addAnother = (Button) findViewById(R.id.addAnother);
 
         favSpinner = (Spinner) findViewById(R.id.receiverAddressSpinner);
         etReceiverName = (EditText) findViewById(R.id.receiverName);
@@ -324,6 +328,32 @@ public class Order2Activity extends AppCompatActivity implements NavigationView.
         Button nextBtn = (Button) findViewById(R.id.next3p);
         Button prevBtn = (Button) findViewById(R.id.prev1p);
 
+        if(series == 1) {
+
+            addAnother.setVisibility(View.VISIBLE);
+            addAnother.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    //173 태진햄, 164 승진
+                    String url = mainUrl + "appCall/addOrder.do";
+
+                    boolean orderResult = setOrderInfo(oValues);
+
+                    if (orderResult) {
+                        oValues.put("callNum", callNum);
+                        SetOrderTask setOrderTask = new SetOrderTask(url, oValues);
+                        setOrderTask.execute();
+                        finishFlag = 1;
+                    } else {
+                        oValues.clear();
+
+                    }
+
+                }
+            });
+        }
+
 
         nextBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -334,16 +364,16 @@ public class Order2Activity extends AppCompatActivity implements NavigationView.
 
                 boolean orderResult = setOrderInfo(oValues);
 
-
                 if (orderResult) {
 
                     oValues.put("callNum", callNum);
                     SetOrderTask setOrderTask = new SetOrderTask(url, oValues);
                     setOrderTask.execute();
+                    finishFlag = 2;
 
                 } else {
                     oValues.clear();
-                    Log.e("메소드 빈칸", "메소드에 빈칸있쑝");
+
                 }
             }
         });
@@ -523,7 +553,6 @@ public class Order2Activity extends AppCompatActivity implements NavigationView.
                     data = new JSONObject(s);
                     orderNum = data.getInt("orderNum");
                     int orderPrice = data.getInt("orderPrice");
-                    totalPrice = totalPrice + orderPrice;
                     SharedPreferences.Editor ed = loginInfo.edit();
                     ed.putInt("orderNum", orderNum);
                     ed.commit();
@@ -584,27 +613,23 @@ public class Order2Activity extends AppCompatActivity implements NavigationView.
 
                     data = new JSONObject(s);
                     int freightPrice = data.getInt("freightPrice");
-                    totalPrice = totalPrice + freightPrice;
-                    Log.e("callNum", callNum + "!");
-                    SharedPreferences.Editor ed = loginInfo.edit();
-                    ed.putInt("totalPrice", totalPrice);
-                    ed.commit();
-                    Log.e("totalPrice", totalPrice + "!");
-
 
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
 
+
+                if (finishFlag == 1) {
+                    Intent intent = new Intent(context, Order2Activity.class);
+                    intent.putExtra("series", 1);
+                    startActivity(intent);
+                } else if(finishFlag == 2){
+                    Intent intent = new Intent(context, Order3Activity.class);
+                    intent.putExtra("cn", callNum);
+                    startActivity(intent);
+                }
+
             }
-
-            Toast.makeText(context, "SetFreightTask", Toast.LENGTH_SHORT).show();
-            Intent intent = new Intent(context, Order3Activity.class);
-            intent.putExtra("cn", callNum);
-            Log.e("callNumx", callNum + "!");
-            startActivity(intent);
-
-
         }
     }
 
