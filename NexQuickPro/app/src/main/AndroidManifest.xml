@@ -13,8 +13,10 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
 
-    <!--김민규 0617 추가. 전화다이얼걸기-->
+    <!-- 김민규 0617 추가. 전화다이얼걸기 -->
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.DIAL_PHONE" />
 
@@ -31,6 +33,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
         <activity
             android:name=".IntroActivity"
             android:theme="@style/AppTheme.NoActionBar">
@@ -43,7 +46,7 @@
         <activity
             android:name=".GoToWorkActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".LoginActivity"></activity>
+        <activity android:name=".LoginActivity" />
         <activity android:name=".KeyActivity" />
         <activity
             android:name=".MainActivity"
@@ -108,8 +111,10 @@
             android:enabled="true"
             android:exported="true" />
 
-        <activity android:name=".UpdateUserActivity"/>
-        <activity android:name=".OrderListBeforeActivity" android:theme="@style/AppTheme.NoActionBar"/>
+        <activity android:name=".UpdateUserActivity" />
+        <activity
+            android:name=".OrderListBeforeActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>

@@ -13,13 +13,14 @@ import android.nfc.NfcAdapter.CreateNdefMessageCallback;
 import android.nfc.NfcAdapter.OnNdefPushCompleteCallback;
 import android.nfc.NfcEvent;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
 
-public class QPBeamRActivity extends Activity { //nfc를 보내느 activity (xml에 nfc 관련 intent filter가 없어도 된당)
+public class QPBeamRActivity extends AppCompatActivity { //nfc를 보내느 activity (xml에 nfc 관련 intent filter가 없어도 된당)
 
 
     //qpId 바꾸기

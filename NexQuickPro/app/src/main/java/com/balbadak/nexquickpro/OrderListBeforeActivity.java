@@ -97,7 +97,7 @@ public class OrderListBeforeActivity extends AppCompatActivity implements Naviga
         GetListTask getListTask = new GetListTask(url,values);
         getListTask.execute();
 
-        CustomAdapter adapter = new OrderListBeforeActivity.CustomAdapter(this, 0, quickList);
+        CustomAdapter adapter = new CustomAdapter(this, 0, quickList);
         listView.setAdapter(adapter);
 
         // Adding Toolbar to the activity
