@@ -347,6 +347,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                             order.setSenderPhone(data.getString("senderPhone"));
                             order.setSenderAddress(data.getString("senderAddress"));
                             order.setSenderAddressDetail(data.getString("senderAddressDetail"));
+                            order.setLatitude(data.getString("senderLatitude"));
+                            order.setLongitude(data.getString("senderLongitude"));
+
 
                             if(!callNumSet.contains(order.getCallNum())) {
 
@@ -379,6 +382,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                             order.setReceiverPhone(data.getString("receiverPhone"));
                             order.setReceiverAddress(data.getString("receiverAddress"));
                             order.setReceiverAddressDetail(data.getString("receiverAddressDetail"));
+                            order.setLatitude(data.getString("receiverLatitude"));
+                            order.setLongitude(data.getString("receiverLongitude"));
 
                             titleSb.append("착/");
                             titleSb.append(order.getReceiverAddress());

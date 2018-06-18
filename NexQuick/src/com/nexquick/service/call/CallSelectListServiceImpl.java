@@ -229,17 +229,19 @@ public class CallSelectListServiceImpl implements CallSelectListService {
 		List<OnDelivery> result = new ArrayList<>();
 		List<Coordinate>resultList = optimalRouteService.optimization(coordinateList);
 		if (resultList == null) {
-			if (coordinateList.get(1).getType().equals("O")) {
-				result.add(getOrderByOrderNum(coordinateList.get(1).getNumber()));
-			}else if (coordinateList.get(1).getType().equals("C")) {
-				result.add(orderListByCallNum(coordinateList.get(1).getNumber()).get(0));
-			}
-		} else {
 			for(int i=1; i<coordinateList.size(); i++) {
 				if(coordinateList.get(i).getType().equals("O")) {
 					result.add(getOrderByOrderNum(coordinateList.get(i).getNumber()));
 				}else if (coordinateList.get(i).getType().equals("C")) {
 					result.add(orderListByCallNum(coordinateList.get(i).getNumber()).get(0));
+				}
+			}
+		} else {
+			for(int i=1; i<resultList.size(); i++) {
+				if(resultList.get(i).getType().equals("O")) {
+					result.add(getOrderByOrderNum(resultList.get(i).getNumber()));
+				}else if (resultList.get(i).getType().equals("C")) {
+					result.add(orderListByCallNum(resultList.get(i).getNumber()).get(0));
 				}
 			}
 		}

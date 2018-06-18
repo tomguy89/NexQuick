@@ -11,14 +11,10 @@ public class OnDelivery implements Parcelable {
     private String senderPhone;
     private String senderAddress;
     private String senderAddressDetail;
-    private String senderLatitude;
-    private String senderLongitude;
     private String receiverName;
     private String receiverPhone;
     private String receiverAddress;
     private String receiverAddressDetail;
-    private String receiverLatitude;
-    private String receiverLongitude;
     private int orderPrice;
     private String memo;
     private int urgent;
@@ -26,7 +22,8 @@ public class OnDelivery implements Parcelable {
     private int distance;
     private String freightList;
     private String arrivaltime;
-
+    private String latitude;
+    private String longitude;
 
     public OnDelivery() {
     }
@@ -87,20 +84,20 @@ public class OnDelivery implements Parcelable {
         this.senderAddressDetail = senderAddressDetail;
     }
 
-    public String getSenderLatitude() {
-        return senderLatitude;
+    public String getLatitude() {
+        return latitude;
     }
 
-    public void setSenderLatitude(String senderLatitude) {
-        this.senderLatitude = senderLatitude;
+    public void setLatitude(String latitude) {
+        this.latitude = latitude;
     }
 
-    public String getSenderLongitude() {
-        return senderLongitude;
+    public String getLongitude() {
+        return longitude;
     }
 
-    public void setSenderLongitude(String senderLongitude) {
-        this.senderLongitude = senderLongitude;
+    public void setLongitude(String longitude) {
+        this.longitude = longitude;
     }
 
     public String getReceiverName() {
@@ -133,22 +130,6 @@ public class OnDelivery implements Parcelable {
 
     public void setReceiverAddressDetail(String receiverAddressDetail) {
         this.receiverAddressDetail = receiverAddressDetail;
-    }
-
-    public String getReceiverLatitude() {
-        return receiverLatitude;
-    }
-
-    public void setReceiverLatitude(String receiverLatitude) {
-        this.receiverLatitude = receiverLatitude;
-    }
-
-    public String getReceiverLongitude() {
-        return receiverLongitude;
-    }
-
-    public void setReceiverLongitude(String receiverLongitude) {
-        this.receiverLongitude = receiverLongitude;
     }
 
     public int getOrderPrice() {
@@ -219,14 +200,12 @@ public class OnDelivery implements Parcelable {
         senderPhone = in.readString();
         senderAddress = in.readString();
         senderAddressDetail = in.readString();
-        senderLatitude = in.readString();
-        senderLongitude = in.readString();
+        latitude = in.readString();
+        longitude = in.readString();
         receiverName = in.readString();
         receiverPhone = in.readString();
         receiverAddress = in.readString();
         receiverAddressDetail = in.readString();
-        receiverLatitude = in.readString();
-        receiverLongitude = in.readString();
         orderPrice = in.readInt();
         memo = in.readString();
         urgent = in.readInt();
@@ -262,14 +241,12 @@ public class OnDelivery implements Parcelable {
         dest.writeString(senderPhone);
         dest.writeString(senderAddress);
         dest.writeString(senderAddressDetail);
-        dest.writeString(senderLatitude);
-        dest.writeString(senderLongitude);
+        dest.writeString(latitude);
+        dest.writeString(longitude);
         dest.writeString(receiverName);
         dest.writeString(receiverPhone);
         dest.writeString(receiverAddress);
         dest.writeString(receiverAddressDetail);
-        dest.writeString(receiverLatitude);
-        dest.writeString(receiverLongitude);
         dest.writeInt(orderPrice);
         dest.writeString(memo);
         dest.writeInt(urgent);

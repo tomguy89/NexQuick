@@ -99,6 +99,14 @@ public class fragment_route extends Fragment {
         linearLayoutTmap.addView(tMapView);
         qpLatitude = Double.parseDouble(loginInfo.getString("latitude", "0"));
         qpLongitude = Double.parseDouble(loginInfo.getString("longitude", "0"));
+
+        if (getArguments() != null) {
+            quickList = getArguments().getParcelableArrayList("quickList");
+            list = getArguments().getParcelableArrayList("list");
+        }else {
+            quickList = new ArrayList<>();
+            list = new ArrayList<>();
+        }
 // 마커 아이콘
         Bitmap qpMark = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(context.getResources(), R.drawable.scooter), 100, 100, true);
         Bitmap sender = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(context.getResources(), R.drawable.location), 100, 100, true);
@@ -122,8 +130,12 @@ public class fragment_route extends Fragment {
         TMapPoint newPoint;
         for (int i = 0; i < list.size(); i++) {
             newMarker = new TMapMarkerItem();
-            newPoint = new TMapPoint(37.56990, 126.98227);
-            newMarker.setIcon(receiver); // 마커 아이콘 지정
+            newPoint = new TMapPoint(Double.parseDouble(list.get(i).getLatitude()), Double.parseDouble(list.get(i).getLongitude()));
+            if(quickList.get(i).getQuickType()==1){
+                newMarker.setIcon(sender); // 마커 아이콘 지정
+            }else if (quickList.get(i).getQuickType()==2){
+                newMarker.setIcon(receiver); // 마커 아이콘 지정
+            }
             newMarker.setPosition(0.5f, 1.0f); // 마커의 중심점을 중앙, 하단으로 설정
             newMarker.setTMapPoint(newPoint); // 마커의 좌표 지정
             newMarker.setName((i + 1) + "번째 방문 위치"); // 마커의 타이틀 지정
@@ -132,18 +144,15 @@ public class fragment_route extends Fragment {
             passList.add(newPoint);
         }
 
-        NetworkTask networkTask = new NetworkTask(qpPoint, passList.get(passList.size() - 1), passList);
-        //        networkTask.execute();
-
-
-
-        if (getArguments() != null) {
-            quickList = getArguments().getParcelableArrayList("quickList");
-            list = getArguments().getParcelableArrayList("list");
-        }else {
-            quickList = new ArrayList<>();
-            list = new ArrayList<>();
+        if(passList.size()>0){
+            NetworkTask networkTask = new NetworkTask(qpPoint, passList.get(passList.size() - 1), passList);
+            networkTask.execute();
         }
+
+
+
+
+
 
         cancelBtn.setOnClickListener(new View.OnClickListener() {
             @Override
