@@ -91,4 +91,6 @@ public interface OrderInfoDAO {
 
 	List<OnDelivery> getOnDeliveryCallListLast(int callNum);
 	List<OnDelivery> selectQPTotalList(int qpId);
+	
+	List<OnDelivery> selectAllOndeliveryList(HashMap<String, Object> condition);
 }

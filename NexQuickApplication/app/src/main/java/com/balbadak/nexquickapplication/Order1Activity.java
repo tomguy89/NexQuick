@@ -55,6 +55,7 @@ public class Order1Activity extends AppCompatActivity implements NavigationView.
     private SharedPreferences loginInfo;
     private String csId;
     private String csName;
+    private String reserveTime;
     private int callNum;
 
     private EditText etSenderName;
@@ -68,6 +69,9 @@ public class Order1Activity extends AppCompatActivity implements NavigationView.
     private Button addressBtn;
 
     private RadioGroup vehicleType;
+
+    private String dateStr;
+    private String timeStr;
 
     private LinearLayout reserveView;
 
@@ -236,6 +240,9 @@ public class Order1Activity extends AppCompatActivity implements NavigationView.
                         public void onDateSet(DatePicker datePicker, int year, int month, int date) {
                             String msg = String.format("%d 년 %d 월 %d 일", year, month + 1, date);
                             etDatePicker.setText(msg);
+                            dateStr =String.format("%02d/%02d/%4d", month + 1, date, year);
+
+
                         }
                     }, cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DATE));
 
@@ -257,8 +264,11 @@ public class Order1Activity extends AppCompatActivity implements NavigationView.
                         @Override
                         public void onTimeSet(TimePicker timePicker, int hour, int min) {
 
+
                             String msg = String.format("%d 시 %d 분", hour, min);
                             etTimePicker.setText(msg);
+                            timeStr = String.format("%d:%d", hour, min);
+
                         }
                     }, cal.get(Calendar.HOUR_OF_DAY), cal.get(Calendar.MINUTE), true);  //마지막 boolean 값은 시간을 24시간으로 보일지 아닐지
 
@@ -370,9 +380,10 @@ public class Order1Activity extends AppCompatActivity implements NavigationView.
         values.put("reserved", tempR = (cbxReserve.isChecked()) ? 1 : 0); // checked 1, unchecked 2
         values.put("series",tempS = (cbxSeries.isChecked()) ? 1 : 0 );
         if (tempR == 1) {
-            String date = etDatePicker.getText().toString() + " " + etTimePicker.getText().toString();
-            Log.i("reservationTime", date);
-            values.put("reservationTime", date);
+
+            String reservationTime = dateStr + " " + timeStr;
+            Log.i("reservationTime", reservationTime);
+            values.put("reservationTime", reservationTime);
         }
 
 

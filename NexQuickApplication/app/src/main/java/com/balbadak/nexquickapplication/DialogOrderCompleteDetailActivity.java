@@ -89,7 +89,7 @@ public class DialogOrderCompleteDetailActivity extends AppCompatActivity {
             freightsTV.setText(freights);
             orderPriceTV.setText(orderPrice+"");
             memoTV.setText(memo);
-
+            Log.w("memo", memo);
             if (memo == null || memo.equals("null")) {
                 memo = "메모 없음";
             }

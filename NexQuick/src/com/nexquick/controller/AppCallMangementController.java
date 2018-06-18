@@ -474,6 +474,17 @@ public class AppCallMangementController {
 		return list;
 	}
 	
-	
+	@RequestMapping("/getOndeliveryByIdAndDate")
+	public @ResponseBody List<OnDelivery> getOndeliveryList(String csId, String callTime) {
+		if(callTime.length() == 0 || callTime.equals("")) {
+			callTime = null;
+		}
+		System.out.println(callTime);
+		HashMap<String, Object> condition = new HashMap<>();
+		condition.put("csId", csId);
+		condition.put("callTime", callTime);
+		List<OnDelivery> list = callManagementService.getAllOndeliveryList(condition); 
+		return list;
+	}
 	
 }

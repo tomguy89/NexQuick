@@ -114,6 +114,12 @@ public class CallManagementServiceImpl implements CallManagementService {
 	public OrderInfo getOrder(int orderNum) {
 		return orderInfoDao.selectOrder(orderNum);
 	}
+
+	@Override
+	public List<OnDelivery> getAllOndeliveryList(HashMap<String, Object> condition) {
+		// TODO Auto-generated method stub
+		return orderInfoDao.selectAllOndeliveryList(condition);
+	}
 	
 	
 }

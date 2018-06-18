@@ -68,8 +68,9 @@ public class DialogDetailActivity extends AppCompatActivity {
         orderPrice = intent.getIntExtra("orderPrice", 0);
         memo = intent.getStringExtra("memo");
 
-        if(memo == null) {
-            memo = "";
+        Log.w("memo", memo);
+        if (memo == null || memo.equals("null")) {
+            memo = "메모 없음";
         }
 
         deliveryStatus = intent.getIntExtra("deliveryStatus", 0);

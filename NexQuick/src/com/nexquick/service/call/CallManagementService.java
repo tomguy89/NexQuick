@@ -102,4 +102,6 @@ public interface CallManagementService {
 
 //	0615 김민규 추가
 	OrderInfo getOrder(int orderNum);
+	
+	List<OnDelivery> getAllOndeliveryList(HashMap<String, Object> condition);
 }

@@ -1,5 +1,6 @@
 package com.balbadak.nexquickapplication;
 
+import android.app.DatePickerDialog;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
@@ -24,6 +25,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -38,6 +40,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 public class OrderListBeforeActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -49,13 +53,11 @@ public class OrderListBeforeActivity extends AppCompatActivity implements Naviga
     private TextView titletextView;
     private String csId;
     private String csName;
+    private String callTime;
     OnDelivery orderDetail;
 
     ArrayList<ListViewItem> dataList;
-    ArrayList<String> date;
     ArrayList<OnDelivery> list;
-
-    private Spinner spinner;
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -69,34 +71,9 @@ public class OrderListBeforeActivity extends AppCompatActivity implements Naviga
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order_list_before);
         mainUrl = getResources().getString(R.string.main_url);
-        date = new ArrayList<>();
-        dataList = new ArrayList<>();
-        list = new ArrayList<>();
 
+        Log.w("onCreate", "on");
         titletextView = (TextView) findViewById(R.id.order_list_before_Title);
-
-        spinner = (Spinner) findViewById(R.id.orderSpinner);
-        //스피너용 어댑터
-        ArrayAdapter spinnerAdapter;
-        spinnerAdapter = new ArrayAdapter(this, R.layout.support_simple_spinner_dropdown_item, date);
-        spinner.setAdapter(spinnerAdapter);
-
-        //스피너 이벤트리스너
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(OrderListBeforeActivity.this, "선택된 아이템 : " + spinner.getItemAtPosition(position), Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-
-
-
-
         listView = (ListView) this.findViewById(R.id.order_before_listview);
         loginInfo = getSharedPreferences("setting", 0);
 
@@ -105,17 +82,53 @@ public class OrderListBeforeActivity extends AppCompatActivity implements Naviga
             csName = loginInfo.getString("csName", "");
         }
 
+
+        final Calendar cal = Calendar.getInstance();
+        //DATE PICKER DIALOG
+
+        Button picker = findViewById(R.id.order_date_picker);
+
+        picker.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                DatePickerDialog dialog = new DatePickerDialog(context, new DatePickerDialog.OnDateSetListener() {
+
+                    @Override
+                    public void onDateSet(DatePicker datePicker, int year, int month, int date) {
+                        callTime = String.format("%02d/%02d/%d",  month + 1, date, year);
+                        Log.e("callTime",callTime );
+                        String url = mainUrl + "appCall/getOndeliveryByIdAndDate.do";
+                        ContentValues values = new ContentValues();
+                        values.put("callTime", callTime);
+                        values.put("csId", csId);
+
+                        GetListTask getListTask = new GetListTask(url, values);
+                        getListTask.execute();
+
+                    }
+                }, cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DATE));
+
+                dialog.getDatePicker().setMaxDate(new Date().getTime());    //입력한 날짜 이전으로 클릭 안되게 옵션
+                dialog.show();
+            }
+
+
+        });
+
         String temp = csName + "님의 완료된 주문 내역";
         titletextView.setText(temp);
 
-        String url = mainUrl + "list/app/finishedCallList.do";
+        if(callTime == null) {
 
-        ContentValues values = new ContentValues();
-        values.put("csId", csId);
-        // AsyncTask를 통해 HttpURLConnection 수행.
-        GetListTask getListTask = new GetListTask(url, values);
-        getListTask.execute();
-
+            String url = mainUrl + "appCall/getOndeliveryByIdAndDate.do";
+            callTime = "";
+            ContentValues values = new ContentValues();
+            values.put("csId", csId);
+            values.put("callTime", callTime);
+            // AsyncTask를 통해 HttpURLConnection 수행.
+            GetListTask getListTask = new GetListTask(url, values);
+            getListTask.execute();
+        }
 
         Button orderListBeforeBtn = (Button) findViewById(R.id.orderListBeforeBtn);
         //진행중 주문으로 넘어가는 리스트
@@ -126,7 +139,6 @@ public class OrderListBeforeActivity extends AppCompatActivity implements Naviga
                 finish();
             }
         });
-
 
 
         // 내비게이션 서랍을 위한 툴바
@@ -168,8 +180,6 @@ public class OrderListBeforeActivity extends AppCompatActivity implements Naviga
 
 
             orderDetail = list.get(position);
-            Log.e("position", position+"");
-            Log.e("확인", orderDetail.getOrderNum()+"/"+orderDetail.getReceiverName()+"/"+orderDetail.getReceiverPhone()+"/"+orderDetail.getReceiverAddress()+"/"+orderDetail.getReceiverAddressDetail()+"/"+orderDetail.getFreightList()+"/"+ orderDetail.getFreightList()+"/"+orderDetail.getDeliveryStatus());
             SpannableStringBuilder ssb = new SpannableStringBuilder();
 
             ssb.append("배송완료    ").setSpan(new ForegroundColorSpan(getResources().getColor(R.color.colorEmerald)), 0, 4, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -185,6 +195,7 @@ public class OrderListBeforeActivity extends AppCompatActivity implements Naviga
 
             detailBtn.setOnClickListener(new View.OnClickListener() {
                 OnDelivery orderInfo = orderDetail;
+
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(context, DialogDetailActivity.class);
@@ -192,7 +203,7 @@ public class OrderListBeforeActivity extends AppCompatActivity implements Naviga
                     intent.putExtra("callNum", orderInfo.getCallNum());
                     intent.putExtra("receiverName", orderInfo.getReceiverName());
                     intent.putExtra("receiverPhone", orderInfo.getReceiverPhone());
-                    intent.putExtra("receiverAddress", orderInfo.getReceiverAddress()+" "+orderInfo.getReceiverAddressDetail());
+                    intent.putExtra("receiverAddress", orderInfo.getReceiverAddress() + " " + orderInfo.getReceiverAddressDetail());
                     intent.putExtra("freights", orderInfo.getFreightList());
                     intent.putExtra("orderPrice", orderInfo.getOrderPrice());
                     intent.putExtra("memo", orderInfo.getMemo());
@@ -215,8 +226,11 @@ public class OrderListBeforeActivity extends AppCompatActivity implements Naviga
 
         public GetListTask(String url, ContentValues values) {
 
+            dataList = new ArrayList<>();
+            list = new ArrayList<>();
             this.url = url;
             this.values = values;
+
         }
 
         @Override
@@ -234,7 +248,7 @@ public class OrderListBeforeActivity extends AppCompatActivity implements Naviga
             StringBuilder descSb = new StringBuilder();
             super.onPostExecute(s);
 
-            if (s != null && s.toString().trim().length()!= 0) {
+            if (s != null && s.toString().trim().length() != 0) {
                 Log.e("받아온 것", s);
                 try {
                     JSONArray ja = new JSONArray(s);
@@ -287,12 +301,11 @@ public class OrderListBeforeActivity extends AppCompatActivity implements Naviga
                 } else {
 
 
-
                 }
             } else {
 
                 titletextView.setText("이전 주문 내역이 없습니다");
-                spinner.setVisibility(View.INVISIBLE);
+
             }
 
         }
@@ -343,20 +356,20 @@ public class OrderListBeforeActivity extends AppCompatActivity implements Naviga
         } else if (id == R.id.nav_order_list) {
             Intent intent = new Intent(getApplicationContext(), OrderListActivity.class);
             startActivity(intent);
-        } else if(id == R.id.chatBot) {
+        } else if (id == R.id.chatBot) {
             Intent intent = new Intent(getApplicationContext(), ChatBotActivity.class);
             startActivity(intent);
-        } else if(id == R.id.userUpdate) {
+        } else if (id == R.id.userUpdate) {
             Intent intent = new Intent(getApplicationContext(), UserInfoUpdateActivity.class);
             startActivity(intent);
-        }else if(id == R.id.insuindo) {
+        } else if (id == R.id.insuindo) {
             Intent intent = new Intent(getApplicationContext(), CSBeamActivity.class);
             startActivity(intent);
-        } else if(id == R.id.logout) {
+        } else if (id == R.id.logout) {
             SharedPreferences.Editor editor = getSharedPreferences("setting", 0).edit();
             editor.clear().commit();
             Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
         }
 
