@@ -121,7 +121,7 @@ function setCallList(JSONDocument) {
 			.append(
 				$("<td class='cell100 column1 centerBox'>")
 				.append(
-					$("<a onclick='getOrders(this)'>").attr("id", "callNum" + JSONDocument[i].callNum).text(JSONDocument[i].callNum)
+					$("<a onclick='getOrders(this)'>").attr("id", "callNum" + JSONDocument[i].callNum).text(JSONDocument[i].callNum).css("color", "#55B296").css("text-decoration", "underline").css("cursor", "pointer")
 				)
 			).append(
 				$("<td class='cell100 column2 centerBox'>").text(JSONDocument[i].senderName)
@@ -172,7 +172,7 @@ function orderList(JSONDocument) {
     	$("#orderListTable").append(
     		$("<tr class='row100 body'>")
     		.append(
-    			$("<td class='cell100 column1 centerBox'>").text(JSONDocument[i].orderNum).css("color", "#55B296").css("text-decoration", "underline").css("cursor", "pointer")
+    			$("<td class='cell100 column1 centerBox'>").text(JSONDocument[i].orderNum)
     		).append(
     			$("<td class='cell100 column2 centerBox'>").text(JSONDocument[i].receiverName)
     		).append(

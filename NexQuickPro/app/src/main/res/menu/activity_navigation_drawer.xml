@@ -23,8 +23,12 @@
                 android:icon="@drawable/setting_img"
                 android:title="@string/updateUserInfo" />
             <item
+                android:id="@+id/getOffWork"
+                android:icon="@drawable/parking_img_pro"
+                android:title="@string/getOffWork" />
+            <item
                 android:id="@+id/logout"
-                android:icon="@drawable/ic_menu_send"
+                android:icon="@drawable/logout_img_pro"
                 android:title="로그아웃" />
         </menu>
     </item>

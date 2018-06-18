@@ -170,7 +170,7 @@ function setChatting(JSONDocument) {
 							<thead>
 								<tr class="row100 head">
 									<th class="column100 column1 centerBox" style = "padding-top: 12px; padding-bottom: 12px;" colspan="2">
-										<img src = "<%= request.getContextPath() %>/image/index_img/NexQuickLogo_Nav.png" height = "40" width = "250"/>
+										<img src = "<%= request.getContextPath() %>/image/index_img/NexQuick_logo_white_mic_5.png" height = "40" width = "250"/>
 									</th>
 								</tr>
 							</thead>

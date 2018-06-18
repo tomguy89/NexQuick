@@ -11,7 +11,7 @@
     <color name="colorTomato">#F43F22</color>
     <color name="colorGrey">#555555</color>
     <color name="colorGreyTP">#40555555</color>
-
+    <color name="colorCall">#40af36</color>
 
 
 </resources>

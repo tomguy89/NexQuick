@@ -326,7 +326,7 @@
 			차세대 퀵 서비스 플랫폼
 		</div>
 		<div class = "centerBox titleFont mt-3">
-			<img src = "./image/index_img/NexQuickLogo.png"/>
+			<img src = "<%= request.getContextPath() %>/image/index_img/NexQuick_logo_mic_6.png"/>
 		</div>
 		<div class = "centerBox subFont mt-3">
 			로그인해서 모든 서비스를 이용하세요

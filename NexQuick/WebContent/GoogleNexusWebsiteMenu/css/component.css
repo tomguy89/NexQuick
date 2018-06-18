@@ -16,7 +16,7 @@
 .gn-menu-main ul {
 		margin: 0;
 		padding: 0;
-		background: #2f4050;
+		background: #495366;
 		color: white;
 		list-style: none;
 		text-transform: none;
@@ -45,7 +45,7 @@
 .no-touch .gn-menu-main a:hover,
 .no-touch .gn-menu li.gn-search-item:hover,
 .no-touch .gn-menu li.gn-search-item:hover a {
-		background: #DAA520;
+		background: #55B296;
 		color: white;
 }
 
@@ -98,7 +98,7 @@
 		overflow: hidden;
 		width: 60px;
 		border-top: 1px solid #c6d0da;
-		background: #003358;
+		background: #495366;
 		-webkit-transform: translateX(-60px);
 		-moz-transform: translateX(-60px);
 		transform: translateX(-60px);
@@ -112,7 +112,7 @@
 		overflow-y: scroll;
 		width: 210px;
 		height: 100%;
-		background-color: #2f4050;
+		background-color: #495366;
 }
 
 .gn-menu {

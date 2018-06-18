@@ -154,11 +154,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
-            android:backgroundTint="@color/colorPrimary"
+            android:background="@drawable/button_style_fill_primary"
             android:text="정산하기"
             android:padding="10dp"
             android:textColor="#ffffff"
-            android:textSize="25sp" />
+            android:textSize="18sp" />
 
     </LinearLayout>
 </FrameLayout>

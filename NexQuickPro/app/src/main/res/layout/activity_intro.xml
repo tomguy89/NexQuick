@@ -19,7 +19,7 @@
         android:layout_gravity="center"
         android:adjustViewBounds="true"
         android:scaleType="fitCenter"
-        android:src="@drawable/whitelogo" />
+        android:src="@drawable/nexquick_logo_mic_6" />
 
     <Space
         android:layout_width="match_parent"
