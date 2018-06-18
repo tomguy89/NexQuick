@@ -151,6 +151,11 @@ public class OrderInfoDAOImpl implements OrderInfoDAO {
 		// TODO Auto-generated method stub
 		sqlSession.update("orderInfo.updatePayStatus", list);
 	}
+
+	@Override
+	public List<OnDelivery> getOnDeliveryCallListLast(int callNum) {
+		return sqlSession.selectList("orderInfo.getOnDeliveryCallListLast", callNum);
+	}
 	
 	
 }

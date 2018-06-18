@@ -88,5 +88,7 @@ public interface OrderInfoDAO {
 	List<OnDelivery> selectUnpayedCall(int qpId);
 	int selectUnpayedSum(List<Integer> list);
 	void updatePayStatus(List<Integer> list);
+
+	List<OnDelivery> getOnDeliveryCallListLast(int callNum);
 	
 }

@@ -468,5 +468,12 @@ public class AppCallMangementController {
 		return true;
 	}
 	
+	@RequestMapping("/getOrderListLast.do")
+	public @ResponseBody List<OnDelivery> getOrderListLast(int callNum) {
+		List<OnDelivery> list = callSelectListService.getOnDeliveryCallListLast(callNum);
+		return list;
+	}
+	
+	
 	
 }

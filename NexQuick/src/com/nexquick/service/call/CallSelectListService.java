@@ -104,5 +104,6 @@ public interface CallSelectListService {
 	int selectUnpayedSumPlace(List<Integer> list);
 
 	List<OnDelivery> qptotalList(int qpId);
+	List<OnDelivery> getOnDeliveryCallListLast(int callNum);
 	
 }

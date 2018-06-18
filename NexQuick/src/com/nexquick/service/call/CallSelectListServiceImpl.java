@@ -265,4 +265,9 @@ public class CallSelectListServiceImpl implements CallSelectListService {
 		return callInfoDao.selectQPTotalList(qpId);
 	}
 
+	@Override
+	public List<OnDelivery> getOnDeliveryCallListLast(int callNum) {
+		return orderInfoDao.getOnDeliveryCallListLast(callNum);
+	}
+
 }

@@ -33,6 +33,7 @@ import android.widget.Toast;
 
 import com.balbadak.nexquickapplication.vo.ListViewItem;
 import com.balbadak.nexquickapplication.vo.OnDelivery;
+import com.balbadak.nexquickapplication.vo.OrderInfo;
 import com.tsengvn.typekit.TypekitContextWrapper;
 
 import org.json.JSONArray;
@@ -78,7 +79,7 @@ public class Order3Activity extends AppCompatActivity implements NavigationView.
         dateList = new ArrayList<>();
         list = new ArrayList<>();
 
-        String url = mainUrl + "appCall/getOrderList.do";
+        String url = mainUrl + "appCall/getOrderListLast.do";
         values = new ContentValues();
         values.put("callNum", callNum);
         GetListTask getListTask = new GetListTask(url, values);
@@ -363,20 +364,16 @@ public class Order3Activity extends AppCompatActivity implements NavigationView.
                         titleSb.setLength(0);
                         descSb.setLength(0);
 
-                        order.setUrgent(data.getInt("urgent"));
                         order.setOrderNum(data.getInt("orderNum"));
                         order.setCallNum(data.getInt("callNum"));
-                        order.setCallTime(data.getString("callTime"));
                         order.setReceiverName(data.getString("receiverName"));
                         order.setReceiverPhone(data.getString("receiverPhone"));
                         order.setReceiverAddress(data.getString("receiverAddress"));
                         order.setReceiverAddressDetail(data.getString("receiverAddressDetail"));
                         order.setOrderPrice(data.getInt("orderPrice"));
                         order.setMemo(data.getString("memo"));
-                        order.setDeliveryStatus(data.getInt("deliveryStatus"));
                         order.setFreightList(data.getString("freightList"));
-
-                        titleSb.append(order.getCallTime());
+                        titleSb.append("#" + order.getOrderNum());
                         descSb.append("   수령인   ");
                         descSb.append(order.getReceiverName()).append("\n");
                         descSb.append("   수령지   ");
@@ -385,7 +382,6 @@ public class Order3Activity extends AppCompatActivity implements NavigationView.
                         item.setTitleStr(titleSb.toString());
                         item.setDescStr(descSb.toString());
                         item.setCallNum(order.getOrderNum());
-                        item.setDeliveryStatus(order.getDeliveryStatus());
 
                         dateList.add(item);
                         list.add(order);

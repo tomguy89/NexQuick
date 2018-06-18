@@ -1,52 +1,48 @@
 package com.balbadak.nexquickapplication.vo;
 
-public class OrderInfo {
+import java.io.Serializable;
+
+public class OrderInfo implements Serializable{
 	private int orderNum;					// 주문번호
 	private int callNum;					// 콜 번호
 	private String receiverName;			// 받는 사람 이름
 	private String receiverAddress;			// 받는 사람 주소
+	private String receiverAddressDetail;			// 받는 사람 상세주소
 	private String receiverPhone;			// 받는 사람 전화번호
 	private String memo;					// 배송 메시지
 	private int orderPrice;					// 주문 가격
 	private int isGet;						// 배송 상태
 	private String arrivalTime;				// 도착 시간
-	private String distance;
+	private double distance;
+	private double latitude;
+	private double longitude;
 	
 	public OrderInfo() {
 		super();
 	}
 
-	public OrderInfo(int orderNum, int callNum, String receiverName, String receiverAddress, String receiverPhone,
-			String memo, int orderPrice, String arrivalTime) {
+	
+	public OrderInfo(int callNum, String receiverName, String receiverAddress, String receiverAddressDetail, String receiverPhone, String memo,
+			int orderPrice, double distance, double latitude, double longitude) {
 		super();
-		setOrderNum(orderNum);
 		setCallNum(callNum);
 		setReceiverName(receiverName);
 		setReceiverAddress(receiverAddress);
+		setReceiverAddressDetail(receiverAddressDetail);
 		setReceiverPhone(receiverPhone);
 		setMemo(memo);
 		setOrderPrice(orderPrice);
-		setArrivalTime(arrivalTime);
+		setDistance(distance);
+		setLatitude(latitude);
+		setLongitude(longitude);
 	}
-	
-	public OrderInfo(int callNum, String receiverName, String receiverAddress, String receiverPhone, String memo) {
-		super();
-		setCallNum(callNum);
-		setReceiverName(receiverName);
-		setReceiverAddress(receiverAddress);
-		setReceiverPhone(receiverPhone);
-		setMemo(memo);
+
+	public String getReceiverAddressDetail() {
+		return receiverAddressDetail;
 	}
-	
-	public OrderInfo(int callNum, String receiverName, String receiverAddress, String receiverPhone, String memo,
-			int orderPrice) {
-		super();
-		setCallNum(callNum);
-		setReceiverName(receiverName);
-		setReceiverAddress(receiverAddress);
-		setReceiverPhone(receiverPhone);
-		setMemo(memo);
-		setOrderPrice(orderPrice);
+
+	public void setReceiverAddressDetail(String receiverAddressDetail) {
+		this.receiverAddressDetail = receiverAddressDetail;
 	}
 
 	public int getOrderNum() {
@@ -121,12 +117,28 @@ public class OrderInfo {
 		this.arrivalTime = arrivalTime;
 	}
 
-	public String getDistance() {
+	public double getDistance() {
 		return distance;
 	}
 
-	public void setDistance(String distance) {
+	public void setDistance(double distance) {
 		this.distance = distance;
+	}
+
+	public double getLatitude() {
+		return latitude;
+	}
+
+	public void setLatitude(double latitude) {
+		this.latitude = latitude;
+	}
+
+	public double getLongitude() {
+		return longitude;
+	}
+
+	public void setLongitude(double longitude) {
+		this.longitude = longitude;
 	}
 	
 	
