@@ -20,6 +20,10 @@ public class OnDelivery {
 	private int distance;
 	private String freightList;
 	private String arrivalTime;
+	private double senderLatitude;
+	private double senderLongitude;
+	private double receiverLatitude;
+	private double receiverLongitude;
 	
 	public OnDelivery() {
 		super();
@@ -169,5 +173,38 @@ public class OnDelivery {
 		this.arrivalTime = arrivalTime;
 	}
 
+	public double getSenderLatitude() {
+		return senderLatitude;
+	}
+
+	public void setSenderLatitude(double senderLatitude) {
+		this.senderLatitude = senderLatitude;
+	}
+
+	public double getSenderLongitude() {
+		return senderLongitude;
+	}
+
+	public void setSenderLongitude(double senderLongitude) {
+		this.senderLongitude = senderLongitude;
+	}
+
+	public double getReceiverLatitude() {
+		return receiverLatitude;
+	}
+
+	public void setReceiverLatitude(double receiverLatitude) {
+		this.receiverLatitude = receiverLatitude;
+	}
+
+	public double getReceiverLongitude() {
+		return receiverLongitude;
+	}
+
+	public void setReceiverLongitude(double receiverLongitude) {
+		this.receiverLongitude = receiverLongitude;
+	}
+	
+	
 
 }
