@@ -208,6 +208,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:background="@color/colorPrimary"
+            android:drawableLeft="@drawable/signup_img_white"
+            android:paddingLeft="15dp"
             android:text="@string/action_sign_in"
             android:textColor="#ffffff"
             android:textStyle="bold" />
