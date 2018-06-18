@@ -127,12 +127,12 @@ public class OrderListBeforeActivity extends AppCompatActivity implements Naviga
             //퇴근상태이면 들어갈 각종 디폴트 상황들, oncreat에서만 로딩됨
             onWorkSwitch.setChecked(false);
             nav_header_contents.setText("운행정지");
+
         } else if (onWork == 1) {
             //출근상태라면 들어갈 각종 디폴트 상황들, oncreat에서만 로딩됨
             onWorkSwitch.setChecked(true);
             nav_header_contents.setText("운행중");
-            Intent i = new Intent(getApplicationContext(), LocationService.class);
-            startService(i);
+
         } else{
             onWorkSwitch.setChecked(false);
             onWorkSwitch.setEnabled(false);
@@ -149,14 +149,24 @@ public class OrderListBeforeActivity extends AppCompatActivity implements Naviga
                     if(isChecked) {
                         editor.putInt("onWork", 1); //프리퍼런스 값 바꿈
                         editor.commit();
-                        startService(i);
                         nav_header_contents.setText("운행중");
+                        String surl = mainUrl +"qpAccount/changeQPStatus.do";
+                        ContentValues svalues = new ContentValues();
+                        svalues.put("qpId", qpId);
+                        svalues.put("qpStatus", 0);
+                        QPStatusTask qpStatusTask = new QPStatusTask(surl, svalues);
+                        qpStatusTask.execute();
 
                     } else {
                         editor.putInt("onWork", 2); //프리퍼런스 값 바꿈
                         editor.commit();
-                        stopService(i);
                         nav_header_contents.setText("운행정지");
+                        String surl = mainUrl +"qpAccount/changeQPStatus.do";
+                        ContentValues svalues = new ContentValues();
+                        svalues.put("qpId", qpId);
+                        svalues.put("qpStatus", 1);
+                        QPStatusTask qpStatusTask = new QPStatusTask(surl, svalues);
+                        qpStatusTask.execute();
                     }
                 }
             });
@@ -281,27 +291,23 @@ public class OrderListBeforeActivity extends AppCompatActivity implements Naviga
                         descSb.setLength(0);
 
                         order.setUrgent(data.getInt("urgent"));
-                        Log.e("urgent", order.getUrgent()+"");
                         order.setOrderNum(data.getInt("orderNum"));
-                        Log.e("orderNum", order.getOrderNum()+"");
                         order.setCallNum(data.getInt("callNum"));
-                        Log.e("callNum", order.getCallNum()+"");
                         order.setCallTime(data.getString("callTime"));
-                        Log.e("callTime", order.getCallTime());
                         order.setReceiverName(data.getString("receiverName"));
-                        Log.e("receiverName", order.getReceiverName());
                         order.setReceiverPhone(data.getString("receiverPhone"));
-                        Log.e("receiverPhone", order.getReceiverPhone());
                         order.setReceiverAddress(data.getString("receiverAddress"));
                         order.setReceiverAddressDetail(data.getString("receiverAddressDetail"));
                         order.setOrderPrice(data.getInt("orderPrice"));
                         order.setMemo(data.getString("memo"));
                         order.setDeliveryStatus(data.getInt("deliveryStatus"));
                         order.setFreightList(data.getString("freightList"));
+                        order.setArrivaltime(data.getString("arrivalTime"));
 
-                        titleSb.append(order.getCallTime());
-                        descSb.append("   수령인   ");
-                        descSb.append(order.getReceiverName()).append("\n");
+                        titleSb.append("   배송일   ");
+                        titleSb.append(order.getArrivaltime());
+                        descSb.append("   발송지   ");
+                        descSb.append(order.getSenderAddress()).append("\n");
                         descSb.append("   수령지   ");
                         descSb.append(order.getReceiverAddress());
 
@@ -354,31 +360,19 @@ public class OrderListBeforeActivity extends AppCompatActivity implements Naviga
             Button detailBtn = (Button) v.findViewById(R.id.detailBtn);
 
             orderDetail = list.get(position);
-            Log.e("position", position+"");
-            Log.e("확인", orderDetail.getOrderNum()+"/"+orderDetail.getReceiverName()+"/"+orderDetail.getReceiverPhone()+"/"+orderDetail.getReceiverAddress()+"/"+orderDetail.getReceiverAddressDetail()+"/"+orderDetail.getFreightList()+"/"+ orderDetail.getFreightList()+"/"+orderDetail.getDeliveryStatus());
-            SpannableStringBuilder ssb = new SpannableStringBuilder();
 
-            ssb.append("배송완료    ").setSpan(new ForegroundColorSpan(getResources().getColor(R.color.colorEmerald)), 0, 4, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-
-            ssb.append(data.get(position).getTitleStr());
-            if (orderDetail.getUrgent() == 1) {
-                ssb.append("   급송");
-            }
-
-            titleStrView.setText(ssb);
+            titleStrView.setText(data.get(position).getTitleStr());
             descStrView.setText(data.get(position).getDescStr());
-
 
             detailBtn.setOnClickListener(new View.OnClickListener() {
                 OnDelivery orderInfo = orderDetail;
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(context, DialogDetailActivity.class);
-                    intent.putExtra("orderNum", orderInfo.getOrderNum());
-                    intent.putExtra("callNum", orderInfo.getCallNum());
-                    intent.putExtra("receiverName", orderInfo.getReceiverName());
-                    intent.putExtra("receiverPhone", orderInfo.getReceiverPhone());
-                    intent.putExtra("receiverAddress", orderInfo.getReceiverAddress()+" "+orderInfo.getReceiverAddressDetail());
+                    intent.putExtra("num", orderInfo.getOrderNum());
+                    intent.putExtra("name", orderInfo.getReceiverName());
+                    intent.putExtra("phone", orderInfo.getReceiverPhone());
+                    intent.putExtra("address", orderInfo.getReceiverAddress()+" "+orderInfo.getReceiverAddressDetail());
                     intent.putExtra("freights", orderInfo.getFreightList());
                     intent.putExtra("orderPrice", orderInfo.getOrderPrice());
                     intent.putExtra("memo", orderInfo.getMemo());
@@ -390,5 +384,35 @@ public class OrderListBeforeActivity extends AppCompatActivity implements Naviga
         }
 
 
+    }
+
+
+    public class QPStatusTask extends AsyncTask<Void, Void, String> {
+
+        private String url;
+        private ContentValues values;
+
+        public QPStatusTask(String url, ContentValues values) {
+
+            this.url = url;
+            this.values = values;
+        }
+
+        @Override
+        protected String doInBackground(Void... params) {
+
+            String result; // 요청 결과를 저장할 변수.
+            RequestHttpURLConnection requestHttpURLConnection = new RequestHttpURLConnection();
+            result = requestHttpURLConnection.request(url, values); // 해당 URL로 부터 결과물을 얻어온다.
+
+            return result;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            //doInBackground()로 부터 리턴된 값이 onPostExecute()의 매개변수로 넘어오므로 s를 출력한다.
+
+        }
     }
 }

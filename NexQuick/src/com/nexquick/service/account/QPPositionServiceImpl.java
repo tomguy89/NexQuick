@@ -67,5 +67,11 @@ public class QPPositionServiceImpl implements QPPositionService {
 	public QPPosition selectQPPositionByCallNum(int qpId) {
 		return qpPositionDao.selectQPPosition(qpId);
 	}
+
+
+	@Override
+	public boolean changeQPStatus(int qpId, int qpStatus) {
+		return qpPositionDao.changeQPStatus(qpId, qpStatus);
+	}
 	
 }

@@ -376,5 +376,10 @@ public class QPAccountController {
 		else
 			return false;
 	}
+	
+	
+	public @ResponseBody boolean changeQPStatus(int qpId, int qpStatus) {
+		return qpPositionService.changeQPStatus(qpId, qpStatus);
+	}
 
 }

@@ -21,4 +21,6 @@ public interface QPPositionService {
 
 //	0613 김민규 추가
 	QPPosition selectQPPositionByCallNum(int qpId);
+
+	boolean changeQPStatus(int qpId, int qpStatus);
 }

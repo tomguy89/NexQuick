@@ -27,6 +27,7 @@ import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.balbadak.nexquickpro.vo.ListViewItem;
 import com.balbadak.nexquickpro.vo.OnDelivery;
@@ -196,12 +197,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             //퇴근상태이면 들어갈 각종 디폴트 상황들, oncreat에서만 로딩됨
             onWorkSwitch.setChecked(false);
             nav_header_contents.setText("운행정지");
+
         } else if (onWork == 1) {
             //출근상태라면 들어갈 각종 디폴트 상황들, oncreat에서만 로딩됨
             onWorkSwitch.setChecked(true);
             nav_header_contents.setText("운행중");
-            Intent i = new Intent(getApplicationContext(), LocationService.class);
-            startService(i);
+
         } else{
             onWorkSwitch.setChecked(false);
             onWorkSwitch.setEnabled(false);
@@ -218,14 +219,24 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     if(isChecked) {
                         editor.putInt("onWork", 1); //프리퍼런스 값 바꿈
                         editor.commit();
-                        startService(i);
                         nav_header_contents.setText("운행중");
+                        String url = mainUrl +"qpAccount/changeQPStatus.do";
+                        ContentValues values = new ContentValues();
+                        values.put("qpId", qpId);
+                        values.put("qpStatus", 0);
+                        QPStatusTask qpStatusTask = new QPStatusTask(url, values);
+                        qpStatusTask.execute();
 
                     } else {
                         editor.putInt("onWork", 2); //프리퍼런스 값 바꿈
                         editor.commit();
-                        stopService(i);
                         nav_header_contents.setText("운행정지");
+                        String url = mainUrl +"qpAccount/changeQPStatus.do";
+                        ContentValues values = new ContentValues();
+                        values.put("qpId", qpId);
+                        values.put("qpStatus", 1);
+                        QPStatusTask qpStatusTask = new QPStatusTask(url, values);
+                        qpStatusTask.execute();
                     }
                 }
             });
@@ -430,38 +441,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 @Override
                 public void onTabSelected(TabLayout.Tab tab) {
                     viewPager.setCurrentItem(tab.getPosition());
-                    switch(tab.getPosition()) {
-                        case 0:
-                            tabLayout.setTabTextColors(getResources().getColor(R.color.colorAccent),getResources().getColor(R.color.colorGold));
-                            tab.setIcon(R.drawable.tab_apply_detail_gold);
-                            break;
-                        case 1:
-                            tabLayout.setTabTextColors(getResources().getColor(R.color.colorAccent),getResources().getColor(R.color.colorGold));
-                            tab.setIcon(R.drawable.tab_address_detail_gold);
-                            break;
-                        case 2:
-                            tabLayout.setTabTextColors(getResources().getColor(R.color.colorAccent),getResources().getColor(R.color.colorGold));
-                            tab.setIcon(R.drawable.tab_completed_gold);
-                            break;
-                    }
                 }
 
                 @Override
                 public void onTabUnselected(TabLayout.Tab tab) {
-                    switch(tab.getPosition()) {
-                        case 0:
-                            tabLayout.setTabTextColors(getResources().getColor(R.color.colorAccent),getResources().getColor(R.color.colorGold));
-                            tab.setIcon(R.drawable.tab_apply_detail_black);
-                            break;
-                        case 1:
-                            tabLayout.setTabTextColors(getResources().getColor(R.color.colorAccent),getResources().getColor(R.color.colorGold));
-                            tab.setIcon(R.drawable.tab_address_detail);
-                            break;
-                        case 2:
-                            tabLayout.setTabTextColors(getResources().getColor(R.color.colorAccent),getResources().getColor(R.color.colorGold));
-                            tab.setIcon(R.drawable.tab_complete_black);
-                            break;
-                    }
 
                 }
 
@@ -473,6 +456,35 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             viewPager.setCurrentItem(1); // routeActivity (경로화면)이 디폴트
 
+
+        }
+    }
+
+    public class QPStatusTask extends AsyncTask<Void, Void, String> {
+
+        private String url;
+        private ContentValues values;
+
+        public QPStatusTask(String url, ContentValues values) {
+
+            this.url = url;
+            this.values = values;
+        }
+
+        @Override
+        protected String doInBackground(Void... params) {
+
+            String result; // 요청 결과를 저장할 변수.
+            RequestHttpURLConnection requestHttpURLConnection = new RequestHttpURLConnection();
+            result = requestHttpURLConnection.request(url, values); // 해당 URL로 부터 결과물을 얻어온다.
+
+            return result;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            //doInBackground()로 부터 리턴된 값이 onPostExecute()의 매개변수로 넘어오므로 s를 출력한다.
 
         }
     }

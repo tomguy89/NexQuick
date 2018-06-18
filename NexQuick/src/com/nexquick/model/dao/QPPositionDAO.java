@@ -55,4 +55,6 @@ public interface QPPositionDAO {
 	boolean decline(int qpId);
 	
 	boolean accept(int qpId);
+
+	boolean changeQPStatus(int qpId, int qpStatus);
 }

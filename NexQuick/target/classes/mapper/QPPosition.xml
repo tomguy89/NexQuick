@@ -76,4 +76,9 @@
 		abs(power(qplatitude-to_number(#{latitude}), 2)+power(qplongitude-to_number(#{longitude}), 2)),
 		n.now
 	</select>
+	<update id="changeQPStatus" parameterType="map">
+		update  qpPosition
+		set qpStatus = #{qpStatus}
+		where qpId=#{qpId}
+	</update>
  </mapper>

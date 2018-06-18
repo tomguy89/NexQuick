@@ -1,5 +1,6 @@
 package com.nexquick.model.dao;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -58,6 +59,14 @@ public class QPPositionDAOImpl implements QPPositionDAO {
 	@Override
 	public boolean accept(int qpId) {
 		return sqlSession.update("qpPosition.accept", qpId)>0;
+	}
+
+	@Override
+	public boolean changeQPStatus(int qpId, int qpStatus) {
+		Map<String, Object> map = new HashMap<>(); 
+		map.put("qpId", qpId);
+		map.put("qpStatus", qpStatus);
+		return sqlSession.update("qpPosition.changeQPStatus", map)>0;
 	}
 
 }
