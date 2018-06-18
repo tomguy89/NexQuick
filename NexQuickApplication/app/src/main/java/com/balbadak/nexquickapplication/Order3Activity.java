@@ -56,10 +56,12 @@ public class Order3Activity extends AppCompatActivity implements NavigationView.
     private int callNum;
     private ContentValues values;
     private ListView orderListview;
-
+    TextView tvTotalPrice;
     OnDelivery orderDetail;
     ArrayList<ListViewItem> dateList;
     ArrayList<OnDelivery> list;
+    StringBuilder titleSb;
+    StringBuilder descSb;
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -73,12 +75,31 @@ public class Order3Activity extends AppCompatActivity implements NavigationView.
         mainUrl = getResources().getString(R.string.main_url);
         setContentView(R.layout.activity_neworder3);
         loginInfo = getSharedPreferences("setting", 0);
-        totalPrice = loginInfo.getInt("totalPrice", 0);
+
         callNum =  getIntent().getExtras().getInt("cn");
         Log.e("callNum3", callNum + "!");
         dateList = new ArrayList<>();
         list = new ArrayList<>();
 
+
+        //발송지 정보
+        ListViewItem item = new ListViewItem();
+        OnDelivery order = new OnDelivery();
+        titleSb = new StringBuilder();
+        descSb = new StringBuilder();
+        titleSb.append("발송지");
+        descSb.append("   발송인   ");
+        descSb.append(order.getReceiverName()).append("\n");
+        descSb.append("   발송지   ");
+        descSb.append(order.getReceiverAddress());
+
+
+        item.setTitleStr(titleSb.toString());
+        item.setDescStr(descSb.toString());
+        item.setCallNum(order.getOrderNum());
+
+
+        //
         String url = mainUrl + "appCall/getOrderListLast.do";
         values = new ContentValues();
         values.put("callNum", callNum);
@@ -86,10 +107,8 @@ public class Order3Activity extends AppCompatActivity implements NavigationView.
         getListTask.execute();
 
         orderListview = findViewById(R.id.order_listview);
-        TextView tvTotalPrice = (TextView) findViewById(R.id.totalPrice);
+        tvTotalPrice = (TextView) findViewById(R.id.totalPrice);
         Button prevBtn = (Button) findViewById(R.id.prev2p);
-
-        tvTotalPrice.setText(totalPrice +"원");
 
         prevBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -216,6 +235,12 @@ public class Order3Activity extends AppCompatActivity implements NavigationView.
         navigationView.setNavigationItemSelectedListener(this);
 
 
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        loginInfo.edit().putInt("totalPrice", 0);
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
@@ -345,8 +370,7 @@ public class Order3Activity extends AppCompatActivity implements NavigationView.
 
         @Override
         protected void onPostExecute(String s) {
-            StringBuilder titleSb = new StringBuilder();
-            StringBuilder descSb = new StringBuilder();
+
             super.onPostExecute(s);
 
             if (s != null && s.toString().trim().length()!= 0) {
@@ -373,7 +397,7 @@ public class Order3Activity extends AppCompatActivity implements NavigationView.
                         order.setOrderPrice(data.getInt("orderPrice"));
                         order.setMemo(data.getString("memo"));
                         order.setFreightList(data.getString("freightList"));
-                        titleSb.append("#" + order.getOrderNum());
+                        titleSb.append("수령지 " + (i+1));
                         descSb.append("   수령인   ");
                         descSb.append(order.getReceiverName()).append("\n");
                         descSb.append("   수령지   ");
@@ -382,11 +406,11 @@ public class Order3Activity extends AppCompatActivity implements NavigationView.
                         item.setTitleStr(titleSb.toString());
                         item.setDescStr(descSb.toString());
                         item.setCallNum(order.getOrderNum());
-
+                        totalPrice += order.getOrderPrice();
                         dateList.add(item);
                         list.add(order);
                     }
-
+                    tvTotalPrice.setText(totalPrice +"원");
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

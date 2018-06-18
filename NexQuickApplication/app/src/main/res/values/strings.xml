@@ -1,5 +1,5 @@
 <resources>
-    <string name="main_url">http://70.12.109.173:9090/NexQuick/</string>
+    <string name="main_url">http://70.12.109.164:9090/NexQuick/</string>
 
     <string name="app_name">NexQuick</string>
     <string name="hintId">아이디를 입력하세요</string>

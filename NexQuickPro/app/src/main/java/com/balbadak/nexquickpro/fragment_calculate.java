@@ -240,6 +240,12 @@ public class fragment_calculate extends Fragment {
                     jungsan = inapp - place;
                     totalJungsanTv.setText(jungsan + " 원");
 
+                    if(inapp == 0 && place == 0) {
+                        calculateNoneTv.setVisibility(View.VISIBLE);
+                        calculate_sub.setVisibility(View.GONE);
+                        finishBtn.setEnabled(false);
+                    }
+
                     if(jungsan > 0) {
 
                         finishBtn.setOnClickListener(new View.OnClickListener() {
@@ -284,7 +290,9 @@ public class fragment_calculate extends Fragment {
                 }
 
 
+
             } else {
+
 
                 calculateNoneTv.setVisibility(View.VISIBLE);
                 calculate_sub.setVisibility(View.GONE);

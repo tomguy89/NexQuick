@@ -110,7 +110,6 @@ public class Order2Activity extends AppCompatActivity implements NavigationView.
         loginInfo = getSharedPreferences("setting", 0);
         csId = loginInfo.getString("csId", "");
         callNum = loginInfo.getInt("callNum", 0);
-        totalPrice = loginInfo.getInt("totalPrice", 0);
         Log.e("callNum2", callNum + "!");
 
         favSpinner = (Spinner) findViewById(R.id.receiverAddressSpinner);
