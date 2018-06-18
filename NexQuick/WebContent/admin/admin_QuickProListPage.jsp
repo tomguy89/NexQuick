@@ -27,7 +27,8 @@
 	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/css/datepicker.min.css">
 	<script src="<%=request.getContextPath() %>/js/datepicker.min.js"></script>
 	<script src="<%=request.getContextPath() %>/js/datepicker.en.js"></script>
-
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.0/jquery-confirm.min.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.0/jquery-confirm.min.js"></script>
 	
 <title>NexQuick :: 관리자 페이지 :: Quick Pro 관리</title>
 <script type="text/javascript">
@@ -63,8 +64,22 @@ $(function() {
 				if(JSONDocument) {
 					console.log("로그인 중");
 				} else if (!JSONDocument) {
-					alert("로그아웃 되었습니다. 다시 로그인 해주세요.");
-					location.replace("<%= request.getContextPath() %>/index.jsp");
+					$.confirm({
+					    title: '로그아웃',
+					    content: '로그아웃 되었습니다. 다시 로그인 해주세요.',
+					    type: 'red',
+					    columnClass: 'centerBox',
+					    typeAnimated: true,
+					    theme: 'modern',
+					    buttons: {
+					        '확인' : {
+					        	action : function() {
+									location.replace("<%= request.getContextPath() %>/index.jsp");
+					        	}
+					        }
+					    }
+					});
+
 				}
 			}
 		})
@@ -85,6 +100,7 @@ function setQpListTable(JSONDocument) {
 	var count = 0;
 	var vehicleType;
 	for(var i in JSONDocument) {
+		var tdId = "#qp"+JSONDocument[i].qpId;
 		switch(JSONDocument[i].qpVehicleType) {
 		case 0:
 			vehicleType = "오토바이";
@@ -115,9 +131,19 @@ function setQpListTable(JSONDocument) {
 			).append(
 				$("<td class = 'cell100 column4 c4 centerBox'>").text(vehicleType)
 			).append(
-				$("<td class = 'cell100 column5 c5 centerBox'>").text(JSONDocument[i].qpLicense)
+				$("<td class = 'cell100 column5 c5 centerBox' onclick='getModal(this)'>").text("상세보기").attr("id", JSONDocument[i].qpLicense).css("color", "#55B296").css("text-decoration", "underline").css("cursor", "pointer")
 			).append(
-				$("<td class = 'cell100 column6 c6 centerBox'>").text(JSONDocument[i].qpProfile)
+				$("<td class = 'cell100 column6 c6 centerBox'>")
+				.append(
+					$("<select name = 'item0' class=theadCsGrade_change onchange = 'saveQPInfo(this)'>").attr("id", "qp"+JSONDocument[i].qpId)
+					.append(
+						$("<option value='가입 대기'>가입 대기</option>")
+					).append(
+						$("<option value='가입 승인'>가입 승인</option>")
+					).append(
+						$("<option value='가입 거부'>가입 거부</option>")
+					)		
+				)
 			).append(
 				$("<td class = 'cell100 column7 c7 centerBox'>").text(JSONDocument[i].qpDeposit)
 			).append(
@@ -127,7 +153,65 @@ function setQpListTable(JSONDocument) {
 			)
 		)
 		
+		
+		if(JSONDocument[i].qpProfile == '가입 대기') {
+			$(tdId).val("가입 대기");
+		} else if (JSONDocument[i].qpProfile == '가입 승인') { // 법인관리자
+			$(tdId).val("가입 승인");
+		} else if (JSONDocument[i].qpProfile == '가입 거부') {
+			$(tdId).val("가입 거부");
+		}
+		
+		
+		
+		
 	}
+	
+}
+
+
+function saveQPInfo(qpProfile) {
+	var qpId = qpProfile.id.substring(2);
+	$.ajax({
+		url : "<%= request.getContextPath() %>/qpAccount/qpUpdateProfileOnly.do",
+		dataType : "json",
+		method : "POST",
+		data : {
+			qpId : qpId,
+			qpProfile : $(qpProfile).val()
+		},
+		success : function() {
+			$.confirm({
+			    title: '퀵프로 정보 수정 완료',
+			    content: '퀵프로 정보가 정상적으로 수정되었습니다.',
+			    type: 'green',
+			    columnClass: 'centerBox',
+			    closeIcon: true,
+			    typeAnimated: true,
+			    theme: 'modern',
+			    buttons: {
+			        '확인' : {
+			            btnClass: 'btn-blue'
+			        }
+			    }
+			});
+		}, error : function () {
+			$.confirm({
+			    title: '퀵프로 정보 수정 실패',
+			    content: '퀵프로 정보 수정에 에러가 생겨 수정되지 않았습니다.',
+			    type: 'red',
+			    columnClass: 'centerBox',
+			    closeIcon: true,
+			    typeAnimated: true,
+			    theme: 'modern',
+			    buttons: {
+			        '확인' : {
+			            btnClass: 'btn-red'
+			        }
+			    }
+			});
+		}
+	});
 	
 }
 
@@ -143,6 +227,18 @@ function searchAllQP() {
 		success : setQpListTable 
 	})
 }
+
+function getModal(Btn) {
+	var qpLicenseName = $(Btn).attr("id");
+	console.log(qpLicenseName);
+	$("#modal_body_qp").empty();
+	$("#modal_body_qp").append(
+		$("<img>").attr("src", "http://70.12.109.173:9090/NexQuick/uploadPicture/"+qpLicenseName).attr("width", "350").attr("height", "350")
+	);
+	$("#qpLicense").modal('show');
+	
+}
+
 
 </script>
 </head>
@@ -240,5 +336,36 @@ function searchAllQP() {
 
 
 <%@ include file = "../footer.jsp" %>
+
+
+
+			
+	<div class="modal fade bd-example-modal-lg" id="qpLicense" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	  <div class="modal-dialog modal-dialog-centered modal-lg modal_resize" role="document">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <h5 class="modal-title" id="exampleModalLabel">Quick Pro 면허증</h5>
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	          <span aria-hidden="true">&times;</span>
+	        </button>
+	      </div>
+	      <div class="modal-body centerBox" id = "modal_body_qp">
+
+
+	      
+	      </div>
+          <div class="modal-footer centerBox">
+	        <button type="button" class="ColorBorder" id = "submitBtn" data-dismiss="modal"> 
+	        <i class="far fa-times-circle"></i>
+	        	창 닫기 
+	        </button>
+	      </div>
+		      
+	    </div>
+	  </div>
+	</div>
+
+
+
 </body>
 </html>

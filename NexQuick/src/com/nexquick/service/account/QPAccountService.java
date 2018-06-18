@@ -65,5 +65,8 @@ public interface QPAccountService {
 
 	boolean qpAccountModify(QPInfo qpInfo);
 
+//	0618 김민규 추가
+	void updateProfileOnly(QPInfo qpInfo);
+
 
 }

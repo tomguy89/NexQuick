@@ -69,6 +69,13 @@ public class QPAccountServiceImpl implements QPAccountService {
 		qpInfoDao.updateProfile(qpProfile, qpPhone);
 		
 	}
+	
+	//0618 김민규 추가
+	@Override
+	public void updateProfileOnly(QPInfo qpInfo) {
+		qpInfoDao.updateProfileOnly(qpInfo);
+		
+	}
 
 	@Override
 	public void updateLicense(String qpLicense, String qpPhone) {

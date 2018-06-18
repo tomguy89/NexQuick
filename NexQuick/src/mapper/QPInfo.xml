@@ -24,7 +24,7 @@
  	<insert id="createQP" parameterType="QPInfo" >
  		insert into qpInfo
 		values(#{qpId},#{qpPassword},#{qpName},#{qpPhone},#{qpLicense},
-			#{qpVehicleType},#{qpDeposit},#{qpProfile})
+			#{qpVehicleType},#{qpDeposit},'가입 대기')
 		
 		<selectKey keyProperty="qpId" resultType="int" order="BEFORE">
 			SELECT qpidseq.nextval FROM DUAL
@@ -127,6 +127,13 @@
 			qpBank=#{qpBank}
 		where qpId=#{qpId}
      	
+	</update>
+	
+	
+	<update id="updateQPProfileOnly" parameterType="QPInfo">
+		update qpInfo
+		set qpProfile=#{qpProfile}
+		where qpId=#{qpId}
 	</update>
 	
 

@@ -29,6 +29,8 @@
 	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/css/datepicker.min.css">
 	<script src="<%=request.getContextPath() %>/js/datepicker.min.js"></script>
 	<script src="<%=request.getContextPath() %>/js/datepicker.en.js"></script>
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.0/jquery-confirm.min.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.0/jquery-confirm.min.js"></script>
 <script type="text/javascript">
 $(function() {
 	
@@ -55,8 +57,22 @@ $(function() {
 				if(JSONDocument) {
 					console.log("로그인 중");
 				} else if (!JSONDocument) {
-					alert("로그아웃 되었습니다. 다시 로그인 해주세요.");
-					location.replace("<%= request.getContextPath() %>/index.jsp");
+					$.confirm({
+					    title: '로그아웃',
+					    content: '로그아웃 되었습니다. 다시 로그인 해주세요.',
+					    type: 'red',
+					    columnClass: 'centerBox',
+					    typeAnimated: true,
+					    theme: 'modern',
+					    buttons: {
+					        '확인' : {
+					        	action : function() {
+									location.replace("<%= request.getContextPath() %>/index.jsp");
+					        	}
+					        }
+					    }
+					});
+
 				}
 			}
 		})

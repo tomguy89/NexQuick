@@ -70,4 +70,7 @@ public interface QPInfoDAO {
 	
 	boolean updateQPAccount(QPInfo qpInfo);
 	
+//	0618 김민규 추가
+	boolean updateProfileOnly(QPInfo qpInfo);
+	
 }

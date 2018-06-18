@@ -92,5 +92,11 @@ public class QPInfoDAOImpl implements QPInfoDAO {
 		return sqlSession.update("qpInfo.updateQPAccount", qpInfo)>0;
 	}
 
+//	0618 김민규 추가
+	@Override
+	public boolean updateProfileOnly(QPInfo qpInfo) {
+		return sqlSession.update("qpInfo.updateQPProfileOnly", qpInfo) > 0;
+	}
+
 	
 }

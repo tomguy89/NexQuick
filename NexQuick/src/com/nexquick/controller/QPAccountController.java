@@ -382,4 +382,13 @@ public class QPAccountController {
 		return qpPositionService.changeQPStatus(qpId, qpStatus);
 	}
 
+
+	@RequestMapping("/qpUpdateProfileOnly.do")
+	public @ResponseBody boolean qpUpdate(int qpId, String qpProfile) {
+		QPInfo qpInfo = qpAccountService.selectQP(qpId);
+		qpInfo.setQpProfile(qpProfile);
+		qpAccountService.updateProfileOnly(qpInfo);
+		return true;
+	}
+	
 }
