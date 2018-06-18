@@ -65,6 +65,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:background="@drawable/button_style"
+            android:drawableLeft="@drawable/signin_img"
+            android:paddingLeft="15dp"
             android:text="@string/login"
             android:textStyle="bold" />
 
@@ -75,6 +77,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:background="@drawable/button_style"
+            android:drawableLeft="@drawable/signup_img"
+            android:paddingLeft="15dp"
             android:text="@string/signup"
             android:textStyle="bold" />
 

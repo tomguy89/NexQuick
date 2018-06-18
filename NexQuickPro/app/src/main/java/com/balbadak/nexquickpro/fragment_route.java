@@ -26,6 +26,7 @@ import android.widget.SpinnerAdapter;
 import android.widget.Toast;
 
 import com.balbadak.nexquickpro.vo.ListViewItem;
+import com.balbadak.nexquickpro.vo.OnDelivery;
 import com.skt.Tmap.TMapData;
 import com.skt.Tmap.TMapMarkerItem;
 import com.skt.Tmap.TMapPoint;
@@ -56,9 +57,9 @@ public class fragment_route extends Fragment {
     ViewPager viewPager;
     TMapView tMapView;
     Spinner quickSpinner;
-
+    String mainUrl;
     ArrayList<ListViewItem> quickList;
-
+    ArrayList<OnDelivery> list;
 
     //이은진 추가
     int callNum;
@@ -67,13 +68,20 @@ public class fragment_route extends Fragment {
     SharedPreferences loginInfo;
     boolean pickChackFlag;
     String phoneNumber = "tel:"+"00000000000";
-    String pickUrl = "http://192.168.0.2:9090/NexQuick/list/afterBeamforQPS.do";
-    String chackUrl = "http:/192.168.0.2:9090/NexQuick/list/afterBeamforQPR.do";
+    String pickUrl;
+    String chackUrl;
+    double qpLatitude;
+    double qpLongitude;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         loginInfo=getActivity().getSharedPreferences("setting",0);
         qpId=loginInfo.getInt("qpId",0);
+
+        mainUrl = getActivity().getResources().getString(R.string.main_url);
+        pickUrl = mainUrl + "list/afterBeamforQPS.do";
+        chackUrl = mainUrl + "list/afterBeamforQPR.do";
 
 
         View view = inflater.inflate(R.layout.fragment_route, container, false);
@@ -89,14 +97,17 @@ public class fragment_route extends Fragment {
 
         tMapView.setSKTMapApiKey("2c831aee-8c6e-444b-82ed-1a23b76e504c");
         linearLayoutTmap.addView(tMapView);
-
+        qpLatitude = Double.parseDouble(loginInfo.getString("latitude", "0"));
+        qpLongitude = Double.parseDouble(loginInfo.getString("longitude", "0"));
 // 마커 아이콘
         Bitmap qpMark = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(context.getResources(), R.drawable.scooter), 100, 100, true);
         Bitmap sender = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(context.getResources(), R.drawable.location), 100, 100, true);
         Bitmap receiver = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(context.getResources(), R.drawable.location_primary), 100, 100, true);
 
+
+
         TMapMarkerItem qpMarker = new TMapMarkerItem();
-        TMapPoint qpPoint = new TMapPoint(37.570841, 126.985302); // QP 위치
+        TMapPoint qpPoint = new TMapPoint(qpLatitude, qpLongitude); // QP 위치
         qpMarker.setIcon(qpMark); // 마커 아이콘 지정
         qpMarker.setPosition(0.5f, 1.0f); // 마커의 중심점을 중앙, 하단으로 설정
         qpMarker.setTMapPoint(qpPoint); // 마커의 좌표 지정
@@ -109,7 +120,7 @@ public class fragment_route extends Fragment {
         ArrayList<TMapPoint> passList = new ArrayList<>();
         TMapMarkerItem newMarker;
         TMapPoint newPoint;
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < list.size(); i++) {
             newMarker = new TMapMarkerItem();
             newPoint = new TMapPoint(37.56990, 126.98227);
             newMarker.setIcon(receiver); // 마커 아이콘 지정
@@ -128,8 +139,10 @@ public class fragment_route extends Fragment {
 
         if (getArguments() != null) {
             quickList = getArguments().getParcelableArrayList("quickList");
+            list = getArguments().getParcelableArrayList("list");
         }else {
             quickList = new ArrayList<>();
+            list = new ArrayList<>();
         }
 
         cancelBtn.setOnClickListener(new View.OnClickListener() {

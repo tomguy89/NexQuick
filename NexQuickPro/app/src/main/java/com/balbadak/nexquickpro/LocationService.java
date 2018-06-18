@@ -26,6 +26,8 @@ public class LocationService extends Service {
     //   ToggleButton tb;//출퇴근버튼
     LocationManager lm;
     private SharedPreferences loginInfo;
+    private SharedPreferences.Editor editor;
+
     int qpId;
     String connectToken;
     boolean flag;
@@ -58,6 +60,7 @@ public class LocationService extends Service {
 
 
         loginInfo = getSharedPreferences("setting", 0);
+        editor = loginInfo.edit();
         qpId=loginInfo.getInt("qpId", 0);
         connectToken=loginInfo.getString("token", "");
         Log.e("INFO", flag+"");
@@ -101,6 +104,9 @@ public class LocationService extends Service {
             double longitude = location.getLongitude(); //경도
             double latitude = location.getLatitude();   //위도
             float accuracy = location.getAccuracy();    //정확도...는 사실 그냥 내가 확인할 용이고 지울 것.
+            editor.putString("longitude", longitude+"");
+            editor.putString("latitude", latitude+"");
+            editor.commit();
 
             //Gps 위치제공자에 의한 위치변화. 오차범위가 좁다.
             //Network 위치제공자에 의한 위치변화

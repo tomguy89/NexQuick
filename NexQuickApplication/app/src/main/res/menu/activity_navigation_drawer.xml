@@ -6,20 +6,20 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_new_order"
-            android:icon="@drawable/ic_menu_camera"
+            android:icon="@drawable/add_img"
             android:title="@string/newOrder" />
         <item
             android:id="@+id/nav_order_list"
-            android:icon="@drawable/ic_menu_gallery"
+            android:icon="@drawable/list_img"
             android:title="@string/orderList" />
         <item
             android:id="@+id/insuindo"
-            android:icon="@drawable/ic_menu_send"
+            android:icon="@drawable/delivery_img"
             android:title="인수인도" />
 
         <item
             android:id="@+id/chatBot"
-            android:icon="@drawable/ic_menu_send"
+            android:icon="@drawable/chatbot_img"
             android:title="@string/chatbot" />
     </group>
 
@@ -28,12 +28,12 @@
         <menu>
             <item
                 android:id="@+id/userUpdate"
-                android:icon="@drawable/ic_menu_manage"
+                android:icon="@drawable/settings_img"
                 android:title="@string/updateUserInfo" />
 
             <item
                 android:id="@+id/logout"
-                android:icon="@drawable/ic_menu_send"
+                android:icon="@drawable/logout_img"
                 android:title="로그아웃" />
         </menu>
     </item>

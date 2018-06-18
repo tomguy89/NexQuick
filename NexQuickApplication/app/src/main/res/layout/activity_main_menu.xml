@@ -47,6 +47,7 @@
             android:layout_marginTop="10dp"
             android:layout_weight="1"
             android:background="@drawable/button_style"
+            android:drawableLeft="@drawable/settings_img"
             android:text="배송 확인"
             android:textSize="30sp"
             android:textStyle="bold" />
@@ -87,14 +88,11 @@
     </LinearLayout>
 
 
-    <android.support.design.widget.NavigationView
+    <LinearLayout
         android:id="@+id/nav_view"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:layout_gravity="start"
-        android:fitsSystemWindows="true"
-        app:headerLayout="@layout/nav_header_navigation"
-        app:menu="@menu/activity_navigation_drawer" />
+        android:fitsSystemWindows="true" />
 
 
 </android.support.v4.widget.DrawerLayout>
