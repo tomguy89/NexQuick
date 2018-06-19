@@ -27,6 +27,7 @@ public class OptimalRouteServiceImpl implements OptimalRouteService {
 		
 		List<Coordinate> result = new ArrayList<>();
 		int z = list.size()-1;
+		//좌표 정보를 포함한 API사용에 필요한 parameter 값을 입력한다. 
 		JSONObject param = new JSONObject();
 		param.put("reqCoordType", "WGS84GEO");
 		param.put("resCoordType", "EPSG3857");
@@ -36,6 +37,8 @@ public class OptimalRouteServiceImpl implements OptimalRouteService {
 		param.put("endName", list.get(0).getLongitude());
 		param.put("endX", list.get(z).getLongitude());
 		param.put("endY", list.get(z).getLatitude());
+		
+		//JSONObject로 받기 때문에, JSONObject로 만들어준다.
 		JSONArray viaPoints = new JSONArray();
 		JSONObject viaPoint;
 		for(int i=0; i<=z; i++) {
@@ -51,7 +54,8 @@ public class OptimalRouteServiceImpl implements OptimalRouteService {
 			viaPoints.add(viaPoint);
 		}
 		param.put("viaPoints", viaPoints);
-		System.out.println(param.toJSONString());
+		
+		//요청을 보낸다.
         try {
             String apiURL = "https://api2.sktelecom.com/tmap/routes/routeOptimization10?version=1&format=json"; 
             URL url = new URL(apiURL);
@@ -71,6 +75,7 @@ public class OptimalRouteServiceImpl implements OptimalRouteService {
             
 			InputStreamReader isr;
 			
+			//결과값을 받는다.
 			if (responseCode == 200) { 
 				isr = new InputStreamReader(con.getInputStream(), "UTF-8");
 			} else { 

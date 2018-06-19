@@ -82,6 +82,7 @@ public class CallInfoDAOImpl implements CallInfoDAO {
 
 	@Override
 	public void updateCallAfterConfirm(List<Integer> list) {
+		System.out.println("여기까지옴");
 		sqlSession.update("callInfo.updateCallAfterConfirm",list);
 		
 	}

@@ -20,6 +20,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -39,7 +40,8 @@ import java.util.ArrayList;
 import java.util.HashSet;
 
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class
+MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
 
     String mainUrl;
@@ -332,6 +334,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
             if (s != null) {
+                Log.e("asdf", s);
                 try {
                     JSONArray ja = new JSONArray(s);
                     JSONObject data;

@@ -22,6 +22,7 @@ import com.nexquick.model.vo.CallInfo;
 import com.nexquick.model.vo.Coordinate;
 import com.nexquick.model.vo.OnDelivery;
 import com.nexquick.model.vo.OrderInfo;
+import com.nexquick.service.call.CallManagementService;
 import com.nexquick.service.call.CallSelectListService;
 
 @RequestMapping("/list")
@@ -139,9 +140,9 @@ public class CallListController {
 			int callNum=callSelectListService.selectOrder(orderNum).getCallNum();
 			System.out.println(callNum);
 			int comp1=callSelectListService.sumIsGet(callNum);
-			System.out.println(comp1);
+			System.out.println("comp1:"+comp1);
 			int comp2=callSelectListService.countLinkedOrder(callNum);
-			System.out.println(comp2);
+			System.out.println("comp2:"+comp2);
 			
 			if(comp1==comp2) {//모든 isGet이 1로 변했다면
 				callSelectListService.updateAfterOrdersChecked(callNum);
@@ -242,17 +243,7 @@ public class CallListController {
 		return callSelectListService.getOptimalRoute(qpId);
 	}
 	
-	@RequestMapping("/updateOrderAfterConfirmbySign.do")
-	   public void updateOrderListbySign(int orderNum) {
-	       System.out.println(orderNum);
-	       
-	       List <Integer> list = new ArrayList<>();
 
-	       list.add(orderNum);
-	       
-	       callSelectListService.updateOrderAfterConfirm(list);
-
-	   }
 	   
 	   
 	   @RequestMapping("/updateCallAfterConfirmbySign.do")
@@ -263,7 +254,10 @@ public class CallListController {
 	       List <Integer> list = new ArrayList<>();
 
 	       list.add(callNum);
-	       
+	       System.out.println("값 들어감");
+	       for (int j : list) {
+	    	   System.out.println(j);
+	       }
 	       callSelectListService.updateCallAfterConfirm(list);
 
 	   }

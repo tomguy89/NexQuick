@@ -559,7 +559,17 @@ public class CallMangementController {
 		return orderInfo;
 	}
     
-	
+	@RequestMapping("/updateOrderAfterConfirmbySign.do")
+	   public void updateOrderListbySign(int orderNum) {
+	       System.out.println(orderNum);
+	       
+	       OrderInfo orderInfo = callSelectListService.selectOrder(orderNum);
+	       orderInfo.setIsGet(1);
+	       callManagementService.updateOrder(orderInfo);
+	       CallInfo callInfo = callSelectListService.selectCallInfo(orderInfo.getCallNum());	
+	       callInfo.setDeliveryStatus(4);
+	       callManagementService.updateCall(callInfo);
+	   }
 	
 	
 	

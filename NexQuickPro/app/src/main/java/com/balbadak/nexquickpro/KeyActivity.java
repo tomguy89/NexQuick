@@ -29,6 +29,7 @@ public class KeyActivity extends AppCompatActivity {
     Context ctx = this;
     LinearLayout ll1;
     MyView m;
+    String mainUrl;
     String url;
     ContentValues values;
 
@@ -36,7 +37,7 @@ public class KeyActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
       values = new ContentValues();
-
+        mainUrl = getResources().getString(R.string.main_url);
         setContentView(R.layout.activity_key);
         LinearLayout ll = new LinearLayout(this);// 메인 컨테이너
         ll.setOrientation(LinearLayout.VERTICAL);
@@ -84,7 +85,7 @@ public class KeyActivity extends AppCompatActivity {
                     Log.e("INFO","인도다!!!");
 
 
-                        url="http://70.12.109.173:9090/NexQuick/list/updateOrderAfterConfirmbySign.do";
+                        url= mainUrl + "call/updateOrderAfterConfirmbySign.do";
                         values.put("orderNum",gIntent.getIntExtra("orderNum",0));
 
                     NetworkTask networkTask = new NetworkTask(url, values);
@@ -93,7 +94,7 @@ public class KeyActivity extends AppCompatActivity {
 
                 } else { //callNum이 왔다...
                     Log.e("INFO","인수다!!!");
-                    url="http://70.12.109.164:9090/NexQuick/list/updateCallAfterConfirmbySign.do";
+                    url= mainUrl + "list/updateCallAfterConfirmbySign.do";
                     values.put("callNum",gIntent.getIntExtra("callNum",0));
                     NetworkTask networkTask = new NetworkTask(url, values);
                     networkTask.execute();

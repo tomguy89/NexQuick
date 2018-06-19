@@ -8,14 +8,10 @@ import com.google.firebase.messaging.RemoteMessage;
 
 public class MyFirebaseMessagingService extends com.google.firebase.messaging.FirebaseMessagingService  {
     private static final String TAG = "FirebaseMsgService";
-    private SharedPreferences loginInfo;
     // [START receive_message]
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
-        loginInfo = getSharedPreferences("setting", 0);
-        if(loginInfo.getString("qpName", "")!=null && loginInfo.getString("qpName", "").trim().length()!=0){
-            sendNotification( remoteMessage.getNotification().getBody());
-        }
+        sendNotification( remoteMessage.getNotification().getBody());
     }
 
     private void sendNotification(String messageBody) {

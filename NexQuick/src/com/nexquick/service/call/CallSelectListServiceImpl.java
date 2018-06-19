@@ -197,19 +197,25 @@ public class CallSelectListServiceImpl implements CallSelectListService {
 		return orderInfoDao.getBusinessOrderList(condition);
 	}
 	
+	
 	@Override
     public List<OnDelivery> getOptimalRoute(int qpId){
         List<Coordinate> coordinateList = new ArrayList<>();
         
+        //QuickPro의 위치 정보를 가져온다.
         QPPosition qpPosition = qpPositionDao.selectQPPosition(qpId);
         if (qpPosition == null) return null;
+        
+        //최적 경로를 위해 우선 현재 QuickPro의 위치를 입력한다.
         coordinateList.add(new Coordinate("Q", qpId, qpPosition.getQpLatitude(), qpPosition.getQpLongitude()));
 
+        //QuickPro 아이디로 고객에게 인수(픽)해야 할 리스트를 가져온다.
         List<CallInfo> callList = callInfoDao.selectCallList(null, qpId, 2);
         for(CallInfo ci : callList) {
             coordinateList.add(new Coordinate("C", ci.getCallNum(), ci.getLatitude(), ci.getLongitude()));
         }
         
+        //QuickPro 아이디로 고객에게 인도(착)해야 할 리스트를 가져온다.
         callList = callInfoDao.selectCallList(null, qpId, 3);
         for(CallInfo ci : callList) {
             List<OrderInfo> orderList = orderInfoDao.selectOrderList(ci.getCallNum());
@@ -219,6 +225,8 @@ public class CallSelectListServiceImpl implements CallSelectListService {
             }
         }
         
+        //TMap 최적경로 추천 API를 사용하기 위해선 출발지와 도착지의 거리를 입력해야 한다.
+        //출발지는 현재 QuickPro의 위치, 도착지는 QuickPro로부터 가장 먼 곳으로 하기 위해 거리 순으로 정렬한다.
         coordinateList.sort(new Comparator<Coordinate>() {
             @Override
             public int compare(Coordinate o1, Coordinate o2) {
@@ -227,9 +235,11 @@ public class CallSelectListServiceImpl implements CallSelectListService {
             }
         });
         
+       
+        //위에서 정렬한 리스트로 최적경로 추천 API를 적용한다.
         List<OnDelivery> result = new ArrayList<>();
         List<Coordinate>resultList = optimalRouteService.optimization(coordinateList);
-        if (resultList == null) {
+        if (resultList == null) { // API가 시스템 에러가 있어서 결과가 null일 경우, 거리 순으로 나열한 것을 그대로 출력한다.
             for(int i=1; i<coordinateList.size(); i++) {
                 if(coordinateList.get(i).getType().equals("O")) {
                     result.add(getOrderByOrderNum(coordinateList.get(i).getNumber()));
@@ -237,7 +247,7 @@ public class CallSelectListServiceImpl implements CallSelectListService {
                     result.add(orderListByCallNum(coordinateList.get(i).getNumber()).get(0));
                 }
             }
-        } else {
+        } else { //API가 제대로 작동했을 경우 결과값을 받아온다.
             for(int i=1; i<resultList.size(); i++) {
                 if(resultList.get(i).getType().equals("O")) {
                     result.add(getOrderByOrderNum(resultList.get(i).getNumber()));
@@ -246,7 +256,7 @@ public class CallSelectListServiceImpl implements CallSelectListService {
                 }
             }
         }
-        
+        //결과값을 리턴한다.
         return result;
     }
 	

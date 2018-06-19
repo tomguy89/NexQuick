@@ -24,6 +24,7 @@ public class OnDelivery {
 	private double senderLongitude;
 	private double receiverLatitude;
 	private double receiverLongitude;
+	private int isGet;
 	
 	public OnDelivery() {
 		super();
@@ -203,6 +204,14 @@ public class OnDelivery {
 
 	public void setReceiverLongitude(double receiverLongitude) {
 		this.receiverLongitude = receiverLongitude;
+	}
+
+	public int getIsGet() {
+		return isGet;
+	}
+
+	public void setIsGet(int isGet) {
+		this.isGet = isGet;
 	}
 	
 	

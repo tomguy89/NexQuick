@@ -75,6 +75,7 @@ public class fragment_route extends Fragment {
     String chackUrl;
     double qpLatitude;
     double qpLongitude;
+    Button finishBtn;
 
     Button phoneBtn;
     Button cancelBtn;
@@ -94,7 +95,7 @@ public class fragment_route extends Fragment {
         context = this.getActivity();
         cancelBtn = (Button) view.findViewById(R.id.quick_cancel);
         phoneBtn = (Button) view.findViewById(R.id.quick_phone);
-        Button finishBtn = (Button) view.findViewById(R.id.quick_finish);
+        finishBtn = (Button) view.findViewById(R.id.quick_finish);
         viewPager = getActivity().findViewById(R.id.pager);
         quickSpinner = (Spinner) view.findViewById(R.id.quick_spinner);
 
@@ -234,10 +235,12 @@ public class fragment_route extends Fragment {
                     }, 4000);
                     final String phoneNum;
                     if(lv.getQuickType() ==  1) {
+                        finishBtn.setText("인수확인");
                         callNum=lv.getCallNum();
                         pickChackFlag=true;
                         phoneNum = list.get(position).getSenderPhone();
                     } else {
+                        finishBtn.setText("인도확인");
                         orderNum=lv.getOrderNum();
                         pickChackFlag=false;
                         phoneNum = list.get(position).getReceiverPhone();
