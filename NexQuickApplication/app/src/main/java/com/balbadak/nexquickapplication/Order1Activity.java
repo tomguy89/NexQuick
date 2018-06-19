@@ -31,7 +31,6 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TimePicker;
-import android.widget.Toast;
 
 import com.balbadak.nexquickapplication.vo.FavoriteInfo;
 import com.tsengvn.typekit.TypekitContextWrapper;
@@ -63,6 +62,8 @@ public class Order1Activity extends AppCompatActivity implements NavigationView.
     private EditText etSenderAddress;
     private EditText etSenderAddressDetail;
 
+    private CheckBox senderSaveCbx;
+    private boolean senderSave;
     private CheckBox cbxSeries; // 아직 미구현
     private CheckBox cbxUrgent;
     private CheckBox cbxReserve;
@@ -134,6 +135,7 @@ public class Order1Activity extends AppCompatActivity implements NavigationView.
 
         vehicleType = (RadioGroup) findViewById(R.id.vehicleType);
 
+        senderSaveCbx = (CheckBox) findViewById(R.id.senderSaveCbx);
         cbxUrgent = (CheckBox) findViewById(R.id.urgentCbx);
         cbxReserve = (CheckBox) findViewById(R.id.reserveCbx);
         cbxSeries = (CheckBox) findViewById(R.id.seriesCbx);
@@ -161,7 +163,6 @@ public class Order1Activity extends AppCompatActivity implements NavigationView.
             @Override
             public void onClick(View v) {
 
-                // URL 설정. 173 태진햄 / 164 승진
                 String url = mainUrl + "appCall/newCall.do";
                 values = new ContentValues();
                 boolean result = setCallInfo(values);
@@ -170,14 +171,22 @@ public class Order1Activity extends AppCompatActivity implements NavigationView.
 
                     SetCallTask setCallTask = new SetCallTask(url, values);
                     setCallTask.execute();
-                    Intent intent = new Intent(context, Order2Activity.class);
-                    intent.putExtra("series",(cbxSeries.isChecked())? 1:0);
-                    startActivity(intent);
 
+                    if(senderSaveCbx.isChecked()){
+                        String furl = mainUrl + "appCall/saveFavorite.do";
+                        ContentValues fValues = new ContentValues();
+                        fValues.put("csId", csId);
+                        fValues.put("addressType", 1);
+                        fValues.put("address", values.getAsString("senderAddress"));
+                        fValues.put("addrDetail", values.getAsString("senderAddressDetail"));
+                        fValues.put("receiverName", values.getAsString("senderName"));
+                        fValues.put("receiverPhone", values.getAsString("senderPhone"));
+                        SetFavoriteTask setFavoriteTask = new SetFavoriteTask(furl, fValues);
+                        setFavoriteTask.execute();
+                    }
 
                 } else {
                     values.clear();
-                    Log.e("메소드 빈칸", "메소드에 빈칸있쑝");
                 }
 
 
@@ -209,6 +218,7 @@ public class Order1Activity extends AppCompatActivity implements NavigationView.
 
         values = new ContentValues();
         values.put("csId", csId);
+        values.put("addressType", 1);
 
         GetFavorite getFavorite = new GetFavorite(url, values);
         getFavorite.execute();
@@ -219,12 +229,6 @@ public class Order1Activity extends AppCompatActivity implements NavigationView.
 
         //Calendar를 이용하여 년, 월, 일, 시간, 분을 PICKER에 넣어준다.
         final Calendar cal = Calendar.getInstance();
-
-        Log.e(TAG, cal.get(Calendar.YEAR) + "");
-        Log.e(TAG, cal.get(Calendar.MONTH) + 1 + "");
-        Log.e(TAG, cal.get(Calendar.DATE) + "");
-        Log.e(TAG, cal.get(Calendar.HOUR_OF_DAY) + "");
-        Log.e(TAG, cal.get(Calendar.MINUTE) + "");
 
 
         //DATE PICKER DIALOG
@@ -281,9 +285,7 @@ public class Order1Activity extends AppCompatActivity implements NavigationView.
 
     private void setFavoriteInfos() {
 
-        Log.i("즐겨찾기 세팅 in 태스크", favoriteInfos.toString());
-
-        FavoriteInfo nullInfo;
+          FavoriteInfo nullInfo;
 
         spinnerAdapter = new ArrayAdapter(context, R.layout.support_simple_spinner_dropdown_item, favoriteInfos);
         spinner.setAdapter(spinnerAdapter);
@@ -322,7 +324,6 @@ public class Order1Activity extends AppCompatActivity implements NavigationView.
 
         if (etSenderName != null && etSenderName.getText().toString().trim().length() != 0) {
             values.put("senderName", etSenderName.getText().toString());
-            Log.i("senderName", etSenderName.getText().toString().trim() + 111);
 
         } else {
             return false;
@@ -330,21 +331,18 @@ public class Order1Activity extends AppCompatActivity implements NavigationView.
 
         if (etSenderAddress != null && etSenderAddress.getText().toString().trim().length() != 0) {
             values.put("senderAddress", etSenderAddress.getText().toString().trim());
-            Log.i("senderAddress", etSenderAddress.getText().toString().trim());
         } else {
             return false;
         }
 
         if (etSenderAddressDetail != null && etSenderAddressDetail.getText().toString().trim().length() != 0) {
             values.put("senderAddressDetail", etSenderAddressDetail.getText().toString().trim());
-            Log.i("senderAddressDetail", etSenderAddressDetail.getText().toString().trim());
 
         } else {
             return false;
         }
         if (etSenderPhone != null && etSenderPhone.getText().toString().trim().length() != 0) {
             values.put("senderPhone", etSenderPhone.getText().toString().trim());
-            Log.i("senderPhone", etSenderPhone.getText().toString().trim());
         } else {
             return false;
         }
@@ -382,7 +380,6 @@ public class Order1Activity extends AppCompatActivity implements NavigationView.
         if (tempR == 1) {
 
             String reservationTime = dateStr + " " + timeStr;
-            Log.i("reservationTime", reservationTime);
             values.put("reservationTime", reservationTime);
         }
 
@@ -439,10 +436,7 @@ public class Order1Activity extends AppCompatActivity implements NavigationView.
         @Override
         protected void onPostExecute(String s) {
 
-            Toast.makeText(context, "퀵 발송 정보가 저장 되었음", Toast.LENGTH_SHORT).show();
-
             if (s != null) {
-                Log.e("퀵 발송 정보 받아온 것", s);
                 try {
                     JSONObject data = new JSONObject(s);
                         int callNum = data.getInt("callNum");
@@ -451,6 +445,9 @@ public class Order1Activity extends AppCompatActivity implements NavigationView.
                         ed.putInt("totalPrice", 0);
                         ed.commit();
 
+                        Intent intent = new Intent(context, Order2Activity.class);
+                        intent.putExtra("series",(cbxSeries.isChecked())? 1:0);
+                        startActivity(intent);
 
 
                 } catch (JSONException e) {
@@ -458,7 +455,6 @@ public class Order1Activity extends AppCompatActivity implements NavigationView.
                 }
 
             } else {
-                Log.e("콜넘버", "없음");
 
             }
 
@@ -489,16 +485,14 @@ public class Order1Activity extends AppCompatActivity implements NavigationView.
         @Override
         protected void onPostExecute(String s) {
 
-            Toast.makeText(context, "즐겨찾기를 부른다", Toast.LENGTH_SHORT).show();
-
             if (s != null) {
-                Log.e("받아온 것", s);
+
                 try {
                     JSONArray ja = new JSONArray(s);
                     JSONObject data;
                     for (int i = 0; i < ja.length(); i++) {
                         data = ja.getJSONObject(i);
-                        if (data.getInt("addressType") != 0) { // 추후에 배송지 타입 바뀔예정
+                        if (data.getInt("addressType") == 1) {
 
                             FavoriteInfo fi = new FavoriteInfo();
                             fi.setFavoriteId(data.getInt("favoriteId"));
@@ -519,7 +513,6 @@ public class Order1Activity extends AppCompatActivity implements NavigationView.
                 }
 
             } else {
-                Log.e("콜넘버", "없음");
 
             }
 
@@ -551,10 +544,7 @@ public class Order1Activity extends AppCompatActivity implements NavigationView.
         @Override
         protected void onPostExecute(String s) {
 
-            Toast.makeText(context, "퀵 발송 정보가 저장 되었음", Toast.LENGTH_SHORT).show();
-
             if (s != null) {
-                Log.e("받아온 것", s);
                 try {
                     JSONArray ja = new JSONArray(s);
                     JSONObject data;
@@ -570,12 +560,44 @@ public class Order1Activity extends AppCompatActivity implements NavigationView.
                 }
 
             } else {
-                Log.e("콜넘버", "없음");
 
             }
 
         }
     }
+
+    //--------------------------- 즐겨찾기 저장 ------------------------------
+    public class SetFavoriteTask extends AsyncTask<Void, Void, String> {
+
+        private String url;
+        private ContentValues values;
+
+        public SetFavoriteTask(String url, ContentValues values) {
+
+            this.url = url;
+            this.values = values;
+        }
+
+        @Override
+        protected String doInBackground(Void... params) {
+
+            String result; // 요청 결과를 저장할 변수.
+            RequestHttpURLConnection requestHttpURLConnection = new RequestHttpURLConnection();
+            result = requestHttpURLConnection.request(url, values); // 해당 URL로 부터 결과물을 얻어온다.
+            return result;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+
+            if (s != null) {
+
+            }
+
+        }
+    }
+
+
 
 
     //------------------------------여기부터 내비 영역 -----------------------------
@@ -619,6 +641,7 @@ public class Order1Activity extends AppCompatActivity implements NavigationView.
 
         if (id == R.id.nav_new_order) {
             Intent intent = new Intent(getApplicationContext(), Order1Activity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
         } else if (id == R.id.nav_order_list) {
             Intent intent = new Intent(getApplicationContext(), OrderListActivity.class);

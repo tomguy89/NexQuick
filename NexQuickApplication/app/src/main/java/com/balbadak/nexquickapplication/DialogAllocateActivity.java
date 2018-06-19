@@ -6,21 +6,14 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.balbadak.nexquickapplication.vo.OrderInfo;
 import com.tsengvn.typekit.TypekitContextWrapper;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.ArrayList;
 
 //배차 관련 파이어베이스 메시지를 받은 클래스
 public class DialogAllocateActivity extends AppCompatActivity {
@@ -159,7 +152,6 @@ public class DialogAllocateActivity extends AppCompatActivity {
 
             super.onPostExecute(s);
 
-            Log.e("받아온 것", s);
             if (s.equals("true")) {
                 if(req.equals("cancelCall")) {
                     Toast.makeText(context, "콜 요청이 취소됐습니다.", Toast.LENGTH_SHORT).show();

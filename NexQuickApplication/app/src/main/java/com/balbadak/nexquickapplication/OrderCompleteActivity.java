@@ -35,7 +35,6 @@ public class OrderCompleteActivity extends AppCompatActivity implements Navigati
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), MainMenuActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
             }
         });
@@ -44,7 +43,6 @@ public class OrderCompleteActivity extends AppCompatActivity implements Navigati
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), OrderListActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
             }
         });
@@ -71,12 +69,15 @@ public class OrderCompleteActivity extends AppCompatActivity implements Navigati
     //------------------------------여기부터 내비 영역 -----------------------------
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        Intent intent = new Intent(getApplicationContext(), MainMenuActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+        /*DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();
-        }
+        }*/
     }
 
     @Override
@@ -109,6 +110,7 @@ public class OrderCompleteActivity extends AppCompatActivity implements Navigati
 
         if (id == R.id.nav_new_order) {
             Intent intent = new Intent(getApplicationContext(), Order1Activity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
         } else if (id == R.id.nav_order_list) {
             Intent intent = new Intent(getApplicationContext(), OrderListActivity.class);

@@ -88,7 +88,6 @@ public class RPayCheckActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
-            Log.e("INFO","결제 업데이트 성공!");
         }
     }
 }

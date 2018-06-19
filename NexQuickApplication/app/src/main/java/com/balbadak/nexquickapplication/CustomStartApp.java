@@ -41,24 +41,19 @@ public class CustomStartApp extends Application {
     }
 
     public static synchronized CustomStartApp getInstance() {
-        Log.e("INFO","getInstance하러왔어여");
         return mInstance;
     }
     public RequestQueue getRequestQueue() {
 
-        Log.e("INFO","getrequestq 왔어여");
         if (mRequestQueue == null) {
-            Log.e("INFO","request q 가 널이군요.");
             mRequestQueue = Volley.newRequestQueue(getApplicationContext());
             if(mRequestQueue==null){
-                Log.e("INFO","여전히 널이군요.");
             }
 
         }
         return mRequestQueue;
     }
     public <T> void addToRequestQueue(Request<T> req) {
-        Log.e("INFO","addrequestq하러왔어여");
         req.setTag(TAG);
         getRequestQueue().add(req);
     }

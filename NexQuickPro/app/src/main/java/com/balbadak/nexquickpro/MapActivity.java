@@ -10,7 +10,7 @@ public class MapActivity extends Activity implements TMapGpsManager.onLocationCh
     public MapActivity(){
         TMapGpsManager gps = new TMapGpsManager(this);
         gps.setProvider(gps.GPS_PROVIDER);
-        gps.setMinTime(1000);
+        gps.setMinTime(5000);
         gps.setMinDistance(5);
         gps.OpenGps();
     }

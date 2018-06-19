@@ -57,8 +57,6 @@ public class RequestHttpURLConnection {
          * */
         try{
             URL url = new URL(_url);
-            Log.e("보낸다",url.toString());
-            Log.e("이것들",sbParams.toString());
             urlConn = (HttpURLConnection) url.openConnection();
 
             // [2-1]. urlConn 설정.

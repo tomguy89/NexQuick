@@ -6,10 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Display;
 import android.view.WindowManager;
 import android.webkit.WebView;
-import android.webkit.WebViewClient;
-import android.widget.Toast;
 
-import com.balbadak.nexquickapplication.R;
 
 public class ChatBotActivity extends AppCompatActivity  {
 

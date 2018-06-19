@@ -70,6 +70,7 @@ public class MainMenuActivity extends AppCompatActivity implements NavigationVie
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), Order1Activity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
             }
         });
@@ -141,6 +142,7 @@ public class MainMenuActivity extends AppCompatActivity implements NavigationVie
 
         if (id == R.id.nav_new_order) {
             Intent intent = new Intent(getApplicationContext(), Order1Activity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
         } else if (id == R.id.nav_order_list) {
             Intent intent = new Intent(getApplicationContext(), OrderListActivity.class);

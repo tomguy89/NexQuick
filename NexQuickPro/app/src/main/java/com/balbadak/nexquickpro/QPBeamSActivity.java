@@ -89,7 +89,6 @@ public class QPBeamSActivity extends AppCompatActivity { //nfc를 보내느 acti
         public NdefMessage createNdefMessage(NfcEvent event) {//전송합니당
             // TODO Auto-generated method stub
 
-            Log.e("INFO","createNdef메시지 호출됨");
             return makeNdefMessage(qpId);
         }
     };
@@ -104,7 +103,6 @@ public class QPBeamSActivity extends AppCompatActivity { //nfc를 보내느 acti
                 @Override
                 public void run() {
                     // TODO Auto-generated method stub
-                    Log.e("INFO","성공함");
                     Toast.makeText(QPBeamSActivity.this, "인수/인도 확인을 요청했습니다.", Toast.LENGTH_SHORT).show();
                     //여기서 결제타입을 확인해서 현장 발송지 결제였으면 결제하라는 안내문을 띄운다.....
                     //컨트롤러에 callNum을 보내서 payType이 2,3,4,5(현장결제)인 경우 안내문을 띄우고,
@@ -127,7 +125,6 @@ public class QPBeamSActivity extends AppCompatActivity { //nfc를 보내느 acti
 
     private NdefMessage makeNdefMessage(String msg) {
 
-        Log.e("INFO","makeNdef메시지 호출됨");
 
         byte[] textBytes = msg.getBytes();
         NdefRecord textRecord = new NdefRecord(NdefRecord.TNF_MIME_MEDIA,

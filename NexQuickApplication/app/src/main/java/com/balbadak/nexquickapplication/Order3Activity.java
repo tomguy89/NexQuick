@@ -23,18 +23,14 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.annotation.SuppressLint;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.balbadak.nexquickapplication.vo.CallInfo;
 import com.balbadak.nexquickapplication.vo.ListViewItem;
 import com.balbadak.nexquickapplication.vo.OnDelivery;
-import com.balbadak.nexquickapplication.vo.OrderInfo;
 import com.tsengvn.typekit.TypekitContextWrapper;
 
 import org.json.JSONArray;
@@ -82,7 +78,6 @@ public class Order3Activity extends AppCompatActivity implements NavigationView.
         loginInfo = getSharedPreferences("setting", 0);
 
         callNum = getIntent().getExtras().getInt("cn");
-        Log.e("callNum3", callNum + "!");
         dateList = new ArrayList<>();
         list = new ArrayList<>();
         titleSb = new StringBuilder();
@@ -365,7 +360,6 @@ public class Order3Activity extends AppCompatActivity implements NavigationView.
             super.onPostExecute(s);
 
             if (s != null && s.toString().trim().length() != 0) {
-                Log.e("받아온 것", s);
                 try {
 
                     JSONObject data = new JSONObject(s);
@@ -437,7 +431,6 @@ public class Order3Activity extends AppCompatActivity implements NavigationView.
             titleSb = new StringBuilder();
             descSb = new StringBuilder();
             if (s != null && s.toString().trim().length() != 0) {
-                Log.e("받아온 것", s);
                 try {
                     JSONArray ja = new JSONArray(s);
                     JSONObject data;
@@ -562,6 +555,7 @@ public class Order3Activity extends AppCompatActivity implements NavigationView.
 
         if (id == R.id.nav_new_order) {
             Intent intent = new Intent(getApplicationContext(), Order1Activity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
         } else if (id == R.id.nav_order_list) {
             Intent intent = new Intent(getApplicationContext(), OrderListActivity.class);

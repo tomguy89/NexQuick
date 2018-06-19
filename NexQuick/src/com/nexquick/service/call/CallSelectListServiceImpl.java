@@ -198,56 +198,57 @@ public class CallSelectListServiceImpl implements CallSelectListService {
 	}
 	
 	@Override
-	public List<OnDelivery> getOptimalRoute(int qpId){
-		List<Coordinate> coordinateList = new ArrayList<>();
-		
-		QPPosition qpPosition = qpPositionDao.selectQPPosition(qpId);
-		coordinateList.add(new Coordinate("Q", qpId, qpPosition.getQpLatitude(), qpPosition.getQpLongitude()));
+    public List<OnDelivery> getOptimalRoute(int qpId){
+        List<Coordinate> coordinateList = new ArrayList<>();
+        
+        QPPosition qpPosition = qpPositionDao.selectQPPosition(qpId);
+        if (qpPosition == null) return null;
+        coordinateList.add(new Coordinate("Q", qpId, qpPosition.getQpLatitude(), qpPosition.getQpLongitude()));
 
-		List<CallInfo> callList = callInfoDao.selectCallList(null, qpId, 2);
-		for(CallInfo ci : callList) {
-			coordinateList.add(new Coordinate("C", ci.getCallNum(), ci.getLatitude(), ci.getLongitude()));
-		}
-		
-		callList = callInfoDao.selectCallList(null, qpId, 3);
-		for(CallInfo ci : callList) {
-			List<OrderInfo> orderList = orderInfoDao.selectOrderList(ci.getCallNum());
-			for(OrderInfo oi : orderList) {
-				coordinateList.add(new Coordinate("O", oi.getOrderNum(), oi.getLatitude(), oi.getLongitude()));
-				System.out.println(oi.getOrderNum()+"/"+oi.getLatitude());
-			}
-		}
-		
-		coordinateList.sort(new Comparator<Coordinate>() {
-			@Override
-			public int compare(Coordinate o1, Coordinate o2) {
-			 	return (int) (Math.sqrt(Math.pow((o1.getLatitude()-qpPosition.getQpLatitude()), 2)+Math.pow((o1.getLongitude()-qpPosition.getQpLongitude()), 2))
-			 			- Math.sqrt(Math.pow((o2.getLatitude()-qpPosition.getQpLatitude()), 2)+Math.pow((o2.getLongitude()-qpPosition.getQpLongitude()), 2)));
-			}
-		});
-		
-		List<OnDelivery> result = new ArrayList<>();
-		List<Coordinate>resultList = optimalRouteService.optimization(coordinateList);
-		if (resultList == null) {
-			for(int i=1; i<coordinateList.size(); i++) {
-				if(coordinateList.get(i).getType().equals("O")) {
-					result.add(getOrderByOrderNum(coordinateList.get(i).getNumber()));
-				}else if (coordinateList.get(i).getType().equals("C")) {
-					result.add(orderListByCallNum(coordinateList.get(i).getNumber()).get(0));
-				}
-			}
-		} else {
-			for(int i=1; i<resultList.size(); i++) {
-				if(resultList.get(i).getType().equals("O")) {
-					result.add(getOrderByOrderNum(resultList.get(i).getNumber()));
-				}else if (resultList.get(i).getType().equals("C")) {
-					result.add(orderListByCallNum(resultList.get(i).getNumber()).get(0));
-				}
-			}
-		}
-		
-		return result;
-	}
+        List<CallInfo> callList = callInfoDao.selectCallList(null, qpId, 2);
+        for(CallInfo ci : callList) {
+            coordinateList.add(new Coordinate("C", ci.getCallNum(), ci.getLatitude(), ci.getLongitude()));
+        }
+        
+        callList = callInfoDao.selectCallList(null, qpId, 3);
+        for(CallInfo ci : callList) {
+            List<OrderInfo> orderList = orderInfoDao.selectOrderList(ci.getCallNum());
+            for(OrderInfo oi : orderList) {
+                coordinateList.add(new Coordinate("O", oi.getOrderNum(), oi.getLatitude(), oi.getLongitude()));
+                System.out.println(oi.getOrderNum()+"/"+oi.getLatitude());
+            }
+        }
+        
+        coordinateList.sort(new Comparator<Coordinate>() {
+            @Override
+            public int compare(Coordinate o1, Coordinate o2) {
+                 return (int) (Math.sqrt(Math.pow((o1.getLatitude()-qpPosition.getQpLatitude()), 2)+Math.pow((o1.getLongitude()-qpPosition.getQpLongitude()), 2))
+                         - Math.sqrt(Math.pow((o2.getLatitude()-qpPosition.getQpLatitude()), 2)+Math.pow((o2.getLongitude()-qpPosition.getQpLongitude()), 2)));
+            }
+        });
+        
+        List<OnDelivery> result = new ArrayList<>();
+        List<Coordinate>resultList = optimalRouteService.optimization(coordinateList);
+        if (resultList == null) {
+            for(int i=1; i<coordinateList.size(); i++) {
+                if(coordinateList.get(i).getType().equals("O")) {
+                    result.add(getOrderByOrderNum(coordinateList.get(i).getNumber()));
+                }else if (coordinateList.get(i).getType().equals("C")) {
+                    result.add(orderListByCallNum(coordinateList.get(i).getNumber()).get(0));
+                }
+            }
+        } else {
+            for(int i=1; i<resultList.size(); i++) {
+                if(resultList.get(i).getType().equals("O")) {
+                    result.add(getOrderByOrderNum(resultList.get(i).getNumber()));
+                }else if (resultList.get(i).getType().equals("C")) {
+                    result.add(orderListByCallNum(resultList.get(i).getNumber()).get(0));
+                }
+            }
+        }
+        
+        return result;
+    }
 	
 	
 	// 승진 추가

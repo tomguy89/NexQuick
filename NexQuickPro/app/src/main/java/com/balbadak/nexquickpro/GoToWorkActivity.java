@@ -19,7 +19,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -74,15 +73,6 @@ public class GoToWorkActivity extends AppCompatActivity implements NavigationVie
 
                 Intent i = new Intent(getApplicationContext(), OrderListBeforeActivity.class);
                 startActivity(i);
-
-                /*//나중에 로그아웃, 정산 후 퇴근, 앱 종료 등을 할 때 복사
-                Intent i = new Intent(getApplicationContext(), LocationService.class);
-                stopService(i);
-                //여기까지
-                editor.clear();
-                editor.commit();
-                i = new Intent(getApplicationContext(), LoginActivity.class);
-                startActivity(i);*/
 
             }
         });
@@ -212,7 +202,7 @@ public class GoToWorkActivity extends AppCompatActivity implements NavigationVie
                     editor.commit();
 
                     Intent intent = new Intent(context, MainActivity.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_SINGLE_TOP);
                     startActivity(intent);
                 }
             });

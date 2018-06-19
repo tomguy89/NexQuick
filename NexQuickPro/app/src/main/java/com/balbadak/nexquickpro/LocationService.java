@@ -37,7 +37,6 @@ public class LocationService extends Service {
     public void onCreate() {
         super.onCreate();
         mainUrl = getResources().getString(R.string.main_url);
-        Log.e("INFO", "서비스onCreate");
         lm = (LocationManager) getApplicationContext().getSystemService(Context.LOCATION_SERVICE);
 
 
@@ -51,7 +50,6 @@ public class LocationService extends Service {
             //                                          int[] grantResults)
             // to handle the case where the user grants the permission. See the documentation
             // for ActivityCompat#requestPermissions for more details.
-            Log.e("INFO", "permission을 못받아와서 종료됨");
             return;
         }
         lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 0, mLocationListener);
@@ -63,7 +61,6 @@ public class LocationService extends Service {
         editor = loginInfo.edit();
         qpId=loginInfo.getInt("qpId", 0);
         connectToken=loginInfo.getString("token", "");
-        Log.e("INFO", flag+"");
 
 
 
@@ -83,7 +80,6 @@ public class LocationService extends Service {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        Log.e("INFO","onDestroy호출됨");
         lm.removeUpdates(mLocationListener);
         deleteGPS(qpId);
 
@@ -100,7 +96,6 @@ public class LocationService extends Service {
         public void onLocationChanged(Location location) {
             //여기서 위치값이 갱신되면 이벤트가 발생한다.
 
-            Log.e("test", "onLocationChanged, location:" + location);
             double longitude = location.getLongitude(); //경도
             double latitude = location.getLatitude();   //위도
             float accuracy = location.getAccuracy();    //정확도...는 사실 그냥 내가 확인할 용이고 지울 것.
@@ -114,7 +109,6 @@ public class LocationService extends Service {
 
             //여기서 컨트롤러한테 보내야 한다. qpId랑  위도 경도 값을 갖고...... 그럼 그 컨트롤러에서 db를 업데이트한다.
 
-            Log.e("INFO","onLocationChanged호출됨...");
 
             if(!flag){
                 insertGPS(longitude,latitude);
@@ -145,7 +139,6 @@ public class LocationService extends Service {
 
 
     private  void insertGPS(double qpLongitude, double qpLatitude){
-        Log.e("INFO","insertGPS호출됨");
         String url = mainUrl + "qpPosition/insertPosition.do"; //url 주소는 태진오빠껄로 바꾸기!!
 
         ContentValues values = new ContentValues();
@@ -162,9 +155,7 @@ public class LocationService extends Service {
 
     private void updateGPS(double qpLongitude, double qpLatitude){
 
-        Log.e("INFO","updateGPS호출됨");
 
-        // String url = "http://70.12.109.166:9090/NexQuick/qpPosition/updatePosition.do";
         String url = mainUrl + "qpPosition/updatePosition.do"; //url 주소는 태진오빠껄로 바꾸기!!
 
 
@@ -181,7 +172,6 @@ public class LocationService extends Service {
 
     private void deleteGPS(int qpId){
 
-        Log.e("INFO","deleteGPS호출됨");
 
         // String url = "http://70.12.109.166:9090/NexQuick/qpPosition/updatePosition.do";
         String url = mainUrl + "qpPosition/deletePosition.do"; //url 주소는 태진오빠껄로 바꾸기!!

@@ -301,7 +301,6 @@ public class SignupActivity extends AppCompatActivity implements LoaderCallbacks
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        Log.e("INFO","onActivityResult에 들어옴");
 
         if (requestCode == PICK_PICTURE_FROM_GALLERY)
             if (resultCode == Activity.RESULT_OK) {
@@ -309,12 +308,12 @@ public class SignupActivity extends AppCompatActivity implements LoaderCallbacks
 
                 filePath = getPath(selectedImage); //Cursor 이용해서
                 String file_extn = filePath.substring(filePath.lastIndexOf(".") + 1);
-                Log.e("filePath : ",filePath);
+
 
 
                 if (file_extn.equals("img") || file_extn.equals("jpg") || file_extn.equals("jpeg") || file_extn.equals("gif") || file_extn.equals("png")) {
                     //FINE
-                    Log.e("INFO","적절한 형식의 파일이 왔음");
+
                     pictureCheck=true;
                     Toast.makeText(this,"프로필 사진이 선택되었습니다.",Toast.LENGTH_SHORT).show();
                     //upload(); //나중에 이건 회원가입 버튼 눌렀을 때로 바꾸기..
@@ -333,12 +332,12 @@ public class SignupActivity extends AppCompatActivity implements LoaderCallbacks
 
                 filePath2 = getPath(selectedImage); //Cursor 이용해서
                 String file_extn = filePath2.substring(filePath2.lastIndexOf(".") + 1);
-                Log.e("filePath2 : ",filePath2);
+
 
 
                 if (file_extn.equals("img") || file_extn.equals("jpg") || file_extn.equals("jpeg") || file_extn.equals("gif") || file_extn.equals("png")) {
                     //FINE
-                    Log.e("INFO","적절한 형식의 파일이 왔음");
+
                     licenseCheck=true;
                     Toast.makeText(this,"면허증이 선택되었습니다.",Toast.LENGTH_SHORT).show();
                     //upload(); //나중에 이건 회원가입 버튼 눌렀을 때로 바꾸기..

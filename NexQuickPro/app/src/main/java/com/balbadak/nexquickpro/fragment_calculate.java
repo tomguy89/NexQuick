@@ -8,7 +8,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -132,7 +131,6 @@ public class fragment_calculate extends Fragment {
             super.onPostExecute(s);
 
             if (s != null && s.toString().trim().length()!= 0) {
-                Log.e("받아온 것", s);
                 try {
                     JSONArray ja = new JSONArray(s);
                     JSONObject data;
@@ -224,7 +222,6 @@ public class fragment_calculate extends Fragment {
             super.onPostExecute(s);
 
             if (s != null && s.toString().trim().length()!= 0) {
-                Log.e("받아온 것", s);
                 try {
                     JSONArray ja = new JSONArray(s);
                     JSONObject data;

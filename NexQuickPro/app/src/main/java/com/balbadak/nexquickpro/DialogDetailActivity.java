@@ -1,19 +1,14 @@
 package com.balbadak.nexquickpro;
 
-import android.app.AlertDialog;
-import android.content.ContentValues;
+
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.balbadak.nexquickpro.vo.OrderInfo;
 import com.tsengvn.typekit.TypekitContextWrapper;
@@ -22,18 +17,13 @@ import java.util.ArrayList;
 
 public class DialogDetailActivity extends AppCompatActivity {
 
-    //.173 태진, .164 승진
     private String mainUrl;
 
-    int orderNum;
     int callNum;
     int num;
     String name;
     String phone;
     String address;
-    String receiverName;
-    String receiverPhone;
-    String receiverAddress;
     String freights;
     int orderPrice;
     String memo;
@@ -87,7 +77,7 @@ public class DialogDetailActivity extends AppCompatActivity {
         quickCancelBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                cancelCallAlert(deliveryStatus);
+
             }
         });
         chatBotBtn = (Button) findViewById(R.id.quickCancelBtn);
@@ -155,90 +145,4 @@ public class DialogDetailActivity extends AppCompatActivity {
         super.attachBaseContext(TypekitContextWrapper.wrap(newBase));
     }
 
-
-    private void reAllocateAlert(){
-        AlertDialog.Builder alert = new AlertDialog.Builder(this);
-        alert.setTitle("배차 재요청");
-        alert.setMessage("배차를 재요청 하시겠습니까?");
-        alert.setPositiveButton("확인", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                String url = mainUrl+"appCall/reRegistCall.do";
-                ContentValues values = new ContentValues();
-                values.put("callNum", callNum);
-                NetworkTask networkTask = new NetworkTask(url, values);
-                networkTask.execute();
-            }
-        });
-
-        alert.setNegativeButton("취소", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface arg0, int arg1) {
-                return;
-            }
-        });
-        alert.show();
-    }
-
-    private void cancelCallAlert(int deliveryStatus){
-        AlertDialog.Builder alert = new AlertDialog.Builder(this);
-        String msg= null;
-        if(deliveryStatus==2) msg = "이미 배차가 되어 취소 요금이 발생합니다.\n정말 취소하시겠습니까?";
-        else msg = "정말 취소하시겠습니까?";
-        alert.setTitle("콜 취소");
-        alert.setMessage(msg);
-        alert.setPositiveButton("확인", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                String url = mainUrl+"appCall/cancelCall.do";
-                ContentValues values = new ContentValues();
-                values.put("callNum", callNum);
-                NetworkTask networkTask = new NetworkTask(url, values);
-                networkTask.execute();
-            }
-        });
-
-        alert.setNegativeButton("취소", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface arg0, int arg1) {
-                return;
-            }
-        });
-        alert.show();
-    }
-
-
-    public class NetworkTask extends AsyncTask<Void, Void, String> {
-
-        private String url;
-        private ContentValues values;
-
-        public NetworkTask(String url, ContentValues values) {
-
-            this.url = url;
-            this.values = values;
-        }
-
-        @Override
-        protected String doInBackground(Void... params) {
-
-            String result; // 요청 결과를 저장할 변수.
-            RequestHttpURLConnection requestHttpURLConnection = new RequestHttpURLConnection();
-            result = requestHttpURLConnection.request(url, values); // 해당 URL로 부터 결과물을 얻어온다.
-            return result;
-        }
-
-        @Override
-        protected void onPostExecute(String s) {
-            super.onPostExecute(s);
-            Log.e("df", s);
-            if(s.toString().equals("true")) {
-                Toast.makeText(getApplicationContext(), "요청에 성공했습니다.", Toast.LENGTH_SHORT);
-                finishActivity(222);
-/*                Intent i = new Intent(getApplicationContext(), OrderListActivity.class);
-                i.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                startActivity(i);*/
-            }
-        }
-    }
 }

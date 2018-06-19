@@ -20,14 +20,12 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.Switch;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.balbadak.nexquickpro.vo.ListViewItem;
 import com.balbadak.nexquickpro.vo.OnDelivery;
@@ -324,7 +322,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
             if (s != null) {
-                Log.e("받아온 것", s);
                 try {
                     JSONArray ja = new JSONArray(s);
                     JSONObject data;

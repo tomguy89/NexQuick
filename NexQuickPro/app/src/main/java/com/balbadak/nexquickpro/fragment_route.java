@@ -313,7 +313,6 @@ public class fragment_route extends Fragment {
 
         @Override
         protected String doInBackground(Void... params) {
-            Log.e("INFO","SNETWORKTASK doInBackground에 들어왔어여");
 
             String result; // 요청 결과를 저장할 변수.
             RequestHttpURLConnection requestHttpURLConnection = new RequestHttpURLConnection();
@@ -327,13 +326,11 @@ public class fragment_route extends Fragment {
             super.onPostExecute(s);
             //doInBackground()로 부터 리턴된 값이 onPostExecute()의 매개변수로 넘어오므로 s를 출력한다.
 
-            Log.e("INFO","onPostExecute에 온 파라매터는"+s);
 
             if(s!=null){
 
                 try {
                     JSONArray ja = new JSONArray(s);
-                    Log.e("INFO","jsonArray는 "+ja.toString());
 
                     if(ja.length()>0){//뭔가 리스트가 왔다면
                         Intent i1 = new Intent(getActivity(),SPayCheckActivity.class); //결제확인창으로 보낸다.
@@ -387,13 +384,11 @@ public class fragment_route extends Fragment {
             super.onPostExecute(s);
             //doInBackground()로 부터 리턴된 값이 onPostExecute()의 매개변수로 넘어오므로 s를 출력한다.
 
-            Log.e("INFO","onPostExecute에 온 파라매터는"+s);
 
             if(s!=null){
 
                 try {
                     JSONArray ja = new JSONArray(s);
-                    Log.e("INFO","jsonArray는 "+ja.toString());
 
                     if(ja.length()>0){//뭔가 리스트가 왔다면
                         Intent i1 = new Intent(getActivity(),RPayCheckActivity.class); //결제확인창으로 보낸다.

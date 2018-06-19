@@ -234,7 +234,6 @@ public class DialogDetailActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
-            Log.e("df", s);
             if(s.toString().equals("true")) {
                 Toast.makeText(getApplicationContext(), "요청에 성공했습니다.", Toast.LENGTH_SHORT);
                 Intent i = new Intent(getApplicationContext(), OrderListActivity.class);
@@ -242,5 +241,12 @@ public class DialogDetailActivity extends AppCompatActivity {
                 startActivity(i);
             }
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(getApplicationContext(), MainMenuActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
     }
 }

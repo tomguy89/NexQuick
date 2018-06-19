@@ -21,7 +21,6 @@ public class TTSService extends Service {
     public void onCreate() {
 
         super.onCreate();
-        Log.e("INFO","tts 호출");
 
     }
 
@@ -35,7 +34,7 @@ public class TTSService extends Service {
             public void onInit(int status) {
                 if(status != TextToSpeech.ERROR) {
                     tts.setLanguage(Locale.KOREAN);
-                    tts.setSpeechRate(1.2f);
+                    tts.setSpeechRate(1.0f);
                     tts.speak(message+" 수락하시겠습니까?",TextToSpeech.QUEUE_FLUSH, null);
 
                     while(true){
@@ -60,7 +59,6 @@ public class TTSService extends Service {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        Log.e("INFO","tts service destroyed");
 
         if(tts != null){
             tts.stop();

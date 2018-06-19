@@ -12,13 +12,13 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
@@ -56,6 +56,7 @@ public class Order2Activity extends AppCompatActivity implements NavigationView.
     private ArrayAdapter favspinnerAdapter;
     private ArrayAdapter frspinnerAdapter;
 
+    private CheckBox receiverSaveCbx;
     private Spinner favSpinner;
     private Spinner frSpinner;
     private Spinner smallBundleSpinner;
@@ -136,8 +137,7 @@ public class Order2Activity extends AppCompatActivity implements NavigationView.
         smallBoxSpinner = (Spinner) findViewById(R.id.smallBoxSpinner);
         middleBoxSpinner = (Spinner) findViewById(R.id.middleBoxSpinner);
         bigBoxSpinner = (Spinner) findViewById(R.id.bigBoxSpinner);
-
-
+        receiverSaveCbx = (CheckBox) findViewById(R.id.receiverSaveCbx);
         favoriteInit();
         addressBtn = (Button) findViewById(R.id.receiverAddressBtn);
 
@@ -334,8 +334,6 @@ public class Order2Activity extends AppCompatActivity implements NavigationView.
             addAnother.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
-                    //173 태진햄, 164 승진
                     String url = mainUrl + "appCall/addOrder.do";
 
                     boolean orderResult = setOrderInfo(oValues);
@@ -344,6 +342,8 @@ public class Order2Activity extends AppCompatActivity implements NavigationView.
                         oValues.put("callNum", callNum);
                         SetOrderTask setOrderTask = new SetOrderTask(url, oValues);
                         setOrderTask.execute();
+
+
                         finishFlag = 1;
                     } else {
                         oValues.clear();
@@ -369,6 +369,20 @@ public class Order2Activity extends AppCompatActivity implements NavigationView.
                     oValues.put("callNum", callNum);
                     SetOrderTask setOrderTask = new SetOrderTask(url, oValues);
                     setOrderTask.execute();
+
+                    if(receiverSaveCbx.isChecked()){
+                            String furl = mainUrl + "appCall/saveFavorite.do";
+                            ContentValues fValues = new ContentValues();
+                            fValues.put("csId", csId);
+                            fValues.put("addressType", 3);
+                            fValues.put("address", oValues.getAsString("receiverAddress"));
+                            fValues.put("addrDetail", oValues.getAsString("receiverAddressDetail"));
+                            fValues.put("receiverName", oValues.getAsString("receiverName"));
+                            fValues.put("receiverPhone", oValues.getAsString("receiverPhone"));
+                            SetFavoriteTask setFavoriteTask = new SetFavoriteTask(furl, fValues);
+                            setFavoriteTask.execute();
+                    }
+
                     finishFlag = 2;
 
                 } else {
@@ -411,6 +425,7 @@ public class Order2Activity extends AppCompatActivity implements NavigationView.
 
         ContentValues values = new ContentValues();
         values.put("csId", csId);
+        values.put("addressType", 3);
 
         GetFavorite getFavorite = new GetFavorite(url, values);
         getFavorite.execute();
@@ -451,7 +466,6 @@ public class Order2Activity extends AppCompatActivity implements NavigationView.
 
         if (etReceiverName != null && etReceiverName.getText().toString().trim().length() != 0) {
             values.put("receiverName", etReceiverName.getText().toString().trim());
-            Log.i("receiverName", etReceiverName.getText().toString().trim() + 111);
 
         } else {
             return false;
@@ -459,21 +473,18 @@ public class Order2Activity extends AppCompatActivity implements NavigationView.
 
         if (etReceiverAddress != null && etReceiverAddress.getText().toString().trim().length() != 0) {
             values.put("receiverAddress", etReceiverAddress.getText().toString().trim());
-            Log.i("receiverAddress", etReceiverAddress.getText().toString().trim());
         } else {
             return false;
         }
 
         if (etReceiverAddressDetail != null && etReceiverAddressDetail.getText().toString().trim().length() != 0) {
             values.put("receiverAddressDetail", etReceiverAddressDetail.getText().toString().trim());
-            Log.i("receiverAddressDetail", etReceiverAddressDetail.getText().toString().trim());
 
         } else {
             return false;
         }
         if (etReceiverPhone != null && etReceiverPhone.getText().toString().trim().length() != 0) {
             values.put("receiverPhone", etReceiverPhone.getText().toString().trim());
-            Log.i("receiverPhone", etReceiverPhone.getText().toString().trim());
         } else {
             return false;
         }
@@ -492,10 +503,8 @@ public class Order2Activity extends AppCompatActivity implements NavigationView.
 
         if (etMemo != null && etMemo.getText().toString().trim().length() != 0) {
             values.put("memo", etMemo.getText().toString().trim());
-            Log.i("memo", etMemo.getText().toString().trim());
         } else {
             values.put("memo", "없음");
-            Log.i("memo", "없음");
         }
 
         return true;
@@ -547,7 +556,6 @@ public class Order2Activity extends AppCompatActivity implements NavigationView.
         @Override
         protected void onPostExecute(String s) {
             if (s != null) {
-                Log.e("SetOrderTask 받아온 것", s);
                 JSONObject data = null;
                 try {
                     data = new JSONObject(s);
@@ -556,8 +564,6 @@ public class Order2Activity extends AppCompatActivity implements NavigationView.
                     SharedPreferences.Editor ed = loginInfo.edit();
                     ed.putInt("orderNum", orderNum);
                     ed.commit();
-                    Log.e("orderNum", orderNum + "!");
-                    Log.e("callNum", callNum + "!");
                     int[] freightCounts = {smallBundleCount, /*middleBundleCount, bigBundleCount,*/smallBoxCount, middleBoxCount, bigBoxCount};
                     url = mainUrl + "appCall/addFreight.do";
                     fValues.put("callNum", callNum);
@@ -609,7 +615,6 @@ public class Order2Activity extends AppCompatActivity implements NavigationView.
             if (s != null) {
                 try {
                     JSONObject data = null;
-                    Log.e("SetFreightTask 받아온 것", s);
 
                     data = new JSONObject(s);
                     int freightPrice = data.getInt("freightPrice");
@@ -661,7 +666,6 @@ public class Order2Activity extends AppCompatActivity implements NavigationView.
             Toast.makeText(context, "즐겨찾기를 부른다", Toast.LENGTH_SHORT).show();
 
             if (s != null) {
-                Log.e("받아온 것", s);
                 try {
                     JSONArray ja = new JSONArray(s);
                     JSONObject data;
@@ -688,7 +692,36 @@ public class Order2Activity extends AppCompatActivity implements NavigationView.
                 }
 
             } else {
-                Log.e("콜넘버", "없음");
+
+            }
+
+        }
+    }
+
+    public class SetFavoriteTask extends AsyncTask<Void, Void, String> {
+
+        private String url;
+        private ContentValues values;
+
+        public SetFavoriteTask(String url, ContentValues values) {
+
+            this.url = url;
+            this.values = values;
+        }
+
+        @Override
+        protected String doInBackground(Void... params) {
+
+            String result; // 요청 결과를 저장할 변수.
+            RequestHttpURLConnection requestHttpURLConnection = new RequestHttpURLConnection();
+            result = requestHttpURLConnection.request(url, values); // 해당 URL로 부터 결과물을 얻어온다.
+            return result;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+
+            if (s != null) {
 
             }
 
@@ -737,6 +770,7 @@ public class Order2Activity extends AppCompatActivity implements NavigationView.
 
         if (id == R.id.nav_new_order) {
             Intent intent = new Intent(getApplicationContext(), Order1Activity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
         } else if (id == R.id.nav_order_list) {
             Intent intent = new Intent(getApplicationContext(), OrderListActivity.class);

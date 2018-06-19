@@ -29,7 +29,7 @@ import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
-import android.widget.Toast;
+
 
 
 import com.balbadak.nexquickpro.vo.OnDelivery;
@@ -276,7 +276,6 @@ public class OrderListBeforeActivity extends AppCompatActivity implements Naviga
             super.onPostExecute(s);
 
             if (s != null && s.toString().trim().length()!= 0) {
-                Log.e("받아온 것", s);
                 try {
                     JSONArray ja = new JSONArray(s);
                     JSONObject data;

@@ -34,7 +34,6 @@ public class GoogleService extends Service implements RecognitionListener{
 
 
         super.onCreate();
-        Log.e("INFO","sst 호출");
 
 
 
@@ -46,7 +45,6 @@ public class GoogleService extends Service implements RecognitionListener{
 
 
         message = intent.getStringExtra("message");
-        Log.e("INFO","메세지는 "+message);
 
         Intent i = new Intent();
         System.out.println("intent ����");
@@ -91,7 +89,7 @@ public class GoogleService extends Service implements RecognitionListener{
 
     @Override
     public void onError(int error) {
-        Log.e("INFO","에러는"+error);
+        Log.e("Error",error+"");
         stopSelf();
     }
 
@@ -106,7 +104,6 @@ public class GoogleService extends Service implements RecognitionListener{
 
         for(String str:result){
             if(str.charAt(0)=='예'||str.charAt(0)=='네'||str.charAt(0)=='뇌'||str.charAt(0)=='눼'||str.charAt(0)=='내'||str.charAt(0)=='넵'||str.charAt(0)=='냅'||str.charAt(0)=='냉'||str.charAt(0)=='넹'){
-                Log.e("INFO",str+"     수락했습니다!");
                 Toast.makeText(this,"수락하셨습니다.",Toast.LENGTH_SHORT).show();
 
                 for(int i=message.length()-1; i>=0; i--){
@@ -134,7 +131,6 @@ public class GoogleService extends Service implements RecognitionListener{
 
                 break;
             } else {
-                Log.e("수락안됨 :",str);
                 Toast.makeText(this,"거부하셨습니다.",Toast.LENGTH_SHORT).show();
             }
         }
@@ -146,19 +142,16 @@ public class GoogleService extends Service implements RecognitionListener{
     @Override
     public void onPartialResults(Bundle partialResults) {
         // TODO Auto-generated method stub
-        Log.e("INFO","7");
     }
 
     @Override
     public void onEvent(int eventType, Bundle params) {
         // TODO Auto-generated method stub
-        Log.e("INFO","8");
     }
 
     @Override
     public IBinder onBind(Intent intent) {
         // TODO Auto-generated method stub
-        Log.e("INFO","9");
         return null;
     }
 
@@ -166,7 +159,6 @@ public class GoogleService extends Service implements RecognitionListener{
     @Override
     public void onDestroy() {
         super.onDestroy();
-        Log.e("INFO","stt destroyed");
     }
 
 
@@ -186,7 +178,6 @@ public class GoogleService extends Service implements RecognitionListener{
         protected String doInBackground(Void... params) {
 
 
-            Log.e("INFO","GoogleService doInBackground 호출됨...");
 
             String result; // 요청 결과를 저장할 변수.
             RequestHttpURLConnection requestHttpURLConnection = new RequestHttpURLConnection();
@@ -198,7 +189,6 @@ public class GoogleService extends Service implements RecognitionListener{
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
-            Log.e("결과", s);
             Toast.makeText(getApplicationContext(), "배차가 완료됐습니다.", Toast.LENGTH_SHORT).show();
             stopSelf();
         }

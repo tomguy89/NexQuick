@@ -22,14 +22,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ListView;
-import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.balbadak.nexquickapplication.vo.ListViewItem;
 import com.balbadak.nexquickapplication.vo.OnDelivery;
@@ -72,7 +69,6 @@ public class OrderListBeforeActivity extends AppCompatActivity implements Naviga
         setContentView(R.layout.activity_order_list_before);
         mainUrl = getResources().getString(R.string.main_url);
 
-        Log.w("onCreate", "on");
         titletextView = (TextView) findViewById(R.id.order_list_before_Title);
         listView = (ListView) this.findViewById(R.id.order_before_listview);
         loginInfo = getSharedPreferences("setting", 0);
@@ -96,7 +92,6 @@ public class OrderListBeforeActivity extends AppCompatActivity implements Naviga
                     @Override
                     public void onDateSet(DatePicker datePicker, int year, int month, int date) {
                         callTime = String.format("%02d/%02d/%d",  month + 1, date, year);
-                        Log.e("callTime",callTime );
                         String url = mainUrl + "appCall/getOndeliveryByIdAndDate.do";
                         ContentValues values = new ContentValues();
                         values.put("callTime", callTime);
@@ -249,7 +244,6 @@ public class OrderListBeforeActivity extends AppCompatActivity implements Naviga
             super.onPostExecute(s);
 
             if (s != null && s.toString().trim().length() != 0) {
-                Log.e("받아온 것", s);
                 try {
                     JSONArray ja = new JSONArray(s);
                     JSONObject data;

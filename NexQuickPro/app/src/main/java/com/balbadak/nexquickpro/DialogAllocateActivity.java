@@ -11,7 +11,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.style.ForegroundColorSpan;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -50,15 +49,12 @@ public class DialogAllocateActivity extends AppCompatActivity {
             switch(ssb.charAt(i)){
                 case '급':
                     ssb.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.colorTomato)), i, i+1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                    Log.e("확인했다", "급");
                     break;
                 case '픽':
                     ssb.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.colorGold)), i, i+1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                    Log.e("확인했다", "착");
                     break;
                 case '착':
                     ssb.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.colorEmerald)), i, i+1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                    Log.e("확인했다", "픽");
                     break;
             }
         }
@@ -66,7 +62,6 @@ public class DialogAllocateActivity extends AppCompatActivity {
 
         loginInfo = getSharedPreferences("setting", 0);
         qpId = loginInfo.getInt("qpId", 0);
-        Log.e("callNum", callNum+"");
 
         Handler mHandler = new Handler();
         mHandler.postDelayed(new Runnable() {
@@ -136,7 +131,6 @@ public class DialogAllocateActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
-            Log.e("결과", s);
             Toast.makeText(getApplicationContext(), "배차가 완료됐습니다.", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(getApplicationContext(), MainActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);

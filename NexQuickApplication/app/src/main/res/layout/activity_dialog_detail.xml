@@ -265,7 +265,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:backgroundTint="#DC3044"
-                android:text="취소"
+                android:text="콜 취소"
                 android:textColor="#ffffff"
 
                 />

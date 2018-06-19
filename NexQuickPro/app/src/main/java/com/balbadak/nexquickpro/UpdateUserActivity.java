@@ -23,7 +23,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -40,55 +39,11 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 
 
-import android.Manifest;
-import android.app.Activity;
-import android.app.LoaderManager.LoaderCallbacks;
-import android.content.ContentValues;
-import android.content.Context;
-import android.content.CursorLoader;
-import android.content.Intent;
-import android.content.Loader;
-import android.content.pm.PackageManager;
-import android.content.res.Resources;
-import android.database.Cursor;
-import android.graphics.drawable.Drawable;
-import android.net.Uri;
-import android.os.AsyncTask;
-import android.os.Bundle;
-import android.provider.ContactsContract;
-import android.provider.MediaStore;
-import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityCompat;
-import android.support.v7.app.AppCompatActivity;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.util.Log;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.RadioGroup;
-import android.widget.Toast;
-
-import com.tsengvn.typekit.TypekitContextWrapper;
-
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.io.DataOutputStream;
-import java.io.FileInputStream;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
 
 
 public class UpdateUserActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
@@ -346,7 +301,6 @@ public class UpdateUserActivity extends AppCompatActivity implements LoaderManag
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        Log.e("INFO", "onActivityResult에 들어옴");
 
         if (requestCode == PICK_PICTURE_FROM_GALLERY)
             if (resultCode == Activity.RESULT_OK) {
@@ -354,12 +308,10 @@ public class UpdateUserActivity extends AppCompatActivity implements LoaderManag
 
                 filePath = getPath(selectedImage); //Cursor 이용해서
                 String file_extn = filePath.substring(filePath.lastIndexOf(".") + 1);
-                Log.e("filePath : ", filePath);
 
 
                 if (file_extn.equals("img") || file_extn.equals("jpg") || file_extn.equals("jpeg") || file_extn.equals("gif") || file_extn.equals("png")) {
                     //FINE
-                    Log.e("INFO", "적절한 형식의 파일이 왔음");
                     pictureCheck = true;
                     Toast.makeText(this, "프로필 사진이 선택되었습니다.", Toast.LENGTH_SHORT).show();
                     //upload(); //나중에 이건 회원가입 버튼 눌렀을 때로 바꾸기..
@@ -378,12 +330,10 @@ public class UpdateUserActivity extends AppCompatActivity implements LoaderManag
 
                 filePath2 = getPath(selectedImage); //Cursor 이용해서
                 String file_extn = filePath2.substring(filePath2.lastIndexOf(".") + 1);
-                Log.e("filePath2 : ", filePath2);
 
 
                 if (file_extn.equals("img") || file_extn.equals("jpg") || file_extn.equals("jpeg") || file_extn.equals("gif") || file_extn.equals("png")) {
                     //FINE
-                    Log.e("INFO", "적절한 형식의 파일이 왔음");
                     licenseCheck = true;
                     Toast.makeText(this, "면허증이 선택되었습니다.", Toast.LENGTH_SHORT).show();
                     //upload(); //나중에 이건 회원가입 버튼 눌렀을 때로 바꾸기..
@@ -418,7 +368,6 @@ public class UpdateUserActivity extends AppCompatActivity implements LoaderManag
         public void run() {
             super.run();
 
-            Log.e("INFO", "프사 쓰레드 런...");
 
             try {
                 FileInputStream fis = new FileInputStream(filePath);
@@ -490,9 +439,7 @@ public class UpdateUserActivity extends AppCompatActivity implements LoaderManag
                 // 스트링.trim() 스트링의 좌우 공백 제거
                 String str = sb.toString().trim();
                 if (str.equals("success") || str.equals("OK")) {
-                    Log.e("INFO", "프사 업로드 성공");
                 } else if (str.equals("fail")) {
-                    Log.e("INFO", "프사 업로드 실패");
                 }
 //안드로이드에서는 백그라운드 스레드에서 메인UI를 터치할 수 없음
 // runOnUiThread()를 사용하면 백그라운드 스레드에서
@@ -514,7 +461,6 @@ public class UpdateUserActivity extends AppCompatActivity implements LoaderManag
         public void run() {
             super.run();
 
-            Log.e("INFO", "면허 쓰레드 런...");
 
             try {
                 FileInputStream fis = new FileInputStream(filePath2);
@@ -584,9 +530,8 @@ public class UpdateUserActivity extends AppCompatActivity implements LoaderManag
                 // 스트링.trim() 스트링의 좌우 공백 제거
                 String str = sb.toString().trim();
                 if (str.equals("success") || str.equals("OK")) {
-                    Log.e("INFO", "면허 업로드 성공");
                 } else if (str.equals("fail")) {
-                    Log.e("INFO", "면허 업로드 실패패");
+
                 }
 //안드로이드에서는 백그라운드 스레드에서 메인UI를 터치할 수 없음
 // runOnUiThread()를 사용하면 백그라운드 스레드에서
@@ -610,7 +555,6 @@ public class UpdateUserActivity extends AppCompatActivity implements LoaderManag
         cursor.moveToFirst();
         String imagePath = cursor.getString(column_index);
 
-        Log.e("imagePath : ", imagePath);
 
         return cursor.getString(column_index);
 
@@ -787,7 +731,6 @@ public class UpdateUserActivity extends AppCompatActivity implements LoaderManag
             super.onPostExecute(s);
 
             if (s != null) {
-                Log.e("받아온 것", s);
                 try {
                     JSONObject data = new JSONObject(s);
 

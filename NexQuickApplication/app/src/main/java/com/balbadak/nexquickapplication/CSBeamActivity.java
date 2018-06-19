@@ -161,8 +161,6 @@ public class CSBeamActivity extends AppCompatActivity implements NavigationView.
 
         String url = mainUrl+ "list/confirmCall.do";
 
-        Log.e("INFO","callInfo에 있는지 체크하러 들어왔다"+qpId+"/"+csId);
-
 
         StringRequest stringRequest = new StringRequest
                 (Request.Method.POST, url,  new Response.Listener<String>() {
@@ -170,7 +168,6 @@ public class CSBeamActivity extends AppCompatActivity implements NavigationView.
                     public void onResponse(final String response) {
 
                         String newResponse =  " {"+"list"+":"+response+"}";
-                        Log.e("INFO!!!",newResponse);
 
 
                         try {
@@ -196,18 +193,15 @@ public class CSBeamActivity extends AppCompatActivity implements NavigationView.
                                                                     new Response.Listener<String>() {
                                                                         @Override
                                                                         public void onResponse(String response) {
-                                                                            Log.e("INFO","배송상태 업데이트 성공");
                                                                         }
                                                                     },
                                                                     new Response.ErrorListener() {
                                                                         @Override
                                                                         public void onErrorResponse(VolleyError error) {
-                                                                            Log.e("INFO","배송상태 업데이트 실패");
                                                                         }
                                                                     }){
                                                                 @Override
                                                                 protected Map<String, String> getParams(){
-                                                                            Log.e("INFO","두번째 getParams호출");
 
                                                                             HashMap<String ,String> params=new HashMap<String, String>();
                                                                             JSONArray jar2 = new JSONArray();
@@ -243,7 +237,6 @@ public class CSBeamActivity extends AppCompatActivity implements NavigationView.
 
 
                         }catch (JSONException e){
-                            Log.e("INFO","JsonException으로 떨어짐");
                             tv.setText("처리 중 문제가 발생했습니다..");
                             e.printStackTrace();
                         }
@@ -255,14 +248,12 @@ public class CSBeamActivity extends AppCompatActivity implements NavigationView.
 
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Log.e("INFO","volley에서 에러났다.");
                         error.printStackTrace();
                         tv.setText("처리 중 문제가 발생했습니다..");
                     }
                 })  {
             @Override
             protected Map<String, String> getParams(){
-                Log.e("INFO","getParam에 들어왔다.");
                 Map<String, String> params = new HashMap<>();
                 params.put("qpId", qpId);
                 params.put("csId", csId);
@@ -277,7 +268,6 @@ public class CSBeamActivity extends AppCompatActivity implements NavigationView.
 
         String url = mainUrl + "list/confirmOrder.do";
 
-        Log.e("INFO","checkOrderInfo에 있는지 체크하러 들어왔다"+qpId+"/"+receiverPhone);
 
 
         StringRequest stringRequest = new StringRequest
@@ -286,7 +276,6 @@ public class CSBeamActivity extends AppCompatActivity implements NavigationView.
                     public void onResponse(final String response) {
 
                         String newResponse =  " {"+"list"+":"+response+"}";
-                        Log.e("INFO!!!",newResponse);
 
 
                         try {
@@ -311,18 +300,15 @@ public class CSBeamActivity extends AppCompatActivity implements NavigationView.
                                                                 new Response.Listener<String>() {
                                                                     @Override
                                                                     public void onResponse(String response) {
-                                                                        Log.e("INFO","배송상태 업데이트 성공");
                                                                     }
                                                                 },
                                                                 new Response.ErrorListener() {
                                                                     @Override
                                                                     public void onErrorResponse(VolleyError error) {
-                                                                        Log.e("INFO","배송상태 업데이트 실패");
                                                                     }
                                                                 }){
                                                             @Override
                                                             protected Map<String, String> getParams(){
-                                                                Log.e("INFO","두번째 getParams호출");
 
                                                                 HashMap<String ,String> params=new HashMap<String, String>();
                                                                 JSONArray jar2 = new JSONArray();
@@ -358,7 +344,6 @@ public class CSBeamActivity extends AppCompatActivity implements NavigationView.
 
 
                         }catch (JSONException e){
-                            Log.e("INFO","JsonException으로 떨어짐");
                             tv.setText("처리 중 문제가 발생했습니다..");
                             e.printStackTrace();
                         }
@@ -370,14 +355,12 @@ public class CSBeamActivity extends AppCompatActivity implements NavigationView.
 
                             @Override
                             public void onErrorResponse(VolleyError error) {
-                                Log.e("INFO","volley에서 에러났다.");
                                 error.printStackTrace();
                                 tv.setText("처리 중 문제가 발생했습니다..");
                             }
                         })  {
             @Override
             protected Map<String, String> getParams(){
-                Log.e("INFO","getParam에 들어왔다.");
                 Map<String, String> params = new HashMap<>();
                 params.put("qpId", qpId);
                 params.put("receiverPhone", receiverPhone);
@@ -409,7 +392,6 @@ public class CSBeamActivity extends AppCompatActivity implements NavigationView.
                 msgs = new NdefMessage[] { msg };
             }
         } else {
-            Log.d(TAG, "Unknown intent.");
             finish();
         }
         return msgs;

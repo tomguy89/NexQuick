@@ -544,20 +544,21 @@ INSERT INTO PRICEINFO VALUES(4, '´ë¹Ú½º', 1, 6000);
 INSERT INTO PRICEINFO VALUES(5, 'À½½Ä¹°',0, 2000);
 INSERT INTO PRICEINFO VALUES(6, '²É',0, 3000);
 
-INSERT INTO CSINFO VALUES('lvlup33','1111','ÀÌ½ÂÁø','01091146322',3,null,null,null,100000,1);
-INSERT INTO CSINFO VALUES('lej','1111','ÀÌÀºÁø','01043771376',1,'»ï¼ºSDS','123-456','²ÜºÎ¼­',100000,1);
-INSERT INTO CSINFO VALUES('test','test','±è¹Î±Ô','01049408292',2,'¿ÍÄ­´Ù','Æ÷¿¡¹ö',null,1000000,1);
-INSERT INTO CSINFO VALUES('1111','1111','È²ÅÂÁø','01026475054',3,null,null,null,10000000,1);
+--INSERT INTO CSINFO VALUES('lvlup33','1111','ÀÌ½ÂÁø','01091146322',3,null,null,null,100000,1);
+--INSERT INTO CSINFO VALUES('lej','1111','ÀÌÀºÁø','01043771376',1,'»ï¼ºSDS','123-456','²ÜºÎ¼­',100000,1);
+--INSERT INTO CSINFO VALUES('test','test','±è¹Î±Ô','01049408292',2,'¿ÍÄ­´Ù','Æ÷¿¡¹ö',null,1000000,1);
+--INSERT INTO CSINFO VALUES('1111','1111','È²ÅÂÁø','01026475054',3,null,null,null,10000000,1);
+--
+--INSERT INTO CSDEVICE VALUES('lvlup33', null);
+--INSERT INTO CSDEVICE VALUES('lej', null);
+--INSERT INTO CSDEVICE VALUES('test', null);
+--INSERT INTO CSDEVICE VALUES('1111', null);
+--
+--INSERT INTO QPINFO VALUES(qpidseq.nextval,'1111','±è¹Î±Ô','1111','00000000',1,50000,'0001');
+--INSERT INTO QPINFO VALUES(qpidseq.nextval,'2222','ÀÌÀºÁø','2222','00000012',2,50000,'0002');
+--INSERT INTO QPINFO VALUES(qpidseq.nextval,'3333','È²ÅÂÁø','3333','01231242',3,99999,'0042');
+--INSERT INTO QPINFO VALUES(qpidseq.nextval,'4444','ÀÌ½ÂÁø','4444','00321012',1,50000,'0022');
 
-INSERT INTO CSDEVICE VALUES('lvlup33', null);
-INSERT INTO CSDEVICE VALUES('lej', null);
-INSERT INTO CSDEVICE VALUES('test', null);
-INSERT INTO CSDEVICE VALUES('1111', null);
-
-INSERT INTO QPINFO VALUES(qpidseq.nextval,'1111','±è¹Î±Ô','1111','00000000',1,50000,'0001');
-INSERT INTO QPINFO VALUES(qpidseq.nextval,'2222','ÀÌÀºÁø','2222','00000012',2,50000,'0002');
-INSERT INTO QPINFO VALUES(qpidseq.nextval,'3333','È²ÅÂÁø','3333','01231242',3,99999,'0042');
-INSERT INTO QPINFO VALUES(qpidseq.nextval,'4444','ÀÌ½ÂÁø','4444','00321012',1,50000,'0022');
 
 COMMIT;
 
@@ -573,7 +574,7 @@ COMMIT;
 --where isGet = 0
 --and o.ordernum = x.ordernum(+)
 --and o.callNum = c.callNum
---and c.callNum = 4
+--and qpId = 1
 --order by callTime;
 
 
@@ -582,10 +583,45 @@ COMMIT;
 --                    from orderInfo o, callInfo c
 --                    where c.callNum = o.callNum
 --                    and isget = 0
---                    group by qpId) n
+--                    group by qpId) n, qpInfo i
 --where p.qpId = n.qpId(+)
+--and qpStatus = 0
+--and i.qpId = p.qpId
+--and qpVehicleType = 1
 --order by abs(to_number('116806400')-to_number(bCode)),
 --abs(power(qplatitude-37.5014981, 2)+power(qplongitude-127.0393299, 2)),
 --n.now;
 
+--select c.callNum, orderNum, callTime, senderName, senderAddress, senderAddressDetail, receiverName, receiverAddress, receiverAddressDetail, orderPrice, urgent, deliveryStatus 
+--		from orderInfo o, callInfo c
+--		where c.callNum = o.callNum
+--		and csId = '1111'
+--		and ((deliveryStatus = 3 and isGet = 1) or (deliveryStatus = 4))
+--		order by callTime;
+
+
+--select c.callNum, o.orderNum, callTime, senderName, senderAddress, senderAddressDetail, receiverName, receiverPhone, receiverAddress, receiverAddressDetail, orderPrice, urgent, deliveryStatus, freightList
+--		from orderInfo o, callInfo c, (SELECT LISTAGG(aa, ',') WITHIN GROUP (order by ordernum) AS freightList, ordernum
+--										FROM   (SELECT freightName||' '|| freightQuant as aa, ordernum
+--        										FROM priceInfo p, freightInfo f
+--        										WHERE p.freightType = f.freightType
+--        										)
+--        								GROUP BY ordernum) x
+--		WHERE isGet = 0
+--		AND o.ordernum = x.ordernum(+)
+--		AND o.callNum = c.callNum
+--		AND c.callNum = 110
+--		ORDER BY callTime;
+
+--select c.callNum, o.orderNum, callTime, senderName, senderAddress, senderAddressDetail, receiverName, receiverAddress, receiverAddressDetail, orderPrice, urgent, deliveryStatus, freightList
+--from orderInfo o, callInfo c, (SELECT LISTAGG(aa, ',') WITHIN GROUP (order by ordernum) AS freightList, ordernum
+--                               FROM   (select freightName||' '|| freightQuant as aa, ordernum
+--                                        from priceInfo p, freightInfo f
+--                                        where p.freightType = f.freightType
+--                                        )
+--                                group by ordernum) x
+--where o.ordernum = x.ordernum(+)
+--and o.callNum = c.callNum
+--and c.qpId = 1
+--and deliveryStatus = 4;
 

@@ -377,11 +377,11 @@ public class QPAccountController {
 			return false;
 	}
 	
+	@RequestMapping("/changeQPStatus.do")
+    public @ResponseBody boolean changeQPStatus(int qpId, int qpStatus) {
+        return qpPositionService.changeQPStatus(qpId, qpStatus);
+    }
 	
-	public @ResponseBody boolean changeQPStatus(int qpId, int qpStatus) {
-		return qpPositionService.changeQPStatus(qpId, qpStatus);
-	}
-
 
 	@RequestMapping("/qpUpdateProfileOnly.do")
 	public @ResponseBody boolean qpUpdate(int qpId, String qpProfile) {

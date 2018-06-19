@@ -1,15 +1,11 @@
 package com.balbadak.nexquickpro;
 
-import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,12 +20,8 @@ import android.widget.TextView;
 import com.balbadak.nexquickpro.vo.ListViewItem;
 import com.balbadak.nexquickpro.vo.OnDelivery;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 
 
 @SuppressLint("ValidFragment")
@@ -155,8 +147,6 @@ public class fragment_order_list extends Fragment {
 
             descStrView.setText(data.get(position).getDescStr());
             orderNum = data.get(position).getOrderNum();
-            Log.i("orderNum", orderNum + "");
-
             return v;
         }
 

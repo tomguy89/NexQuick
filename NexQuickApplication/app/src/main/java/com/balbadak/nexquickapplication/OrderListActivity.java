@@ -220,7 +220,6 @@ public class OrderListActivity extends AppCompatActivity implements NavigationVi
             super.onPostExecute(s);
 
             if (s != null && s.toString().trim().length()!= 0) {
-                Log.e("받아온 것", s);
                 try {
                     JSONArray ja = new JSONArray(s);
                     JSONObject data;
@@ -284,12 +283,15 @@ public class OrderListActivity extends AppCompatActivity implements NavigationVi
     //------------------------------여기부터 내비 영역 -----------------------------
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        Intent intent = new Intent(getApplicationContext(), MainMenuActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+        /*DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();
-        }
+        }*/
     }
 
     @Override

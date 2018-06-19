@@ -131,6 +131,7 @@ public class AppCallMangementController {
 	public @ResponseBody OrderInfo addOrder(String csId, int callNum,
 				String receiverName, String receiverAddress, String receiverAddressDetail, String receiverPhone, String memo) {
 		
+		double distance = 0;
 		//입력 받은 주문 정보 생성
 		CallInfo callInfo = callSelectListService.selectCallInfo(callNum);
 		Address sendAddr = addressTransService.getAddress(callInfo.getSenderAddress());
@@ -140,7 +141,9 @@ public class AppCallMangementController {
 		point.put("startY", sendAddr.getLatitude());
 		point.put("endX", recvAddr.getLongitude());
 		point.put("endY", recvAddr.getLatitude());
-		double distance = distanceCheckService.singleDistanceCheck(point);
+		if(!sendAddr.getLatitude().equals(recvAddr.getLatitude()) && !sendAddr.getLongitude().equals(recvAddr.getLongitude())) {
+			distance = distanceCheckService.singleDistanceCheck(point);
+		}
 		int price = pricingService.proportionalPrice(distance);
 		OrderInfo orderInfo = new OrderInfo(callNum, receiverName, receiverAddress, receiverAddressDetail, receiverPhone, memo, price, distance, Double.parseDouble(recvAddr.getLatitude()), Double.parseDouble(recvAddr.getLongitude()));
 		callManagementService.addOrder(orderInfo);
@@ -335,8 +338,12 @@ public class AppCallMangementController {
 	
 	
 	@RequestMapping("/getFavorite.do")
-	public @ResponseBody List<FavoriteInfo> favInfoList(String csId) {
-		return favoriteManagementService.getDestinationList(csId); 
+	public @ResponseBody List<FavoriteInfo> favInfoList(String csId, int addressType) {
+		if (addressType == 1) {
+			return favoriteManagementService.getDepartureList(csId);
+		}else {
+			return favoriteManagementService.getDestinationList(csId); 			
+		}
 	}
 	
 //	객체로 리턴

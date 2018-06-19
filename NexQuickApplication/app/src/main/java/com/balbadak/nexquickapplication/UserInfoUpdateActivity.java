@@ -27,8 +27,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioGroup;
@@ -38,9 +36,6 @@ import com.tsengvn.typekit.TypekitContextWrapper;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.util.ArrayList;
-import java.util.List;
 
 
 public class UserInfoUpdateActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -338,7 +333,6 @@ public class UserInfoUpdateActivity extends AppCompatActivity implements Navigat
             super.onPostExecute(s);
 
             if (s != null) {
-                Log.e("받아온 것", s);
                 try {
                     JSONObject data = new JSONObject(s);
 
