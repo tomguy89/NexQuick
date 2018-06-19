@@ -1,14 +1,20 @@
 package com.balbadak.nexquickpro;
 
 
+import android.app.AlertDialog;
+import android.content.ContentValues;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.balbadak.nexquickpro.vo.OrderInfo;
 import com.tsengvn.typekit.TypekitContextWrapper;
@@ -77,12 +83,12 @@ public class DialogDetailActivity extends AppCompatActivity {
         quickCancelBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                cancelCallAlert();
             }
         });
-        chatBotBtn = (Button) findViewById(R.id.quickCancelBtn);
+        chatBotBtn = (Button) findViewById(R.id.chatBotBtn);
         mapBtn = (Button) findViewById(R.id.mapBtn);
-
+        callNum = intent.getIntExtra("callNum", 0);
         num = intent.getIntExtra("num", 0);
         name = intent.getStringExtra("name");
         phone = intent.getStringExtra("phone");
@@ -92,6 +98,24 @@ public class DialogDetailActivity extends AppCompatActivity {
         memo = intent.getStringExtra("memo");
         deliveryStatus = intent.getIntExtra("deliveryStatus", 0);
 
+        mapBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    startActivity(new Intent("android.intent.action.DIAL", Uri.parse("tel:"+phone)));
+                } catch(Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        chatBotBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), ChatBotActivity.class);
+                startActivity(intent);
+            }
+        });
 
         switch (deliveryStatus) {
             case 2:
@@ -145,4 +169,60 @@ public class DialogDetailActivity extends AppCompatActivity {
         super.attachBaseContext(TypekitContextWrapper.wrap(newBase));
     }
 
+    private void cancelCallAlert(){
+        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+        String msg= "취소 수수료가 부과됩니다.\n정말 취소하시겠습니까?";
+        alert.setTitle("콜 취소");
+        alert.setMessage(msg);
+        alert.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String url = mainUrl+"call/reRegistCall.do";
+                ContentValues values = new ContentValues();
+                values.put("callNum", callNum);
+                NetworkTask networkTask = new NetworkTask(url, values);
+                networkTask.execute();
+            }
+        });
+
+        alert.setNegativeButton("취소", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface arg0, int arg1) {
+                return;
+            }
+        });
+        alert.show();
+    }
+
+
+    public class NetworkTask extends AsyncTask<Void, Void, String> {
+
+        private String url;
+        private ContentValues values;
+
+        public NetworkTask(String url, ContentValues values) {
+
+            this.url = url;
+            this.values = values;
+        }
+
+        @Override
+        protected String doInBackground(Void... params) {
+
+            String result; // 요청 결과를 저장할 변수.
+            RequestHttpURLConnection requestHttpURLConnection = new RequestHttpURLConnection();
+            result = requestHttpURLConnection.request(url, values); // 해당 URL로 부터 결과물을 얻어온다.
+            return result;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            if(s.toString().equals("true")) {
+                Toast.makeText(getApplicationContext(), "배차가 취소됐습니다.", Toast.LENGTH_SHORT).show();
+                Intent i = new Intent(getApplicationContext(), MainActivity.class);
+                startActivity(i);
+            }
+        }
+    }
 }

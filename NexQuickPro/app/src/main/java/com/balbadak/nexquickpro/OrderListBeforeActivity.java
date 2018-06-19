@@ -1,5 +1,6 @@
 package com.balbadak.nexquickpro;
 
+import android.app.DatePickerDialog;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
@@ -25,6 +26,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.DatePicker;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.Switch;
@@ -41,6 +43,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 
 public class OrderListBeforeActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
@@ -55,6 +59,7 @@ public class OrderListBeforeActivity extends AppCompatActivity implements Naviga
     private int qpId;
     private String qpName;
     private int onWork;
+    private String callTime;
 
 
     private ArrayList<ListViewItem> quickList;
@@ -85,6 +90,38 @@ public class OrderListBeforeActivity extends AppCompatActivity implements Naviga
             qpName = loginInfo.getString("qpName", "");
             onWork = loginInfo.getInt("onWork", 0);
         }
+
+        final Calendar cal = Calendar.getInstance();
+        //DATE PICKER DIALOG
+
+        Button picker = findViewById(R.id.order_date_picker);
+
+        picker.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                DatePickerDialog dialog = new DatePickerDialog(context, new DatePickerDialog.OnDateSetListener() {
+
+                    @Override
+                    public void onDateSet(DatePicker datePicker, int year, int month, int date) {
+                        callTime = String.format("%02d/%02d/%d",  month + 1, date, year);
+                        String url = mainUrl + "appCall/getQPCallByIdAndDate.do";
+                        ContentValues values = new ContentValues();
+                        values.put("callTime", callTime);
+                        values.put("qpId", qpId);
+
+                        GetListTask getListTask = new GetListTask(url, values);
+                        getListTask.execute();
+
+                    }
+                }, cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DATE));
+
+                dialog.getDatePicker().setMaxDate(new Date().getTime());    //입력한 날짜 이전으로 클릭 안되게 옵션
+                dialog.show();
+            }
+
+
+        });
+
 
         quickList = new ArrayList<>();
         list = new ArrayList<>();
@@ -226,6 +263,14 @@ public class OrderListBeforeActivity extends AppCompatActivity implements Naviga
             Intent intent = new Intent(getApplicationContext(), UpdateUserActivity.class);
             startActivity(intent);
             finish();
+        } else if (id == R.id.getOffWork){
+            Intent intent = new Intent(getApplicationContext(), GoToWorkActivity.class);
+            editor.remove("onWork");
+            editor.commit();
+            Intent i = new Intent(getApplicationContext(),LocationService.class);
+            stopService(i);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
         } else if (id == R.id.logout) {
 
             editor.remove("qpId");
@@ -236,6 +281,8 @@ public class OrderListBeforeActivity extends AppCompatActivity implements Naviga
             editor.remove("rememberPassword");
             editor.remove("onWork");
             editor.commit();
+            Intent i = new Intent(getApplicationContext(),LocationService.class);
+            stopService(i);
             Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);

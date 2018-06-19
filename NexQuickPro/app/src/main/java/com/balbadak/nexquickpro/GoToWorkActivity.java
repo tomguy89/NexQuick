@@ -170,9 +170,6 @@ public class GoToWorkActivity extends AppCompatActivity implements NavigationVie
             startActivity(intent);
             finish();
         } else if (id == R.id.getOffWork){
-            Intent intent = new Intent(getApplicationContext(), GoToWorkActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(intent);
         } else if (id == R.id.logout) {
             editor.remove("qpId");
             editor.remove("qpName");
@@ -182,6 +179,8 @@ public class GoToWorkActivity extends AppCompatActivity implements NavigationVie
             editor.remove("rememberPassword");
             editor.remove("onWork");
             editor.commit();
+            Intent i = new Intent(getApplicationContext(),LocationService.class);
+            stopService(i);
             Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);

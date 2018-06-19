@@ -449,9 +449,32 @@
 
 			<if test="callTime != null"> AND callTime >= to_date(#{callTime}, 'mm/dd/yyyy
 				hh24:mi') </if>
+			and deliveryStatus = 4
+		</where>
+			order by c.callTime
+		</select>
 
+		<select id="selectQPCallByIdAndDate" parameterType="map"
+		resultType="OnDelivery">
+		select c.callNum, o.orderNum, callTime, senderName, senderAddress,
+		senderAddressDetail, receiverName, receiverAddress,
+		receiverAddressDetail, orderPrice, urgent, deliveryStatus, freightList
+		from orderInfo o, callInfo c, (SELECT LISTAGG(aa, ',') WITHIN GROUP
+		(order by ordernum) AS freightList, ordernum FROM (select
+		freightName||' '|| freightQuant as aa, ordernum from priceInfo p,
+		freightInfo f where p.freightType = f.freightType ) group by ordernum)
+		x
+
+		<where>
+			o.ordernum = x.ordernum(+) and o.callNum = c.callNum
+			<if test="qpId != null"> and c.qpId = #{qpId} </if>
+
+			<if test="callTime != null"> AND callTime >= to_date(#{callTime}, 'mm/dd/yyyy
+				hh24:mi') </if>
 		</where>
 		order by c.callTime
-	</select>
+		and deliveryStatus = 4
+	</select>	
+	
 </mapper>
 

@@ -167,4 +167,9 @@ public class OrderInfoDAOImpl implements OrderInfoDAO {
 	public List<OnDelivery> selectAllOndeliveryList(HashMap<String, Object> condition) {
 		return sqlSession.selectList("orderInfo.selectAllOndeliveryList", condition);
 	}
+
+	@Override
+	public List<OnDelivery> selectQPCallByIdAndDate(HashMap<String, Object> condition) {
+		return sqlSession.selectList("orderInfo.selectQPCallByIdAndDate", condition);
+	}
 }

@@ -101,6 +101,13 @@ public class DialogDetailActivity extends AppCompatActivity {
             }
         });
         chatBotBtn = (Button) findViewById(R.id.quickCancelBtn);
+        chatBotBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), ChatBotActivity.class);
+                startActivity(intent);
+            }
+        });
         mapBtn = (Button) findViewById(R.id.mapBtn);
 
         switch (deliveryStatus) {
@@ -235,7 +242,7 @@ public class DialogDetailActivity extends AppCompatActivity {
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
             if(s.toString().equals("true")) {
-                Toast.makeText(getApplicationContext(), "요청에 성공했습니다.", Toast.LENGTH_SHORT);
+                Toast.makeText(getApplicationContext(), "요청에 성공했습니다.", Toast.LENGTH_SHORT).show();
                 Intent i = new Intent(getApplicationContext(), OrderListActivity.class);
                 i.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                 startActivity(i);

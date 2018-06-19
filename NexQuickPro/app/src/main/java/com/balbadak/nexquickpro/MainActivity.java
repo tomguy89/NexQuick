@@ -137,9 +137,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             startActivity(intent);
         } else if (id == R.id.getOffWork){
             Intent intent = new Intent(getApplicationContext(), GoToWorkActivity.class);
+            editor.remove("onWork");
+            editor.commit();
+            Intent i = new Intent(getApplicationContext(),LocationService.class);
+            stopService(i);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
-        }  else if (id == R.id.logout) {
+        } else if (id == R.id.logout) {
             editor.remove("qpId");
             editor.remove("qpName");
             editor.remove("qpPhone");
@@ -148,6 +152,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             editor.remove("rememberPassword");
             editor.remove("onWork");
             editor.commit();
+            Intent i = new Intent(getApplicationContext(),LocationService.class);
+            stopService(i);
             Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);

@@ -104,4 +104,6 @@ public interface CallManagementService {
 	OrderInfo getOrder(int orderNum);
 	
 	List<OnDelivery> getAllOndeliveryList(HashMap<String, Object> condition);
+
+	List<OnDelivery> getQPCallByIdAndDate(HashMap<String, Object> condition);
 }

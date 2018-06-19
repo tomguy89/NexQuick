@@ -100,6 +100,9 @@ public class DialogAllocateActivity extends AppCompatActivity {
             }
         }));
 
+        Intent sIntent = new Intent(this, TTSService.class);
+        sIntent.putExtra("message",message);
+        startService(sIntent);
     }
 
     @Override

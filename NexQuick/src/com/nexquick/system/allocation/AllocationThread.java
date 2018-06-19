@@ -131,6 +131,7 @@ public class AllocationThread {
 		String bCode = addr.getbCode();
 		System.out.println(hCode);
 		Map<String, Object> param = new HashMap<String, Object>();
+		param.put("qpId", callInfo.getQpId());
 		param.put("hCode", hCode);
 		param.put("bCode", bCode);
 		param.put("latitude", addr.getLatitude());

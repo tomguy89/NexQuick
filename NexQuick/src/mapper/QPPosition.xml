@@ -53,13 +53,18 @@
 		                    where c.callNum = o.callNum
 		                    and isget = 0
 		                    group by qpId) n, qpInfo i
-		where p.qpId = n.qpId(+)
-		and qpStatus = 0
-		and i.qpId = p.qpId
-		and qpVehicleType = #{vehicleType}
-		order by abs(to_number(#{bCode})-to_number(bCode)),
-		abs(power(qplatitude-to_number(#{latitude}), 2)+power(qplongitude-to_number(#{longitude}), 2)),
-		n.now
+		<where>
+			<if test="qpId != null">
+				qpId != #{qpId}
+			</if>
+			and p.qpId = n.qpId(+)
+			and qpStatus = 0
+			and i.qpId = p.qpId
+			and qpVehicleType = #{vehicleType}
+			order by abs(to_number(#{bCode})-to_number(bCode)),
+			abs(power(qplatitude-to_number(#{latitude}), 2)+power(qplongitude-to_number(#{longitude}), 2)),
+			n.now
+		</where>
 	</select>
 	<select id="selectQPByHCode" parameterType="Map" resultType="QPPosition">
 		SELECT p.*, nvl(now, 0) now
@@ -68,13 +73,19 @@
 		                    where c.callNum = o.callNum
 		                    and isget = 0
 		                    group by qpId) n, qpInfo i
-		where p.qpId = n.qpId(+)
-		and qpStatus = 0
-		and i.qpId = p.qpId
-		and qpVehicleType = #{vehicleType}
-		order by abs(to_number(#{hCode})-to_number(hCode)),
-		abs(power(qplatitude-to_number(#{latitude}), 2)+power(qplongitude-to_number(#{longitude}), 2)),
-		n.now
+		<where>
+			<if test="qpId != null">
+				qpId != #{qpId}
+			</if>
+			and p.qpId = n.qpId(+)
+			and qpStatus = 0
+			and i.qpId = p.qpId
+			and qpVehicleType = #{vehicleType}
+			order by abs(to_number(#{hCode})-to_number(hCode)),
+			abs(power(qplatitude-to_number(#{latitude}), 2)+power(qplongitude-to_number(#{longitude}), 2)),
+			n.now
+		</where>
+		
 	</select>
 	<update id="changeQPStatus" parameterType="map">
 		update  qpPosition

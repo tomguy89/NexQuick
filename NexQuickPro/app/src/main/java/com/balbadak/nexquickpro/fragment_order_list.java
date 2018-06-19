@@ -102,6 +102,7 @@ public class fragment_order_list extends Fragment {
                     @Override
                     public void onClick(View v) {
                         Intent intent = new Intent(context, DialogDetailActivity.class);
+                        intent.putExtra("callNum", orderInfo.getCallNum());
                         intent.putExtra("num", orderInfo.getCallNum());
                         intent.putExtra("name", orderInfo.getSenderName());
                         intent.putExtra("phone", orderInfo.getSenderPhone());
@@ -124,6 +125,7 @@ public class fragment_order_list extends Fragment {
                     @Override
                     public void onClick(View v) {
                         Intent intent = new Intent(context, DialogDetailActivity.class);
+                        intent.putExtra("callNum", orderInfo.getCallNum());
                         intent.putExtra("num", orderInfo.getOrderNum());
                         intent.putExtra("name", orderInfo.getReceiverName());
                         intent.putExtra("phone", orderInfo.getReceiverPhone());

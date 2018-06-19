@@ -35,10 +35,12 @@
             android:textSize="25dp" />
 
 
-        <Spinner
-            android:id="@+id/orderSpinner"
+        <Button
+            android:id="@+id/order_date_picker"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:background="@drawable/button_style"
+            android:text="날짜 이후 조회"/>
 
         <ListView
             android:id="@+id/order_before_listview"

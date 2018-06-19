@@ -120,6 +120,11 @@ public class CallManagementServiceImpl implements CallManagementService {
 		// TODO Auto-generated method stub
 		return orderInfoDao.selectAllOndeliveryList(condition);
 	}
+
+	@Override
+	public List<OnDelivery> getQPCallByIdAndDate(HashMap<String, Object> condition) {
+		return orderInfoDao.selectQPCallByIdAndDate(condition);
+	}
 	
 	
 }

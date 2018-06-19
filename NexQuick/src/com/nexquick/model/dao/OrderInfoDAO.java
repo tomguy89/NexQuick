@@ -93,4 +93,6 @@ public interface OrderInfoDAO {
 	List<OnDelivery> selectQPTotalList(int qpId);
 	
 	List<OnDelivery> selectAllOndeliveryList(HashMap<String, Object> condition);
+
+	List<OnDelivery> selectQPCallByIdAndDate(HashMap<String, Object> condition);
 }

@@ -115,6 +115,10 @@
         <activity
             android:name=".OrderListBeforeActivity"
             android:theme="@style/AppTheme.NoActionBar" />
+
+        <activity
+            android:name=".ChatBotActivity"
+            android:theme="@style/DialogTheme" />
     </application>
 
 </manifest>

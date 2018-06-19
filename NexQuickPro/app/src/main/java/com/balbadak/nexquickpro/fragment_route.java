@@ -1,7 +1,9 @@
 package com.balbadak.nexquickpro;
 
+import android.app.AlertDialog;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -75,6 +77,7 @@ public class fragment_route extends Fragment {
     double qpLongitude;
 
     Button phoneBtn;
+    Button cancelBtn;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -89,7 +92,7 @@ public class fragment_route extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_route, container, false);
         context = this.getActivity();
-        Button cancelBtn = (Button) view.findViewById(R.id.quick_cancel);
+        cancelBtn = (Button) view.findViewById(R.id.quick_cancel);
         phoneBtn = (Button) view.findViewById(R.id.quick_phone);
         Button finishBtn = (Button) view.findViewById(R.id.quick_finish);
         viewPager = getActivity().findViewById(R.id.pager);
@@ -228,7 +231,7 @@ public class fragment_route extends Fragment {
                         public void run() {
                             tMapView.setCenterPoint(qpLongitude, qpLatitude);
                         }
-                    }, 3000);
+                    }, 4000);
                     final String phoneNum;
                     if(lv.getQuickType() ==  1) {
                         callNum=lv.getCallNum();
@@ -243,10 +246,16 @@ public class fragment_route extends Fragment {
                         @Override
                         public void onClick(View v) {
                             try {
-                                startActivity(new Intent("android.intent.action.DIAL", Uri.parse(phoneNum)));
+                                startActivity(new Intent("android.intent.action.DIAL", Uri.parse("tel:"+phoneNum)));
                             } catch(Exception e) {
                                 e.printStackTrace();
                             }
+                        }
+                    });
+                    cancelBtn.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            cancelCallAlert();
                         }
                     });
                 }
@@ -421,7 +430,60 @@ public class fragment_route extends Fragment {
     }
 
 
+    private void cancelCallAlert(){
+        AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
+        String msg= "취소 수수료가 부과됩니다.\n정말 취소하시겠습니까?";
+        alert.setTitle("콜 취소");
+        alert.setMessage(msg);
+        alert.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String url = mainUrl+"call/reRegistCall.do";
+                ContentValues values = new ContentValues();
+                values.put("callNum", callNum);
+                CancelTask cancelTask = new CancelTask(url, values);
+                cancelTask.execute();
+            }
+        });
 
+        alert.setNegativeButton("취소", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface arg0, int arg1) {
+                return;
+            }
+        });
+        alert.show();
+    }
 
+    public class CancelTask extends AsyncTask<Void, Void, String> {
+
+        private String url;
+        private ContentValues values;
+
+        public CancelTask(String url, ContentValues values) {
+
+            this.url = url;
+            this.values = values;
+        }
+
+        @Override
+        protected String doInBackground(Void... params) {
+
+            String result; // 요청 결과를 저장할 변수.
+            RequestHttpURLConnection requestHttpURLConnection = new RequestHttpURLConnection();
+            result = requestHttpURLConnection.request(url, values); // 해당 URL로 부터 결과물을 얻어온다.
+            return result;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            if(s.toString().equals("true")) {
+                Toast.makeText(getActivity(), "배차가 취소됐습니다.", Toast.LENGTH_SHORT).show();
+                Intent i = new Intent(getActivity(), MainActivity.class);
+                startActivity(i);
+            }
+        }
+    }
 
 }

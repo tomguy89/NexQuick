@@ -2,18 +2,20 @@ package com.balbadak.nexquickpro;
 
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 
 import com.google.firebase.messaging.RemoteMessage;
 
 public class MyFirebaseMessagingService extends com.google.firebase.messaging.FirebaseMessagingService  {
     private static final String TAG = "FirebaseMsgService";
-
+    private SharedPreferences loginInfo;
     // [START receive_message]
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
-
-        //추가한것
-        sendNotification( remoteMessage.getNotification().getBody());
+        loginInfo = getSharedPreferences("setting", 0);
+        if(loginInfo.getString("qpName", "")!=null && loginInfo.getString("qpName", "").trim().length()!=0){
+            sendNotification( remoteMessage.getNotification().getBody());
+        }
     }
 
     private void sendNotification(String messageBody) {
@@ -34,9 +36,6 @@ public class MyFirebaseMessagingService extends com.google.firebase.messaging.Fi
 //                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 //
 //        notificationManager.notify(0 /* ID of notification */, notificationBuilder.build());
-        Intent sIntent = new Intent(this, TTSService.class);
-        sIntent.putExtra("message",messageBody);
-        startService(sIntent);
 
         intent.putExtra("message", messageBody);
         startActivity(intent);

@@ -359,6 +359,7 @@ public class AppCallMangementController {
 		List<CallInfo> list = callManagementService.getAllCallsByIdAndDate(condition); 
 		return list;
 	}
+
 	
 	
 //	객체로 리턴
@@ -481,7 +482,7 @@ public class AppCallMangementController {
 		return list;
 	}
 	
-	@RequestMapping("/getOndeliveryByIdAndDate")
+	@RequestMapping("/getOndeliveryByIdAndDate.do")
 	public @ResponseBody List<OnDelivery> getOndeliveryList(String csId, String callTime) {
 		if(callTime.length() == 0 || callTime.equals("")) {
 			callTime = null;
@@ -493,5 +494,19 @@ public class AppCallMangementController {
 		List<OnDelivery> list = callManagementService.getAllOndeliveryList(condition); 
 		return list;
 	}
+	
+	@RequestMapping("/getQPCallByIdAndDate.do")
+	public @ResponseBody List<OnDelivery> getQPCallByIdAndDate(int qpId, String callTime) {
+		if(callTime.length() == 0 || callTime.equals("")) {
+			callTime = null;
+		}
+		HashMap<String, Object> condition = new HashMap<>();
+		condition.put("qpId", qpId);
+		condition.put("callTime", callTime);
+		List<OnDelivery> list = callManagementService.getQPCallByIdAndDate(condition); 
+		return list;
+	}
+	
+	
 	
 }
