@@ -34,7 +34,7 @@
             android:layout_marginBottom="30dp"
             android:adjustViewBounds="true"
             android:scaleType="fitCenter"
-            android:src="@drawable/bluelogo" />
+            android:src="@drawable/app_logo_app" />
 
         <EditText
             android:id="@+id/etLogin"
@@ -68,6 +68,7 @@
             android:drawableLeft="@drawable/signin_img"
             android:paddingLeft="15dp"
             android:text="@string/login"
+            android:textColor="@color/colorConcept"
             android:textStyle="bold" />
 
 
@@ -80,6 +81,7 @@
             android:drawableLeft="@drawable/sign_up_img"
             android:paddingLeft="15dp"
             android:text="@string/signup"
+            android:textColor="@color/colorConcept"
             android:textStyle="bold" />
 
         <Space

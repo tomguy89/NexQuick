@@ -84,7 +84,7 @@
                     android:textSize="20sp"
                     android:background="@drawable/button_style"
                     android:textColor="@color/colorConcept"
-                    android:text="주문종료" />
+                    android:text="메인으로" />
 
                 <Button
                     android:id="@+id/orderlistBtn"
