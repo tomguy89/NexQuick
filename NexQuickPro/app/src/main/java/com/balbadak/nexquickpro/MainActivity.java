@@ -448,11 +448,38 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 @Override
                 public void onTabSelected(TabLayout.Tab tab) {
                     viewPager.setCurrentItem(tab.getPosition());
+                    switch(tab.getPosition()) {
+                        case 0:
+                            tabLayout.setTabTextColors(getResources().getColor(R.color.colorAccent),getResources().getColor(R.color.colorGold));
+                            tab.setIcon(R.drawable.tab_apply_detail_gold);
+                            break;
+                        case 1:
+                            tabLayout.setTabTextColors(getResources().getColor(R.color.colorAccent),getResources().getColor(R.color.colorGold));
+                            tab.setIcon(R.drawable.tab_address_detail_gold);
+                            break;
+                        case 2:
+                            tabLayout.setTabTextColors(getResources().getColor(R.color.colorAccent),getResources().getColor(R.color.colorGold));
+                            tab.setIcon(R.drawable.tab_completed_gold);
+                            break;
+                    }
                 }
 
                 @Override
                 public void onTabUnselected(TabLayout.Tab tab) {
-
+                    switch(tab.getPosition()) {
+                        case 0:
+                            tabLayout.setTabTextColors(getResources().getColor(R.color.colorAccent),getResources().getColor(R.color.colorGold));
+                            tab.setIcon(R.drawable.tab_apply_detail_black);
+                            break;
+                        case 1:
+                            tabLayout.setTabTextColors(getResources().getColor(R.color.colorAccent),getResources().getColor(R.color.colorGold));
+                            tab.setIcon(R.drawable.tab_address_detail);
+                            break;
+                        case 2:
+                            tabLayout.setTabTextColors(getResources().getColor(R.color.colorAccent),getResources().getColor(R.color.colorGold));
+                            tab.setIcon(R.drawable.tab_complete_black);
+                            break;
+                    }
                 }
 
                 @Override
