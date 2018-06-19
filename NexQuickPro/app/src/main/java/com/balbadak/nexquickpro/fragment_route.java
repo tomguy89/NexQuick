@@ -74,6 +74,8 @@ public class fragment_route extends Fragment {
     double qpLatitude;
     double qpLongitude;
 
+    Button phoneBtn;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
@@ -88,7 +90,7 @@ public class fragment_route extends Fragment {
         View view = inflater.inflate(R.layout.fragment_route, container, false);
         context = this.getActivity();
         Button cancelBtn = (Button) view.findViewById(R.id.quick_cancel);
-        Button phoneBtn = (Button) view.findViewById(R.id.quick_phone);
+        phoneBtn = (Button) view.findViewById(R.id.quick_phone);
         Button finishBtn = (Button) view.findViewById(R.id.quick_finish);
         viewPager = getActivity().findViewById(R.id.pager);
         quickSpinner = (Spinner) view.findViewById(R.id.quick_spinner);
@@ -162,17 +164,7 @@ public class fragment_route extends Fragment {
             }
         });
 
-        /* 0617 김민규수정 */
-        phoneBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                try {
-                    startActivity(new Intent("android.intent.action.DIAL", Uri.parse(phoneNumber)));
-                } catch(Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
+
 
         finishBtn.setOnClickListener(new View.OnClickListener() { //이걸 누르는 순간 결제 해야 하는지 안 해야 하는지....
             @Override
@@ -227,6 +219,8 @@ public class fragment_route extends Fragment {
                 @Override
                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                     ListViewItem lv = (ListViewItem) quickSpinner.getItemAtPosition(position);
+
+
                     tMapView.setCenterPoint(Double.parseDouble(list.get(position).getLongitude()), Double.parseDouble(list.get(position).getLatitude()));
                     Handler mHandler = new Handler();
                     mHandler.postDelayed(new Runnable() {
@@ -235,13 +229,26 @@ public class fragment_route extends Fragment {
                             tMapView.setCenterPoint(qpLongitude, qpLatitude);
                         }
                     }, 3000);
+                    final String phoneNum;
                     if(lv.getQuickType() ==  1) {
                         callNum=lv.getCallNum();
                         pickChackFlag=true;
+                        phoneNum = list.get(position).getSenderPhone();
                     } else {
                         orderNum=lv.getOrderNum();
                         pickChackFlag=false;
+                        phoneNum = list.get(position).getReceiverPhone();
                     }
+                    phoneBtn.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            try {
+                                startActivity(new Intent("android.intent.action.DIAL", Uri.parse(phoneNum)));
+                            } catch(Exception e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    });
                 }
 
                 @Override

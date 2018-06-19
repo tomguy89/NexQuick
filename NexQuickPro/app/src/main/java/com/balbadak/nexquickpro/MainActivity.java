@@ -135,7 +135,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } else if (id == R.id.update_info) {
             Intent intent = new Intent(getApplicationContext(), UpdateUserActivity.class);
             startActivity(intent);
-        } else if (id == R.id.logout) {
+        } else if (id == R.id.getOffWork){
+            Intent intent = new Intent(getApplicationContext(), GoToWorkActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+        }  else if (id == R.id.logout) {
             editor.remove("qpId");
             editor.remove("qpName");
             editor.remove("qpPhone");
