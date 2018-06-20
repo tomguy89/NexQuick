@@ -259,11 +259,22 @@
 	<!-- 0616 이승진 수정 -->
 	<select id="selectUnpayedCall" parameterType="int"
 		resultType="OnDelivery">
-		select *
-		from orderInfo o, callInfo c, freightInfo f
-		where
-		o.callnum = c.callnum
-		and o.ordernum = f.ordernum
+		select c.callNum, o.orderNum, callTime, senderName,
+		senderPhone, senderAddress, senderAddressDetail, receiverName,
+		receiverPhone, receiverAddress, receiverAddressDetail, orderPrice,
+		memo, urgent, deliveryStatus, freightList, arrivalTime, c.latitude as
+		senderLatitude, c.longitude as senderLongitude, o.latitude as
+		receiverLatitude, o.longitude as receiverLongitude, isGet
+		from orderInfo o,
+		callInfo c, (SELECT LISTAGG(aa, ',') WITHIN GROUP (order by ordernum)
+		AS freightList, ordernum
+		FROM (SELECT freightName||' '|| freightQuant as aa, ordernum
+		FROM priceInfo p, freightInfo f
+		WHERE p.freightType = f.freightType
+		)
+		GROUP BY ordernum) x
+		WHERE o.ordernum = x.ordernum(+)
+		AND o.callNum = c.callNum
 		and qpId=#{qpId}
 		and deliveryStatus=4
 		and payStatus=2
