@@ -33,4 +33,7 @@
 	<bean id="priceInfoDao" class="com.nexquick.model.dao.PriceInfoDAOImpl"
 		p:sqlSession-ref="sqlSession"/>
 		
+	<bean id="bigDataDao" class="com.nexquick.model.dao.BigDataDAOImpl"
+		p:sqlSession-ref="sqlSession"/>
+		
 </beans>

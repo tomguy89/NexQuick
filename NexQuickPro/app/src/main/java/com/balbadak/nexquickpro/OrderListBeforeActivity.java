@@ -263,12 +263,17 @@ public class OrderListBeforeActivity extends AppCompatActivity implements Naviga
             Intent intent = new Intent(getApplicationContext(), UpdateUserActivity.class);
             startActivity(intent);
             finish();
+        } else if (id == R.id.deviceManager) {
+            Intent intent = new Intent(getApplicationContext(), BluetoothActivity.class);
+            startActivity(intent);
         } else if (id == R.id.getOffWork){
             Intent intent = new Intent(getApplicationContext(), GoToWorkActivity.class);
             editor.remove("onWork");
             editor.commit();
             Intent i = new Intent(getApplicationContext(),LocationService.class);
             stopService(i);
+            Intent i2 = new Intent(getApplicationContext(), BluetoothService.class);
+            stopService(i2);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
         } else if (id == R.id.logout) {
@@ -283,6 +288,8 @@ public class OrderListBeforeActivity extends AppCompatActivity implements Naviga
             editor.commit();
             Intent i = new Intent(getApplicationContext(),LocationService.class);
             stopService(i);
+            Intent i2 = new Intent(getApplicationContext(), BluetoothService.class);
+            stopService(i2);
             Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
@@ -340,6 +347,10 @@ public class OrderListBeforeActivity extends AppCompatActivity implements Naviga
                         order.setOrderNum(data.getInt("orderNum"));
                         order.setCallNum(data.getInt("callNum"));
                         order.setCallTime(data.getString("callTime"));
+                        order.setSenderName(data.getString("senderName"));
+                        order.setSenderPhone(data.getString("senderPhone"));
+                        order.setSenderAddress(data.getString("senderAddress"));
+                        order.setSenderAddressDetail(data.getString("senderAddressDetail"));
                         order.setReceiverName(data.getString("receiverName"));
                         order.setReceiverPhone(data.getString("receiverPhone"));
                         order.setReceiverAddress(data.getString("receiverAddress"));

@@ -283,4 +283,9 @@ public class CallSelectListServiceImpl implements CallSelectListService {
 		return orderInfoDao.getOnDeliveryCallListLast(callNum);
 	}
 
+	@Override
+	public List<OrderInfo> selectOrderList(int callNum) {
+		return orderInfoDao.selectOrderList(callNum);
+	}
+
 }

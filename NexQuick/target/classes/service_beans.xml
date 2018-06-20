@@ -34,5 +34,10 @@
 	<bean id="weatherCheckService" class="com.nexquick.service.parsing.WeatherCheckServiceImpl"/>
 	
 	<bean id="optimalRouteService" class="com.nexquick.service.parsing.OptimalRouteServiceImpl"/>
+	
+	<bean id="weatherDataService" class="com.nexquick.service.data.WeatherDataServiceImpl"
+		p:bigDataDao-ref="bigDataDao"/>
 		
+	<bean id="quickDataService" class="com.nexquick.service.data.QuickDataServiceImpl"
+		p:bigDataDao-ref="bigDataDao"/>
 </beans>

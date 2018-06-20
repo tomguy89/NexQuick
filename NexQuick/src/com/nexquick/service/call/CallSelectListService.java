@@ -105,5 +105,7 @@ public interface CallSelectListService {
 
 	List<OnDelivery> qptotalList(int qpId);
 	List<OnDelivery> getOnDeliveryCallListLast(int callNum);
+
+	List<OrderInfo> selectOrderList(int callNum);
 	
 }

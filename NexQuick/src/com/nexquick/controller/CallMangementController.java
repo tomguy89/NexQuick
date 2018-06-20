@@ -21,6 +21,8 @@ import com.nexquick.model.vo.FavoriteInfo;
 import com.nexquick.model.vo.FreightInfo;
 import com.nexquick.model.vo.OrderInfo;
 import com.nexquick.model.vo.QPInfo;
+import com.nexquick.model.vo.QuickData;
+import com.nexquick.service.account.CSAccountService;
 import com.nexquick.service.account.FavoriteManagementService;
 import com.nexquick.service.account.QPPositionService;
 import com.nexquick.service.call.CallManagementService;
@@ -80,6 +82,12 @@ public class CallMangementController {
 	@Autowired
 	public void setQpPositionService(QPPositionService qpPositionService) {
 		this.qpPositionService = qpPositionService;
+	}
+	
+	private CSAccountService csAccountService;
+	@Autowired
+	public void setCsAccountService(CSAccountService csAccountService) {
+		this.csAccountService = csAccountService;
 	}
 
 
@@ -268,9 +276,11 @@ public class CallMangementController {
 		callInfo.setPayStatus(payStatus);
 		callManagementService.updateCall(callInfo);
 		AllocationQueue.getInstance().offer(callInfo, 0);
+		insertQuickData(callNum);
 		return true;
 	}
 	
+
 	@RequestMapping("/updateCall.do")
 	public @ResponseBody boolean updateCall(HttpSession session, int callNum, String senderName, String senderAddress, String senderAddressDetail, String senderPhone,
 			  int vehicleType, int urgent, int reserved, int series, String reservationTime) {
@@ -582,7 +592,31 @@ public class CallMangementController {
 
 	
 	
-	
+	private void insertQuickData(int callNum) {
+		QuickData qd = new QuickData();
+		CallInfo callInfo = callSelectListService.selectCallInfo(callNum);
+		CSInfo csInfo = csAccountService.getCSInfo(callInfo.getCsId());
+		switch(csInfo.getCsType()) {
+		case 1: qd.setCustomerType("기업고객");break;
+		case 2: qd.setCustomerType("자영업");break;
+		case 3: qd.setCustomerType("개인고객");break;
+		}
+		qd.setCallDate(callInfo.getCallTime());
+		qd.setCallTime(callInfo.getCallTime());
+		qd.setSenderAddress(callInfo.getSenderAddress());
+		List<OrderInfo> orderList = callSelectListService.selectOrderList(callNum);
+		for(OrderInfo oi : orderList) {
+			qd.setReceiverAddress(oi.getReceiverAddress());
+			qd.setDistance(qd.getDistance()+oi.getDistance());
+		}
+		switch(callInfo.getVehicleType()) {
+		case 1: qd.setVehicleType("오토바이");break;
+		case 2: qd.setVehicleType("다마스");break;
+		case 3: qd.setVehicleType("라보");break;
+		case 4: qd.setVehicleType("1t 트럭");break;
+		}
+		
+	}
 	
 	
 }

@@ -6,6 +6,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -22,10 +23,11 @@ public class WeatherCheckServiceImpl implements WeatherCheckService {
 	 * @see com.nexquick.service.parsing.WeatherCheckService#simpleWeather(com.nexquick.model.vo.Address)
 	 */
 	@Override
-	public int simpleWeather(Address addr) {
+	public Map<String, String> simpleWeather(Address addr) {
 		String latitude = addr.getLatitude();
 		String longitude = addr.getLongitude();
 		StringBuilder getData = new StringBuilder();
+		Map<String, String> map = new HashMap<>();
 		
 		try {
 			getData.append("latitude=").append(URLEncoder.encode(latitude, "UTF-8"));
@@ -34,13 +36,23 @@ public class WeatherCheckServiceImpl implements WeatherCheckService {
 			String apiURL = "https://apis.sktelecom.com/v1/weather/status?"+param;
 
 	        JSONObject object = parsing(apiURL);
-	        
-	        int weatherStatus = Integer.parseInt(object.get("weatherStatusCode").toString());
-	        return weatherStatus;
+	        System.out.println(object.toString());
+	        String weatherStatus = object.get("weatherStatusCode").toString();
+	        String weatherModify = object.get("weatherModifyCode").toString();
+	        String word = null;
+	        switch(Integer.parseInt(weatherStatus)) {
+	        case 0:word="알수 없음"; break; case 1:word="맑음"; break;case 2:word="흐림"; break;case 3:word="안개"; break;case 4:word="구름"; break;case 5:word="비"; break;
+	        case 6:word="눈"; break;case 7:word="비/눈"; break;case 8:word="폭우"; break;case 9:word="폭설"; break;case 10:word="폭우/폭설"; break;}
+	        map.put("weatherStatus", word);
+	        switch(Integer.parseInt(weatherModify)) {
+	        case 0:word="알수 없음"; break; case 1:word="강추위"; break;case 2:word="쌀쌀하다"; break;case 3:word="쌀쌀하다"; break;case 4:word="포근하다"; break;
+	        case 5:word="따듯하다"; break; case 6:word="선선하다"; break;case 7:word="덥다"; break;case 8:word="무더위"; break;}
+	        map.put("weatherModify", word);
+	        return map;
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
-		return 0;
+		return null;
 	}
 	
 	/* (non-Javadoc)

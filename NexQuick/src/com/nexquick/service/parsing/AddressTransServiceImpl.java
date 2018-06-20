@@ -95,9 +95,9 @@ public class AddressTransServiceImpl implements AddressTransService {
             InputStreamReader isr;
             
             if (responseCode == 200) { 
-                isr = new InputStreamReader(con.getInputStream());
+                isr = new InputStreamReader(con.getInputStream(), "UTF-8");
             } else { 
-                isr = new InputStreamReader(con.getErrorStream());
+                isr = new InputStreamReader(con.getErrorStream(), "UTF-8");
             }
             
             JSONObject object = (JSONObject)JSONValue.parse(isr);
@@ -137,9 +137,9 @@ public class AddressTransServiceImpl implements AddressTransService {
 			InputStreamReader isr;
 			
 			if (responseCode == 200) { 
-				isr = new InputStreamReader(con.getInputStream());
+				isr = new InputStreamReader(con.getInputStream(), "UTF-8");
 			} else { 
-				isr = new InputStreamReader(con.getErrorStream());
+				isr = new InputStreamReader(con.getErrorStream(), "UTF-8");
 			}
 			
 			JSONObject object = (JSONObject)JSONValue.parse(isr);

@@ -134,7 +134,6 @@ public class fragment_calculate extends Fragment {
             StringBuilder titleSb = new StringBuilder();
             StringBuilder descSb = new StringBuilder();
             super.onPostExecute(s);
-            Log.e("money", s);
             if (s != null && s.toString().trim().length()!= 0) {
                 try {
                     JSONArray ja = new JSONArray(s);
@@ -228,7 +227,6 @@ public class fragment_calculate extends Fragment {
                         }
 
                         if(inapp*0.95 > place*0.05) {
-
                             finishBtn.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
@@ -417,12 +415,11 @@ public class fragment_calculate extends Fragment {
             String qpBank = null;
             String qpAccount = null;
 
-
             if(s!=null){
                 try {
                     JSONObject object = new JSONObject(s);
 
-                    money=object.getInt("money");
+                    money= (int)((inapp+place)*0.95);
                     qpBank=object.getString("qpBank");
                     qpAccount=object.getString("qpAccount");
 
@@ -481,12 +478,12 @@ public class fragment_calculate extends Fragment {
             int money = 0;
             String qpBank = null;
             String qpAccount = null;
-
             if (s != null) {
                 try {
                     JSONObject object = new JSONObject(s);
 
                     money = object.getInt("money");
+                    money= (int)((place*0.05-inapp*0.95));
 
 
                 } catch (JSONException e) {

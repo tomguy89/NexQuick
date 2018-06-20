@@ -29,12 +29,13 @@ public class GoogleService extends Service implements RecognitionListener{
     int callNum;
     private SharedPreferences loginInfo;
     int qpId;
+    String mainUrl;
 
     public void onCreate() {
 
 
         super.onCreate();
-
+        mainUrl =  getResources().getString(R.string.main_url);
 
 
     }
@@ -117,7 +118,7 @@ public class GoogleService extends Service implements RecognitionListener{
                 loginInfo = getSharedPreferences("setting", 0);
                 qpId = loginInfo.getInt("qpId", 0);
 
-                String url = "http://70.12.109.166:9090/NexQuick/appCall/completeAllocate.do";
+                String url = mainUrl + "appCall/completeAllocate.do";
                 ContentValues values = new ContentValues();
                 values.put("callNum", callNum);
                 values.put("qpId", qpId);

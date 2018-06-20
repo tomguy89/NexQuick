@@ -21,6 +21,9 @@
 		<typeAlias type="com.nexquick.model.vo.QPScore" alias="QPScore" />
 		<!-- 김민규 0615 추가 -->
 		<typeAlias type="com.nexquick.model.vo.BusinessOrderInfo" alias="BusinessOrderInfo" />
+		<!-- 0620 추가 -->
+		<typeAlias type="com.nexquick.model.vo.WeatherData" alias="WeatherData" />
+		<typeAlias type="com.nexquick.model.vo.QuickData" alias="QuickData" />
 	</typeAliases>
 	
 	<mappers>
@@ -33,5 +36,7 @@
 		<mapper resource="mapper/QPInfo.xml"/>
 		<mapper resource="mapper/QPPosition.xml"/>
 		<mapper resource="mapper/QPScore.xml"/>
+		<!-- 0620 추가 -->
+		<mapper resource="mapper/NexQuickBigData.xml"/>
 	</mappers>
 </configuration>

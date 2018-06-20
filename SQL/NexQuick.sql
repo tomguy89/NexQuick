@@ -544,6 +544,49 @@ INSERT INTO PRICEINFO VALUES(4, '대박스', 1, 6000);
 INSERT INTO PRICEINFO VALUES(5, '음식물',0, 2000);
 INSERT INTO PRICEINFO VALUES(6, '꽃',0, 3000);
 
+
+-- 추가 기능 구현을 위한 DB
+DROP TABLE weatherData;
+
+CREATE TABLE weatherData(
+    hcode VARCHAR2(20),
+    bcode VARCHAR2(20),
+    dong VARCHAR2(100),
+    weatherInfo VARCHAR2(500),
+    sensorTemp NUMBER,
+    sensorHum NUMBER, 
+    refLatitude NUMBER,
+    refLongitude NUMBER,
+    refTime DATE
+);
+
+
+drop table quickData;
+CREATE TABLE quickData(
+    customerType VARCHAR2(20),
+    callDate VARCHAR2(30),
+    callTime VARCHAR2(30),
+    senderAddress VARCHAR2(500),
+    receiverAddress VARCHAR2(500),
+    distance NUMBER,
+    vehicleType VARCHAR2(20),
+    price NUMBER,
+    payType VARCHAR2(20),
+    document NUMBER,
+    sBox NUMBER,
+    mBox NUMBER,
+    lBox NUMBER,
+    food NUMBER,
+    flower NUMBER
+);
+
+
+
+
+
+
+
+
 --INSERT INTO CSINFO VALUES('lvlup33','1111','이승진','01091146322',3,null,null,null,100000,1);
 --INSERT INTO CSINFO VALUES('lej','1111','이은진','01043771376',1,'삼성SDS','123-456','꿀부서',100000,1);
 --INSERT INTO CSINFO VALUES('test','test','김민규','01049408292',2,'와칸다','포에버',null,1000000,1);
@@ -564,6 +607,7 @@ COMMIT;
 
 
 
+
 --select c.callNum, o.orderNum, callTime, senderName, senderAddress, senderAddressDetail, receiverName, receiverAddress, receiverAddressDetail, orderPrice, urgent, deliveryStatus, freightList
 --from orderInfo o, callInfo c, (SELECT LISTAGG(aa, ',') WITHIN GROUP (order by ordernum) AS freightList, ordernum
 --                               FROM   (select freightName||' '|| freightQuant as aa, ordernum
@@ -574,7 +618,7 @@ COMMIT;
 --where isGet = 0
 --and o.ordernum = x.ordernum(+)
 --and o.callNum = c.callNum
---and qpId = 1
+--and qpId != 1
 --order by callTime;
 
 
@@ -625,3 +669,27 @@ COMMIT;
 --and c.qpId = 1
 --and deliveryStatus = 4;
 
+
+--select c.callNum, o.orderNum, callTime, senderName,
+--		senderPhone, senderAddress, senderAddressDetail, receiverName,
+--		receiverPhone, receiverAddress, receiverAddressDetail, orderPrice,
+--		memo, urgent, deliveryStatus, freightList, arrivalTime, c.latitude as
+--		senderLatitude, c.longitude as senderLongitude, o.latitude as
+--		receiverLatitude, o.longitude as receiverLongitude, isGet
+--		from orderInfo o,
+--		callInfo c, (SELECT LISTAGG(aa, ',') WITHIN GROUP (order by ordernum)
+--		AS freightList, ordernum
+--		FROM (SELECT freightName||' '|| freightQuant as aa, ordernum
+--		FROM priceInfo p, freightInfo f
+--		WHERE p.freightType = f.freightType
+--		)
+--		GROUP BY ordernum) x
+--		WHERE o.ordernum = x.ordernum(+)
+--		AND o.callNum = c.callNum
+--		and qpId=2        
+--		and deliveryStatus=4
+--		and payStatus=2;
+
+select to_char(callTime, 'hh24:mi')
+from callInfo
+where callNum=26;

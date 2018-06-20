@@ -5,6 +5,7 @@ import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
 import android.content.ContentValues;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Binder;
 import android.os.Handler;
@@ -25,6 +26,7 @@ public class BluetoothService extends Service {
     int readBufferPosition;
     String mainUrl;
     BluetoothDevice mRemoteDevie;
+    private SharedPreferences loginInfo;
     // 스마트폰과 페어링 된 디바이스간 통신 채널에 대응 하는 BluetoothSocket
 
     IBinder mBinder = new MyBinder();
@@ -38,13 +40,15 @@ public class BluetoothService extends Service {
 
     @Override
     public IBinder onBind(Intent intent) {
-        mainUrl = getResources().getString(R.string.main_url);
+
         return mBinder;
     }
 
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        mainUrl = getResources().getString(R.string.main_url);
+        loginInfo = getSharedPreferences("setting", 0);
 
         try {
             mSocket = BluetoothActivity.mSocket;
@@ -102,7 +106,7 @@ public class BluetoothService extends Service {
                                             String temperature = data.substring(0, 6);
 //                                          DateFormat dateFormat = new SimpleDateFormat("MM/dd HH:mm");
 //                                          Date date = new Date();
-                                            String url = mainUrl + ".do";
+                                            String url = mainUrl + "data/weatherSensorData.do";
                                             ContentValues value = new ContentValues();
                                             int humiInt = Integer.parseInt(data.substring(7, 9));
                                             int tempInt = Integer.parseInt(data.substring(1, 3));
@@ -111,6 +115,8 @@ public class BluetoothService extends Service {
 
                                             value.put("humidity", humiInt);
                                             value.put("temperature", tempInt);
+                                            value.put("latitude", loginInfo.getString("latitude", ""));
+                                            value.put("longitude", loginInfo.getString("longitude", ""));
 
                                             SendDataTask sendDataTask = new SendDataTask(url, value);
                                             sendDataTask.execute();
@@ -164,6 +170,16 @@ public class BluetoothService extends Service {
         }
     }
 
+    @Override
+    public void onDestroy() {
+        try {
+            mWorkerThread.interrupt(); // 데이터 수신 쓰레드 종료
+            mInputStream.close();
+            mSocket.close();
+        } catch (Exception e) {
+        }
+        super.onDestroy();
+    }
 }
 
 

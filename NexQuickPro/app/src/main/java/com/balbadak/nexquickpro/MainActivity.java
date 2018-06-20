@@ -137,12 +137,17 @@ MainActivity extends AppCompatActivity implements NavigationView.OnNavigationIte
         } else if (id == R.id.update_info) {
             Intent intent = new Intent(getApplicationContext(), UpdateUserActivity.class);
             startActivity(intent);
+        } else if (id == R.id.deviceManager) {
+            Intent intent = new Intent(getApplicationContext(), BluetoothActivity.class);
+            startActivity(intent);
         } else if (id == R.id.getOffWork){
             Intent intent = new Intent(getApplicationContext(), GoToWorkActivity.class);
             editor.remove("onWork");
             editor.commit();
             Intent i = new Intent(getApplicationContext(),LocationService.class);
             stopService(i);
+            Intent i2 = new Intent(getApplicationContext(), BluetoothService.class);
+            stopService(i2);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
         } else if (id == R.id.logout) {
@@ -156,6 +161,8 @@ MainActivity extends AppCompatActivity implements NavigationView.OnNavigationIte
             editor.commit();
             Intent i = new Intent(getApplicationContext(),LocationService.class);
             stopService(i);
+            Intent i2 = new Intent(getApplicationContext(), BluetoothService.class);
+            stopService(i2);
             Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);

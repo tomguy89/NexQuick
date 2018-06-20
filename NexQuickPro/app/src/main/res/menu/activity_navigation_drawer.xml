@@ -23,6 +23,10 @@
                 android:icon="@drawable/setting_img"
                 android:title="@string/updateUserInfo" />
             <item
+                android:id="@+id/deviceManager"
+                android:icon="@drawable/parking_img_pro"
+                android:title="@string/deviceManager" />
+            <item
                 android:id="@+id/getOffWork"
                 android:icon="@drawable/parking_img_pro"
                 android:title="@string/getOffWork" />

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -29,12 +30,11 @@ public class DialogCalculateEndActivity extends AppCompatActivity {
         Button leaveWorkBtn = findViewById(R.id.leaveWorkBtn);
 
         Intent gotIntent = getIntent();
-
-
+        String qpAccount = gotIntent.getStringExtra("qpAccount");
         tv = findViewById(R.id.quick_allocate_contents);
     //여기부터
-        if(gotIntent.getStringExtra("qpAcount") != null) {
-            tv.setText(gotIntent.getStringExtra("qpBank") + " " + gotIntent.getStringExtra("qpAccount") + "로 " + gotIntent.getIntExtra("money", 0) + "원이 입금되었습니다.");
+        if(qpAccount != null && qpAccount.trim() != "") {
+            tv.setText(gotIntent.getStringExtra("qpBank") + " " + gotIntent.getStringExtra("qpAccount") + "로\n" + gotIntent.getIntExtra("money", 0) + "원이 입금되었습니다.");
         } else {
             tv.setText("보증금이 차감되었습니다. 현재 보증금은" +gotIntent.getIntExtra("money", 0) + "원입니다.");
         }
@@ -42,6 +42,9 @@ public class DialogCalculateEndActivity extends AppCompatActivity {
         cancelBtn.setOnClickListener(new View.OnClickListener() {
                                          @Override
                                          public void onClick(View v) {
+                                             Intent i1 = new Intent(getApplicationContext(), MainActivity.class);
+                                             i1.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+                                             startActivity(i1);
                                              finish();
                                          }
                                      }
@@ -50,6 +53,9 @@ public class DialogCalculateEndActivity extends AppCompatActivity {
         continueBtn.setOnClickListener(new View.OnClickListener() {
                                            @Override
                                            public void onClick(View v) {
+                                               Intent i1 = new Intent(getApplicationContext(), MainActivity.class);
+                                               i1.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+                                               startActivity(i1);
                                                finish();
                                            }
                                        }
