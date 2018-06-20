@@ -122,11 +122,11 @@ function registCall(JSONDocument) {
 			  <tr>
 			  <% if(callInfo != null) { %>
 			  
-			  <% if(callInfo.getVehicleType()==0) { vehicleType = "오토바이";%>
-			  <% } else if (callInfo.getVehicleType()==1) { vehicleType = "다마스"; %>
-			  <% } else if (callInfo.getVehicleType()==2) { vehicleType = "라보"; %>
-			  <% } else if (callInfo.getVehicleType()==3) { vehicleType = "트럭"; %>
-			  <% } else if (callInfo.getVehicleType()==4) { vehicleType = "기타"; %>
+			  <% if(callInfo.getVehicleType()==1) { vehicleType = "오토바이";%>
+			  <% } else if (callInfo.getVehicleType()==2) { vehicleType = "다마스"; %>
+			  <% } else if (callInfo.getVehicleType()==3) { vehicleType = "라보"; %>
+			  <% } else if (callInfo.getVehicleType()==4) { vehicleType = "트럭"; %>
+			  <% } else if (callInfo.getVehicleType()==5) { vehicleType = "기타"; %>
 			  <% } %>
 			  	<th class = "col_100 centerBox"><%= callInfo.getCallNum() %></th>
 			  	<th class = "col_100 centerBox"><%= callInfo.getSenderName() %></th>

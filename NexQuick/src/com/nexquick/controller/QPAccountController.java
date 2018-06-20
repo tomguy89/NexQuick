@@ -160,6 +160,10 @@ public class QPAccountController {
 	@RequestMapping("/getQPByCallNum.do")
 	public @ResponseBody QPPosition qpPositionByCallNum(int callNum) {
 		QPInfo qpInfo = qpAccountService.getQPByCallNum(callNum);
+		if(qpInfo == null) {
+			
+			return null;
+		}
 		int qpId = qpInfo.getQpId();
 		return qpPositionService.selectQPPositionByCallNum(qpId);
 	}

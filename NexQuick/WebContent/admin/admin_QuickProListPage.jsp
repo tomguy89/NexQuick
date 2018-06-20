@@ -102,16 +102,16 @@ function setQpListTable(JSONDocument) {
 	for(var i in JSONDocument) {
 		var tdId = "#qp"+JSONDocument[i].qpId;
 		switch(JSONDocument[i].qpVehicleType) {
-		case 0:
+		case 1:
 			vehicleType = "오토바이";
 			break;
-		case 1:
+		case 2:
 			vehicleType = "다마스";
 			break;
-		case 2:
+		case 3:
 			vehicleType = "라보";
 			break;
-		case 3:
+		case 4:
 			vehicleType = "트럭";
 			break;
 		default:
