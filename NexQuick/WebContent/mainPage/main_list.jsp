@@ -453,8 +453,14 @@ function findAddress(Address) {
 				    });
 			    	markers.push(marker);
 
-					
-			        var moveLatLon = new daum.maps.LatLng($("#lat").val(), $("#lon").val());
+			    	var moveLatLon;
+			    	if($("#lat").val() != 0) {
+			    		moveLatLon = new daum.maps.LatLng($("#lat").val(), $("#lon").val());
+			    		$("#titleText").text("배송기사가 이동 중입니다.");
+			    	} else {
+				        moveLatLon = coords_Start;
+				        $("#titleText").text("배정된 배송기사 위치정보가 없습니다.");
+			    	}
 				    map.panTo(moveLatLon);     
 					
 				}

@@ -21,12 +21,15 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.nexquick.system.UploadPath;
+import com.nexquick.model.vo.CallInfo;
 import com.nexquick.model.vo.OnDelivery;
+import com.nexquick.model.vo.OrderInfo;
 import com.nexquick.model.vo.QPInfo;
 import com.nexquick.model.vo.QPPay;
 import com.nexquick.model.vo.QPPosition;
 import com.nexquick.service.account.QPAccountService;
 import com.nexquick.service.account.QPPositionService;
+import com.nexquick.service.call.CallManagementService;
 import com.nexquick.service.call.CallSelectListService;
 
 @RequestMapping("/qpAccount")
@@ -54,6 +57,15 @@ public class QPAccountController {
 		this.callSelectListService = callSelectListService;
 	}
 
+//	0620 김민규 추가 
+	private CallManagementService callManagementService;
+	
+	@Autowired
+	public void setCallManagementService(CallManagementService callManagementService) {
+		this.callManagementService = callManagementService;
+	}
+
+	
 	/**
 	 * QP의 로그인을 처리 contextPath/qpAccount/qpSignIn.do
 	 * 
@@ -158,17 +170,21 @@ public class QPAccountController {
 		callSelectListService.updatePayStatus(list);
 	}
 
-	// 0613 새로추가
+	// 0613 추가, 0620 수정
 	@RequestMapping("/getQPByCallNum.do")
 	public @ResponseBody QPPosition qpPositionByCallNum(int callNum) {
 		QPInfo qpInfo = qpAccountService.getQPByCallNum(callNum);
+//		해당 콜 넘버를 가진 qp가 없으면. => 배정되어 있지 않으면
+//		QPPosition의 ID를 -1로 만듦. (웹 챗봇용)
 		if(qpInfo == null) {
-			
-			return null;
+			QPPosition qpPosition = new QPPosition();
+			qpPosition.setQpId(-1);
+			return qpPosition;
 		}
 		int qpId = qpInfo.getQpId();
 		return qpPositionService.selectQPPositionByCallNum(qpId);
 	}
+
 
 	// 0614 이은진 추가 (사진 업로드 부분) 위에 signup 부분도.. 수정했음!
 
@@ -394,6 +410,47 @@ public class QPAccountController {
 		qpInfo.setQpProfile(qpProfile);
 		qpAccountService.updateProfileOnly(qpInfo);
 		return true;
+	}
+	
+	
+	
+
+//	0620 김민규 추가 - 앱 지도용
+	@RequestMapping("/getQPPosition_app.do")
+	public String getQPPosition(HttpSession session, int callNum, int orderNum) {
+		QPInfo qpInfo = qpAccountService.getQPByCallNum(callNum);
+		CallInfo callInfo = callSelectListService.selectCallInfo(callNum);
+		OrderInfo orderInfo = callManagementService.getOrder(orderNum);
+		String senderAddress = callInfo.getSenderAddress();
+		String receiverAddress = orderInfo.getReceiverAddress();
+		if(qpInfo == null) {
+			session.setAttribute("qpLat", 0);
+			session.setAttribute("qpLon", 0);
+			session.setAttribute("senderAddress", senderAddress);
+			session.setAttribute("receiverAddress", receiverAddress);
+			return "redirect:/app_map.jsp";
+		}
+		int qpId = qpInfo.getQpId();
+		QPPosition qpPosition = qpPositionService.selectQPPositionByCallNum(qpId);
+		double qpLat;
+		double qpLon;
+		if(qpPosition != null) {
+			qpLat = qpPosition.getQpLatitude();
+			qpLon = qpPosition.getQpLongitude();
+		} else {
+			qpLat = 0;
+			qpLon = 0;
+		}
+
+		
+		session.setAttribute("qpLat", qpLat);
+		session.setAttribute("qpLon", qpLon);
+		session.setAttribute("senderAddress", senderAddress);
+		session.setAttribute("receiverAddress", receiverAddress);
+		
+		return "redirect:/app_map.jsp";
+		
+		
 	}
 	
 }

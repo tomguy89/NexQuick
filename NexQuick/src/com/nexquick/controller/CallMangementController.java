@@ -9,6 +9,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -571,11 +572,15 @@ public class CallMangementController {
 	    callManagementService.updateCall(callInfo);
 	}
 	
+//	0620 김민규 추가
 	@RequestMapping("/payByCard.do")
 	public String payByCard(HttpSession session, int totalPrice) {
 		session.setAttribute("appTotalPrice", totalPrice);
 		return "redirect:/app_pay_test.jsp";
 	}
+	
+
+	
 	
 	
 	
