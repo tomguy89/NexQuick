@@ -1,5 +1,3 @@
-<%@ page import = "com.nexquick.model.vo.OnDelivery" %>
-<%@ page import = "java.util.*" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -8,9 +6,6 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <script src="<%=request.getContextPath() %>/Table_Fixed_Header/vendor/jquery/jquery-3.2.1.min.js"></script>
 <link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/css/indexStyle.css">
-<link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/css/InputBoxStyle.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.0/jquery-confirm.min.css">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.0/jquery-confirm.min.js"></script>
 <title>NexQuick :: 퀵 라이더 위치 지도</title>
 <% 
 	double qpLat = (double) request.getSession().getAttribute("qpLat");
@@ -22,10 +17,7 @@
 
 <script type="text/javascript">
 $(function() {
-
 	findAddress();
-
-	
 });
 
 function findAddress() {
