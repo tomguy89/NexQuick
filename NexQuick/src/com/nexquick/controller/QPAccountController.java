@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.nexquick.system.UploadPath;
+import com.nexquick.model.vo.AppQPPosition;
 import com.nexquick.model.vo.CallInfo;
 import com.nexquick.model.vo.OnDelivery;
 import com.nexquick.model.vo.OrderInfo;
@@ -417,18 +418,19 @@ public class QPAccountController {
 
 //	0620 김민규 추가 - 앱 지도용
 	@RequestMapping("/getQPPosition_app.do")
-	public String getQPPosition(HttpSession session, int callNum, int orderNum) {
+	public @ResponseBody AppQPPosition getQPPosition(HttpSession session, int callNum, int orderNum) {
 		QPInfo qpInfo = qpAccountService.getQPByCallNum(callNum);
 		CallInfo callInfo = callSelectListService.selectCallInfo(callNum);
 		OrderInfo orderInfo = callManagementService.getOrder(orderNum);
 		String senderAddress = callInfo.getSenderAddress();
 		String receiverAddress = orderInfo.getReceiverAddress();
+		AppQPPosition appQPPosition = new AppQPPosition();
 		if(qpInfo == null) {
-			session.setAttribute("qpLat", 0);
-			session.setAttribute("qpLon", 0);
-			session.setAttribute("senderAddress", senderAddress);
-			session.setAttribute("receiverAddress", receiverAddress);
-			return "redirect:/app_map.jsp";
+			appQPPosition.setQpLat(0);
+			appQPPosition.setQpLon(0);
+			appQPPosition.setSenderAddress(senderAddress);
+			appQPPosition.setReceiverAddress(receiverAddress);
+			return appQPPosition;
 		}
 		int qpId = qpInfo.getQpId();
 		QPPosition qpPosition = qpPositionService.selectQPPositionByCallNum(qpId);
@@ -441,14 +443,13 @@ public class QPAccountController {
 			qpLat = 0;
 			qpLon = 0;
 		}
-
 		
-		session.setAttribute("qpLat", qpLat);
-		session.setAttribute("qpLon", qpLon);
-		session.setAttribute("senderAddress", senderAddress);
-		session.setAttribute("receiverAddress", receiverAddress);
+		appQPPosition.setQpLat(qpLat);
+		appQPPosition.setQpLon(qpLon);
+		appQPPosition.setSenderAddress(senderAddress);
+		appQPPosition.setReceiverAddress(receiverAddress);
 		
-		return "redirect:/app_map.jsp";
+		return appQPPosition;
 		
 		
 	}

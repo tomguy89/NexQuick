@@ -5,37 +5,42 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <script src="<%=request.getContextPath() %>/Table_Fixed_Header/vendor/jquery/jquery-3.2.1.min.js"></script>
-<link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/css/indexStyle.css">
+<link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/css/indexStyle.css"/>
 <title>NexQuick :: 퀵 라이더 위치 지도</title>
 <% 
-	double qpLat = (double) request.getSession().getAttribute("qpLat");
-	double qpLon = (double) request.getSession().getAttribute("qpLon");
-	String senderAddress = (String) request.getSession().getAttribute("senderAddress");
-	String receiverAddress = (String) request.getSession().getAttribute("receiverAddress");
+	int callNum = Integer.parseInt(request.getParameter("callNum"));
+	int orderNum = Integer.parseInt(request.getParameter("orderNum"));
 %>
-
-
 <script type="text/javascript">
 $(function() {
-	findAddress();
-});
-
-function findAddress() {
-	console.log("<%=qpLat%>");
-	console.log("<%=qpLon%>");
-	console.log("<%=senderAddress%>");
-	console.log("<%=receiverAddress%>");
-	$("#lat").val(<%=qpLat%>);
-	$("#lon").val(<%=qpLon%>);
-	$("#senderAddress").val("<%=senderAddress%>");
-	$("#receiverAddress").val("<%=receiverAddress%>");
+		
+	$.ajax({
+		url : "<%= request.getContextPath() %>/qpAccount/getQPPosition_app.do",
+		dataType : "json",
+		method : "POST",
+		data : {
+			callNum : <%= callNum %>,
+			orderNum : <%= orderNum %>
+		},
+		success : findAddress,
+		error : errorPage
+	})
 	
+	
+});
+function errorPage() {
+	$("#titleText").text("올바른 콜 또는 오더 번호가 아닙니다.");
+}
+
+function findAddress(JSONDocument) {
+	$("#lat").val(JSONDocument.qpLat);
+	$("#lon").val(JSONDocument.qpLat);
+	$("#senderAddress").val(JSONDocument.senderAddress);
+	$("#receiverAddress").val(JSONDocument.receiverAddress);
 	setTimeout(function(){
 		$("#lat").trigger("click");
 	}, 500);
-	
 }
-
 
 </script>
 <!-- 배송중인 배달이 있다면. -->
