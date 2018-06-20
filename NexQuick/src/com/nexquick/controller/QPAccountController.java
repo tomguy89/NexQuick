@@ -426,6 +426,7 @@ public class QPAccountController {
 		String receiverAddress = orderInfo.getReceiverAddress();
 		AppQPPosition appQPPosition = new AppQPPosition();
 		if(qpInfo == null) {
+			System.out.println("QPINFO 널임");
 			appQPPosition.setQpLat(0);
 			appQPPosition.setQpLon(0);
 			appQPPosition.setSenderAddress(senderAddress);
@@ -437,9 +438,11 @@ public class QPAccountController {
 		double qpLat;
 		double qpLon;
 		if(qpPosition != null) {
+			System.out.println("QP포지션 널 아님");
 			qpLat = qpPosition.getQpLatitude();
 			qpLon = qpPosition.getQpLongitude();
 		} else {
+			System.out.println("QP포지션 널");
 			qpLat = 0;
 			qpLon = 0;
 		}

@@ -34,7 +34,7 @@ function errorPage() {
 
 function findAddress(JSONDocument) {
 	$("#lat").val(JSONDocument.qpLat);
-	$("#lon").val(JSONDocument.qpLat);
+	$("#lon").val(JSONDocument.qpLon);
 	$("#senderAddress").val(JSONDocument.senderAddress);
 	$("#receiverAddress").val(JSONDocument.receiverAddress);
 	setTimeout(function(){
