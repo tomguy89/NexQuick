@@ -46,6 +46,7 @@ public class Order3Activity extends AppCompatActivity implements NavigationView.
 
     private Context context = this;
     private SharedPreferences loginInfo;
+    private SharedPreferences.Editor editor;
 
     private String payUrl;
 
@@ -63,6 +64,13 @@ public class Order3Activity extends AppCompatActivity implements NavigationView.
     ArrayList<OnDelivery> list;
     StringBuilder titleSb;
     StringBuilder descSb;
+    Button payAppCard;
+    Button payAppDeposit;
+    Button paySenderCard;
+    Button paySenderMoney;
+    Button payReceiverCard;
+    Button payReceiverMoney;
+    Button payCredit;
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -76,7 +84,7 @@ public class Order3Activity extends AppCompatActivity implements NavigationView.
         mainUrl = getResources().getString(R.string.main_url);
         setContentView(R.layout.activity_neworder3);
         loginInfo = getSharedPreferences("setting", 0);
-
+        editor = loginInfo.edit();
         callNum = getIntent().getExtras().getInt("cn");
         dateList = new ArrayList<>();
         list = new ArrayList<>();
@@ -108,112 +116,13 @@ public class Order3Activity extends AppCompatActivity implements NavigationView.
 
         payUrl = mainUrl + "appCall/registCall.do";
 
-        Button payAppCard = (Button) findViewById(R.id.payAppCard);
-        Button payAppDeposit = (Button) findViewById(R.id.payAppDeposit);
-        Button paySenderCard = (Button) findViewById(R.id.paySenderCard);
-        Button paySenderMoney = (Button) findViewById(R.id.paySenderMoney);
-        Button payReceiverCard = (Button) findViewById(R.id.payReceiverCard);
-        Button payReceiverMoney = (Button) findViewById(R.id.payReceiverMoney);
-        Button payCredit = (Button) findViewById(R.id.payCredit);
-
-        payAppCard.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(context, DialogPayActivity.class);
-                intent.putExtra("orderCount", orderCount);
-                startActivityForResult(intent, 2000);
-            }
-        });
-
-        payAppDeposit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                Intent intent = new Intent(context, DialogPayActivity.class);
-                intent.putExtra("orderCount", orderCount);
-                startActivityForResult(intent, 2020);
-            }
-        });
-
-        paySenderCard.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                values.put("payType", 2);
-                values.put("payStatus", 0);
-                values.put("totalPrice", totalPrice);
-                values.put("callNum", callNum);
-                MainTask mainTask = new MainTask(payUrl, values);
-                mainTask.execute();
-                Intent intent = new Intent(context, OrderCompleteActivity.class);
-                intent.putExtra("orderCount", orderCount);
-                startActivity(intent);
-            }
-        });
-
-        paySenderMoney.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                values.put("payType", 3);
-                values.put("payStatus", 0);
-                values.put("totalPrice", totalPrice);
-                values.put("callNum", callNum);
-                MainTask mainTask = new MainTask(payUrl, values);
-                mainTask.execute();
-                Intent intent = new Intent(context, OrderCompleteActivity.class);
-                intent.putExtra("orderCount", orderCount);
-                startActivity(intent);
-            }
-        });
-
-        payReceiverCard.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                values.put("payType", 4);
-                values.put("payStatus", 0);
-                values.put("totalPrice", totalPrice);
-                values.put("callNum", callNum);
-                MainTask mainTask = new MainTask(payUrl, values);
-                mainTask.execute();
-                Intent intent = new Intent(context, OrderCompleteActivity.class);
-                intent.putExtra("orderCount", orderCount);
-                startActivity(intent);
-            }
-        });
-
-        payReceiverMoney.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                values.put("payType", 5);
-                values.put("payStatus", 0);
-                values.put("totalPrice", totalPrice);
-                values.put("callNum", callNum);
-                MainTask mainTask = new MainTask(payUrl, values);
-                mainTask.execute();
-                Intent intent = new Intent(context, OrderCompleteActivity.class);
-                intent.putExtra("orderCount", orderCount);
-                startActivity(intent);
-            }
-        });
-
-        payCredit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                values.put("payType", 6);
-                values.put("payStatus", 0);
-                values.put("totalPrice", totalPrice);
-                values.put("callNum", callNum);
-                MainTask mainTask = new MainTask(payUrl, values);
-                mainTask.execute();
-                Intent intent = new Intent(context, OrderCompleteActivity.class);
-                intent.putExtra("orderCount", orderCount);
-                startActivity(intent);
-            }
-        });
+        payAppCard = (Button) findViewById(R.id.payAppCard);
+        payAppDeposit = (Button) findViewById(R.id.payAppDeposit);
+        paySenderCard = (Button) findViewById(R.id.paySenderCard);
+        paySenderMoney = (Button) findViewById(R.id.paySenderMoney);
+        payReceiverCard = (Button) findViewById(R.id.payReceiverCard);
+        payReceiverMoney = (Button) findViewById(R.id.payReceiverMoney);
+        payCredit = (Button) findViewById(R.id.payCredit);
 
 
         // 내비게이션 서랍을 위한 툴바
@@ -235,8 +144,9 @@ public class Order3Activity extends AppCompatActivity implements NavigationView.
 
     @Override
     protected void onDestroy() {
+        editor.putInt("totalPrice", 0);
+        editor.commit();
         super.onDestroy();
-        loginInfo.edit().putInt("totalPrice", 0);
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
@@ -468,6 +378,8 @@ public class Order3Activity extends AppCompatActivity implements NavigationView.
                         list.add(order);
                     }
                     tvTotalPrice.setText(totalPrice + "원");
+                    editor.putInt("totalPrice",totalPrice);
+                    editor.commit();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -484,6 +396,105 @@ public class Order3Activity extends AppCompatActivity implements NavigationView.
 
 
             }
+
+            payAppCard.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(context, DialogPayActivity.class);
+                    intent.putExtra("orderCount", orderCount);
+                    startActivityForResult(intent, 2000);
+                }
+            });
+
+            payAppDeposit.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    Intent intent = new Intent(context, DialogPayActivity.class);
+                    intent.putExtra("orderCount", orderCount);
+                    startActivityForResult(intent, 2020);
+                }
+            });
+
+            paySenderCard.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    values.put("payType", 2);
+                    values.put("payStatus", 0);
+                    values.put("totalPrice", totalPrice);
+                    values.put("callNum", callNum);
+                    MainTask mainTask = new MainTask(payUrl, values);
+                    mainTask.execute();
+                    Intent intent = new Intent(context, OrderCompleteActivity.class);
+                    intent.putExtra("orderCount", orderCount);
+                    startActivity(intent);
+                }
+            });
+
+            paySenderMoney.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    values.put("payType", 3);
+                    values.put("payStatus", 0);
+                    values.put("totalPrice", totalPrice);
+                    values.put("callNum", callNum);
+                    MainTask mainTask = new MainTask(payUrl, values);
+                    mainTask.execute();
+                    Intent intent = new Intent(context, OrderCompleteActivity.class);
+                    intent.putExtra("orderCount", orderCount);
+                    startActivity(intent);
+                }
+            });
+
+            payReceiverCard.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    values.put("payType", 4);
+                    values.put("payStatus", 0);
+                    values.put("totalPrice", totalPrice);
+                    values.put("callNum", callNum);
+                    MainTask mainTask = new MainTask(payUrl, values);
+                    mainTask.execute();
+                    Intent intent = new Intent(context, OrderCompleteActivity.class);
+                    intent.putExtra("orderCount", orderCount);
+                    startActivity(intent);
+                }
+            });
+
+            payReceiverMoney.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    values.put("payType", 5);
+                    values.put("payStatus", 0);
+                    values.put("totalPrice", totalPrice);
+                    values.put("callNum", callNum);
+                    MainTask mainTask = new MainTask(payUrl, values);
+                    mainTask.execute();
+                    Intent intent = new Intent(context, OrderCompleteActivity.class);
+                    intent.putExtra("orderCount", orderCount);
+                    startActivity(intent);
+                }
+            });
+
+            payCredit.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    values.put("payType", 6);
+                    values.put("payStatus", 1);
+                    values.put("totalPrice", totalPrice);
+                    values.put("callNum", callNum);
+                    MainTask mainTask = new MainTask(payUrl, values);
+                    mainTask.execute();
+                    Intent intent = new Intent(context, OrderCompleteActivity.class);
+                    intent.putExtra("orderCount", orderCount);
+                    startActivity(intent);
+                }
+            });
         }
     }
 

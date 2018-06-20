@@ -249,7 +249,7 @@
 
 
 	<update id="payComplete" parameterType="map">
-		update callInfo set payStatus=2 where callNum in
+		update callInfo set payStatus=1 where callNum in
 		<foreach collection="list" item="item" open="(" close=")"
 			separator=","> #{item} </foreach>
 
@@ -264,20 +264,26 @@
 		receiverPhone, receiverAddress, receiverAddressDetail, orderPrice,
 		memo, urgent, deliveryStatus, freightList, arrivalTime, c.latitude as
 		senderLatitude, c.longitude as senderLongitude, o.latitude as
-		receiverLatitude, o.longitude as receiverLongitude, isGet
-		from orderInfo o,
-		callInfo c, (SELECT LISTAGG(aa, ',') WITHIN GROUP (order by ordernum)
+		receiverLatitude, o.longitude as receiverLongitude, isGet, payType
+		from
+		orderInfo o,
+		callInfo c, (SELECT LISTAGG(aa, ',') WITHIN GROUP (order
+		by ordernum)
 		AS freightList, ordernum
-		FROM (SELECT freightName||' '|| freightQuant as aa, ordernum
+		FROM (SELECT freightName||' '||
+		freightQuant as aa, ordernum
 		FROM priceInfo p, freightInfo f
-		WHERE p.freightType = f.freightType
+		WHERE
+		p.freightType = f.freightType
 		)
 		GROUP BY ordernum) x
-		WHERE o.ordernum = x.ordernum(+)
+		WHERE o.ordernum =
+		x.ordernum(+)
 		AND o.callNum = c.callNum
 		and qpId=#{qpId}
-		and deliveryStatus=4
-		and payStatus=2
+		and
+		deliveryStatus=4
+		and payStatus!=2
 	</select>
 
 	<select id="selectUnpayedSumInApp" parameterType="map"
@@ -290,9 +296,9 @@
 				<foreach separator="," close=")" open="(" item="callNum"
 					collection="list"> #{callNum} </foreach>
 			</if>
-		and payType not in (2,3,4,5)
+			and payType not in (2,3,4,5)
+			and payStatus!=2
 		</where>
-		and payStatus=2
 	</select>
 
 	<select id="selectUnpayedSumPlace" parameterType="map"
@@ -301,24 +307,24 @@
 		from callInfo
 		<where>
 			<if test="list != null and list.size() >= 1">
-				where callNum in
+				callNum in
 				<foreach separator="," close=")" open="(" item="callNum"
 					collection="list"> #{callNum} </foreach>
 			</if>
-		and payType in (2,3,4,5)
+			and payType in (2,3,4,5)
+			and payStatus!=2
 		</where>
-		and payStatus=2
 	</select>
 
 	<update id="updatePayStatus" parameterType="map">
 		update callinfo
-		set payStatus=3
+		set payStatus=2
 		<if test="list != null and list.size() >= 1">
 			where callNum in
 			<foreach separator="," close=")" open="(" item="callNum"
 				collection="list"> #{callNum} </foreach>
 		</if>
-		
+
 	</update>
-	
+
 </mapper>

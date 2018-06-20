@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -23,6 +24,8 @@ public class DialogPayActivity extends AppCompatActivity {
 
     private WebView mainWebView;
     private static final String APP_SCHEME = "iamporttest://";
+    private SharedPreferences loginInfo;
+    private int totalPrice;
 
     @SuppressLint("NewApi")
     @Override
@@ -30,7 +33,8 @@ public class DialogPayActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dialog_pay);
         mainUrl = getResources().getString(R.string.main_url);
-
+        loginInfo = getSharedPreferences("setting", 0);
+        totalPrice = loginInfo.getInt("totalPrice", 0);
         Display display = ((WindowManager) getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
 
         int width = (int) (display.getWidth() * 0.96); //Display 사이즈의 70%
@@ -56,7 +60,7 @@ public class DialogPayActivity extends AppCompatActivity {
         Uri intentData = intent.getData();
 
         if (intentData == null) {
-            mainWebView.loadUrl(mainUrl+"app_pay_test.jsp");
+            mainWebView.loadUrl(mainUrl+"call/payByCard.do?totalPrice="+totalPrice);
         } else {
             //isp 인증 후 복귀했을 때 결제 후속조치
             String url = intentData.toString();

@@ -2,8 +2,10 @@ package com.nexquick.controller;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
@@ -270,7 +272,7 @@ public class QPAccountController {
 	}
 
 	@RequestMapping("/unpayedMoney.do")
-	public @ResponseBody List<Integer> unpayedMoney(int qpId) {
+	public @ResponseBody Map<String, Object> unpayedMoney(int qpId) {
 
 		List<OnDelivery> deliveryList = callSelectListService.selectUnpayedCall(qpId);
 
@@ -283,15 +285,14 @@ public class QPAccountController {
 		List<Integer> jungsanList = new ArrayList<>();
 		jungsanList.addAll(callSet);
 		
+		Map<String, Object> list = new HashMap<>();
 		int inapp = callSelectListService.selectUnpayedSumInApp(jungsanList);
 		int place = callSelectListService.selectUnpayedSumPlace(jungsanList);
 		
-		jungsanList.clear();
-		jungsanList.add(inapp);
-		jungsanList.add(place);
+		list.put("inapp", inapp);
+		list.put("place", place);
 
-		return jungsanList;
-
+		return list;
 	}
 	
 	@RequestMapping("/processPayment.do")

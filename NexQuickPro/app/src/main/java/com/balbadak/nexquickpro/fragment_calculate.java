@@ -8,6 +8,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -129,7 +130,7 @@ public class fragment_calculate extends Fragment {
             StringBuilder titleSb = new StringBuilder();
             StringBuilder descSb = new StringBuilder();
             super.onPostExecute(s);
-
+            Log.e("money", s);
             if (s != null && s.toString().trim().length()!= 0) {
                 try {
                     JSONArray ja = new JSONArray(s);
@@ -148,6 +149,10 @@ public class fragment_calculate extends Fragment {
                         order.setOrderNum(data.getInt("orderNum"));
                         order.setCallNum(data.getInt("callNum"));
                         order.setCallTime(data.getString("callTime"));
+                        order.setSenderName(data.getString("senderName"));
+                        order.setSenderPhone(data.getString("senderPhone"));
+                        order.setSenderAddress(data.getString("senderAddress"));
+                        order.setSenderAddressDetail(data.getString("senderAddressDetail"));
                         order.setReceiverName(data.getString("receiverName"));
                         order.setReceiverPhone(data.getString("receiverPhone"));
                         order.setReceiverAddress(data.getString("receiverAddress"));
@@ -156,12 +161,38 @@ public class fragment_calculate extends Fragment {
                         order.setMemo(data.getString("memo"));
                         order.setDeliveryStatus(data.getInt("deliveryStatus"));
                         order.setFreightList(data.getString("freightList"));
-                        order.setArrivaltime(data.getString("arrivaltime"));
+                        order.setArrivaltime(data.getString("arrivalTime"));
+                        order.setPayType(data.getInt("payType"));
 
-                        titleSb.append(order.getArrivaltime());
-                        descSb.append("   수령인   ");
-                        descSb.append(order.getReceiverName()).append("\n");
-                        descSb.append("   수령지   ");
+                        switch(order.getPayType()){
+                            case 0:
+                                titleSb.append("계좌이체");
+                                break;
+                            case 1:
+                                titleSb.append("온라인결제");
+                                break;
+                            case 2:
+                                titleSb.append("발송인/현금");
+                                break;
+                            case 3:
+                                titleSb.append("발송인/카드");
+                                break;
+                            case 4:
+                                titleSb.append("수령인/현금");
+                                break;
+                            case 5:
+                                titleSb.append("수령인/카드");
+                                break;
+                            case 6:
+                                titleSb.append("기업후불");
+                                break;
+                        }
+
+                        titleSb.append("   ");
+                        titleSb.append(order.getOrderPrice()+" 원");
+                        descSb.append("픽/");
+                        descSb.append(order.getSenderAddress()).append("\n");
+                        descSb.append("착/");
                         descSb.append(order.getReceiverAddress());
 
                         item.setTitleStr(titleSb.toString());
@@ -217,24 +248,20 @@ public class fragment_calculate extends Fragment {
 
         @Override
         protected void onPostExecute(String s) {
-            StringBuilder titleSb = new StringBuilder();
-            StringBuilder descSb = new StringBuilder();
+
             super.onPostExecute(s);
 
+            Log.e("money", s);
             if (s != null && s.toString().trim().length()!= 0) {
                 try {
-                    JSONArray ja = new JSONArray(s);
-                    JSONObject data;
+                    JSONObject data = new JSONObject(s);
 
-                    int inapp = (int) ja.get(0);
-                    int place = (int) ja.get(1);
-
-                    inapp = (int) (inapp*0.95);
-                    place = (int) (place*0.05);
+                    int inapp = data.getInt("inapp");
+                    int place = data.getInt("place");
 
                     inappMoneyTv.setText(inapp+" 원");
                     placeMoneyTv.setText(place+" 원");
-                    jungsan = inapp - place;
+                    jungsan = (int)((inapp+place)*0.95);
                     totalJungsanTv.setText(jungsan + " 원");
 
                     if(inapp == 0 && place == 0) {
@@ -268,7 +295,6 @@ public class fragment_calculate extends Fragment {
                             @Override
                             public void onClick(View v) {
 
-                                //String url = "http://70.12.109.166:9090/NexQuick/qpAccount/processDepositSubtr.do";
                                 String url = mainUrl + "qpAccount/processDepositSubtr.do";
                                 ContentValues values = new ContentValues();
                                 values.put("qpId", qpId);
@@ -450,11 +476,11 @@ public class fragment_calculate extends Fragment {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(getActivity(), DialogDetailActivity.class);
-                    intent.putExtra("orderNum", orderInfo.getOrderNum());
+                    intent.putExtra("num", orderInfo.getOrderNum());
                     intent.putExtra("callNum", orderInfo.getCallNum());
-                    intent.putExtra("receiverName", orderInfo.getReceiverName());
-                    intent.putExtra("receiverPhone", orderInfo.getReceiverPhone());
-                    intent.putExtra("receiverAddress", orderInfo.getReceiverAddress()+" "+orderInfo.getReceiverAddressDetail());
+                    intent.putExtra("name", orderInfo.getReceiverName());
+                    intent.putExtra("phone", orderInfo.getReceiverPhone());
+                    intent.putExtra("address", orderInfo.getReceiverAddress()+" "+orderInfo.getReceiverAddressDetail());
                     intent.putExtra("freights", orderInfo.getFreightList());
                     intent.putExtra("orderPrice", orderInfo.getOrderPrice());
                     intent.putExtra("memo", orderInfo.getMemo());

@@ -159,7 +159,7 @@ public class DialogDetailActivity extends AppCompatActivity {
         phoneTV.setText(phone);
         addressTV.setText(address);
         freightsTV.setText(freights);
-        orderPriceTV.setText(orderPrice+"");
+        orderPriceTV.setText(orderPrice+" 원");
         memoTV.setText(memo);
 
     }

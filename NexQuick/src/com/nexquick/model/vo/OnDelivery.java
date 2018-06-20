@@ -25,6 +25,7 @@ public class OnDelivery {
 	private double receiverLatitude;
 	private double receiverLongitude;
 	private int isGet;
+	private int payType;
 	
 	public OnDelivery() {
 		super();
@@ -212,6 +213,14 @@ public class OnDelivery {
 
 	public void setIsGet(int isGet) {
 		this.isGet = isGet;
+	}
+
+	public int getPayType() {
+		return payType;
+	}
+
+	public void setPayType(int payType) {
+		this.payType = payType;
 	}
 	
 	

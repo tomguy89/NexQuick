@@ -25,6 +25,7 @@ public class DialogAllocateActivity extends AppCompatActivity {
     int callNum = 0;
     int qpId = 0;
     private SharedPreferences loginInfo;
+    int callPrice;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +33,7 @@ public class DialogAllocateActivity extends AppCompatActivity {
         setContentView(R.layout.activity_dialog_allocate);
         mainUrl = getResources().getString(R.string.main_url);
 
+        loginInfo = getSharedPreferences("setting", 0);
         TextView tv = (TextView)findViewById(R.id.quick_allocate_contents);
         Intent intent = getIntent();
 
@@ -44,6 +46,10 @@ public class DialogAllocateActivity extends AppCompatActivity {
                 break;
             }
         }
+        /*int k = message.length()-2;
+        while(message.charAt(k)=='/'){ k = k-1; }
+        callPrice = Integer.parseInt(message.substring(k, message.length()-1));*/
+
         SpannableStringBuilder ssb = new SpannableStringBuilder(message);
         for(int i=0; i<ssb.length(); i++){
             switch(ssb.charAt(i)){
@@ -90,6 +96,11 @@ public class DialogAllocateActivity extends AppCompatActivity {
         acceptBtn.setOnClickListener((new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                /*if (callPrice*0.05>loginInfo.getInt("qpDeposit", 0)){
+                    Toast.makeText(getApplicationContext(), "예치금이 부족합니다.", Toast.LENGTH_SHORT).show();
+                    finish();
+                }*/
                 String url = mainUrl+"appCall/completeAllocate.do";
                 ContentValues values = new ContentValues();
                 values.put("callNum", callNum);

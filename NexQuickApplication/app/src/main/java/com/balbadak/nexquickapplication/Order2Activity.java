@@ -663,8 +663,6 @@ public class Order2Activity extends AppCompatActivity implements NavigationView.
         @Override
         protected void onPostExecute(String s) {
 
-            Toast.makeText(context, "즐겨찾기를 부른다", Toast.LENGTH_SHORT).show();
-
             if (s != null) {
                 try {
                     JSONArray ja = new JSONArray(s);

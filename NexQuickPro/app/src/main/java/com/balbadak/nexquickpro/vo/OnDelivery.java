@@ -24,6 +24,7 @@ public class OnDelivery implements Parcelable {
     private String arrivaltime;
     private String latitude;
     private String longitude;
+    private int payType;
 
     public OnDelivery() {
     }
@@ -188,6 +189,14 @@ public class OnDelivery implements Parcelable {
         this.arrivaltime = arrivaltime;
     }
 
+    public int getPayType() {
+        return payType;
+    }
+
+    public void setPayType(int payType) {
+        this.payType = payType;
+    }
+
     public static Creator<OnDelivery> getCREATOR() {
         return CREATOR;
     }
@@ -213,6 +222,7 @@ public class OnDelivery implements Parcelable {
         distance = in.readInt();
         freightList = in.readString();
         arrivaltime = in.readString();
+        payType = in.readInt();
     }
 
     public static final Creator<OnDelivery> CREATOR = new Creator<OnDelivery>() {
@@ -254,5 +264,6 @@ public class OnDelivery implements Parcelable {
         dest.writeInt(distance);
         dest.writeString(freightList);
         dest.writeString(arrivaltime);
+        dest.writeInt(payType);
     }
 }

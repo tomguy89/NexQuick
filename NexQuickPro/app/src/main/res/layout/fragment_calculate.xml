@@ -71,12 +71,12 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="end"
                     android:layout_weight="1"
-                    android:text="입금/카드/신용(수수료 5%)  "
+                    android:text="현장결제 "
                     android:textAlignment="textEnd" />
 
                 <TextView
@@ -98,11 +98,9 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="end"
                     android:layout_weight="1"
-                    android:text="현장결제분 수수료(5%)  "
+                    android:text="온라인 결제"
                     android:textAlignment="textEnd" />
-
 
                 <TextView
                     android:id="@+id/placeMoney"
@@ -124,7 +122,6 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="10sp"
                 android:orientation="horizontal">
 
                 <TextView
@@ -144,10 +141,16 @@
                     android:text=" 원"
                     android:textAlignment="textStart"
                     android:textSize="25sp" />
+
             </LinearLayout>
-
-
-
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:text="(수수료 5% 제외)"
+                android:textSize="12sp"
+                android:layout_marginBottom="5dp"/>
 
         </LinearLayout>
         <Button

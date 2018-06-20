@@ -334,7 +334,6 @@ MainActivity extends AppCompatActivity implements NavigationView.OnNavigationIte
 
 
             if (s != null) {
-                Log.e("asdf", s);
                 try {
                     JSONArray ja = new JSONArray(s);
                     JSONObject data;

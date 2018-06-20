@@ -407,6 +407,7 @@ public class fragment_route extends Fragment {
             if(s!=null){
 
                 try {
+
                     JSONArray ja = new JSONArray(s);
 
                     if(ja.length()>0){//뭔가 리스트가 왔다면
