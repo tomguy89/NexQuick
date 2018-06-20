@@ -108,4 +108,6 @@ public interface CallSelectListService {
 
 	List<OrderInfo> selectOrderList(int callNum);
 	
+	List<FreightInfo> selectFreightList(int orderNum);
+	
 }

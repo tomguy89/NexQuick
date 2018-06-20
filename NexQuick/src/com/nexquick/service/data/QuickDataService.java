@@ -4,6 +4,6 @@ import com.nexquick.model.vo.QuickData;
 
 public interface QuickDataService {
 
-	void insertWeatherData(QuickData qd);
+	void insertQuickData(QuickData qd);
 
 }

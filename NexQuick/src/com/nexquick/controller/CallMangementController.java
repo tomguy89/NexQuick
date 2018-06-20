@@ -28,6 +28,7 @@ import com.nexquick.service.account.QPPositionService;
 import com.nexquick.service.call.CallManagementService;
 import com.nexquick.service.call.CallSelectListService;
 import com.nexquick.service.call.PricingService;
+import com.nexquick.service.data.QuickDataService;
 import com.nexquick.service.parsing.AddressTransService;
 import com.nexquick.service.parsing.DistanceCheckService;
 
@@ -88,6 +89,12 @@ public class CallMangementController {
 	@Autowired
 	public void setCsAccountService(CSAccountService csAccountService) {
 		this.csAccountService = csAccountService;
+	}
+	
+	private QuickDataService quickDataService;
+	@Autowired
+	public void setQuickDataService(QuickDataService quickDataService) {
+		this.quickDataService = quickDataService;
 	}
 
 
@@ -604,17 +611,40 @@ public class CallMangementController {
 		qd.setCallDate(callInfo.getCallTime());
 		qd.setCallTime(callInfo.getCallTime());
 		qd.setSenderAddress(callInfo.getSenderAddress());
-		List<OrderInfo> orderList = callSelectListService.selectOrderList(callNum);
-		for(OrderInfo oi : orderList) {
-			qd.setReceiverAddress(oi.getReceiverAddress());
-			qd.setDistance(qd.getDistance()+oi.getDistance());
-		}
 		switch(callInfo.getVehicleType()) {
 		case 1: qd.setVehicleType("오토바이");break;
 		case 2: qd.setVehicleType("다마스");break;
 		case 3: qd.setVehicleType("라보");break;
 		case 4: qd.setVehicleType("1t 트럭");break;
 		}
+		switch(callInfo.getPayType()) {
+		case 0: qd.setPayType("계좌이체");break;
+		case 1: qd.setPayType("온라인결제");break;
+		case 2: qd.setPayType("발송인/현금");break;
+		case 3: qd.setPayType("발송인/카드");break;
+		case 4: qd.setPayType("수령인/현금");break;
+		case 5: qd.setPayType("수령인/카드");break;
+		case 6: qd.setPayType("기업신용");break;
+		}
+		qd.setPrice(callInfo.getTotalPrice());
+		List<OrderInfo> orderList = callSelectListService.selectOrderList(callNum);
+		for(OrderInfo oi : orderList) {
+			qd.setReceiverAddress(oi.getReceiverAddress());
+			qd.setDistance(qd.getDistance()+oi.getDistance());
+			List<FreightInfo> freightList = callSelectListService.selectFreightList(oi.getOrderNum());
+			for(FreightInfo fi : freightList) {
+				switch(fi.getFreightType()) {
+				case 1: qd.setDocument(qd.getDocument()+fi.getFreightQuant());break;
+				case 2: qd.setDocument(qd.getsBox()+fi.getFreightQuant());break;
+				case 3: qd.setDocument(qd.getmBox()+fi.getFreightQuant());break;
+				case 4: qd.setDocument(qd.getlBox()+fi.getFreightQuant());break;
+				case 5: qd.setDocument(qd.getFood()+fi.getFreightQuant());break;
+				case 6: qd.setDocument(qd.getFlower()+fi.getFreightQuant());break;
+				}
+			}
+		}
+		
+		quickDataService.insertQuickData(qd);
 		
 	}
 	

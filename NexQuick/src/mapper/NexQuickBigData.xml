@@ -14,7 +14,7 @@
 	
 	<insert id="insertQuickData" parameterType="QuickData">
 		insert into quickData
-		values(#{customerType}, TO_CHAR(#{callDate}, 'YYYY-MM-DD'), TO_CHAR(#{callTime}, 'HH24:MI'), #{senderAddress}, #{receiverAddress}, #{distance}, #{vehicleType}, #{price}, #{payType}, #{document}, #{sBox}, #{mBox}, #{lBox}, #{food}, #{flower})
+		values(#{customerType}, TO_CHAR(sysdate, 'YYYY-MM-DD'), TO_CHAR(sysdate, 'HH24:MI'), #{senderAddress}, #{receiverAddress}, #{distance}, #{vehicleType}, #{price}, #{payType}, #{document}, #{sBox}, #{mBox}, #{lBox}, #{food}, #{flower})
 	</insert>
 
 </mapper>

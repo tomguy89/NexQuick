@@ -288,4 +288,9 @@ public class CallSelectListServiceImpl implements CallSelectListService {
 		return orderInfoDao.selectOrderList(callNum);
 	}
 
+	@Override
+	public List<FreightInfo> selectFreightList(int orderNum) {
+		return freightInfoDao.selectFreightList(orderNum);
+	}
+
 }

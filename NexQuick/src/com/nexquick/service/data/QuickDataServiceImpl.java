@@ -11,7 +11,7 @@ public class QuickDataServiceImpl implements QuickDataService {
 	}
 	
 	@Override
-	public void insertWeatherData(QuickData qd) {
+	public void insertQuickData(QuickData qd) {
 		bigDataDao.insertQuickData(qd);
 	}
 }
