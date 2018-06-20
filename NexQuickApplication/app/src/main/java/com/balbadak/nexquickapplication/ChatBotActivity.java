@@ -34,8 +34,6 @@ public class ChatBotActivity extends AppCompatActivity  {
         chatBotWebView.loadUrl(mainUrl+"payTest.jsp");
 
 
-
-
     }
 
 

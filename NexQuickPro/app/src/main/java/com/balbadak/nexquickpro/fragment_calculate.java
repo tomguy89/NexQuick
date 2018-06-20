@@ -55,7 +55,8 @@ public class fragment_calculate extends Fragment {
     private Button finishBtn;
     int jungsan;
 
-
+    int inapp ;
+    int place ;
 
 
     @Override
@@ -83,6 +84,9 @@ public class fragment_calculate extends Fragment {
         placeMoneyTv = (TextView) view.findViewById(R.id.placeMoney);
         totalJungsanTv = (TextView) view.findViewById(R.id.totaljungsan);
 
+        inappMoneyTv.setText(inapp+" 원");
+        placeMoneyTv.setText(place+" 원");
+        totalJungsanTv.setText(jungsan + " 원");
         String url = mainUrl + "list/calculationList.do";
         ContentValues values = new ContentValues();
         values.put("qpId", qpId);
@@ -95,9 +99,9 @@ public class fragment_calculate extends Fragment {
 
         url = mainUrl + "qpAccount/unpayedMoney.do";
 
-        GetCalMoneyListTask getCalMoneyListTask = new GetCalMoneyListTask(url,values);
+      /*  GetCalMoneyListTask getCalMoneyListTask = new GetCalMoneyListTask(url,values);
         getCalMoneyListTask.execute();
-
+*/
 
 
 
@@ -167,24 +171,31 @@ public class fragment_calculate extends Fragment {
                         switch(order.getPayType()){
                             case 0:
                                 titleSb.append("계좌이체");
+                                inapp += order.getOrderPrice();
                                 break;
                             case 1:
                                 titleSb.append("온라인결제");
+                                inapp += order.getOrderPrice();
                                 break;
                             case 2:
                                 titleSb.append("발송인/현금");
+                                place += order.getOrderPrice();
                                 break;
                             case 3:
                                 titleSb.append("발송인/카드");
+                                place += order.getOrderPrice();
                                 break;
                             case 4:
                                 titleSb.append("수령인/현금");
+                                place += order.getOrderPrice();
                                 break;
                             case 5:
                                 titleSb.append("수령인/카드");
+                                place += order.getOrderPrice();
                                 break;
                             case 6:
                                 titleSb.append("기업후불");
+                                inapp += order.getOrderPrice();
                                 break;
                         }
 
@@ -202,6 +213,51 @@ public class fragment_calculate extends Fragment {
 
                         dataList.add(item);
                         list.add(order);
+
+                        inappMoneyTv.setText(inapp+" 원");
+                        placeMoneyTv.setText(place+" 원");
+                        jungsan = (int)((inapp+place)*0.95);
+                        inappMoneyTv.setText(inapp+" 원");
+                        placeMoneyTv.setText(place+" 원");
+                        totalJungsanTv.setText(jungsan + " 원");
+
+                        if(inapp == 0 && place == 0) {
+                            calculateNoneTv.setVisibility(View.VISIBLE);
+                            calculate_sub.setVisibility(View.GONE);
+                            finishBtn.setEnabled(false);
+                        }
+
+                        if(inapp*0.95 > place*0.05) {
+
+                            finishBtn.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+
+                                    String url = mainUrl + "qpAccount/processPayment.do";
+                                    ContentValues values = new ContentValues();
+                                    values.put("qpId", qpId);
+                                    values.put("jungsan", jungsan);
+
+                                    ProcessPaymentTask processPaymentTask = new ProcessPaymentTask(url,values);
+                                    processPaymentTask.execute();
+                                }
+                            });
+                        } else {
+                            finishBtn.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    String url = mainUrl + "qpAccount/processDepositSubtr.do";
+                                    ContentValues values = new ContentValues();
+                                    values.put("qpId", qpId);
+                                    values.put("jungsan", jungsan);
+
+                                    DepositSubtrTask depositSubtrTask = new DepositSubtrTask(url,values);
+                                    depositSubtrTask.execute();
+                                }
+                            });
+
+                        }
+
                     }
 
                 } catch (JSONException e) {
@@ -224,6 +280,7 @@ public class fragment_calculate extends Fragment {
         }
     }
 
+/*
 
     // 여기부터 AsyncTask 영역
     public class GetCalMoneyListTask extends AsyncTask<Void, Void, String> {
@@ -325,6 +382,7 @@ public class fragment_calculate extends Fragment {
 
         }
     }
+*/
 
 
     public class ProcessPaymentTask extends AsyncTask<Void, Void, String> {

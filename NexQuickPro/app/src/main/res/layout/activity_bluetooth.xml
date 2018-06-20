@@ -1,0 +1,19 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="300dp"
+    android:layout_height="500dp"
+    tools:context=".BluetoothActivity" >
+
+
+    <EditText
+        android:id="@+id/receiveString"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:ems="10"
+        android:focusable="false"
+        android:gravity="top"
+        android:inputType="textMultiLine"
+        android:text="현재 위치의 온습도 &#10;"
+        />
+
+</RelativeLayout>

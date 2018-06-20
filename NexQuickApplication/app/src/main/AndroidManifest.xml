@@ -108,6 +108,11 @@
             android:theme="@style/DialogTheme" />
 
         <activity
+            android:name=".PositionActivity"
+            android:theme="@style/DialogTheme" />
+
+
+        <activity
             android:name=".DialogPayActivity"
             android:theme="@style/DialogTheme">
             <intent-filter>

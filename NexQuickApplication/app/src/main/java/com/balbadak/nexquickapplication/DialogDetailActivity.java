@@ -100,7 +100,7 @@ public class DialogDetailActivity extends AppCompatActivity {
                 cancelCallAlert(deliveryStatus);
             }
         });
-        chatBotBtn = (Button) findViewById(R.id.quickCancelBtn);
+        chatBotBtn = (Button) findViewById(R.id.chatBotBtn);
         chatBotBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -109,6 +109,15 @@ public class DialogDetailActivity extends AppCompatActivity {
             }
         });
         mapBtn = (Button) findViewById(R.id.mapBtn);
+        mapBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), PositionActivity.class);
+                intent.putExtra("callNum", callNum);
+                intent.putExtra("orderNum", orderNum);
+                startActivity(intent);
+            }
+        });
 
         switch (deliveryStatus) {
             case -1:

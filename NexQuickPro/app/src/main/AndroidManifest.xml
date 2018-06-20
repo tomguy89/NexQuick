@@ -119,6 +119,15 @@
         <activity
             android:name=".ChatBotActivity"
             android:theme="@style/DialogTheme" />
+
+
+        <activity
+            android:name=".BluetoothActivity"
+            android:theme="@style/DialogTheme" />
+
+        <service
+            android:name=".BluetoothService"
+            android:theme="@style/DialogTheme"/>
     </application>
 
 </manifest>

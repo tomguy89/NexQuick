@@ -77,16 +77,16 @@
                     android:layout_gravity="end"
                     android:layout_weight="1"
                     android:text="현장결제 "
+                    android:paddingRight="10dp"
                     android:textAlignment="textEnd" />
 
                 <TextView
-                    android:id="@+id/inappMoney"
+                    android:id="@+id/placeMoney"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="  원"
                     android:textAlignment="textStart" />
-
 
             </LinearLayout>
 
@@ -100,10 +100,11 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="온라인 결제"
+                    android:paddingRight="10dp"
                     android:textAlignment="textEnd" />
 
                 <TextView
-                    android:id="@+id/placeMoney"
+                    android:id="@+id/inappMoney"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -131,6 +132,7 @@
                     android:layout_weight="1"
                     android:text="정산금액  "
                     android:textAlignment="textEnd"
+                    android:paddingRight="10dp"
                     android:textSize="25sp" />
 
                 <TextView

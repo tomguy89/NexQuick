@@ -157,20 +157,15 @@ public class fragment_route extends Fragment {
         }
 
 
-
-
-
-
-        cancelBtn.setOnClickListener(new View.OnClickListener() {
+/*        cancelBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
             }
-        });
+        });*/
 
 
-
-        finishBtn.setOnClickListener(new View.OnClickListener() { //이걸 누르는 순간 결제 해야 하는지 안 해야 하는지....
+/*        finishBtn.setOnClickListener(new View.OnClickListener() { //이걸 누르는 순간 결제 해야 하는지 안 해야 하는지....
             @Override
             public void onClick(View v) {
                     if(pickChackFlag){//콜넘을 갖고 가야 하고... 발송지로 가는 것!!
@@ -194,7 +189,7 @@ public class fragment_route extends Fragment {
 
                     }
             }
-        });
+        });*/
 
 
         return view;
@@ -259,6 +254,33 @@ public class fragment_route extends Fragment {
                         @Override
                         public void onClick(View v) {
                             cancelCallAlert();
+                        }
+                    });
+                    callNum = list.get(position).getCallNum();
+                    orderNum = list.get(position).getOrderNum();
+                    finishBtn.setOnClickListener(new View.OnClickListener() { //이걸 누르는 순간 결제 해야 하는지 안 해야 하는지....
+                        @Override
+                        public void onClick(View v) {
+                            if(pickChackFlag){//콜넘을 갖고 가야 하고... 발송지로 가는 것!!
+                                ContentValues values = new ContentValues();
+                                values.put("callNum", callNum);
+                                values.put("qpId", qpId);
+
+                                SNetworkTask networkTask = new SNetworkTask(pickUrl,values);
+                                networkTask.execute();
+
+
+                            } else {//오더넘을 갖고가야 한다... 수령지로 가는 것!!!
+
+                                ContentValues values = new ContentValues();
+                                values.put("orderNum", orderNum);
+                                values.put("qpId", qpId);
+
+                                RNetworkTask networkTask = new RNetworkTask(chackUrl,values);
+                                networkTask.execute();
+
+
+                            }
                         }
                     });
                 }
